@@ -16,6 +16,8 @@ namespace MyLibrary
         {
             InitializeComponent();
 
+            this.Text = Configuration.APP_NAME + " " + Configuration.APP_VERSION;
+
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
         }
