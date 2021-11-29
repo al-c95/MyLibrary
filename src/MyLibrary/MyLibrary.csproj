@@ -58,6 +58,7 @@
     <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
     <Compile Include="BusinessLogic\Entities\Publisher.cs" />
     <Compile Include="BusinessLogic\Entities\Tag.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
