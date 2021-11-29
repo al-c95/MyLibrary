@@ -1,32 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6D4AA71F-0258-4BF2-B028-D5DF5383556E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-
     <RootNamespace>MyLibrary</RootNamespace>
     <AssemblyName>MyLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="scripts\**" />
-    <None Remove="scripts\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="clean.sql" />
-    <None Remove="concept_design.md" />
-    <None Remove="detailed_design.md" />
-    <None Remove="example_query.sql" />
-    <None Remove="init.sql" />
-  </ItemGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -41,22 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="MainWindow.designer.cs" />
-    <Compile Include="Models\Entities\Author.cs" />
-    <Compile Include="Models\Entities\Book.cs" />
-    <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
-    <Compile Include="Models\Entities\Builders\IItemBuilder.cs" />
-    <Compile Include="Models\Entities\Builders\MediaItemBuilder.cs" />
-    <Compile Include="Models\Entities\Entity.cs" />
-    <Compile Include="Models\Entities\Item.cs" />
-    <Compile Include="Models\Entities\MediaItem.cs" />
-    <Compile Include="Models\Entities\ItemType.cs" />
-    <Compile Include="Models\Entities\Publisher.cs" />
-    <Compile Include="Models\Entities\Tag.cs" />
+    <Compile Include="BusinessLogic\Entities\Author.cs" />
+    <Compile Include="BusinessLogic\Entities\Book.cs" />
+    <Compile Include="BusinessLogic\Entities\Builders\BookBuilder.cs" />
+    <Compile Include="BusinessLogic\Entities\Builders\IItemBuilder.cs" />
+    <Compile Include="BusinessLogic\Entities\Builders\MediaItemBuilder.cs" />
+    <Compile Include="BusinessLogic\Entities\Copy.cs" />
+    <Compile Include="BusinessLogic\Entities\Entity.cs" />
+    <Compile Include="BusinessLogic\Entities\Item.cs" />
+    <Compile Include="BusinessLogic\Entities\ItemType.cs" />
+    <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
+    <Compile Include="BusinessLogic\Entities\Publisher.cs" />
+    <Compile Include="BusinessLogic\Entities\Tag.cs" />
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Update="Properties\Resources.resx">
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -79,10 +92,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\DataAccessLayer\" />
-    <Folder Include="Models\Repository\" />
-    <Folder Include="Presenters\" />
-    <Folder Include="Views\" />
+    <Folder Include="DataAccessLayer\" />
   </ItemGroup>
-
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
