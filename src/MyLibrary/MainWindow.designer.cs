@@ -31,6 +31,7 @@ namespace MyLibrary
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +57,6 @@ namespace MyLibrary
             this.detailsGroup = new System.Windows.Forms.GroupBox();
             this.textBox = new System.Windows.Forms.TextBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -76,7 +76,7 @@ namespace MyLibrary
             this.helpMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1029, 28);
+            this.menuStrip.Size = new System.Drawing.Size(1286, 38);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -87,6 +87,12 @@ namespace MyLibrary
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(46, 24);
             this.fileMenu.Text = "File";
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(116, 26);
+            this.exitMenuItem.Text = "Exit";
             // 
             // editMenu
             // 
@@ -123,6 +129,7 @@ namespace MyLibrary
             // 
             // deleteSelectedButton
             // 
+            this.deleteSelectedButton.Enabled = false;
             this.deleteSelectedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.8F);
             this.deleteSelectedButton.Location = new System.Drawing.Point(113, 31);
             this.deleteSelectedButton.Name = "deleteSelectedButton";
@@ -133,6 +140,7 @@ namespace MyLibrary
             // 
             // editButton
             // 
+            this.editButton.Enabled = false;
             this.editButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.editButton.Location = new System.Drawing.Point(214, 31);
             this.editButton.Name = "editButton";
@@ -143,6 +151,7 @@ namespace MyLibrary
             // 
             // viewAllButton
             // 
+            this.viewAllButton.Enabled = false;
             this.viewAllButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.viewAllButton.Location = new System.Drawing.Point(315, 31);
             this.viewAllButton.Name = "viewAllButton";
@@ -153,6 +162,8 @@ namespace MyLibrary
             // 
             // tagsButton
             // 
+            this.tagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tagsButton.Enabled = false;
             this.tagsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.tagsButton.Location = new System.Drawing.Point(821, 31);
             this.tagsButton.Name = "tagsButton";
@@ -163,6 +174,8 @@ namespace MyLibrary
             // 
             // wishListButton
             // 
+            this.wishListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.wishListButton.Enabled = false;
             this.wishListButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.wishListButton.Location = new System.Drawing.Point(922, 31);
             this.wishListButton.Name = "wishListButton";
@@ -210,6 +223,7 @@ namespace MyLibrary
             // 
             // categoryDropDown
             // 
+            this.categoryDropDown.Enabled = false;
             this.categoryDropDown.FormattingEnabled = true;
             this.categoryDropDown.Location = new System.Drawing.Point(104, 72);
             this.categoryDropDown.Name = "categoryDropDown";
@@ -232,6 +246,7 @@ namespace MyLibrary
             this.filterGroup.Controls.Add(this.applyFilterButton);
             this.filterGroup.Controls.Add(this.label2);
             this.filterGroup.Controls.Add(this.criteriaField);
+            this.filterGroup.Enabled = false;
             this.filterGroup.Location = new System.Drawing.Point(15, 102);
             this.filterGroup.Name = "filterGroup";
             this.filterGroup.Size = new System.Drawing.Size(294, 125);
@@ -288,6 +303,7 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left)));
             this.detailsGroup.Controls.Add(this.textBox);
             this.detailsGroup.Controls.Add(this.pictureBox);
+            this.detailsGroup.Enabled = false;
             this.detailsGroup.Location = new System.Drawing.Point(12, 233);
             this.detailsGroup.Name = "detailsGroup";
             this.detailsGroup.Size = new System.Drawing.Size(294, 255);
@@ -304,17 +320,13 @@ namespace MyLibrary
             // 
             // pictureBox
             // 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(6, 21);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(282, 174);
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
-            // 
-            // exitMenuItem
-            // 
-            this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.exitMenuItem.Text = "Exit";
             // 
             // MainWindow
             // 

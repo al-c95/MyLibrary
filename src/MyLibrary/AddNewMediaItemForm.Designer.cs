@@ -43,11 +43,15 @@ namespace MyLibrary
             this.label4 = new System.Windows.Forms.Label();
             this.yearField = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.tagsGroup = new System.Windows.Forms.GroupBox();
+            this.addNewTagButton = new System.Windows.Forms.Button();
+            this.tagsList = new System.Windows.Forms.CheckedListBox();
+            this.tagsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(12, 263);
+            this.saveButton.Location = new System.Drawing.Point(12, 393);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(150, 27);
             this.saveButton.TabIndex = 10;
@@ -56,7 +60,7 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(644, 262);
+            this.cancelButton.Location = new System.Drawing.Point(644, 392);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(150, 27);
             this.cancelButton.TabIndex = 11;
@@ -74,7 +78,7 @@ namespace MyLibrary
             // 
             // notesField
             // 
-            this.notesField.Location = new System.Drawing.Point(12, 131);
+            this.notesField.Location = new System.Drawing.Point(12, 261);
             this.notesField.Multiline = true;
             this.notesField.Name = "notesField";
             this.notesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -84,7 +88,7 @@ namespace MyLibrary
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 111);
+            this.label5.Location = new System.Drawing.Point(12, 241);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 17);
             this.label5.TabIndex = 14;
@@ -163,11 +167,40 @@ namespace MyLibrary
             this.label6.TabIndex = 23;
             this.label6.Text = "Year:";
             // 
+            // tagsGroup
+            // 
+            this.tagsGroup.Controls.Add(this.addNewTagButton);
+            this.tagsGroup.Controls.Add(this.tagsList);
+            this.tagsGroup.Location = new System.Drawing.Point(212, 118);
+            this.tagsGroup.Name = "tagsGroup";
+            this.tagsGroup.Size = new System.Drawing.Size(386, 124);
+            this.tagsGroup.TabIndex = 24;
+            this.tagsGroup.TabStop = false;
+            this.tagsGroup.Text = "Tags";
+            // 
+            // addNewTagButton
+            // 
+            this.addNewTagButton.Location = new System.Drawing.Point(302, 21);
+            this.addNewTagButton.Name = "addNewTagButton";
+            this.addNewTagButton.Size = new System.Drawing.Size(78, 27);
+            this.addNewTagButton.TabIndex = 11;
+            this.addNewTagButton.Text = "Add New";
+            this.addNewTagButton.UseVisualStyleBackColor = true;
+            // 
+            // tagsList
+            // 
+            this.tagsList.FormattingEnabled = true;
+            this.tagsList.Location = new System.Drawing.Point(6, 21);
+            this.tagsList.Name = "tagsList";
+            this.tagsList.Size = new System.Drawing.Size(290, 89);
+            this.tagsList.TabIndex = 0;
+            // 
             // AddNewMediaItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 301);
+            this.ClientSize = new System.Drawing.Size(806, 430);
+            this.Controls.Add(this.tagsGroup);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.yearField);
             this.Controls.Add(this.label4);
@@ -187,6 +220,7 @@ namespace MyLibrary
             this.MinimizeBox = false;
             this.Name = "AddNewMediaItemForm";
             this.Text = "Add New Media Item";
+            this.tagsGroup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,5 +242,8 @@ namespace MyLibrary
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox yearField;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox tagsGroup;
+        private System.Windows.Forms.Button addNewTagButton;
+        private System.Windows.Forms.CheckedListBox tagsList;
     }
 }

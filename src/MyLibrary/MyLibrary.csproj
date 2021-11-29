@@ -61,7 +61,6 @@
     <Compile Include="BusinessLogic\Entities\Author.cs" />
     <Compile Include="BusinessLogic\Entities\Book.cs" />
     <Compile Include="BusinessLogic\Entities\Builders\BookBuilder.cs" />
-    <Compile Include="BusinessLogic\Entities\Builders\IItemBuilder.cs" />
     <Compile Include="BusinessLogic\Entities\Builders\MediaItemBuilder.cs" />
     <Compile Include="BusinessLogic\Entities\Copy.cs" />
     <Compile Include="BusinessLogic\Entities\Entity.cs" />
