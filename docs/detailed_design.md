@@ -109,3 +109,4 @@ This document describes some of the detail of the data, architecture and user in
 ![Main window](img/main_window_design.PNG)
 
 ### Adding a new item
+![Add new book form](img/add_new_book_form_design.PNG)

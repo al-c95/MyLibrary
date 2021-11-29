@@ -20,6 +20,7 @@ namespace MyLibrary
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
+            this.addButton.Click += ((sender, args) => new AddNewBookForm().ShowDialog());
         }//ctor
     }//class
 }
