@@ -20,6 +20,6 @@ namespace MyLibrary
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
-        }
-    }
+        }//ctor
+    }//class
 }

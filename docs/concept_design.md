@@ -21,6 +21,9 @@ The application must allow storing an arbitrary number of items of the same titl
 
 ### R6
 The application must provide a tagging functionality. That is, items stored in the database can be associated to one or more tags, which can then be used to assist in searching and filtering for items.
+- Tags can be added when creating a new item.
+- Tags can be added to an existing item.
+- Tags can be removed from an existing item.
 
 ### R7
 The application must allow the data to be stored locally.
@@ -50,3 +53,18 @@ The application must eventually provide a loaning feature.
 The application is built on .NET WinForms, targeting .NET Framework 4.7.2. 
 
 The database system used is Sqlite, chosen for its simplicity, and the fact that no server is required, enabling data to be stored locally.
+
+## Release schedule
+### v0.9.0
+- R1-R3
+- R5-R8
+- R10
+
+### v1.0.0
+- R4
+- R11-R13
+
+### v2
+- R14
+
+### WPF version
