@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+    <RootNamespace>MyLibrary</RootNamespace>
+    <AssemblyName>MyLibrary</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="scripts\**" />
+    <None Remove="scripts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="clean.sql" />
+    <None Remove="concept_design.md" />
+    <None Remove="detailed_design.md" />
+    <None Remove="example_query.sql" />
+    <None Remove="init.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="MainWindow.designer.cs" />
+    <Compile Include="Models\Entities\Author.cs" />
+    <Compile Include="Models\Entities\Book.cs" />
+    <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
+    <Compile Include="Models\Entities\Builders\IItemBuilder.cs" />
+    <Compile Include="Models\Entities\Builders\MediaItemBuilder.cs" />
+    <Compile Include="Models\Entities\Entity.cs" />
+    <Compile Include="Models\Entities\Item.cs" />
+    <Compile Include="Models\Entities\MediaItem.cs" />
+    <Compile Include="Models\Entities\ItemType.cs" />
+    <Compile Include="Models\Entities\Publisher.cs" />
+    <Compile Include="Models\Entities\Tag.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\DataAccessLayer\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="Presenters\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+
+</Project>
