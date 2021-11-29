@@ -29,12 +29,12 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.titleField = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.longTitleField = new System.Windows.Forms.TextBox();
+            this.IsbnField = new System.Windows.Forms.TextBox();
+            this.Isbn13Field = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -47,21 +47,21 @@ namespace MyLibrary
             this.addNewPublisherButton = new System.Windows.Forms.Button();
             this.notesField = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.datePublishedField = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.editionField = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.deweyDecimalField = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.formatField = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.dimensionsField = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.overviewField = new System.Windows.Forms.TextBox();
+            this.MsrpField = new System.Windows.Forms.TextBox();
+            this.pagesField = new System.Windows.Forms.TextBox();
+            this.synopsisField = new System.Windows.Forms.TextBox();
+            this.excerptField = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -71,12 +71,12 @@ namespace MyLibrary
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // titleField
             // 
-            this.textBox1.Location = new System.Drawing.Point(121, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(667, 22);
-            this.textBox1.TabIndex = 0;
+            this.titleField.Location = new System.Drawing.Point(121, 12);
+            this.titleField.Name = "titleField";
+            this.titleField.Size = new System.Drawing.Size(667, 22);
+            this.titleField.TabIndex = 0;
             // 
             // label1
             // 
@@ -96,26 +96,26 @@ namespace MyLibrary
             this.label2.TabIndex = 2;
             this.label2.Text = "Long Title:";
             // 
-            // textBox2
+            // longTitleField
             // 
-            this.textBox2.Location = new System.Drawing.Point(121, 40);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(667, 22);
-            this.textBox2.TabIndex = 3;
+            this.longTitleField.Location = new System.Drawing.Point(121, 40);
+            this.longTitleField.Name = "longTitleField";
+            this.longTitleField.Size = new System.Drawing.Size(667, 22);
+            this.longTitleField.TabIndex = 3;
             // 
-            // textBox3
+            // IsbnField
             // 
-            this.textBox3.Location = new System.Drawing.Point(121, 81);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(667, 22);
-            this.textBox3.TabIndex = 4;
+            this.IsbnField.Location = new System.Drawing.Point(121, 81);
+            this.IsbnField.Name = "IsbnField";
+            this.IsbnField.Size = new System.Drawing.Size(667, 22);
+            this.IsbnField.TabIndex = 4;
             // 
-            // textBox4
+            // Isbn13Field
             // 
-            this.textBox4.Location = new System.Drawing.Point(121, 109);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(667, 22);
-            this.textBox4.TabIndex = 5;
+            this.Isbn13Field.Location = new System.Drawing.Point(121, 109);
+            this.Isbn13Field.Name = "Isbn13Field";
+            this.Isbn13Field.Size = new System.Drawing.Size(667, 22);
+            this.Isbn13Field.TabIndex = 5;
             // 
             // label3
             // 
@@ -229,12 +229,12 @@ namespace MyLibrary
             this.label5.TabIndex = 13;
             this.label5.Text = "Notes";
             // 
-            // textBox5
+            // datePublishedField
             // 
-            this.textBox5.Location = new System.Drawing.Point(548, 276);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(240, 22);
-            this.textBox5.TabIndex = 14;
+            this.datePublishedField.Location = new System.Drawing.Point(548, 276);
+            this.datePublishedField.Name = "datePublishedField";
+            this.datePublishedField.Size = new System.Drawing.Size(240, 22);
+            this.datePublishedField.TabIndex = 14;
             // 
             // label6
             // 
@@ -245,12 +245,12 @@ namespace MyLibrary
             this.label6.TabIndex = 15;
             this.label6.Text = "Date Published:";
             // 
-            // textBox6
+            // editionField
             // 
-            this.textBox6.Location = new System.Drawing.Point(548, 304);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(240, 22);
-            this.textBox6.TabIndex = 16;
+            this.editionField.Location = new System.Drawing.Point(548, 304);
+            this.editionField.Name = "editionField";
+            this.editionField.Size = new System.Drawing.Size(240, 22);
+            this.editionField.TabIndex = 16;
             // 
             // label7
             // 
@@ -261,12 +261,12 @@ namespace MyLibrary
             this.label7.TabIndex = 17;
             this.label7.Text = "Edition:";
             // 
-            // textBox7
+            // deweyDecimalField
             // 
-            this.textBox7.Location = new System.Drawing.Point(548, 332);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(240, 22);
-            this.textBox7.TabIndex = 18;
+            this.deweyDecimalField.Location = new System.Drawing.Point(548, 332);
+            this.deweyDecimalField.Name = "deweyDecimalField";
+            this.deweyDecimalField.Size = new System.Drawing.Size(240, 22);
+            this.deweyDecimalField.TabIndex = 18;
             // 
             // label8
             // 
@@ -277,12 +277,12 @@ namespace MyLibrary
             this.label8.TabIndex = 19;
             this.label8.Text = "Dewey Decimal:";
             // 
-            // textBox8
+            // formatField
             // 
-            this.textBox8.Location = new System.Drawing.Point(548, 360);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(240, 22);
-            this.textBox8.TabIndex = 20;
+            this.formatField.Location = new System.Drawing.Point(548, 360);
+            this.formatField.Name = "formatField";
+            this.formatField.Size = new System.Drawing.Size(240, 22);
+            this.formatField.TabIndex = 20;
             // 
             // label9
             // 
@@ -293,12 +293,12 @@ namespace MyLibrary
             this.label9.TabIndex = 21;
             this.label9.Text = "Format:";
             // 
-            // textBox9
+            // dimensionsField
             // 
-            this.textBox9.Location = new System.Drawing.Point(548, 390);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(240, 22);
-            this.textBox9.TabIndex = 22;
+            this.dimensionsField.Location = new System.Drawing.Point(548, 390);
+            this.dimensionsField.Name = "dimensionsField";
+            this.dimensionsField.Size = new System.Drawing.Size(240, 22);
+            this.dimensionsField.TabIndex = 22;
             // 
             // label10
             // 
@@ -309,40 +309,40 @@ namespace MyLibrary
             this.label10.TabIndex = 23;
             this.label10.Text = "Dimensions:";
             // 
-            // textBox10
+            // overviewField
             // 
-            this.textBox10.Location = new System.Drawing.Point(86, 276);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(312, 22);
-            this.textBox10.TabIndex = 24;
+            this.overviewField.Location = new System.Drawing.Point(86, 276);
+            this.overviewField.Name = "overviewField";
+            this.overviewField.Size = new System.Drawing.Size(312, 22);
+            this.overviewField.TabIndex = 24;
             // 
-            // textBox11
+            // MsrpField
             // 
-            this.textBox11.Location = new System.Drawing.Point(86, 307);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(312, 22);
-            this.textBox11.TabIndex = 25;
+            this.MsrpField.Location = new System.Drawing.Point(86, 307);
+            this.MsrpField.Name = "MsrpField";
+            this.MsrpField.Size = new System.Drawing.Size(312, 22);
+            this.MsrpField.TabIndex = 25;
             // 
-            // textBox12
+            // pagesField
             // 
-            this.textBox12.Location = new System.Drawing.Point(86, 335);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(312, 22);
-            this.textBox12.TabIndex = 26;
+            this.pagesField.Location = new System.Drawing.Point(86, 335);
+            this.pagesField.Name = "pagesField";
+            this.pagesField.Size = new System.Drawing.Size(312, 22);
+            this.pagesField.TabIndex = 26;
             // 
-            // textBox13
+            // synopsisField
             // 
-            this.textBox13.Location = new System.Drawing.Point(86, 363);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(312, 22);
-            this.textBox13.TabIndex = 27;
+            this.synopsisField.Location = new System.Drawing.Point(86, 363);
+            this.synopsisField.Name = "synopsisField";
+            this.synopsisField.Size = new System.Drawing.Size(312, 22);
+            this.synopsisField.TabIndex = 27;
             // 
-            // textBox14
+            // excerptField
             // 
-            this.textBox14.Location = new System.Drawing.Point(86, 391);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(312, 22);
-            this.textBox14.TabIndex = 28;
+            this.excerptField.Location = new System.Drawing.Point(86, 391);
+            this.excerptField.Name = "excerptField";
+            this.excerptField.Size = new System.Drawing.Size(312, 22);
+            this.excerptField.TabIndex = 28;
             // 
             // label11
             // 
@@ -399,21 +399,21 @@ namespace MyLibrary
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox14);
-            this.Controls.Add(this.textBox13);
-            this.Controls.Add(this.textBox12);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox10);
+            this.Controls.Add(this.excerptField);
+            this.Controls.Add(this.synopsisField);
+            this.Controls.Add(this.pagesField);
+            this.Controls.Add(this.MsrpField);
+            this.Controls.Add(this.overviewField);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.textBox9);
+            this.Controls.Add(this.dimensionsField);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox8);
+            this.Controls.Add(this.formatField);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.deweyDecimalField);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.editionField);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.datePublishedField);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.notesField);
             this.Controls.Add(this.groupBox2);
@@ -422,12 +422,12 @@ namespace MyLibrary
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.Isbn13Field);
+            this.Controls.Add(this.IsbnField);
+            this.Controls.Add(this.longTitleField);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.titleField);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -442,12 +442,12 @@ namespace MyLibrary
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox titleField;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox longTitleField;
+        private System.Windows.Forms.TextBox IsbnField;
+        private System.Windows.Forms.TextBox Isbn13Field;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -460,21 +460,21 @@ namespace MyLibrary
         private System.Windows.Forms.ListBox publishersList;
         private System.Windows.Forms.TextBox notesField;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox datePublishedField;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox editionField;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox deweyDecimalField;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox formatField;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox dimensionsField;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TextBox overviewField;
+        private System.Windows.Forms.TextBox MsrpField;
+        private System.Windows.Forms.TextBox pagesField;
+        private System.Windows.Forms.TextBox synopsisField;
+        private System.Windows.Forms.TextBox excerptField;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
