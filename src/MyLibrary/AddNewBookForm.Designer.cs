@@ -67,8 +67,12 @@ namespace MyLibrary
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.tagsGroup = new System.Windows.Forms.GroupBox();
+            this.addNewTagButton = new System.Windows.Forms.Button();
+            this.tagsList = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tagsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // titleField
@@ -148,7 +152,7 @@ namespace MyLibrary
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(12, 580);
+            this.saveButton.Location = new System.Drawing.Point(12, 710);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(150, 27);
             this.saveButton.TabIndex = 9;
@@ -157,7 +161,7 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(638, 580);
+            this.cancelButton.Location = new System.Drawing.Point(638, 710);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(150, 27);
             this.cancelButton.TabIndex = 10;
@@ -213,7 +217,7 @@ namespace MyLibrary
             // 
             // notesField
             // 
-            this.notesField.Location = new System.Drawing.Point(15, 451);
+            this.notesField.Location = new System.Drawing.Point(15, 581);
             this.notesField.Multiline = true;
             this.notesField.Name = "notesField";
             this.notesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -223,7 +227,7 @@ namespace MyLibrary
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 431);
+            this.label5.Location = new System.Drawing.Point(12, 561);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 17);
             this.label5.TabIndex = 13;
@@ -231,7 +235,7 @@ namespace MyLibrary
             // 
             // datePublishedField
             // 
-            this.datePublishedField.Location = new System.Drawing.Point(548, 276);
+            this.datePublishedField.Location = new System.Drawing.Point(548, 406);
             this.datePublishedField.Name = "datePublishedField";
             this.datePublishedField.Size = new System.Drawing.Size(240, 22);
             this.datePublishedField.TabIndex = 14;
@@ -239,7 +243,7 @@ namespace MyLibrary
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(407, 279);
+            this.label6.Location = new System.Drawing.Point(407, 409);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(108, 17);
             this.label6.TabIndex = 15;
@@ -247,7 +251,7 @@ namespace MyLibrary
             // 
             // editionField
             // 
-            this.editionField.Location = new System.Drawing.Point(548, 304);
+            this.editionField.Location = new System.Drawing.Point(548, 437);
             this.editionField.Name = "editionField";
             this.editionField.Size = new System.Drawing.Size(240, 22);
             this.editionField.TabIndex = 16;
@@ -255,15 +259,15 @@ namespace MyLibrary
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(407, 307);
+            this.label7.Location = new System.Drawing.Point(408, 440);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(69, 21);
+            this.label7.Size = new System.Drawing.Size(55, 17);
             this.label7.TabIndex = 17;
             this.label7.Text = "Edition:";
             // 
             // deweyDecimalField
             // 
-            this.deweyDecimalField.Location = new System.Drawing.Point(548, 332);
+            this.deweyDecimalField.Location = new System.Drawing.Point(548, 468);
             this.deweyDecimalField.Name = "deweyDecimalField";
             this.deweyDecimalField.Size = new System.Drawing.Size(240, 22);
             this.deweyDecimalField.TabIndex = 18;
@@ -271,15 +275,15 @@ namespace MyLibrary
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(407, 335);
+            this.label8.Location = new System.Drawing.Point(407, 471);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(135, 21);
+            this.label8.Size = new System.Drawing.Size(108, 17);
             this.label8.TabIndex = 19;
             this.label8.Text = "Dewey Decimal:";
             // 
             // formatField
             // 
-            this.formatField.Location = new System.Drawing.Point(548, 360);
+            this.formatField.Location = new System.Drawing.Point(548, 496);
             this.formatField.Name = "formatField";
             this.formatField.Size = new System.Drawing.Size(240, 22);
             this.formatField.TabIndex = 20;
@@ -287,7 +291,7 @@ namespace MyLibrary
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(407, 363);
+            this.label9.Location = new System.Drawing.Point(407, 499);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(56, 17);
             this.label9.TabIndex = 21;
@@ -295,7 +299,7 @@ namespace MyLibrary
             // 
             // dimensionsField
             // 
-            this.dimensionsField.Location = new System.Drawing.Point(548, 390);
+            this.dimensionsField.Location = new System.Drawing.Point(548, 524);
             this.dimensionsField.Name = "dimensionsField";
             this.dimensionsField.Size = new System.Drawing.Size(240, 22);
             this.dimensionsField.TabIndex = 22;
@@ -303,43 +307,43 @@ namespace MyLibrary
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(407, 390);
+            this.label10.Location = new System.Drawing.Point(407, 527);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(106, 21);
+            this.label10.Size = new System.Drawing.Size(85, 17);
             this.label10.TabIndex = 23;
             this.label10.Text = "Dimensions:";
             // 
             // overviewField
             // 
-            this.overviewField.Location = new System.Drawing.Point(86, 276);
+            this.overviewField.Location = new System.Drawing.Point(86, 406);
             this.overviewField.Name = "overviewField";
             this.overviewField.Size = new System.Drawing.Size(312, 22);
             this.overviewField.TabIndex = 24;
             // 
             // MsrpField
             // 
-            this.MsrpField.Location = new System.Drawing.Point(86, 307);
+            this.MsrpField.Location = new System.Drawing.Point(86, 437);
             this.MsrpField.Name = "MsrpField";
             this.MsrpField.Size = new System.Drawing.Size(312, 22);
             this.MsrpField.TabIndex = 25;
             // 
             // pagesField
             // 
-            this.pagesField.Location = new System.Drawing.Point(86, 335);
+            this.pagesField.Location = new System.Drawing.Point(86, 468);
             this.pagesField.Name = "pagesField";
             this.pagesField.Size = new System.Drawing.Size(312, 22);
             this.pagesField.TabIndex = 26;
             // 
             // synopsisField
             // 
-            this.synopsisField.Location = new System.Drawing.Point(86, 363);
+            this.synopsisField.Location = new System.Drawing.Point(86, 496);
             this.synopsisField.Name = "synopsisField";
             this.synopsisField.Size = new System.Drawing.Size(312, 22);
             this.synopsisField.TabIndex = 27;
             // 
             // excerptField
             // 
-            this.excerptField.Location = new System.Drawing.Point(86, 391);
+            this.excerptField.Location = new System.Drawing.Point(86, 524);
             this.excerptField.Name = "excerptField";
             this.excerptField.Size = new System.Drawing.Size(312, 22);
             this.excerptField.TabIndex = 28;
@@ -347,7 +351,7 @@ namespace MyLibrary
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(10, 279);
+            this.label11.Location = new System.Drawing.Point(9, 409);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(70, 17);
             this.label11.TabIndex = 29;
@@ -356,7 +360,7 @@ namespace MyLibrary
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 307);
+            this.label12.Location = new System.Drawing.Point(12, 440);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(43, 17);
             this.label12.TabIndex = 30;
@@ -365,7 +369,7 @@ namespace MyLibrary
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 338);
+            this.label13.Location = new System.Drawing.Point(12, 471);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(52, 17);
             this.label13.TabIndex = 31;
@@ -374,7 +378,7 @@ namespace MyLibrary
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(9, 366);
+            this.label14.Location = new System.Drawing.Point(10, 499);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(69, 17);
             this.label14.TabIndex = 32;
@@ -383,17 +387,46 @@ namespace MyLibrary
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(10, 394);
+            this.label15.Location = new System.Drawing.Point(12, 527);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(59, 17);
             this.label15.TabIndex = 33;
             this.label15.Text = "Excerpt:";
             // 
+            // tagsGroup
+            // 
+            this.tagsGroup.Controls.Add(this.addNewTagButton);
+            this.tagsGroup.Controls.Add(this.tagsList);
+            this.tagsGroup.Location = new System.Drawing.Point(208, 276);
+            this.tagsGroup.Name = "tagsGroup";
+            this.tagsGroup.Size = new System.Drawing.Size(386, 124);
+            this.tagsGroup.TabIndex = 12;
+            this.tagsGroup.TabStop = false;
+            this.tagsGroup.Text = "Tags";
+            // 
+            // addNewTagButton
+            // 
+            this.addNewTagButton.Location = new System.Drawing.Point(302, 21);
+            this.addNewTagButton.Name = "addNewTagButton";
+            this.addNewTagButton.Size = new System.Drawing.Size(78, 27);
+            this.addNewTagButton.TabIndex = 11;
+            this.addNewTagButton.Text = "Add New";
+            this.addNewTagButton.UseVisualStyleBackColor = true;
+            // 
+            // tagsList
+            // 
+            this.tagsList.FormattingEnabled = true;
+            this.tagsList.Location = new System.Drawing.Point(6, 21);
+            this.tagsList.Name = "tagsList";
+            this.tagsList.Size = new System.Drawing.Size(290, 89);
+            this.tagsList.TabIndex = 0;
+            // 
             // AddNewBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 619);
+            this.ClientSize = new System.Drawing.Size(800, 749);
+            this.Controls.Add(this.tagsGroup);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -435,6 +468,7 @@ namespace MyLibrary
             this.Text = "Add New Book";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.tagsGroup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -480,5 +514,8 @@ namespace MyLibrary
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox tagsGroup;
+        private System.Windows.Forms.Button addNewTagButton;
+        private System.Windows.Forms.CheckedListBox tagsList;
     }
 }
