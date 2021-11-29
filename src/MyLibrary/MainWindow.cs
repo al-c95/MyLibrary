@@ -5,8 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Timers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,10 +17,7 @@ namespace MyLibrary
             InitializeComponent();
 
             // register event handlers
-            this.exitToolStripMenuItem.Click += (sender, args) =>
-            {
-                Application.Exit();
-            };
+            this.exitMenuItem.Click += ((sender, args) => Application.Exit());
         }
     }
 }

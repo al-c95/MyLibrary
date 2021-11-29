@@ -10,7 +10,8 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
     [TestFixture]
     public class Item_Tests
     {
-        [Test]
+        /*
+        //[Test]
         public void GetCommaDelimitedTags_Test()
         {
             // arrange
@@ -26,5 +27,6 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // assert
             Assert.AreEqual(expectedResult, actualResult);
         }
+        */
     }
 }

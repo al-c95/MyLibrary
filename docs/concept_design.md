@@ -44,8 +44,6 @@ The application must allow saving filters.
 The application must have a "wishlist" feature. This entails a separate list and view of items, not displayed in the main list.
 
 ## Architecture
-The application is built on .NET WinForms. It uses a Model-View-Presenter architecture, for enhanced unit-testability and separation of concerns.
-
-The client application includes an interface to a REST API, to allow downloading book data from the web.
+The application is built on .NET WinForms, targeting .NET Framework 4.7.2. 
 
 The database system used is Sqlite, chosen for its simplicity, and the fact that no server is required, enabling data to be stored locally.

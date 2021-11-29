@@ -99,7 +99,7 @@ This document describes some of the detail of the data, architecture and user in
 ![UML diagram](img/entity_uml.PNG)
 
 ## Architecture Design
-- The software comprises a local Sqlite database and a client application implemented in WinForms targeting .NET Core.
+- The software comprises a local Sqlite database and a client application implemented in WinForms targeting .NET Framework 4.7.2.
 
 &nbsp;
 
