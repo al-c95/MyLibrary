@@ -52,6 +52,12 @@
     <Compile Include="AddNewBookForm.Designer.cs">
       <DependentUpon>AddNewBookForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddNewMediaItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddNewMediaItemForm.Designer.cs">
+      <DependentUpon>AddNewMediaItemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BusinessLogic\Entities\Author.cs" />
     <Compile Include="BusinessLogic\Entities\Book.cs" />
     <Compile Include="BusinessLogic\Entities\Builders\BookBuilder.cs" />
@@ -75,6 +81,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddNewBookForm.resx">
       <DependentUpon>AddNewBookForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddNewMediaItemForm.resx">
+      <DependentUpon>AddNewMediaItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
