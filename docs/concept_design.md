@@ -43,6 +43,9 @@ The application must allow saving filters.
 ### R13
 The application must have a "wishlist" feature. This entails a separate list and view of items, not displayed in the main list.
 
+### R14
+The application must eventually provide a loaning feature.
+
 ## Architecture
 The application is built on .NET WinForms, targeting .NET Framework 4.7.2. 
 
