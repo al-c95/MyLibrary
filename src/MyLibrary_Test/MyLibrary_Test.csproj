@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyLibrary\MyLibrary.csproj" />
-    <ProjectReference Include="..\UIDesign\MyLibrary.csproj" />
+    <ProjectReference Include="..\MyLibrary\MyLibrary.csproj" />
   </ItemGroup>
 
 </Project>
