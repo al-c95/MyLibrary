@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS Media_Tag;
 
 CREATE TABLE "Books" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "title" TEXT NOT NULL,
-    "titleLong" TEXT NOT NULL,
+    "title" TEXT NOT NULL UNIQUE,
+    "titleLong" TEXT NOT NULL UNIQUE,
     "isbn" TEXT,
     "isbn13"    TEXT,
     "deweyDecimal"  REAL,
@@ -44,11 +44,11 @@ CREATE TABLE "Publishers" (
 
 CREATE TABLE "Media" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "title" TEXT NOT NULL,
+    "title" TEXT NOT NULL UNIQUE,
     "type"  INTEGER NOT NULL,
     "number"    INTEGER NOT NULL,
     "image" BLOB,
-    "runningTime"   INTEGER NOT NULL,
+    "runningTime"   INTEGER,
     "releaseYear"   INTEGER NOT NULL,
     "notes" TEXT
 );
