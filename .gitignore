@@ -3,3 +3,4 @@ src/MyLibrary/obj
 src/MyLibrary_Test/bin
 src/MyLibrary_Test/obj
 src/.vs
+src/packages
