@@ -20,14 +20,7 @@ namespace MyLibrary.Models.Entities
                 }
                 else
                 {
-                    if (value.Contains(", ") || (value.Contains(",")))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
+                    this._name = value;
                 }
             }
         }
