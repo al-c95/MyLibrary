@@ -15,13 +15,10 @@ namespace MyLibrary.Models.Entities
             set
             {
                 if (value == null || string.IsNullOrWhiteSpace(value))
-                {
                     throw new ArgumentNullException("Tag can't be empty.");
-                }
                 else
-                {
                     this._name = value;
-                }
+
             }
         }
 
