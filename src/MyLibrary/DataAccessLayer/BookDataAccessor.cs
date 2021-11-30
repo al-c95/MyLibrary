@@ -28,6 +28,7 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<Book>> ReadAll()
         {
+            // TODO: finish implementation
             using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
             {
                 return await conn.QueryAsync<Book>("SELECT * FROM Books;");
