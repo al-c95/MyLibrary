@@ -15,13 +15,9 @@ namespace MyLibrary.Models.Entities
             set
             {
                 if (value == null || string.IsNullOrWhiteSpace(value))
-                {
                     throw new ArgumentNullException("Publisher must have a name.");
-                }
                 else
-                {
                     _name = value;
-                }
             }
         }
 
