@@ -152,6 +152,7 @@ namespace MyLibrary
             // 
             // addNewAuthorButton
             // 
+            this.addNewAuthorButton.Enabled = false;
             this.addNewAuthorButton.Location = new System.Drawing.Point(302, 21);
             this.addNewAuthorButton.Name = "addNewAuthorButton";
             this.addNewAuthorButton.Size = new System.Drawing.Size(78, 27);
@@ -199,6 +200,7 @@ namespace MyLibrary
             // 
             // addNewPublisherButton
             // 
+            this.addNewPublisherButton.Enabled = false;
             this.addNewPublisherButton.Location = new System.Drawing.Point(296, 21);
             this.addNewPublisherButton.Name = "addNewPublisherButton";
             this.addNewPublisherButton.Size = new System.Drawing.Size(78, 27);
@@ -406,6 +408,7 @@ namespace MyLibrary
             // 
             // addNewTagButton
             // 
+            this.addNewTagButton.Enabled = false;
             this.addNewTagButton.Location = new System.Drawing.Point(302, 21);
             this.addNewTagButton.Name = "addNewTagButton";
             this.addNewTagButton.Size = new System.Drawing.Size(78, 27);
