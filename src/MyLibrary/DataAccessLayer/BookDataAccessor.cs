@@ -35,9 +35,26 @@ namespace MyLibrary.DataAccessLayer
             }
         }
 
-        public async void Update(Book toUpdate)
+        /// <summary>
+        /// Update image and/or notes fields of book record in database.
+        /// </summary>
+        /// <param name="toUpdate"></param>
+        public async Task Update(Book toUpdate)
         {
-            throw new NotImplementedException();
+            string SQL = "UPDATE Books " +
+                "SET image = @image, notes = @notes " +
+                "WHERE id = @id;";
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                await conn.ExecuteAsync(SQL, new
+                {
+                    toUpdate.Id,
+
+                    toUpdate.Image,
+                    toUpdate.Notes
+                });
+            }
         }
 
         public async void DeleteById(int id)

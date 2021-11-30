@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.Entities.Builders;
 using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary
@@ -36,9 +37,10 @@ namespace MyLibrary
             this.dataGrid.Columns.Clear();
             this.dataGrid.Columns.Add("idCol", "Id");
             this.dataGrid.Columns.Add("titleCol", "Title");
+            this.dataGrid.Columns.Add("titleLongCol", "Long Title");
             foreach (var book in allBooks)
             {
-                object[] newRow = { book.Id, book.Title };
+                object[] newRow = { book.Id, book.Title, book.TitleLong };
                 this.dataGrid.Rows.Add(newRow);
             }
         }
