@@ -23,10 +23,29 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<Book>> ReadAll()
         {
-            // TODO: finish implementation
             using (var conn = GetConnection())
             {
-                return await conn.QueryAsync<Book>("SELECT * FROM Books;");
+                var authorsSql = "SELECT A.*, B.id AS BookId FROM Books as B " +
+                         "INNER JOIN Book_Author AS B2A On B.id = B2A.bookId " +
+                         "INNER JOIN Authors A On B2A.authorId = A.id;";
+                var allAuthorsWithBookId = await conn.QueryAsync<dynamic>(authorsSql);//.AsList();
+
+                var tagsSql = "SELECT T.*, B.id AS BookId FROM Books as B " +
+                              "INNER JOIN Book_Tag AS B2T On B.id = B2T.bookId " +
+                              "INNER JOIN Tags T On B2T.tagId = T.id;";
+                var allTagsWithBookId = await conn.QueryAsync<dynamic>(tagsSql);//.AsList();
+
+                var sql = "SELECT * FROM Books as B " +
+                          "INNER JOIN Publishers AS P On B.publisherId = P.id;";
+                var allBooks = await conn.QueryAsync<Book, Publisher, Book>(sql, (book, publisher) =>
+                {
+                    book.Publisher = publisher;
+                    book.Authors = allAuthorsWithBookId.Where(row => row.BookId == (int)book.Id).Select(row => new Author { Id = (int)row.id, FirstName = row.firstName, LastName = row.lastName }).AsList();
+                    book.Tags = allTagsWithBookId.Where(row => (int)row.BookId == book.Id).Select(row => new Tag { Id = (int)row.id, Name = row.name }).AsList();
+                    return book;
+                });
+
+                return allBooks;
             }
         }
 

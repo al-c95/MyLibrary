@@ -38,9 +38,12 @@ namespace MyLibrary
             this.dataGrid.Columns.Add("idCol", "Id");
             this.dataGrid.Columns.Add("titleCol", "Title");
             this.dataGrid.Columns.Add("titleLongCol", "Long Title");
+            this.dataGrid.Columns.Add("authorsCol", "Authors");
+            this.dataGrid.Columns.Add("pubCol", "Publishers");
+            this.dataGrid.Columns.Add("tagCol", "Tags");
             foreach (var book in allBooks)
             {
-                object[] newRow = { book.Id, book.Title, book.TitleLong };
+                object[] newRow = { book.Id, book.Title, book.TitleLong, null, book.Publisher.Name, book.GetCommaDelimitedTags() };
                 this.dataGrid.Rows.Add(newRow);
             }
         }
