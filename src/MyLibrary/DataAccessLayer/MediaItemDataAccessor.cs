@@ -9,6 +9,9 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer
 {
+    /// <summary>
+    /// Database interface for media item operations.
+    /// </summary>
     public class MediaItemDataAccessor
     {
         public async void Create(MediaItem toAdd)
@@ -69,6 +72,51 @@ namespace MyLibrary.DataAccessLayer
 
                     toUpdate.Image,
                     toUpdate.Notes
+                });
+            }
+        }
+
+        /// <summary>
+        /// Associate an existing tag to an existing item.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public async Task AssociateExistingTag(MediaItem item, Tag tag)
+        {
+            string SQL = "INSERT INTO Media_Tag (mediaId,tagId) " +
+                "VALUES(@itemId,@tagId);";
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                int itemId = item.Id;
+                int tagId = tag.Id;
+                await conn.ExecuteAsync(SQL, new
+                {
+                    itemId,
+                    tagId
+                });
+            }
+        }
+
+        /// <summary>
+        /// Disassociate a tag from an existing item.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="toRemove"></param>
+        /// <returns></returns>
+        public async Task RemoveTag(MediaItem item, Tag toRemove)
+        {
+            string SQL = "DELETE FROM Media_Tag WHERE mediaId = @itemId AND tagId = @tagId;";
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                int itemId = item.Id;
+                int tagId = toRemove.Id;
+                await conn.ExecuteAsync(SQL, new
+                {
+                    itemId,
+                    tagId
                 });
             }
         }
