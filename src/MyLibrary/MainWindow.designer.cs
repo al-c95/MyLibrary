@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,7 +57,8 @@ namespace MyLibrary
             this.criteriaField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.getAllBooksButton = new System.Windows.Forms.Button();
+            this.getAllMediaItemsButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -194,14 +195,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGrid.Location = new System.Drawing.Point(315, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -335,22 +336,33 @@ namespace MyLibrary
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
             // 
-            // button1
+            // getAllBooksButton
             // 
-            this.button1.Location = new System.Drawing.Point(416, 43);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Get All Books";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.getAllBooksButton.Location = new System.Drawing.Point(416, 43);
+            this.getAllBooksButton.Name = "getAllBooksButton";
+            this.getAllBooksButton.Size = new System.Drawing.Size(106, 23);
+            this.getAllBooksButton.TabIndex = 13;
+            this.getAllBooksButton.Text = "Get All Books";
+            this.getAllBooksButton.UseVisualStyleBackColor = true;
+            this.getAllBooksButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // getAllMediaItemsButton
+            // 
+            this.getAllMediaItemsButton.Location = new System.Drawing.Point(528, 43);
+            this.getAllMediaItemsButton.Name = "getAllMediaItemsButton";
+            this.getAllMediaItemsButton.Size = new System.Drawing.Size(143, 23);
+            this.getAllMediaItemsButton.TabIndex = 14;
+            this.getAllMediaItemsButton.Text = "Get All Media Items";
+            this.getAllMediaItemsButton.UseVisualStyleBackColor = true;
+            this.getAllMediaItemsButton.Click += new System.EventHandler(this.getAllMediaItemsButton_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 529);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.getAllMediaItemsButton);
+            this.Controls.Add(this.getAllBooksButton);
             this.Controls.Add(this.detailsGroup);
             this.Controls.Add(this.filterGroup);
             this.Controls.Add(this.label1);
@@ -410,7 +422,8 @@ namespace MyLibrary
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox criteriaField;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button getAllBooksButton;
+        private System.Windows.Forms.Button getAllMediaItemsButton;
     }
 }
 

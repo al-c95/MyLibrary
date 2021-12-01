@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyLibrary.Models.Entities
 {
+    /// <summary>
+    /// 0-based.
+    /// </summary>
     public enum ItemType
     {
         Dvd,
