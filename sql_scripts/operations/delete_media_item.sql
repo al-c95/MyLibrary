@@ -1,0 +1,1 @@
+DELETE FROM Media WHERE id = 3;
