@@ -29,6 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +56,6 @@ namespace MyLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.criteriaField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
-            this.textBox = new System.Windows.Forms.TextBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
@@ -187,16 +187,28 @@ namespace MyLibrary
             // 
             // dataGrid
             // 
+            this.dataGrid.AllowUserToAddRows = false;
+            this.dataGrid.AllowUserToDeleteRows = false;
             this.dataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(315, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
             this.dataGrid.ReadOnly = true;
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
+            this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid.Size = new System.Drawing.Size(702, 416);
             this.dataGrid.TabIndex = 7;
             // 
@@ -255,7 +267,7 @@ namespace MyLibrary
             this.filterGroup.Size = new System.Drawing.Size(294, 125);
             this.filterGroup.TabIndex = 11;
             this.filterGroup.TabStop = false;
-            this.filterGroup.Text = "Search";
+            this.filterGroup.Text = "Filter";
             // 
             // saveFilterButton
             // 
@@ -304,7 +316,6 @@ namespace MyLibrary
             // 
             this.detailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.detailsGroup.Controls.Add(this.textBox);
             this.detailsGroup.Controls.Add(this.pictureBox);
             this.detailsGroup.Enabled = false;
             this.detailsGroup.Location = new System.Drawing.Point(12, 233);
@@ -314,20 +325,13 @@ namespace MyLibrary
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
             // 
-            // textBox
-            // 
-            this.textBox.Location = new System.Drawing.Point(6, 218);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(282, 22);
-            this.textBox.TabIndex = 13;
-            // 
             // pictureBox
             // 
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(6, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(282, 174);
+            this.pictureBox.Size = new System.Drawing.Size(282, 228);
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
             // 
@@ -371,7 +375,6 @@ namespace MyLibrary
             this.filterGroup.ResumeLayout(false);
             this.filterGroup.PerformLayout();
             this.detailsGroup.ResumeLayout(false);
-            this.detailsGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -406,7 +409,6 @@ namespace MyLibrary
         private System.Windows.Forms.Button applyFilterButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox criteriaField;
-        private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
         private System.Windows.Forms.Button button1;
     }
