@@ -57,9 +57,19 @@ namespace MyLibrary.DataAccessLayer
             }
         }
 
-        public async void DeleteById(int id)
+        /// <summary>
+        /// Delete a book record by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteById(int id)
         {
-            throw new NotImplementedException();
-        }
-    }
+            string SQL = "DELETE FROM Books WHERE id = @id;";
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                await conn.ExecuteAsync(SQL, new { id });
+            }
+        }//DeleteById
+    }//class
 }
