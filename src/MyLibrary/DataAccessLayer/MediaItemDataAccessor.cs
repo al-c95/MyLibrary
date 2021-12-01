@@ -12,7 +12,7 @@ namespace MyLibrary.DataAccessLayer
     /// <summary>
     /// Database interface for media item operations.
     /// </summary>
-    public class MediaItemDataAccessor
+    public class MediaItemDataAccessor : DataAccessor
     {
         public async void Create(MediaItem toAdd)
         {
@@ -25,7 +25,7 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<MediaItem>> ReadAll()
         {
-            string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
+            const string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
                 "FROM Media M " +
                 "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
                 "INNER JOIN Tags T ON T.id = MT.tagId;";
@@ -33,7 +33,7 @@ namespace MyLibrary.DataAccessLayer
             // https://stackoverflow.com/questions/25833426/using-async-await-keywords-with-dapper
             // https://www.learndapper.com/relationships
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 var items = await conn.QueryAsync<MediaItem, Tag, MediaItem>(SQL, (item, tag) =>
                 {
@@ -60,11 +60,11 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="toUpdate"></param>
         public async Task Update(MediaItem toUpdate)
         {
-            string SQL = "UPDATE Media " +
+            const string SQL = "UPDATE Media " +
                 "SET image = @image, notes = @notes " +
                 "WHERE id = @id;";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 await conn.ExecuteAsync(SQL, new
                 {
@@ -84,10 +84,10 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task AssociateExistingTag(MediaItem item, Tag tag)
         {
-            string SQL = "INSERT INTO Media_Tag (mediaId,tagId) " +
+            const string SQL = "INSERT INTO Media_Tag (mediaId,tagId) " +
                 "VALUES(@itemId,@tagId);";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 int itemId = item.Id;
                 int tagId = tag.Id;
@@ -107,9 +107,9 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task RemoveTag(MediaItem item, Tag toRemove)
         {
-            string SQL = "DELETE FROM Media_Tag WHERE mediaId = @itemId AND tagId = @tagId;";
+            const string SQL = "DELETE FROM Media_Tag WHERE mediaId = @itemId AND tagId = @tagId;";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 int itemId = item.Id;
                 int tagId = toRemove.Id;
@@ -128,9 +128,9 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task DeleteById(int id)
         {
-            string SQL = "DELETE FROM Media WHERE id = @id;";
+            const string SQL = "DELETE FROM Media WHERE id = @id;";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 await conn.ExecuteAsync(SQL, new { id });
             }

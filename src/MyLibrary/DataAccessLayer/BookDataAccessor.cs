@@ -10,7 +10,7 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer
 {
-    public class BookDataAccessor
+    public class BookDataAccessor : DataAccessor
     {
         public async void Create(Book toAdd)
         {
@@ -24,7 +24,7 @@ namespace MyLibrary.DataAccessLayer
         public async Task<IEnumerable<Book>> ReadAll()
         {
             // TODO: finish implementation
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 return await conn.QueryAsync<Book>("SELECT * FROM Books;");
             }
@@ -36,11 +36,11 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="toUpdate"></param>
         public async Task Update(Book toUpdate)
         {
-            string SQL = "UPDATE Books " +
+            const string SQL = "UPDATE Books " +
                 "SET image = @image, notes = @notes " +
                 "WHERE id = @id;";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 await conn.ExecuteAsync(SQL, new
                 {
@@ -60,10 +60,10 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task AssociateExistingTag(Book book, Tag tag)
         {
-            string SQL = "INSERT INTO Book_Tag (bookId,tagId) " +
+            const string SQL = "INSERT INTO Book_Tag (bookId,tagId) " +
                 "VALUES(@itemId,@tagId);";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 int itemId = book.Id;
                 int tagId = tag.Id;
@@ -83,9 +83,9 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task RemoveTag(MediaItem item, Tag toRemove)
         {
-            string SQL = "DELETE FROM Book_Tag WHERE bookId = @bookId AND tagId = @tagId;";
+            const string SQL = "DELETE FROM Book_Tag WHERE bookId = @bookId AND tagId = @tagId;";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 int itemId = item.Id;
                 int tagId = toRemove.Id;
@@ -104,9 +104,9 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task DeleteById(int id)
         {
-            string SQL = "DELETE FROM Books WHERE id = @id;";
+            const string SQL = "DELETE FROM Books WHERE id = @id;";
 
-            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            using (var conn = GetConnection())
             {
                 await conn.ExecuteAsync(SQL, new { id });
             }
