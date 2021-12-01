@@ -1,1 +1,0 @@
-DELETE * FROM Books WHERE id = 3;
