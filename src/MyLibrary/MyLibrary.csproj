@@ -118,6 +118,7 @@
     <Compile Include="BusinessLogic\Entities\Tag.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
+    <Compile Include="DataAccessLayer\DataAccessor.cs" />
     <Compile Include="DataAccessLayer\MediaItemDataAccessor.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
