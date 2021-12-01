@@ -44,5 +44,31 @@ namespace MyLibrary
                 this.dataGrid.Rows.Add(newRow);
             }
         }
+
+        private async void getAllMediaItemsButton_Click(object sender, EventArgs e)
+        {
+            // get data
+            MediaItemDataAccessor mediaItemDataAccessor = new MediaItemDataAccessor();
+            var allItems = await mediaItemDataAccessor.ReadAll();
+
+            // populate the data grid
+            this.dataGrid.Rows.Clear();
+            this.dataGrid.Columns.Clear();
+            this.dataGrid.Columns.Add("idCol", "Id");
+            this.dataGrid.Columns.Add("titleCol", "Title");
+            this.dataGrid.Columns.Add("typeCol", "Type");
+            this.dataGrid.Columns.Add("numCol", "Number");
+            this.dataGrid.Columns.Add("runTimeCol", "Running Time");
+            this.dataGrid.Columns.Add("releaseYearCol", "Release Year");
+            this.dataGrid.Columns.Add("notesCol", "Notes");
+            //this.dataGrid.Columns.Add("tagIdsCol", "Tag Ids");
+            this.dataGrid.Columns.Add("tagNamesCol", "Tag names");
+            foreach (var item in allItems)
+            {
+                object[] newRow = { item.Id, item.Title, item.Type, item.Number, item.RunningTime, item.ReleaseYear, item.Notes,
+                item.GetCommaDelimitedTags()};
+                this.dataGrid.Rows.Add(newRow);
+            }
+        }
     }//class
 }

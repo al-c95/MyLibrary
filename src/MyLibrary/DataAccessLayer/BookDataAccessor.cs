@@ -17,11 +17,6 @@ namespace MyLibrary.DataAccessLayer
             throw new NotImplementedException();
         }
 
-        public async Task<Book> ReadById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Retrieve all Books from the database.
         /// </summary>

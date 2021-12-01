@@ -16,15 +16,40 @@ namespace MyLibrary.DataAccessLayer
             throw new NotImplementedException();
         }
 
-        public async Task<MediaItem> ReadById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Read all media item and associated tags records from the database.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<MediaItem>> ReadAll()
         {
-            throw new NotImplementedException();
-        }
+            string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
+                "FROM Media M " +
+                "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
+                "INNER JOIN Tags T ON T.id = MT.tagId;";
+
+            // https://stackoverflow.com/questions/25833426/using-async-await-keywords-with-dapper
+            // https://www.learndapper.com/relationships
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                var items = await conn.QueryAsync<MediaItem, Tag, MediaItem>(SQL, (item, tag) =>
+                {
+                    item.Tags.Add(tag);
+                    return item;
+                }, splitOn: "id");
+
+                var result = items.GroupBy(i => i.Id).Select(g =>
+                {
+                    var groupedItem = g.First();
+                    groupedItem.Tags = g.Select(i => i.Tags.Single())
+                                                .ToList();
+
+                    return groupedItem;
+                });
+
+                return result;
+            }
+        }//ReadAll
 
         /// <summary>
         /// Update image and/or notes fields of media item record in database.
