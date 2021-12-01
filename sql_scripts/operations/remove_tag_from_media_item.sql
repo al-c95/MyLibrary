@@ -1,1 +1,1 @@
-DELETE FROM Media_Tag WHERE Books.id = 1 AND Tags.id = 1;
+DELETE FROM Media_Tag WHERE Media.id = 1 AND Tags.id = 1;

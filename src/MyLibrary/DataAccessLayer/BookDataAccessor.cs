@@ -53,6 +53,51 @@ namespace MyLibrary.DataAccessLayer
         }
 
         /// <summary>
+        /// Associate an existing tag to an existing book.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public async Task AssociateExistingTag(Book book, Tag tag)
+        {
+            string SQL = "INSERT INTO Book_Tag (bookId,tagId) " +
+                "VALUES(@itemId,@tagId);";
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                int itemId = book.Id;
+                int tagId = tag.Id;
+                await conn.ExecuteAsync(SQL, new
+                {
+                    itemId,
+                    tagId
+                });
+            }
+        }
+
+        /// <summary>
+        /// Disassociate a tag from an existing item.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="toRemove"></param>
+        /// <returns></returns>
+        public async Task RemoveTag(MediaItem item, Tag toRemove)
+        {
+            string SQL = "DELETE FROM Book_Tag WHERE bookId = @bookId AND tagId = @tagId;";
+
+            using (var conn = new SQLiteConnection(Configuration.CONNECTION_STRING))
+            {
+                int itemId = item.Id;
+                int tagId = toRemove.Id;
+                await conn.ExecuteAsync(SQL, new
+                {
+                    itemId,
+                    tagId
+                });
+            }
+        }
+
+        /// <summary>
         /// Delete a book record by its ID.
         /// </summary>
         /// <param name="id"></param>
