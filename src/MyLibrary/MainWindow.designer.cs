@@ -47,7 +47,6 @@ namespace MyLibrary
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.categoryDropDown = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.filterGroup = new System.Windows.Forms.GroupBox();
             this.saveFilterButton = new System.Windows.Forms.Button();
@@ -57,8 +56,7 @@ namespace MyLibrary
             this.criteriaField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.getAllBooksButton = new System.Windows.Forms.Button();
-            this.getAllMediaItemsButton = new System.Windows.Forms.Button();
+            this.categoryDropDown = new System.Windows.Forms.ComboBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -237,15 +235,6 @@ namespace MyLibrary
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(269, 20);
             this.toolStripStatusLabel2.Text = "x items selected. y of z items displayed.";
             // 
-            // categoryDropDown
-            // 
-            this.categoryDropDown.Enabled = false;
-            this.categoryDropDown.FormattingEnabled = true;
-            this.categoryDropDown.Location = new System.Drawing.Point(104, 72);
-            this.categoryDropDown.Name = "categoryDropDown";
-            this.categoryDropDown.Size = new System.Drawing.Size(205, 24);
-            this.categoryDropDown.TabIndex = 9;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -336,37 +325,24 @@ namespace MyLibrary
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
             // 
-            // getAllBooksButton
+            // categoryDropDown
             // 
-            this.getAllBooksButton.Location = new System.Drawing.Point(416, 43);
-            this.getAllBooksButton.Name = "getAllBooksButton";
-            this.getAllBooksButton.Size = new System.Drawing.Size(106, 23);
-            this.getAllBooksButton.TabIndex = 13;
-            this.getAllBooksButton.Text = "Get All Books";
-            this.getAllBooksButton.UseVisualStyleBackColor = true;
-            this.getAllBooksButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // getAllMediaItemsButton
-            // 
-            this.getAllMediaItemsButton.Location = new System.Drawing.Point(528, 43);
-            this.getAllMediaItemsButton.Name = "getAllMediaItemsButton";
-            this.getAllMediaItemsButton.Size = new System.Drawing.Size(143, 23);
-            this.getAllMediaItemsButton.TabIndex = 14;
-            this.getAllMediaItemsButton.Text = "Get All Media Items";
-            this.getAllMediaItemsButton.UseVisualStyleBackColor = true;
-            this.getAllMediaItemsButton.Click += new System.EventHandler(this.getAllMediaItemsButton_Click);
+            this.categoryDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.categoryDropDown.FormattingEnabled = true;
+            this.categoryDropDown.Location = new System.Drawing.Point(104, 69);
+            this.categoryDropDown.Name = "categoryDropDown";
+            this.categoryDropDown.Size = new System.Drawing.Size(196, 24);
+            this.categoryDropDown.TabIndex = 15;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 529);
-            this.Controls.Add(this.getAllMediaItemsButton);
-            this.Controls.Add(this.getAllBooksButton);
+            this.Controls.Add(this.categoryDropDown);
             this.Controls.Add(this.detailsGroup);
             this.Controls.Add(this.filterGroup);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.categoryDropDown);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.dataGrid);
             this.Controls.Add(this.wishListButton);
@@ -411,7 +387,6 @@ namespace MyLibrary
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ComboBox categoryDropDown;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox filterGroup;
         private System.Windows.Forms.GroupBox detailsGroup;
@@ -422,8 +397,7 @@ namespace MyLibrary
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox criteriaField;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
-        private System.Windows.Forms.Button getAllBooksButton;
-        private System.Windows.Forms.Button getAllMediaItemsButton;
+        private System.Windows.Forms.ComboBox categoryDropDown;
     }
 }
 

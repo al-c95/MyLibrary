@@ -9,12 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
+using MyLibrary.BusinessLogic;
 using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary
 {
     public partial class MainWindow : Form
     {
+        private MediaItemRepository _mediaItemsRepo = new MediaItemRepository(new MediaItemDataAccessor());
+        private BookRepository _bookRepo = new BookRepository(new BookDataAccessor());
+
         public MainWindow()
         {
             InitializeComponent();
@@ -23,14 +27,71 @@ namespace MyLibrary
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
-            this.addButton.Click += ((sender, args) => new AddNewMediaItemForm().ShowDialog());
+            this.addButton.Click += ((sender, args) =>
+            {
+                switch (this.categoryDropDown.SelectedIndex)
+                {
+                    case 0:
+                        new AddNewBookForm().ShowDialog();
+                        break;
+                    default:
+                        new AddNewMediaItemForm().ShowDialog();
+                        break;
+                }
+            });
+            this.categoryDropDown.SelectedIndexChanged += ((sender, args) => 
+            { 
+                // I'm violating the open/closed principle here,
+                // but I don't care because I don't anticipate adding any more types
+                switch (this.categoryDropDown.SelectedIndex)
+                {
+                    case 0:
+                        DisplayBooks();
+                        break;
+                    case 1:
+                        DisplayMediaItems();
+                        break;
+                    case 2:
+                        DisplayMediaItems(ItemType.Cd);
+                        break;
+                    case 3:
+                        DisplayMediaItems(ItemType.Dvd);
+                        break;
+                    case 4:
+                        DisplayMediaItems(ItemType.BluRay);
+                        break;
+                    case 5:
+                        DisplayMediaItems(ItemType.Vhs);
+                        break;
+                    case 6:
+                        DisplayMediaItems(ItemType.Vinyl);
+                        break;
+                    case 7:
+                        DisplayMediaItems(ItemType.Other);
+                        break;
+                    default:
+                        DisplayMediaItems();
+                        break;
+                }
+            });
+
+            // populate "Category" combo box
+            this.categoryDropDown.Items.Add(ItemType.Book);
+            this.categoryDropDown.Items.Add("Media Items (all types)");
+            this.categoryDropDown.Items.Add(ItemType.Cd);
+            this.categoryDropDown.Items.Add(ItemType.Dvd);
+            this.categoryDropDown.Items.Add(ItemType.BluRay);
+            this.categoryDropDown.Items.Add(ItemType.Vhs);
+            this.categoryDropDown.Items.Add(ItemType.Vinyl);
+            this.categoryDropDown.Items.Add(ItemType.Other);
+
+            this.categoryDropDown.SelectedIndex = 0;
         }//ctor
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void DisplayBooks()
         {
             // get data
-            BookDataAccessor bookDataAccessor = new BookDataAccessor();
-            var allBooks = await bookDataAccessor.ReadAll();
+            var allBooks = await this._bookRepo.GetAll();
 
             // populate the data grid
             this.dataGrid.Rows.Clear();
@@ -45,14 +106,38 @@ namespace MyLibrary
             {
                 object[] newRow = { book.Id, book.Title, book.TitleLong, null, book.Publisher.Name, book.GetCommaDelimitedTags() };
                 this.dataGrid.Rows.Add(newRow);
+            }            
+        }
+
+        private async void DisplayMediaItems()
+        {
+            // get data
+            var allItems = await this._mediaItemsRepo.GetAll();
+
+            // populate the data grid
+            this.dataGrid.Rows.Clear();
+            this.dataGrid.Columns.Clear();
+            this.dataGrid.Columns.Add("idCol", "Id");
+            this.dataGrid.Columns.Add("titleCol", "Title");
+            this.dataGrid.Columns.Add("typeCol", "Type");
+            this.dataGrid.Columns.Add("numCol", "Number");
+            this.dataGrid.Columns.Add("runTimeCol", "Running Time");
+            this.dataGrid.Columns.Add("releaseYearCol", "Release Year");
+            this.dataGrid.Columns.Add("notesCol", "Notes");
+            //this.dataGrid.Columns.Add("tagIdsCol", "Tag Ids");
+            this.dataGrid.Columns.Add("tagNamesCol", "Tag names");
+            foreach (var item in allItems)
+            {
+                object[] newRow = { item.Id, item.Title, item.Type, item.Number, item.RunningTime, item.ReleaseYear, item.Notes,
+                item.GetCommaDelimitedTags()};
+                this.dataGrid.Rows.Add(newRow);
             }
         }
 
-        private async void getAllMediaItemsButton_Click(object sender, EventArgs e)
+        private async void DisplayMediaItems(ItemType type)
         {
             // get data
-            MediaItemDataAccessor mediaItemDataAccessor = new MediaItemDataAccessor();
-            var allItems = await mediaItemDataAccessor.ReadAll();
+            var allItems = await this._mediaItemsRepo.GetByType(type);
 
             // populate the data grid
             this.dataGrid.Rows.Clear();

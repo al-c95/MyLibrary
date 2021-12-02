@@ -55,5 +55,5 @@ namespace MyLibrary.Models.Entities
 
             return tagsBuilder.ToString();
         }
-    }
+    }//class
 }

@@ -28,12 +28,12 @@ namespace MyLibrary.DataAccessLayer
                 var authorsSql = "SELECT A.*, B.id AS BookId FROM Books as B " +
                          "INNER JOIN Book_Author AS B2A On B.id = B2A.bookId " +
                          "INNER JOIN Authors A On B2A.authorId = A.id;";
-                var allAuthorsWithBookId = await conn.QueryAsync<dynamic>(authorsSql);//.AsList();
+                var allAuthorsWithBookId = await conn.QueryAsync<dynamic>(authorsSql);
 
                 var tagsSql = "SELECT T.*, B.id AS BookId FROM Books as B " +
                               "INNER JOIN Book_Tag AS B2T On B.id = B2T.bookId " +
                               "INNER JOIN Tags T On B2T.tagId = T.id;";
-                var allTagsWithBookId = await conn.QueryAsync<dynamic>(tagsSql);//.AsList();
+                var allTagsWithBookId = await conn.QueryAsync<dynamic>(tagsSql);
 
                 var sql = "SELECT * FROM Books as B " +
                           "INNER JOIN Publishers AS P On B.publisherId = P.id;";
