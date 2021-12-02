@@ -42,7 +42,7 @@ namespace MyLibrary
             this.categoryDropDown.SelectedIndexChanged += ((sender, args) => 
             { 
                 // I'm violating the open/closed principle here,
-                // but I don't care because I don't anticipate adding any more types
+                // but I don't care because I don't anticipate adding any more types.
                 switch (this.categoryDropDown.SelectedIndex)
                 {
                     case 0:
@@ -85,6 +85,7 @@ namespace MyLibrary
             this.categoryDropDown.Items.Add(ItemType.Vinyl);
             this.categoryDropDown.Items.Add(ItemType.Other);
 
+            // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
         }//ctor
 
