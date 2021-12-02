@@ -30,9 +30,6 @@ namespace MyLibrary.DataAccessLayer
                 "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
                 "INNER JOIN Tags T ON T.id = MT.tagId;";
 
-            // https://stackoverflow.com/questions/25833426/using-async-await-keywords-with-dapper
-            // https://www.learndapper.com/relationships
-
             using (var conn = GetConnection())
             {
                 var items = await conn.QueryAsync<MediaItem, Tag, MediaItem>(SQL, (item, tag) =>
