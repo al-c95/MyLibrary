@@ -105,6 +105,7 @@
     <Compile Include="AddNewMediaItemForm.Designer.cs">
       <DependentUpon>AddNewMediaItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BusinessLogic\BookRepository.cs" />
     <Compile Include="BusinessLogic\Entities\Author.cs" />
     <Compile Include="BusinessLogic\Entities\Book.cs" />
     <Compile Include="BusinessLogic\Entities\Builders\BookBuilder.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
     <Compile Include="BusinessLogic\Entities\Publisher.cs" />
     <Compile Include="BusinessLogic\Entities\Tag.cs" />
+    <Compile Include="BusinessLogic\MediaItemsRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
