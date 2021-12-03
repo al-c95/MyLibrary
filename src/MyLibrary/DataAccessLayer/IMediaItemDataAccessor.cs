@@ -10,12 +10,12 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer
 {
-    public interface IBookDataAccessor
+    public interface IMediaItemDataAccessor
     {
-        Task<IEnumerable<Book>> ReadAll();
-        Task Update(Book toUpdate);
-        Task AssociateExistingTag(Book book, Tag tag);
-        Task RemoveTag(Book item, Tag toRemove);
+        Task<IEnumerable<MediaItem>> ReadAll();
+        Task Update(MediaItem toUpdate);
+        Task AssociateExistingTag(MediaItem item, Tag tag);
+        Task RemoveTag(MediaItem item, Tag toRemove);
         Task DeleteById(int id);
     }
 }

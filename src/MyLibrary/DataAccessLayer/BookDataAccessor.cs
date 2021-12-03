@@ -100,7 +100,7 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="item"></param>
         /// <param name="toRemove"></param>
         /// <returns></returns>
-        public async Task RemoveTag(MediaItem item, Tag toRemove)
+        public async Task RemoveTag(Book item, Tag toRemove)
         {
             const string SQL = "DELETE FROM Book_Tag WHERE bookId = @bookId AND tagId = @tagId;";
 

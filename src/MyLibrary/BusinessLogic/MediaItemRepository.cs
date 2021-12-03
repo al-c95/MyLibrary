@@ -10,9 +10,9 @@ namespace MyLibrary.BusinessLogic
 {
     public class MediaItemRepository
     {
-        private MediaItemDataAccessor _dao;
+        private IMediaItemDataAccessor _dao;
 
-        public MediaItemRepository(MediaItemDataAccessor dataAccessor)
+        public MediaItemRepository(IMediaItemDataAccessor dataAccessor)
         {
             this._dao = dataAccessor;
         }
@@ -22,11 +22,11 @@ namespace MyLibrary.BusinessLogic
             return await this._dao.ReadAll();
         }
 
-        public async Task<IEnumerable<MediaItem>> GetById(int id)
+        public async Task<MediaItem> GetById(int id)
         {
             var allItems = await GetAll();
 
-            return allItems.Where(i => i.Id == id);
+            return allItems.FirstOrDefault(i => i.Id == id);
         }
 
         public async Task<bool> ItemWithIdExists(int id)
