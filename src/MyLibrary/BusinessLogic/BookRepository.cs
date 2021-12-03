@@ -8,11 +8,11 @@ using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary.BusinessLogic
 {
-    public class BookRepository
+    public class BookRepository : IBookRepository
     {
-        private BookDataAccessor _dao;
+        private IBookDataAccessor _dao;
 
-        public BookRepository(BookDataAccessor dataAccessor)
+        public BookRepository(IBookDataAccessor dataAccessor)
         {
             this._dao = dataAccessor;
         }
@@ -22,11 +22,11 @@ namespace MyLibrary.BusinessLogic
             return await this._dao.ReadAll();
         }
 
-        public async Task<IEnumerable<Book>> GetById(int id)
+        public async Task<Book> GetById(int id)
         {
             var allItems = await GetAll();
 
-            return allItems.Where(i => i.Id == id);
+            return allItems.FirstOrDefault(i => i.Id == id);
         }
 
         public async Task<bool> ItemWithIdExists(int id)
