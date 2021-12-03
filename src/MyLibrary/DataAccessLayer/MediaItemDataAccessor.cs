@@ -12,7 +12,7 @@ namespace MyLibrary.DataAccessLayer
     /// <summary>
     /// Database interface for media item operations.
     /// </summary>
-    public class MediaItemDataAccessor : DataAccessor
+    public class MediaItemDataAccessor : DataAccessor, IMediaItemDataAccessor
     {
         public async void Create(MediaItem toAdd)
         {

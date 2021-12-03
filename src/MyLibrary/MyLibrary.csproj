@@ -123,6 +123,7 @@
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
     <Compile Include="DataAccessLayer\IBookDataAccessor.cs" />
+    <Compile Include="DataAccessLayer\IMediaItemDataAccessor.cs" />
     <Compile Include="DataAccessLayer\MediaItemDataAccessor.cs" />
     <Compile Include="DataAccessLayer\TagDataAccessor.cs" />
     <Compile Include="MainWindow.cs">
