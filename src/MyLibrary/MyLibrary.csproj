@@ -117,10 +117,12 @@
     <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
     <Compile Include="BusinessLogic\Entities\Publisher.cs" />
     <Compile Include="BusinessLogic\Entities\Tag.cs" />
-    <Compile Include="BusinessLogic\MediaItemsRepository.cs" />
+    <Compile Include="BusinessLogic\IBookRepository.cs" />
+    <Compile Include="BusinessLogic\MediaItemRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
+    <Compile Include="DataAccessLayer\IBookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\MediaItemDataAccessor.cs" />
     <Compile Include="DataAccessLayer\TagDataAccessor.cs" />
     <Compile Include="MainWindow.cs">

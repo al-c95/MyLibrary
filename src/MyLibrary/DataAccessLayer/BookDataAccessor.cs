@@ -10,7 +10,7 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer
 {
-    public class BookDataAccessor : DataAccessor
+    public class BookDataAccessor : DataAccessor, IBookDataAccessor
     {
         public async void Create(Book toAdd)
         {
