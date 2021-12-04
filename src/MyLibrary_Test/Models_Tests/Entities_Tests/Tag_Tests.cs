@@ -21,6 +21,17 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.Throws<ArgumentNullException>(() => testTag.Name = null);
         }
 
+        [Test]
+        public void Name_setter_Test_containsComma()
+        {
+            // arrange
+            Tag testTag = new Tag();
+
+            // act/assert
+            Assert.Throws<ArgumentException>(() => testTag.Name = "Trains,railways");
+            Assert.Throws<ArgumentException>(() => testTag.Name = "Trains, railways");
+        }
+
         [TestCase("Trains and railways")]
         [TestCase("Trains;railways")]
         public void Name_setter_Test_validName(string name)
