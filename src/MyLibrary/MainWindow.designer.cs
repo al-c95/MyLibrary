@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -128,12 +128,12 @@ namespace MyLibrary
             // deleteSelectedButton
             // 
             this.deleteSelectedButton.Enabled = false;
-            this.deleteSelectedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.8F);
+            this.deleteSelectedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.deleteSelectedButton.Location = new System.Drawing.Point(113, 31);
             this.deleteSelectedButton.Name = "deleteSelectedButton";
             this.deleteSelectedButton.Size = new System.Drawing.Size(95, 35);
             this.deleteSelectedButton.TabIndex = 2;
-            this.deleteSelectedButton.Text = "Delete Selected";
+            this.deleteSelectedButton.Text = "Delete";
             this.deleteSelectedButton.UseVisualStyleBackColor = true;
             // 
             // tagsButton
@@ -169,14 +169,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(416, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -267,15 +267,15 @@ namespace MyLibrary
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 17);
+            this.label2.Size = new System.Drawing.Size(39, 17);
             this.label2.TabIndex = 13;
-            this.label2.Text = "Criteria:";
+            this.label2.Text = "Title:";
             // 
             // criteriaField
             // 
-            this.criteriaField.Location = new System.Drawing.Point(89, 21);
+            this.criteriaField.Location = new System.Drawing.Point(72, 21);
             this.criteriaField.Name = "criteriaField";
-            this.criteriaField.Size = new System.Drawing.Size(300, 22);
+            this.criteriaField.Size = new System.Drawing.Size(317, 22);
             this.criteriaField.TabIndex = 13;
             // 
             // detailsGroup
@@ -305,9 +305,9 @@ namespace MyLibrary
             // 
             this.categoryDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.categoryDropDown.FormattingEnabled = true;
-            this.categoryDropDown.Location = new System.Drawing.Point(104, 69);
+            this.categoryDropDown.Location = new System.Drawing.Point(87, 69);
             this.categoryDropDown.Name = "categoryDropDown";
-            this.categoryDropDown.Size = new System.Drawing.Size(306, 24);
+            this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
             // 
             // MainWindow

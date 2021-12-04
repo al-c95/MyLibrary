@@ -8,9 +8,14 @@ using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary.BusinessLogic
 {
-    public class MediaItemRepository
+    public class MediaItemRepository : IMediaItemRepository
     {
         private IMediaItemDataAccessor _dao;
+
+        public MediaItemRepository()
+        {
+            this._dao = new MediaItemDataAccessor();
+        }
 
         public MediaItemRepository(IMediaItemDataAccessor dataAccessor)
         {
