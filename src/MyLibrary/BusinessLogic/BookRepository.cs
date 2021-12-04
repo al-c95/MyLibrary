@@ -40,5 +40,10 @@ namespace MyLibrary.BusinessLogic
 
             return allItems.Any(i => i.Id == id);
         }//ItemWithIdExists
+
+        public async Task Delete(int id)
+        {
+            await this._dao.DeleteById(id);
+        }
     }//class
 }

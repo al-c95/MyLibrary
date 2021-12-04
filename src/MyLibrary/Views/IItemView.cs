@@ -10,12 +10,16 @@ namespace MyLibrary.Views
 {
     public interface IItemView
     {
+        int SelectedItemIndex { get; set; }
         Item SelectedItem { get; set; }
         DataTable DisplayedItems { get; set; }
         int CategoryDropDownSelectedIndex { get; set; }
         string StatusBarText { get; set; }
+        string TitleFilterText { get; set; }
 
         event EventHandler ItemSelectionChanged;
         event EventHandler CategorySelectionChanged;
+        event EventHandler FiltersUpdated;
+        event EventHandler ApplyFilterButtonClicked;
     }
 }
