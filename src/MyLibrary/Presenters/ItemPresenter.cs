@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data;
 using MyLibrary.BusinessLogic;
@@ -16,6 +17,11 @@ namespace MyLibrary.Presenters
         private IMediaItemRepository _mediaItemRepo;
 
         private IItemView _view;
+        private DataTable _allItems;
+
+        // filter constants
+        private const int FILTER_DELAY = 2000; // millis
+        private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
         public ItemPresenter(IBookRepository bookRepository, IMediaItemRepository mediaItemRepository,
             IItemView view)
@@ -28,11 +34,13 @@ namespace MyLibrary.Presenters
             // subscribe to the view's events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
             this._view.ItemSelectionChanged += ItemSelectionChanged;
+            this._view.FiltersUpdated += FiltersUpdated;
+            this._view.ApplyFilterButtonClicked += ApplyFilterButtonClicked;
 
             this._view.CategoryDropDownSelectedIndex = 0;
         }
 
-        public async Task DisplayBooks()
+        private async Task DisplayBooks()
         {
             // fetch the data
             var allBooks = await this._bookRepo.GetAll();
@@ -59,9 +67,10 @@ namespace MyLibrary.Presenters
                     );
             }
             this._view.DisplayedItems = dt;
+            this._allItems = dt;
         }
 
-        public async Task DisplayMediaItems()
+        private async Task DisplayMediaItems()
         {
             // fetch the data
             var allItems = await this._mediaItemRepo.GetAll();
@@ -88,9 +97,10 @@ namespace MyLibrary.Presenters
                     );
             }
             this._view.DisplayedItems = dt;
+            this._allItems = dt;
         }
 
-        public async Task DisplayMediaItems(ItemType type)
+        private async Task DisplayMediaItems(ItemType type)
         {
             // fetch the data
             var items = await this._mediaItemRepo.GetByType(type);
@@ -117,9 +127,56 @@ namespace MyLibrary.Presenters
                     );
             }
             this._view.DisplayedItems = dt;
+            this._allItems = dt;
         }
 
         #region View event handlers
+        /// <summary>
+        /// Apply filter button clicked. No time delay in filtering.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ApplyFilterButtonClicked(object sender, EventArgs e)
+        {
+            PerformFilter();
+        }
+
+        /// <summary>
+        /// Filter has been updated. Include a time delay in filtering.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void FiltersUpdated(object sender, EventArgs e)
+        {
+            await Task.Delay(FILTER_DELAY);
+            PerformFilter();
+        }
+
+        public void PerformFilter()
+        {
+            // grab the data to filter
+            // and determine whether we need to filter
+            DataTable oldDt = this._view.DisplayedItems.Copy();
+            string filterBy = this._view.TitleFilterText;
+            if (string.IsNullOrWhiteSpace(filterBy))
+            {
+                this._view.DisplayedItems = this._allItems.Copy();
+                return;
+            }
+
+            // apply filter and display
+            // currently only filtering by title is supported
+            Regex filterPattern = new Regex(filterBy, REGEX_OPTIONS);
+            DataTable filteredDt = this._allItems.Clone();
+            var rows = this._allItems.AsEnumerable()
+                .Where(row => filterPattern.IsMatch(row.Field<string>("Title")));
+            foreach (var row in rows)
+            {
+                filteredDt.ImportRow(row);
+            }
+            this._view.DisplayedItems = filteredDt;
+        }
+
         public void ItemSelectionChanged(object sender, EventArgs e)
         {
             // TODO: display item data in the appropriate area

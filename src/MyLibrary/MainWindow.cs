@@ -17,9 +17,6 @@ namespace MyLibrary
 {
     public partial class MainWindow : Form, IItemView
     {
-        private MediaItemRepository _mediaItemsRepo = new MediaItemRepository();
-        private BookRepository _bookRepo = new BookRepository();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -55,10 +52,32 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 CategorySelectionChanged?.Invoke(sender, args);
             });
+            this.titleFilterField.TextChanged += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                FiltersUpdated?.Invoke(sender, args);
+            });
 
             // select viewing books by default
             CategorySelectionChanged?.Invoke(this, null);
         }//ctor
+
+        public string TitleFilterText
+        {
+            get => this.titleFilterField.Text;
+            set => this.titleFilterField.Text = value;
+        }
+
+        public int SelectedItemIndex
+        {
+            get
+            {
+                // this is always an integer in the first col
+                return (int)this.dataGrid.SelectedRows[0].Cells[0].Value;
+            }
+
+            set => throw new NotImplementedException();
+        }
 
         public Item SelectedItem
         { 
@@ -67,8 +86,8 @@ namespace MyLibrary
         }
 
         public DataTable DisplayedItems
-        { 
-            get => throw new NotImplementedException();
+        {
+            get => (DataTable)this.dataGrid.DataSource;
             set => this.dataGrid.DataSource = value;
         }
 
@@ -87,6 +106,26 @@ namespace MyLibrary
         #region events
         public event EventHandler ItemSelectionChanged;
         public event EventHandler CategorySelectionChanged;
+        public event EventHandler FiltersUpdated;
+        public event EventHandler ApplyFilterButtonClicked;
+        #endregion
+
+        #region UI event handlers
+        private void deleteSelectedButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+        
+        private void clearFilterButton_Click(object sender, EventArgs e)
+        {
+            this.TitleFilterText = null;
+        }
+
+        private void applyFilterButton_Click(object sender, EventArgs e)
+        {
+            // fire the public event so the subscribed presenter can react
+            this.ApplyFilterButtonClicked?.Invoke(this, e);
+        }
         #endregion
     }//class
 }

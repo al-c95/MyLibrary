@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,15 +43,15 @@ namespace MyLibrary
             this.wishListButton = new System.Windows.Forms.Button();
             this.dataGrid = new System.Windows.Forms.DataGridView();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.itemsDisplayedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.filterGroup = new System.Windows.Forms.GroupBox();
             this.saveFilterButton = new System.Windows.Forms.Button();
             this.clearFilterButton = new System.Windows.Forms.Button();
             this.applyFilterButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.criteriaField = new System.Windows.Forms.TextBox();
+            this.titleFilterField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
@@ -127,7 +127,6 @@ namespace MyLibrary
             // 
             // deleteSelectedButton
             // 
-            this.deleteSelectedButton.Enabled = false;
             this.deleteSelectedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.deleteSelectedButton.Location = new System.Drawing.Point(113, 31);
             this.deleteSelectedButton.Name = "deleteSelectedButton";
@@ -135,6 +134,7 @@ namespace MyLibrary
             this.deleteSelectedButton.TabIndex = 2;
             this.deleteSelectedButton.Text = "Delete";
             this.deleteSelectedButton.UseVisualStyleBackColor = true;
+            this.deleteSelectedButton.Click += new System.EventHandler(this.deleteSelectedButton_Click);
             // 
             // tagsButton
             // 
@@ -169,14 +169,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGrid.Location = new System.Drawing.Point(416, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -191,25 +191,25 @@ namespace MyLibrary
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
+            this.statusLabel,
+            this.itemsDisplayedLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 503);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1029, 26);
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // statusLabel
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(50, 20);
-            this.toolStripStatusLabel1.Text = "Ready";
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(53, 20);
+            this.statusLabel.Text = "Ready.";
             // 
-            // toolStripStatusLabel2
+            // itemsDisplayedLabel
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(269, 20);
-            this.toolStripStatusLabel2.Text = "x items selected. y of z items displayed.";
+            this.itemsDisplayedLabel.Name = "itemsDisplayedLabel";
+            this.itemsDisplayedLabel.Size = new System.Drawing.Size(269, 20);
+            this.itemsDisplayedLabel.Text = "x items selected. y of z items displayed.";
             // 
             // label1
             // 
@@ -226,8 +226,7 @@ namespace MyLibrary
             this.filterGroup.Controls.Add(this.clearFilterButton);
             this.filterGroup.Controls.Add(this.applyFilterButton);
             this.filterGroup.Controls.Add(this.label2);
-            this.filterGroup.Controls.Add(this.criteriaField);
-            this.filterGroup.Enabled = false;
+            this.filterGroup.Controls.Add(this.titleFilterField);
             this.filterGroup.Location = new System.Drawing.Point(15, 102);
             this.filterGroup.Name = "filterGroup";
             this.filterGroup.Size = new System.Drawing.Size(395, 125);
@@ -237,6 +236,7 @@ namespace MyLibrary
             // 
             // saveFilterButton
             // 
+            this.saveFilterButton.Enabled = false;
             this.saveFilterButton.Location = new System.Drawing.Point(235, 91);
             this.saveFilterButton.Name = "saveFilterButton";
             this.saveFilterButton.Size = new System.Drawing.Size(74, 28);
@@ -252,6 +252,7 @@ namespace MyLibrary
             this.clearFilterButton.TabIndex = 14;
             this.clearFilterButton.Text = "Clear";
             this.clearFilterButton.UseVisualStyleBackColor = true;
+            this.clearFilterButton.Click += new System.EventHandler(this.clearFilterButton_Click);
             // 
             // applyFilterButton
             // 
@@ -261,6 +262,7 @@ namespace MyLibrary
             this.applyFilterButton.TabIndex = 13;
             this.applyFilterButton.Text = "Apply";
             this.applyFilterButton.UseVisualStyleBackColor = true;
+            this.applyFilterButton.Click += new System.EventHandler(this.applyFilterButton_Click);
             // 
             // label2
             // 
@@ -271,12 +273,12 @@ namespace MyLibrary
             this.label2.TabIndex = 13;
             this.label2.Text = "Title:";
             // 
-            // criteriaField
+            // titleFilterField
             // 
-            this.criteriaField.Location = new System.Drawing.Point(72, 21);
-            this.criteriaField.Name = "criteriaField";
-            this.criteriaField.Size = new System.Drawing.Size(317, 22);
-            this.criteriaField.TabIndex = 13;
+            this.titleFilterField.Location = new System.Drawing.Point(72, 21);
+            this.titleFilterField.Name = "titleFilterField";
+            this.titleFilterField.Size = new System.Drawing.Size(317, 22);
+            this.titleFilterField.TabIndex = 13;
             // 
             // detailsGroup
             // 
@@ -357,8 +359,8 @@ namespace MyLibrary
         private System.Windows.Forms.Button wishListButton;
         private System.Windows.Forms.DataGridView dataGrid;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel itemsDisplayedLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox filterGroup;
         private System.Windows.Forms.GroupBox detailsGroup;
@@ -367,7 +369,7 @@ namespace MyLibrary
         private System.Windows.Forms.Button clearFilterButton;
         private System.Windows.Forms.Button applyFilterButton;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox criteriaField;
+        private System.Windows.Forms.TextBox titleFilterField;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
         private System.Windows.Forms.ComboBox categoryDropDown;
     }
