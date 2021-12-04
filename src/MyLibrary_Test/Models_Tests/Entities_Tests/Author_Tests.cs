@@ -59,5 +59,16 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.Throws<ArgumentNullException>(() => testAuthor.FirstName = "");
             Assert.Throws<ArgumentNullException>(() => testAuthor.FirstName = null);
         }
+
+        [Test]
+        public void GetFullNameWithFirstInitial()
+        {
+            // arrange
+            Author testAuthor = new Author { FirstName = "John", LastName = "Smith" };
+            string expectedResult = "Smith, J.";
+
+            // act/assert
+            Assert.AreEqual(expectedResult, testAuthor.GetFullNameWithFirstInitial());
+        }
     }
 }

@@ -100,12 +100,22 @@ namespace MyLibrary
             this.dataGrid.Columns.Add("idCol", "Id");
             this.dataGrid.Columns.Add("titleCol", "Title");
             this.dataGrid.Columns.Add("titleLongCol", "Long Title");
+            this.dataGrid.Columns.Add("isbnCol", "ISBN");
+            this.dataGrid.Columns.Add("pubCol", "Publisher");
             this.dataGrid.Columns.Add("authorsCol", "Authors");
-            this.dataGrid.Columns.Add("pubCol", "Publishers");
-            this.dataGrid.Columns.Add("tagCol", "Tags");
+            this.dataGrid.Columns.Add("tagsCol", "Tags");
             foreach (var book in allBooks)
             {
-                object[] newRow = { book.Id, book.Title, book.TitleLong, null, book.Publisher.Name, book.GetCommaDelimitedTags() };
+                object[] newRow = 
+                { 
+                    book.Id, 
+                    book.Title, 
+                    book.TitleLong,
+                    book.Isbn,
+                    book.Publisher.Name,
+                    book.GetAuthorList(),
+                    book.GetCommaDelimitedTags()
+                };
                 this.dataGrid.Rows.Add(newRow);
             }            
         }
@@ -124,13 +134,20 @@ namespace MyLibrary
             this.dataGrid.Columns.Add("numCol", "Number");
             this.dataGrid.Columns.Add("runTimeCol", "Running Time");
             this.dataGrid.Columns.Add("releaseYearCol", "Release Year");
-            this.dataGrid.Columns.Add("notesCol", "Notes");
-            //this.dataGrid.Columns.Add("tagIdsCol", "Tag Ids");
-            this.dataGrid.Columns.Add("tagNamesCol", "Tag names");
+            this.dataGrid.Columns.Add("tagNamesCol", "Tags");
             foreach (var item in allItems)
             {
-                object[] newRow = { item.Id, item.Title, item.Type, item.Number, item.RunningTime, item.ReleaseYear, item.Notes,
-                item.GetCommaDelimitedTags()};
+                object[] newRow = 
+                { 
+                    item.Id, 
+                    item.Title, 
+                    item.Type, 
+                    item.Number, 
+                    item.RunningTime, 
+                    item.ReleaseYear, 
+                    item.Notes,
+                    item.GetCommaDelimitedTags()
+                };
                 this.dataGrid.Rows.Add(newRow);
             }
         }
@@ -149,13 +166,19 @@ namespace MyLibrary
             this.dataGrid.Columns.Add("numCol", "Number");
             this.dataGrid.Columns.Add("runTimeCol", "Running Time");
             this.dataGrid.Columns.Add("releaseYearCol", "Release Year");
-            this.dataGrid.Columns.Add("notesCol", "Notes");
-            //this.dataGrid.Columns.Add("tagIdsCol", "Tag Ids");
-            this.dataGrid.Columns.Add("tagNamesCol", "Tag names");
+            this.dataGrid.Columns.Add("tagNamesCol", "Tags");
             foreach (var item in allItems)
             {
-                object[] newRow = { item.Id, item.Title, item.Type, item.Number, item.RunningTime, item.ReleaseYear, item.Notes,
-                item.GetCommaDelimitedTags()};
+                object[] newRow = 
+                { 
+                    item.Id, 
+                    item.Title, 
+                    item.Type, 
+                    item.Number, 
+                    item.RunningTime, 
+                    item.ReleaseYear,
+                    item.GetCommaDelimitedTags()
+                };
                 this.dataGrid.Rows.Add(newRow);
             }
         }
