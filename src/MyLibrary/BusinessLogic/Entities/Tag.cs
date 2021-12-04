@@ -17,8 +17,17 @@ namespace MyLibrary.Models.Entities
                 if (value == null || string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException("Tag can't be empty.");
                 else
-                    this._name = value;
-
+                {
+                    if (value.Contains(", ") ||
+                        value.Contains(","))
+                    {
+                        throw new ArgumentException("Tag can't have commas.");
+                    }
+                    else
+                    {
+                        this._name = value;
+                    }
+                }
             }
         }
 

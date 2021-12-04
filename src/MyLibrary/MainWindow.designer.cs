@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,8 +39,6 @@ namespace MyLibrary
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.addButton = new System.Windows.Forms.Button();
             this.deleteSelectedButton = new System.Windows.Forms.Button();
-            this.editButton = new System.Windows.Forms.Button();
-            this.viewAllButton = new System.Windows.Forms.Button();
             this.tagsButton = new System.Windows.Forms.Button();
             this.wishListButton = new System.Windows.Forms.Button();
             this.dataGrid = new System.Windows.Forms.DataGridView();
@@ -138,28 +136,6 @@ namespace MyLibrary
             this.deleteSelectedButton.Text = "Delete Selected";
             this.deleteSelectedButton.UseVisualStyleBackColor = true;
             // 
-            // editButton
-            // 
-            this.editButton.Enabled = false;
-            this.editButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.editButton.Location = new System.Drawing.Point(214, 31);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(95, 35);
-            this.editButton.TabIndex = 3;
-            this.editButton.Text = "Edit";
-            this.editButton.UseVisualStyleBackColor = true;
-            // 
-            // viewAllButton
-            // 
-            this.viewAllButton.Enabled = false;
-            this.viewAllButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.viewAllButton.Location = new System.Drawing.Point(315, 31);
-            this.viewAllButton.Name = "viewAllButton";
-            this.viewAllButton.Size = new System.Drawing.Size(95, 35);
-            this.viewAllButton.TabIndex = 4;
-            this.viewAllButton.Text = "View All";
-            this.viewAllButton.UseVisualStyleBackColor = true;
-            // 
             // tagsButton
             // 
             this.tagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -193,14 +169,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(416, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -347,8 +323,6 @@ namespace MyLibrary
             this.Controls.Add(this.dataGrid);
             this.Controls.Add(this.wishListButton);
             this.Controls.Add(this.tagsButton);
-            this.Controls.Add(this.viewAllButton);
-            this.Controls.Add(this.editButton);
             this.Controls.Add(this.deleteSelectedButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.menuStrip);
@@ -379,8 +353,6 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem helpMenu;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button deleteSelectedButton;
-        private System.Windows.Forms.Button editButton;
-        private System.Windows.Forms.Button viewAllButton;
         private System.Windows.Forms.Button tagsButton;
         private System.Windows.Forms.Button wishListButton;
         private System.Windows.Forms.DataGridView dataGrid;
