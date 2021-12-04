@@ -8,6 +8,11 @@ namespace MyLibrary.Models.Entities
 {
     public sealed class Book : Item
     {
+        public Book()
+        {
+            this.Authors = new List<Author> { };
+        }
+
         private string _titleLong;
         public string TitleLong
         {
@@ -58,5 +63,24 @@ namespace MyLibrary.Models.Entities
 
         public ICollection<Author> Authors { get; set; }
         public Publisher Publisher { get; set; }
-    }
+
+        /// <summary>
+        /// Get a string of the authors in the format: Lastname, F. and Lastname, F. .... and Lastname, F.
+        /// </summary>
+        /// <returns></returns>
+        public string GetAuthorList()
+        {
+            if (this.Authors.Count == 0)
+                return null;
+
+            StringBuilder authors = new StringBuilder();
+            foreach (var author in this.Authors)
+            {
+                authors.Append(author.GetFullNameWithFirstInitial() + " and ");
+            }
+            string authorsString = authors.ToString().Substring(0, authors.ToString().Length-5);
+
+            return authorsString;
+        }//GetAuthorList
+    }//class
 }

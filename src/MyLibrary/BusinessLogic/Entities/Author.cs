@@ -44,6 +44,11 @@ namespace MyLibrary.Models.Entities
             return (this.LastName + ", " + this.FirstName);
         }
 
+        public string GetFullNameWithFirstInitial()
+        {
+            return (this.LastName + ", " + this.FirstName.Substring(0,1) + ".");
+        }
+
         public ICollection<Book> Books { get; set; }
     }
 }
