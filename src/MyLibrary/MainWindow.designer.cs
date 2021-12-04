@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,22 +193,22 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGrid.Location = new System.Drawing.Point(315, 72);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGrid.Location = new System.Drawing.Point(416, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
             this.dataGrid.ReadOnly = true;
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(702, 416);
+            this.dataGrid.Size = new System.Drawing.Size(601, 416);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -254,14 +254,14 @@ namespace MyLibrary
             this.filterGroup.Enabled = false;
             this.filterGroup.Location = new System.Drawing.Point(15, 102);
             this.filterGroup.Name = "filterGroup";
-            this.filterGroup.Size = new System.Drawing.Size(294, 125);
+            this.filterGroup.Size = new System.Drawing.Size(395, 125);
             this.filterGroup.TabIndex = 11;
             this.filterGroup.TabStop = false;
             this.filterGroup.Text = "Filter";
             // 
             // saveFilterButton
             // 
-            this.saveFilterButton.Location = new System.Drawing.Point(131, 91);
+            this.saveFilterButton.Location = new System.Drawing.Point(235, 91);
             this.saveFilterButton.Name = "saveFilterButton";
             this.saveFilterButton.Size = new System.Drawing.Size(74, 28);
             this.saveFilterButton.TabIndex = 15;
@@ -270,7 +270,7 @@ namespace MyLibrary
             // 
             // clearFilterButton
             // 
-            this.clearFilterButton.Location = new System.Drawing.Point(211, 91);
+            this.clearFilterButton.Location = new System.Drawing.Point(315, 91);
             this.clearFilterButton.Name = "clearFilterButton";
             this.clearFilterButton.Size = new System.Drawing.Size(74, 28);
             this.clearFilterButton.TabIndex = 14;
@@ -299,7 +299,7 @@ namespace MyLibrary
             // 
             this.criteriaField.Location = new System.Drawing.Point(89, 21);
             this.criteriaField.Name = "criteriaField";
-            this.criteriaField.Size = new System.Drawing.Size(196, 22);
+            this.criteriaField.Size = new System.Drawing.Size(300, 22);
             this.criteriaField.TabIndex = 13;
             // 
             // detailsGroup
@@ -310,7 +310,7 @@ namespace MyLibrary
             this.detailsGroup.Enabled = false;
             this.detailsGroup.Location = new System.Drawing.Point(12, 233);
             this.detailsGroup.Name = "detailsGroup";
-            this.detailsGroup.Size = new System.Drawing.Size(294, 255);
+            this.detailsGroup.Size = new System.Drawing.Size(398, 255);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -321,7 +321,7 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(6, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(282, 228);
+            this.pictureBox.Size = new System.Drawing.Size(386, 228);
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
             // 
@@ -331,7 +331,7 @@ namespace MyLibrary
             this.categoryDropDown.FormattingEnabled = true;
             this.categoryDropDown.Location = new System.Drawing.Point(104, 69);
             this.categoryDropDown.Name = "categoryDropDown";
-            this.categoryDropDown.Size = new System.Drawing.Size(196, 24);
+            this.categoryDropDown.Size = new System.Drawing.Size(306, 24);
             this.categoryDropDown.TabIndex = 15;
             // 
             // MainWindow
