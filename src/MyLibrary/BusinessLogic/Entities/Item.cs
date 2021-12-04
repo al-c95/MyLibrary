@@ -39,6 +39,10 @@ namespace MyLibrary.Models.Entities
 
         public ICollection<Tag> Tags;
 
+        /// <summary>
+        /// Gets the list of tags for the item in the format: tag, tag, ... tag
+        /// </summary>
+        /// <returns></returns>
         public string GetCommaDelimitedTags()
         {
             var tagsBuilder = new StringBuilder();

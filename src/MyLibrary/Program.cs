@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyLibrary.BusinessLogic;
+using MyLibrary.Presenters;
+using MyLibrary.Views;
 
 namespace MyLibrary
 {
@@ -16,7 +19,11 @@ namespace MyLibrary
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+
+            MainWindow window = new MainWindow();
+            ItemPresenter presenter = new ItemPresenter(new BookRepository(), new MediaItemRepository(),
+                window);
+            Application.Run(window);
         }
-    }
+    }//class
 }

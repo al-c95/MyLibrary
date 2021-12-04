@@ -118,6 +118,7 @@
     <Compile Include="BusinessLogic\Entities\Publisher.cs" />
     <Compile Include="BusinessLogic\Entities\Tag.cs" />
     <Compile Include="BusinessLogic\IBookRepository.cs" />
+    <Compile Include="BusinessLogic\IMediaItemRepository.cs" />
     <Compile Include="BusinessLogic\MediaItemRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
@@ -132,8 +133,10 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\IItemView.cs" />
     <EmbeddedResource Include="AddNewBookForm.resx">
       <DependentUpon>AddNewBookForm.cs</DependentUpon>
     </EmbeddedResource>
