@@ -71,6 +71,32 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 DiscardSelectedItemChangesButtonClicked?.Invoke(sender, args);
             });
+            this.deleteSelectedButton.Click += ((sender, args) =>
+            {
+                // user confirmation dialog
+                var confirmResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirmResult == DialogResult.No)
+                {
+                    return;
+                }
+
+                // fire the public event so the subscribed presenter can react
+                this.DeleteButtonClicked?.Invoke(this, args);
+            });
+            this.clearFilterButton.Click += ((sender, args) =>
+            {
+                this.TitleFilterText = null;
+            });
+            this.applyFilterButton.Click += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                this.ApplyFilterButtonClicked?.Invoke(this, args);
+            });
+            this.saveChangesButton.Click += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                this.UpdateSelectedItemButtonClicked?.Invoke(this, args);
+            });
 
             // select viewing books by default
             CategorySelectionChanged?.Invoke(this, null);
@@ -152,37 +178,5 @@ namespace MyLibrary
         public event EventHandler SelectedItemModified;
         public event EventHandler DiscardSelectedItemChangesButtonClicked;
         #endregion
-
-        #region UI event handlers
-        private void deleteSelectedButton_Click(object sender, EventArgs e)
-        {
-            // user confirmation dialog
-            var confirmResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirmResult == DialogResult.No)
-            {
-                return;
-            }
-
-            // fire the public event so the subscribed presenter can react
-            this.DeleteButtonClicked?.Invoke(this, e);
-        }
-
-        private void clearFilterButton_Click(object sender, EventArgs e)
-        {
-            this.TitleFilterText = null;
-        }
-
-        private void applyFilterButton_Click(object sender, EventArgs e)
-        {
-            // fire the public event so the subscribed presenter can react
-            this.ApplyFilterButtonClicked?.Invoke(this, e);
-        }
-        #endregion
-
-        private void saveChangesButton_Click(object sender, EventArgs e)
-        {
-            // fire the public event so the subscribed presenter can react
-            this.UpdateSelectedItemButtonClicked?.Invoke(this, e);
-        }
     }//class
 }
