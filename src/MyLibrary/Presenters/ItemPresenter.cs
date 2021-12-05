@@ -20,6 +20,8 @@ namespace MyLibrary.Presenters
         private IItemView _view;
         private DataTable _allItems;
 
+        private ItemMemento _selectedItemMemento;
+
         // filter constants
         private const int FILTER_DELAY = 2000; // millis
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
@@ -38,6 +40,9 @@ namespace MyLibrary.Presenters
             this._view.FiltersUpdated += FiltersUpdated;
             this._view.ApplyFilterButtonClicked += ApplyFilterButtonClicked;
             this._view.DeleteButtonClicked += DeleteButtonClicked;
+            this._view.UpdateSelectedItemButtonClicked += UpdateSelectedItemButtonClicked;
+            this._view.SelectedItemModified += SelectedItemModified;
+            this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
 
             this._view.CategoryDropDownSelectedIndex = 0;
         }
@@ -219,8 +224,10 @@ namespace MyLibrary.Presenters
         public async void ItemSelectionChanged(object sender, EventArgs e)
         {
             if (this._view.SelectedItemId == 0)
+            {
                 return;
-
+            }
+;
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
                 // book
@@ -231,11 +238,45 @@ namespace MyLibrary.Presenters
                 // media item
                 this._view.SelectedItem = await this._mediaItemRepo.GetById(this._view.SelectedItemId);
             }
+            this._selectedItemMemento = this._view.SelectedItem.GetMemento();
         }
 
         public async void CategorySelectionChanged(object sender, EventArgs e)
         {
             await DisplayItems();
+        }
+
+        public async void UpdateSelectedItemButtonClicked(object sender, EventArgs e)
+        {
+            if (this._view.CategoryDropDownSelectedIndex == 0)
+            {
+                // book
+                BookDataAccessor dao = new BookDataAccessor();
+                await dao.Update((Book)this._view.SelectedItem);
+            }
+            else
+            {
+                // media item
+                MediaItemDataAccessor dao = new MediaItemDataAccessor();
+                await dao.Update((MediaItem)this._view.SelectedItem);
+            }
+
+            // update the view
+            await DisplayItems();
+        }
+
+        public void SelectedItemModified(object sender, EventArgs e)
+        {
+            this._view.UpdateSelectedItemButtonEnabled = true;
+            this._view.DiscardSelectedItemChangesButtonEnabled = true;
+        }
+
+        public void DiscardSelectedItemChangesButtonClicked(object sender, EventArgs e)
+        {
+            Item temp = this._view.SelectedItem;
+            temp.Restore(this._selectedItemMemento);
+
+            this._view.SelectedItem = temp;
         }
         #endregion
 
