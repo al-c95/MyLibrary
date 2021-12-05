@@ -14,7 +14,8 @@ namespace MyLibrary.Views
         Item SelectedItem { get; set; }
         DataTable DisplayedItems { get; set; }
         int CategoryDropDownSelectedIndex { get; set; }
-        string StatusBarText { get; set; }
+        string StatusText { get; set; }
+        string ItemsDisplayedText { get; set; }
         string TitleFilterText { get; set; }
 
         event EventHandler ItemSelectionChanged;
