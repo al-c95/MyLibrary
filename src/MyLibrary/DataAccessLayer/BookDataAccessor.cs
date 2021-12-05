@@ -10,9 +10,9 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer
 {
-    public class BookDataAccessor : DataAccessor, IBookDataAccessor
+    public class BookDataAccessor : ItemDataAccessor<Book>
     {
-        public async void Create(Book toAdd)
+        public override async Task Create(Book toAdd)
         {
             throw new NotImplementedException();
         }
@@ -21,7 +21,7 @@ namespace MyLibrary.DataAccessLayer
         /// Retrieve all Books from the database.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Book>> ReadAll()
+        public override async Task<IEnumerable<Book>> ReadAll()
         {
             using (var conn = GetConnection())
             {
@@ -53,7 +53,7 @@ namespace MyLibrary.DataAccessLayer
         /// Update image and/or notes fields of book record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
-        public async Task Update(Book toUpdate)
+        public override async Task Update(Book toUpdate)
         {
             const string SQL = "UPDATE Books " +
                 "SET image = @image, notes = @notes " +
@@ -77,7 +77,7 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="item"></param>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public async Task AssociateExistingTag(Book book, Tag tag)
+        public override async Task AssociateExistingTag(Book book, Tag tag)
         {
             const string SQL = "INSERT INTO Book_Tag (bookId,tagId) " +
                 "VALUES(@itemId,@tagId);";
@@ -100,7 +100,7 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="item"></param>
         /// <param name="toRemove"></param>
         /// <returns></returns>
-        public async Task RemoveTag(Book item, Tag toRemove)
+        public override async Task RemoveTag(Book item, Tag toRemove)
         {
             const string SQL = "DELETE FROM Book_Tag WHERE bookId = @bookId AND tagId = @tagId;";
 
@@ -121,7 +121,7 @@ namespace MyLibrary.DataAccessLayer
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task DeleteById(int id)
+        public override async Task DeleteById(int id)
         {
             const string SQL = "DELETE FROM Books WHERE id = @id;";
 

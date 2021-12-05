@@ -10,14 +10,14 @@ namespace MyLibrary.BusinessLogic
 {
     public class MediaItemRepository : IMediaItemRepository
     {
-        private IMediaItemDataAccessor _dao;
+        private ItemDataAccessor<MediaItem> _dao;
 
         public MediaItemRepository()
         {
             this._dao = new MediaItemDataAccessor();
         }
 
-        public MediaItemRepository(IMediaItemDataAccessor dataAccessor)
+        public MediaItemRepository(ItemDataAccessor<MediaItem> dataAccessor)
         {
             this._dao = dataAccessor;
         }
