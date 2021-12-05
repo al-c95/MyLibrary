@@ -28,8 +28,8 @@ namespace MyLibrary.Models.Entities
                         this._name = value;
                     }
                 }
-            }
-        }
+            }//set
+        }//Name
 
         public ICollection<Item> Items { get; set; }
     }//class

@@ -243,6 +243,7 @@ namespace MyLibrary.Presenters
         {
             // update status bar
             this._view.StatusText = "Updating...";
+            this._view.ItemsDisplayedText = null;
 
             // update the view
             switch (this._view.CategoryDropDownSelectedIndex)
