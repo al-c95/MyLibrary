@@ -112,7 +112,7 @@ namespace MyLibrary
         private void deleteSelectedButton_Click(object sender, EventArgs e)
         {
             // user confirmation dialog
-            var confirmResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo);
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirmResult == DialogResult.No)
             {
                 return;
