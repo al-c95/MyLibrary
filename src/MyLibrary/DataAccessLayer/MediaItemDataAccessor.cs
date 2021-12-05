@@ -25,6 +25,7 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<MediaItem>> ReadAll()
         {
+            // FIXME: only items with tags appear
             const string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
                 "FROM Media M " +
                 "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
