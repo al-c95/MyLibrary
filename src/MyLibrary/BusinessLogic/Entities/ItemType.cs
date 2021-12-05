@@ -11,12 +11,12 @@ namespace MyLibrary.Models.Entities
     /// </summary>
     public enum ItemType
     {
+        Book,
+        Cd,
         Dvd,
         BluRay,
-        Cd,
         Vhs,
         Vinyl,
-        Book,
         Other
     }
 }
