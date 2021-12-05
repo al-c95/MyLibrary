@@ -80,8 +80,6 @@ namespace MyLibrary
                 // this is always an integer in the first col
                 return int.Parse(this.dataGrid.SelectedRows[0].Cells[0].Value.ToString());
             }
-
-            set => throw new NotImplementedException();
         }
 
         public Item SelectedItem
