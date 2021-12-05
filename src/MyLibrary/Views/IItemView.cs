@@ -21,5 +21,6 @@ namespace MyLibrary.Views
         event EventHandler CategorySelectionChanged;
         event EventHandler FiltersUpdated;
         event EventHandler ApplyFilterButtonClicked;
+        event EventHandler DeleteButtonClicked;
     }
 }

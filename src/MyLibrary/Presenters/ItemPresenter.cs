@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MyLibrary.BusinessLogic;
 using MyLibrary.Models.Entities;
+using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 
 namespace MyLibrary.Presenters
@@ -36,6 +37,7 @@ namespace MyLibrary.Presenters
             this._view.ItemSelectionChanged += ItemSelectionChanged;
             this._view.FiltersUpdated += FiltersUpdated;
             this._view.ApplyFilterButtonClicked += ApplyFilterButtonClicked;
+            this._view.DeleteButtonClicked += DeleteButtonClicked;
 
             this._view.CategoryDropDownSelectedIndex = 0;
         }
@@ -68,6 +70,8 @@ namespace MyLibrary.Presenters
             }
             this._view.DisplayedItems = dt;
             this._allItems = dt;
+
+            PerformFilter();
         }
 
         private async Task DisplayMediaItems()
@@ -98,6 +102,8 @@ namespace MyLibrary.Presenters
             }
             this._view.DisplayedItems = dt;
             this._allItems = dt;
+
+            PerformFilter();
         }
 
         private async Task DisplayMediaItems(ItemType type)
@@ -128,9 +134,31 @@ namespace MyLibrary.Presenters
             }
             this._view.DisplayedItems = dt;
             this._allItems = dt;
+
+            PerformFilter();
         }
 
         #region View event handlers
+        public async void DeleteButtonClicked(object sender, EventArgs args)
+        {
+            // delete the item
+            if (this._view.CategoryDropDownSelectedIndex == 0)
+            {
+                // book
+                BookDataAccessor dao = new BookDataAccessor();
+                await dao.DeleteById(this._view.SelectedItemIndex);
+            }
+            else
+            {
+                // media item
+                MediaItemDataAccessor dao = new MediaItemDataAccessor();
+                await dao.DeleteById(this._view.SelectedItemIndex);
+            }
+
+            // update the view
+            await DisplayItems();
+        }
+
         /// <summary>
         /// Apply filter button clicked. No time delay in filtering.
         /// </summary>
@@ -185,6 +213,12 @@ namespace MyLibrary.Presenters
 
         public async void CategorySelectionChanged(object sender, EventArgs e)
         {
+            await DisplayItems();
+        }
+        #endregion
+
+        private async Task DisplayItems()
+        {
             switch (this._view.CategoryDropDownSelectedIndex)
             {
                 case 0:
@@ -216,6 +250,5 @@ namespace MyLibrary.Presenters
                     break;
             }
         }
-        #endregion
     }//class
 }
