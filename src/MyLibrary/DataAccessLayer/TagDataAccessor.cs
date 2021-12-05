@@ -35,6 +35,7 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<Tag>> ReadAll()
         {
+            // TODO: include associated items
             const string SQL = "SELECT * FROM Tags;";
             return await GetConnection().QueryAsync<Tag>(SQL);
         }
