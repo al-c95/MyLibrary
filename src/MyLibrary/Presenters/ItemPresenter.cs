@@ -303,6 +303,8 @@ namespace MyLibrary.Presenters
             // update status bar
             this._view.StatusText = "Ready.";
             this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+
+            PerformFilter();
         }
 
         private string SetItemsDisplayedStatusText(int numberSelected, int numberDisplayed, int total)
