@@ -10,7 +10,7 @@ namespace MyLibrary.Views
 {
     public interface IItemView
     {
-        int SelectedItemId { get; set; }
+        int SelectedItemId { get; }
         Item SelectedItem { get; set; }
         DataTable DisplayedItems { get; set; }
         int CategoryDropDownSelectedIndex { get; set; }
