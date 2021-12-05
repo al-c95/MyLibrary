@@ -21,7 +21,7 @@ namespace MyLibrary_Test.Models_Tests
         public MediaItemRepository_Tests()
         {
             // arrange
-            var fakeDao = A.Fake<IMediaItemDataAccessor>();
+            var fakeDao = A.Fake<ItemDataAccessor<MediaItem>>();
             MediaItem item1 = new MediaItem();
             item1.Id = 1;
             item1.Title = "Item 1";

@@ -10,14 +10,14 @@ namespace MyLibrary.BusinessLogic
 {
     public class BookRepository : IBookRepository
     {
-        private IBookDataAccessor _dao;
+        private ItemDataAccessor<Book> _dao;
 
         public BookRepository()
         {
             this._dao = new BookDataAccessor();
         }
 
-        public BookRepository(IBookDataAccessor dataAccessor)
+        public BookRepository(ItemDataAccessor<Book> dataAccessor)
         {
             this._dao = dataAccessor;
         }

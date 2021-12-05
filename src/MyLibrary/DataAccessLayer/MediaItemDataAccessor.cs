@@ -12,9 +12,9 @@ namespace MyLibrary.DataAccessLayer
     /// <summary>
     /// Database interface for media item operations.
     /// </summary>
-    public class MediaItemDataAccessor : DataAccessor, IMediaItemDataAccessor
+    public class MediaItemDataAccessor : ItemDataAccessor<MediaItem>
     {
-        public async void Create(MediaItem toAdd)
+        public override async Task Create(MediaItem toAdd)
         {
             throw new NotImplementedException();
         }
@@ -23,7 +23,7 @@ namespace MyLibrary.DataAccessLayer
         /// Read all media item and associated tags records from the database.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<MediaItem>> ReadAll()
+        public override async Task<IEnumerable<MediaItem>> ReadAll()
         {
             const string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
                 "FROM Media M " +
@@ -68,7 +68,7 @@ namespace MyLibrary.DataAccessLayer
         /// Update image and/or notes fields of media item record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
-        public async Task Update(MediaItem toUpdate)
+        public override async Task Update(MediaItem toUpdate)
         {
             const string SQL = "UPDATE Media " +
                 "SET image = @image, notes = @notes " +
@@ -92,7 +92,7 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="item"></param>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public async Task AssociateExistingTag(MediaItem item, Tag tag)
+        public override async Task AssociateExistingTag(MediaItem item, Tag tag)
         {
             const string SQL = "INSERT INTO Media_Tag (mediaId,tagId) " +
                 "VALUES(@itemId,@tagId);";
@@ -115,7 +115,7 @@ namespace MyLibrary.DataAccessLayer
         /// <param name="item"></param>
         /// <param name="toRemove"></param>
         /// <returns></returns>
-        public async Task RemoveTag(MediaItem item, Tag toRemove)
+        public override async Task RemoveTag(MediaItem item, Tag toRemove)
         {
             const string SQL = "DELETE FROM Media_Tag WHERE mediaId = @itemId AND tagId = @tagId;";
 
@@ -136,7 +136,7 @@ namespace MyLibrary.DataAccessLayer
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task DeleteById(int id)
+        public override async Task DeleteById(int id)
         {
             const string SQL = "DELETE FROM Media WHERE id = @id;";
 
