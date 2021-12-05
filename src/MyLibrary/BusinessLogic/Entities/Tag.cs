@@ -32,5 +32,5 @@ namespace MyLibrary.Models.Entities
         }
 
         public ICollection<Item> Items { get; set; }
-    }
+    }//class
 }

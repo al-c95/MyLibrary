@@ -54,6 +54,11 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 FiltersUpdated?.Invoke(sender, args);
             });
+            this.dataGrid.SelectionChanged += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                ItemSelectionChanged?.Invoke(sender, args);
+            });
 
             // select viewing books by default
             CategorySelectionChanged?.Invoke(this, null);
@@ -65,10 +70,13 @@ namespace MyLibrary
             set => this.titleFilterField.Text = value;
         }
 
-        public int SelectedItemIndex
+        public int SelectedItemId
         {
             get
             {
+                if (this.dataGrid.SelectedRows.Count == 0)
+                    return 0;
+
                 // this is always an integer in the first col
                 return int.Parse(this.dataGrid.SelectedRows[0].Cells[0].Value.ToString());
             }
@@ -78,8 +86,11 @@ namespace MyLibrary
 
         public Item SelectedItem
         { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+            get => throw new NotImplementedException();
+            set
+            {
+                this.textBoxNotes.Text = value.Notes;
+            } 
         }
 
         public DataTable DisplayedItems
