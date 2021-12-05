@@ -59,6 +59,18 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 ItemSelectionChanged?.Invoke(sender, args);
             });
+            this.textBoxNotes.TextChanged += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                SelectedItemModified?.Invoke(sender, args);
+
+                this._selectedItem.Notes = this.textBoxNotes.Text;
+            });
+            this.discardChangesButton.Click += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                DiscardSelectedItemChangesButtonClicked?.Invoke(sender, args);
+            });
 
             // select viewing books by default
             CategorySelectionChanged?.Invoke(this, null);
@@ -82,12 +94,15 @@ namespace MyLibrary
             }
         }
 
+        private Item _selectedItem;
         public Item SelectedItem
-        { 
-            get => throw new NotImplementedException();
+        {
+            get => this._selectedItem;
             set
             {
-                this.textBoxNotes.Text = value.Notes;
+                this._selectedItem = value;
+
+                this.textBoxNotes.Text = this._selectedItem.Notes;
             } 
         }
 
@@ -115,12 +130,27 @@ namespace MyLibrary
             set => this.itemsDisplayedLabel.Text = value;
         }
 
+        public bool UpdateSelectedItemButtonEnabled
+        {
+            get => this.saveChangesButton.Enabled;
+            set => this.saveChangesButton.Enabled = value;
+        }
+
+        public bool DiscardSelectedItemChangesButtonEnabled
+        {
+            get => this.discardChangesButton.Enabled;
+            set => this.discardChangesButton.Enabled = value;
+        }
+
         #region events
         public event EventHandler ItemSelectionChanged;
         public event EventHandler CategorySelectionChanged;
         public event EventHandler FiltersUpdated;
         public event EventHandler ApplyFilterButtonClicked;
         public event EventHandler DeleteButtonClicked;
+        public event EventHandler UpdateSelectedItemButtonClicked;
+        public event EventHandler SelectedItemModified;
+        public event EventHandler DiscardSelectedItemChangesButtonClicked;
         #endregion
 
         #region UI event handlers
@@ -148,5 +178,11 @@ namespace MyLibrary
             this.ApplyFilterButtonClicked?.Invoke(this, e);
         }
         #endregion
+
+        private void saveChangesButton_Click(object sender, EventArgs e)
+        {
+            // fire the public event so the subscribed presenter can react
+            this.UpdateSelectedItemButtonClicked?.Invoke(this, e);
+        }
     }//class
 }

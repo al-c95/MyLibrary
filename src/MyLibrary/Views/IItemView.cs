@@ -12,6 +12,8 @@ namespace MyLibrary.Views
     {
         int SelectedItemId { get; }
         Item SelectedItem { get; set; }
+        bool UpdateSelectedItemButtonEnabled { get; set; }
+        bool DiscardSelectedItemChangesButtonEnabled { get; set; }
         DataTable DisplayedItems { get; set; }
         int CategoryDropDownSelectedIndex { get; set; }
         string StatusText { get; set; }
@@ -23,5 +25,8 @@ namespace MyLibrary.Views
         event EventHandler FiltersUpdated;
         event EventHandler ApplyFilterButtonClicked;
         event EventHandler DeleteButtonClicked;
+        event EventHandler UpdateSelectedItemButtonClicked;
+        event EventHandler SelectedItemModified;
+        event EventHandler DiscardSelectedItemChangesButtonClicked;
     }
 }

@@ -113,6 +113,7 @@
     <Compile Include="BusinessLogic\Entities\Copy.cs" />
     <Compile Include="BusinessLogic\Entities\Entity.cs" />
     <Compile Include="BusinessLogic\Entities\Item.cs" />
+    <Compile Include="BusinessLogic\Entities\ItemMemento.cs" />
     <Compile Include="BusinessLogic\Entities\ItemType.cs" />
     <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
     <Compile Include="BusinessLogic\Entities\Publisher.cs" />

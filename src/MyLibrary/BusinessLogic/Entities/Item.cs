@@ -59,5 +59,19 @@ namespace MyLibrary.Models.Entities
 
             return tagsBuilder.ToString();
         }
+
+        public ItemMemento GetMemento()
+        {
+            return new ItemMemento(this.Notes, this.Image);
+        }
+
+        public void Restore(ItemMemento m)
+        {
+            if (m != null)
+            {
+                this.Notes = m.Notes;
+                this.Image = m.Image;
+            }
+        }
     }//class
 }
