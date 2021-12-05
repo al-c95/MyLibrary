@@ -238,26 +238,8 @@ namespace MyLibrary.Presenters
                 case 1:
                     await DisplayMediaItems();
                     break;
-                case 2:
-                    await DisplayMediaItems(ItemType.Cd);
-                    break;
-                case 3:
-                    await DisplayMediaItems(ItemType.Dvd);
-                    break;
-                case 4:
-                    await DisplayMediaItems(ItemType.BluRay);
-                    break;
-                case 5:
-                    await DisplayMediaItems(ItemType.Vhs);
-                    break;
-                case 6:
-                    await DisplayMediaItems(ItemType.Vinyl);
-                    break;
-                case 7:
-                    await DisplayMediaItems(ItemType.Other);
-                    break;
                 default:
-                    await DisplayMediaItems();
+                    await DisplayMediaItems((ItemType)this._view.CategoryDropDownSelectedIndex-1);
                     break;
             }
         }
