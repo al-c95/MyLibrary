@@ -146,13 +146,13 @@ namespace MyLibrary.Presenters
             {
                 // book
                 BookDataAccessor dao = new BookDataAccessor();
-                await dao.DeleteById(this._view.SelectedItemIndex);
+                await dao.DeleteById(this._view.SelectedItemId);
             }
             else
             {
                 // media item
                 MediaItemDataAccessor dao = new MediaItemDataAccessor();
-                await dao.DeleteById(this._view.SelectedItemIndex);
+                await dao.DeleteById(this._view.SelectedItemId);
             }
 
             // update the view
@@ -205,10 +205,21 @@ namespace MyLibrary.Presenters
             this._view.DisplayedItems = filteredDt;
         }
 
-        public void ItemSelectionChanged(object sender, EventArgs e)
+        public async void ItemSelectionChanged(object sender, EventArgs e)
         {
-            // TODO: display item data in the appropriate area
-            throw new NotImplementedException();
+            if (this._view.SelectedItemId == 0)
+                return;
+
+            if (this._view.CategoryDropDownSelectedIndex == 0)
+            {
+                // book
+                this._view.SelectedItem = await this._bookRepo.GetById(this._view.SelectedItemId);
+            }
+            else
+            {
+                // media item
+                this._view.SelectedItem = await this._mediaItemRepo.GetById(this._view.SelectedItemId);
+            }
         }
 
         public async void CategorySelectionChanged(object sender, EventArgs e)
