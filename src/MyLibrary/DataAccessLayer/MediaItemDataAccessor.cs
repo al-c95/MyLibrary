@@ -25,7 +25,6 @@ namespace MyLibrary.DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<MediaItem>> ReadAll()
         {
-            // FIXME: only items with tags appear
             const string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
                 "FROM Media M " +
                 "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
@@ -33,21 +32,34 @@ namespace MyLibrary.DataAccessLayer
 
             using (var conn = GetConnection())
             {
+                // get items with tags
                 var items = await conn.QueryAsync<MediaItem, Tag, MediaItem>(SQL, (item, tag) =>
                 {
                     item.Tags.Add(tag);
                     return item;
                 }, splitOn: "id");
-
-                var result = items.GroupBy(i => i.Id).Select(g =>
+                IEnumerable<MediaItem> itemsWithTags = items.GroupBy(i => i.Id).Select(g =>
                 {
                     var groupedItem = g.First();
-                    groupedItem.Tags = g.Select(i => i.Tags.Single())
+                    groupedItem.Tags = g.Select(i => i.Tags.First())
                                                 .ToList();
 
                     return groupedItem;
                 });
 
+                // get items with no tags
+                IEnumerable<MediaItem> allItems = await conn.QueryAsync<MediaItem>("SELECT * FROM Media;");
+                List<MediaItem> itemsNoTags = new List<MediaItem>();
+                foreach (var item in allItems)
+                {
+                    if (!itemsWithTags.Any(i => i.Id==item.Id))
+                    {
+                        itemsNoTags.Add(item);
+                    }
+                }
+
+                // concatenate and return the results
+                IEnumerable<MediaItem> result = itemsWithTags.Concat(itemsNoTags);
                 return result;
             }
         }//ReadAll
