@@ -8,9 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Builders;
-using MyLibrary.BusinessLogic;
-using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 
 namespace MyLibrary
@@ -73,7 +70,7 @@ namespace MyLibrary
             get
             {
                 // this is always an integer in the first col
-                return (int)this.dataGrid.SelectedRows[0].Cells[0].Value;
+                return int.Parse(this.dataGrid.SelectedRows[0].Cells[0].Value.ToString());
             }
 
             set => throw new NotImplementedException();
@@ -108,14 +105,23 @@ namespace MyLibrary
         public event EventHandler CategorySelectionChanged;
         public event EventHandler FiltersUpdated;
         public event EventHandler ApplyFilterButtonClicked;
+        public event EventHandler DeleteButtonClicked;
         #endregion
 
         #region UI event handlers
         private void deleteSelectedButton_Click(object sender, EventArgs e)
         {
-            
+            // user confirmation dialog
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
+            // fire the public event so the subscribed presenter can react
+            this.DeleteButtonClicked?.Invoke(this, e);
         }
-        
+
         private void clearFilterButton_Click(object sender, EventArgs e)
         {
             this.TitleFilterText = null;
