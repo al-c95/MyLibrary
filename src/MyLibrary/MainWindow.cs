@@ -105,10 +105,16 @@ namespace MyLibrary
             set => this.categoryDropDown.SelectedIndex = value;
         }
 
-        public string StatusBarText 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+        public string StatusText 
+        {
+            get => this.statusLabel.Text;
+            set => this.statusLabel.Text = value; 
+        }
+
+        public string ItemsDisplayedText
+        {
+            get => this.itemsDisplayedLabel.Text;
+            set => this.itemsDisplayedLabel.Text = value;
         }
 
         #region events

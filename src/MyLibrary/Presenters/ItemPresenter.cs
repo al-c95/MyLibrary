@@ -188,7 +188,14 @@ namespace MyLibrary.Presenters
             string filterBy = this._view.TitleFilterText;
             if (string.IsNullOrWhiteSpace(filterBy))
             {
+                // not filtering
+
                 this._view.DisplayedItems = this._allItems.Copy();
+
+                // update status bar
+                this._view.StatusText = "Ready.";
+                this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+
                 return;
             }
 
@@ -203,6 +210,10 @@ namespace MyLibrary.Presenters
                 filteredDt.ImportRow(row);
             }
             this._view.DisplayedItems = filteredDt;
+
+            // update status bar
+            this._view.StatusText = "Ready.";
+            this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
         }
 
         public async void ItemSelectionChanged(object sender, EventArgs e)
@@ -230,6 +241,10 @@ namespace MyLibrary.Presenters
 
         private async Task DisplayItems()
         {
+            // update status bar
+            this._view.StatusText = "Updating...";
+
+            // update the view
             switch (this._view.CategoryDropDownSelectedIndex)
             {
                 case 0:
@@ -242,6 +257,15 @@ namespace MyLibrary.Presenters
                     await DisplayMediaItems((ItemType)this._view.CategoryDropDownSelectedIndex-1);
                     break;
             }
+
+            // update status bar
+            this._view.StatusText = "Ready.";
+            this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+        }
+
+        private string SetItemsDisplayedStatusText(int numberSelected, int numberDisplayed, int total)
+        {
+            return (numberSelected + " items selected. " + numberDisplayed + " of " + total + " items displayed.");
         }
     }//class
 }
