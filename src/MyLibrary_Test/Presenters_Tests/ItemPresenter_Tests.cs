@@ -4,12 +4,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
+using MyLibrary.Views;
+using MyLibrary.Presenters;
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -17,45 +20,64 @@ namespace MyLibrary_Test.Presenters_Tests
     public class ItemPresenter_Tests
     {
         [Test]
-        public void CategorySelectionChanged_Test()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        public void ItemSelectionChanged_Test()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
         public void PerformFilter_Test()
         {
-            throw new NotImplementedException();
-        }
+            // arrange
+            // view
+            var fakeView = A.Fake<IItemView>();
+            fakeView.CategoryDropDownSelectedIndex = 0;
+            A.CallTo(() => fakeView.TitleFilterText).Returns("book 1");
+            // repos
+            var fakeBookRepo = A.Fake<IBookRepository>();
+            DataTable allItems = new DataTable();
+            allItems.Columns.Add("Id");
+            allItems.Columns.Add("Title");
+            allItems.Rows.Add(
+                    1,
+                    "book 1"
+                );
+            allItems.Rows.Add(
+                    2,
+                    "book 2"
+                );
+            var fakeMediaItemRepo = A.Fake<IMediaItemRepository>();
+            // presenter
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView,
+                allItems);
 
-        [Test]
-        public void DeleteButtonClicked_Test()
-        {
-            throw new NotImplementedException();
-        }
+            // act
+            presenter.PerformFilter();
 
-        [Test]
-        public void UpdateSelectedItemButtonClicked_Test()
-        {
-            throw new NotImplementedException();
+            // assert
+            Assert.IsTrue(fakeView.DisplayedItems.Rows.Count == 1);
+            Assert.AreEqual("book 1", fakeView.DisplayedItems.Rows[0].ItemArray[1].ToString());
         }
 
         [Test]
         public void SelectedItemModified_Test()
         {
-            throw new NotImplementedException();
-        }
+            // arrange
+            var fakeBookRepo = A.Fake<IBookRepository>();
+            var fakeMediaItemRepo = A.Fake<IMediaItemRepository>();
+            var fakeView = A.Fake<IItemView>();
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
 
-        [Test]
-        public void DiscardSelectedItemChangesButtonClicked_Test()
-        {
-            throw new NotImplementedException();
+            // act
+            presenter.SelectedItemModified(null, null);
+
+            // assert
+            Assert.IsTrue(fakeView.UpdateSelectedItemButtonEnabled);
+            Assert.IsTrue(fakeView.DiscardSelectedItemChangesButtonEnabled);
         }
     }//class
+
+    public class MockItemPresenter : ItemPresenter
+    {
+        public MockItemPresenter(IBookRepository bookRepository, IMediaItemRepository mediaItemRepository, IItemView view,
+            DataTable allItemsDt)
+            :base(bookRepository, mediaItemRepository, view)
+        {
+            this._allItems = allItemsDt;
+        }
+    }
 }

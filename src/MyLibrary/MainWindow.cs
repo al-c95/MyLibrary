@@ -98,9 +98,15 @@ namespace MyLibrary
                 this.UpdateSelectedItemButtonClicked?.Invoke(this, args);
             });
 
-            // select viewing books by default
-            CategorySelectionChanged?.Invoke(this, null);
+            LoadWindow();
         }//ctor
+
+        public void LoadWindow()
+        {
+            // select viewing books by default
+            this.CategoryDropDownSelectedIndex = 0;
+            CategorySelectionChanged?.Invoke(this, null);
+        }
 
         public string TitleFilterText
         {

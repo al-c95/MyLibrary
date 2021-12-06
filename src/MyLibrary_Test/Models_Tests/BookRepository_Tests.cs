@@ -81,5 +81,5 @@ namespace MyLibrary_Test.Models_Tests
             // assert
             Assert.AreEqual(expectedResult, actualResult);
         }
-    }
+    }//class
 }
