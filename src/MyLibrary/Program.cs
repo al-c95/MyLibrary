@@ -23,6 +23,7 @@ namespace MyLibrary
             MainWindow window = new MainWindow();
             ItemPresenter presenter = new ItemPresenter(new BookRepository(), new MediaItemRepository(),
                 window);
+            window.LoadWindow();
             Application.Run(window);
         }
     }//class

@@ -20,6 +20,8 @@ namespace MyLibrary.Views
         string ItemsDisplayedText { get; set; }
         string TitleFilterText { get; set; }
 
+        void LoadWindow();
+
         event EventHandler ItemSelectionChanged;
         event EventHandler CategorySelectionChanged;
         event EventHandler FiltersUpdated;

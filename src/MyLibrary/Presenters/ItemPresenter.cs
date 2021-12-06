@@ -18,7 +18,7 @@ namespace MyLibrary.Presenters
         private IMediaItemRepository _mediaItemRepo;
 
         private IItemView _view;
-        private DataTable _allItems;
+        protected DataTable _allItems;
 
         private ItemMemento _selectedItemMemento;
 
@@ -43,8 +43,6 @@ namespace MyLibrary.Presenters
             this._view.UpdateSelectedItemButtonClicked += UpdateSelectedItemButtonClicked;
             this._view.SelectedItemModified += SelectedItemModified;
             this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
-
-            this._view.CategoryDropDownSelectedIndex = 0;
         }
 
         private async Task DisplayBooks()
