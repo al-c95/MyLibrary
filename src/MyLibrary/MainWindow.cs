@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
@@ -44,7 +46,7 @@ namespace MyLibrary
                         break;
                 }
             });
-            this.categoryDropDown.SelectedIndexChanged += ((sender, args) => 
+            this.categoryDropDown.SelectedIndexChanged += ((sender, args) =>
             {
                 // fire the public event so the subscribed presenter can react
                 CategorySelectionChanged?.Invoke(sender, args);
@@ -97,6 +99,31 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 this.UpdateSelectedItemButtonClicked?.Invoke(this, args);
             });
+            this.selectImageButton.Click += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                SelectedItemModified?.Invoke(sender, args);
+
+                // load image from file
+                using (OpenFileDialog dialog = new OpenFileDialog())
+                {
+                    dialog.Title = "Load Image";
+                    dialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] bytes = File.ReadAllBytes(dialog.FileName);
+                        this.pictureBox.Image = ReadImage(bytes);
+                    }
+                }
+            });
+            this.removeImageButton.Click += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                SelectedItemModified?.Invoke(sender, args);
+
+                this.pictureBox.Image = null;
+            });
 
             LoadWindow();
         }//ctor
@@ -129,12 +156,28 @@ namespace MyLibrary
         private Item _selectedItem;
         public Item SelectedItem
         {
-            get => this._selectedItem;
+            get
+            {
+                Item temp = _selectedItem;
+                temp.Notes = this.textBoxNotes.Text;
+                if (this.pictureBox.Image != null)
+                {
+                    temp.Image = WriteImage(this.pictureBox.Image, this.pictureBox.Image.RawFormat);
+                }
+                else
+                {
+                    temp.Image = null;
+                }
+
+                return temp;
+            }
+
             set
             {
                 this._selectedItem = value;
 
                 this.textBoxNotes.Text = this._selectedItem.Notes;
+                this.pictureBox.Image = ReadImage(this._selectedItem.Image);
             } 
         }
 
@@ -184,5 +227,28 @@ namespace MyLibrary
         public event EventHandler SelectedItemModified;
         public event EventHandler DiscardSelectedItemChangesButtonClicked;
         #endregion
+
+        private Image ReadImage(byte[] bytes)
+        {
+            if (bytes is null)
+                return null;
+
+            MemoryStream stream = new MemoryStream(bytes, 0, bytes.Length);
+            stream.Write(bytes, 0, bytes.Length);
+            Image image = new Bitmap(stream);
+
+            return image;
+        }
+
+        private byte[] WriteImage(Image image, ImageFormat format)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                image.Save(stream, format);
+                byte[] bytes = stream.ToArray();
+
+                return bytes;
+            }
+        }//WriteImage
     }//class
 }

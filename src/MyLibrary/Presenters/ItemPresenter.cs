@@ -237,6 +237,7 @@ namespace MyLibrary.Presenters
                 this._view.SelectedItem = await this._mediaItemRepo.GetById(this._view.SelectedItemId);
             }
             this._selectedItemMemento = this._view.SelectedItem.GetMemento();
+            this._view.DiscardSelectedItemChangesButtonEnabled = false;
         }
 
         public async void CategorySelectionChanged(object sender, EventArgs e)
@@ -275,6 +276,8 @@ namespace MyLibrary.Presenters
             temp.Restore(this._selectedItemMemento);
 
             this._view.SelectedItem = temp;
+
+            this._view.DiscardSelectedItemChangesButtonEnabled = false;
         }
         #endregion
 
