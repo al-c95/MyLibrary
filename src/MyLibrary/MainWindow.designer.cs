@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +59,8 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
+            this.selectImageButton = new System.Windows.Forms.Button();
+            this.removeImageButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -172,14 +174,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(416, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -187,7 +189,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(601, 416);
+            this.dataGrid.Size = new System.Drawing.Size(601, 581);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -196,7 +198,7 @@ namespace MyLibrary
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
             this.itemsDisplayedLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 503);
+            this.statusStrip.Location = new System.Drawing.Point(0, 668);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1029, 26);
             this.statusStrip.TabIndex = 8;
@@ -285,6 +287,8 @@ namespace MyLibrary
             // 
             this.detailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.detailsGroup.Controls.Add(this.removeImageButton);
+            this.detailsGroup.Controls.Add(this.selectImageButton);
             this.detailsGroup.Controls.Add(this.label3);
             this.detailsGroup.Controls.Add(this.textBoxNotes);
             this.detailsGroup.Controls.Add(this.discardChangesButton);
@@ -292,7 +296,7 @@ namespace MyLibrary
             this.detailsGroup.Controls.Add(this.pictureBox);
             this.detailsGroup.Location = new System.Drawing.Point(12, 233);
             this.detailsGroup.Name = "detailsGroup";
-            this.detailsGroup.Size = new System.Drawing.Size(398, 255);
+            this.detailsGroup.Size = new System.Drawing.Size(398, 420);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -301,7 +305,7 @@ namespace MyLibrary
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 88);
+            this.label3.Location = new System.Drawing.Point(9, 253);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(45, 17);
             this.label3.TabIndex = 17;
@@ -310,7 +314,7 @@ namespace MyLibrary
             // textBoxNotes
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 108);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 273);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
             this.textBoxNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -321,7 +325,7 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(238, 221);
+            this.discardChangesButton.Location = new System.Drawing.Point(238, 386);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(154, 28);
             this.discardChangesButton.TabIndex = 15;
@@ -332,7 +336,7 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 221);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 386);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(154, 28);
             this.saveChangesButton.TabIndex = 14;
@@ -345,7 +349,8 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(12, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(380, 64);
+            this.pictureBox.Size = new System.Drawing.Size(380, 179);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
             // 
@@ -358,11 +363,31 @@ namespace MyLibrary
             this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
             // 
+            // selectImageButton
+            // 
+            this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.selectImageButton.Location = new System.Drawing.Point(120, 208);
+            this.selectImageButton.Name = "selectImageButton";
+            this.selectImageButton.Size = new System.Drawing.Size(154, 28);
+            this.selectImageButton.TabIndex = 18;
+            this.selectImageButton.Text = "Select Image";
+            this.selectImageButton.UseVisualStyleBackColor = true;
+            // 
+            // removeImageButton
+            // 
+            this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.removeImageButton.Location = new System.Drawing.Point(120, 239);
+            this.removeImageButton.Name = "removeImageButton";
+            this.removeImageButton.Size = new System.Drawing.Size(154, 28);
+            this.removeImageButton.TabIndex = 19;
+            this.removeImageButton.Text = "Remove Image";
+            this.removeImageButton.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1029, 529);
+            this.ClientSize = new System.Drawing.Size(1029, 694);
             this.Controls.Add(this.categoryDropDown);
             this.Controls.Add(this.detailsGroup);
             this.Controls.Add(this.filterGroup);
@@ -423,6 +448,8 @@ namespace MyLibrary
         private System.Windows.Forms.Button saveChangesButton;
         private System.Windows.Forms.TextBox textBoxNotes;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button selectImageButton;
+        private System.Windows.Forms.Button removeImageButton;
     }
 }
 
