@@ -1,0 +1,9 @@
+- maintain/refactor code and unit tests (esp ItemPresenter)
+- support add new book
+- support add new media item
+- support for filtering items by tags
+- support view tags
+- support view copies
+- support add new copies
+- support modify copies
+- support delete copies 
