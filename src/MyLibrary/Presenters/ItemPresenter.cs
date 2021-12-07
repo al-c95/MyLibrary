@@ -37,11 +37,11 @@ namespace MyLibrary.Presenters
             // subscribe to the view's events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
             this._view.ItemSelectionChanged += ItemSelectionChanged;
-            this._view.FiltersUpdated += FiltersUpdated;
-            this._view.ApplyFilterButtonClicked += ApplyFilterButtonClicked;
+            this._view.FiltersUpdated += FiltersUpdated; //
+            this._view.ApplyFilterButtonClicked += ApplyFilterButtonClicked; //
             this._view.DeleteButtonClicked += DeleteButtonClicked;
             this._view.UpdateSelectedItemButtonClicked += UpdateSelectedItemButtonClicked;
-            this._view.SelectedItemModified += SelectedItemModified;
+            this._view.SelectedItemModified += SelectedItemModified; //
             this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
         }
 
