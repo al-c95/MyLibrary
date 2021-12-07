@@ -32,5 +32,6 @@ namespace MyLibrary.Views
         event EventHandler UpdateSelectedItemButtonClicked;
         event EventHandler SelectedItemModified;
         event EventHandler DiscardSelectedItemChangesButtonClicked;
+        event EventHandler TagsUpdated;
     }
 }
