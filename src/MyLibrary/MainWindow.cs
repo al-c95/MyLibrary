@@ -11,6 +11,7 @@ using System.IO;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
+using MyLibrary.BusinessLogic;
 
 namespace MyLibrary
 {
@@ -140,6 +141,14 @@ namespace MyLibrary
             CategorySelectionChanged?.Invoke(this, null);
         }
 
+        public void PopulateFilterTags(IEnumerable<string> tagNames)
+        {
+            this.tagsList.Items.Clear();
+
+            foreach (var tag in tagNames)
+                this.tagsList.Items.Add(tag);
+        }
+
         public string TitleFilterText
         {
             get => this.titleFilterField.Text;
@@ -220,6 +229,12 @@ namespace MyLibrary
         {
             get => this.discardChangesButton.Enabled;
             set => this.discardChangesButton.Enabled = value;
+        }
+
+        public IEnumerable<string> SelectedFilterTags
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         #region events

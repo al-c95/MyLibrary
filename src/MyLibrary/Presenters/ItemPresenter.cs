@@ -17,6 +17,8 @@ namespace MyLibrary.Presenters
         private IBookRepository _bookRepo;
         private IMediaItemRepository _mediaItemRepo;
 
+        private TagRepository _tagRepo;
+
         private IItemView _view;
         protected DataTable _allItems;
 
@@ -31,6 +33,8 @@ namespace MyLibrary.Presenters
         {
             this._bookRepo = bookRepository;
             this._mediaItemRepo = mediaItemRepository;
+
+            this._tagRepo = new TagRepository();
 
             this._view = view;
 
@@ -281,6 +285,18 @@ namespace MyLibrary.Presenters
         }
         #endregion
 
+        private async Task DisplayTags()
+        {
+            var allTags = await this._tagRepo.GetAll();
+            List<string> tagNames = new List<string>();
+            foreach (var tag in allTags)
+            {
+                tagNames.Add(tag.Name);
+            }
+
+            this._view.PopulateFilterTags(tagNames);
+        }
+
         private async Task DisplayItems()
         {
             // update status bar
@@ -288,6 +304,7 @@ namespace MyLibrary.Presenters
             this._view.ItemsDisplayedText = null;
 
             // update the view
+            await DisplayTags();
             switch (this._view.CategoryDropDownSelectedIndex)
             {
                 case 0:
