@@ -127,7 +127,12 @@ namespace MyLibrary
             });
             this.tagsButton.Click += (async (sender, args) =>
             {
-                var form = await ManageTagsForm.CreateAsync();
+                var form = await ManageTagsForm.CreateAsync(this);
+                form.TagsUpdated += ((s, a) =>
+                {
+                    // fire the public event so the subscribed presenter can react
+                    this.TagsUpdated?.Invoke(s, a);
+                });
                 form.ShowDialog();
             });
 
@@ -143,10 +148,23 @@ namespace MyLibrary
 
         public void PopulateFilterTags(IEnumerable<string> tagNames)
         {
+            // make a note of the tags checked in the filter
+            List<string> checkedTagNames = new List<string>();
+            foreach (var tag in this.tagsList.CheckedItems)
+            {
+                checkedTagNames.Add(Convert.ToString(tag));
+            }
+
+            // clear the list
             this.tagsList.Items.Clear();
 
-            foreach (var tag in tagNames)
-                this.tagsList.Items.Add(tag);
+            // re-populate the list
+            foreach (var tagName in tagNames)
+            {
+                this.tagsList.Items.Add(tagName);
+            }
+
+            // TODO: re-check originally checked tags
         }
 
         public string TitleFilterText
@@ -246,6 +264,7 @@ namespace MyLibrary
         public event EventHandler UpdateSelectedItemButtonClicked;
         public event EventHandler SelectedItemModified;
         public event EventHandler DiscardSelectedItemChangesButtonClicked;
+        public event EventHandler TagsUpdated;
         #endregion
 
         private Image ReadImage(byte[] bytes)

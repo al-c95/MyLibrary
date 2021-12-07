@@ -47,6 +47,7 @@ namespace MyLibrary.Presenters
             this._view.UpdateSelectedItemButtonClicked += UpdateSelectedItemButtonClicked;
             this._view.SelectedItemModified += SelectedItemModified; //
             this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
+            this._view.TagsUpdated += TagsUpdated;
         }
 
         private async Task DisplayBooks()
@@ -282,6 +283,11 @@ namespace MyLibrary.Presenters
             this._view.SelectedItem = temp;
 
             this._view.DiscardSelectedItemChangesButtonEnabled = false;
+        }
+
+        public async void TagsUpdated(object sender, EventArgs e)
+        {
+            await DisplayTags();
         }
         #endregion
 

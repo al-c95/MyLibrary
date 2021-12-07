@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.BusinessLogic;
+using MyLibrary.Views;
 
 namespace MyLibrary
 {
@@ -77,6 +78,8 @@ namespace MyLibrary
 
                 // re-populate the list
                 await PopulateTags();
+
+                TagsUpdated?.Invoke(this, args);
             });
             this.deleteSelectedTagButton.Click += (async (sender, args) =>
             {
@@ -88,10 +91,14 @@ namespace MyLibrary
 
                 // re-populate the list
                 await PopulateTags();
+
+                TagsUpdated?.Invoke(this, args);
             });
         }
 
-        public static async Task<ManageTagsForm> CreateAsync()
+        public event EventHandler TagsUpdated;
+
+        public static async Task<ManageTagsForm> CreateAsync(IItemView parent)
         {
             ManageTagsForm form = new ManageTagsForm();
             await form.PopulateTags();
