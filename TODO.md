@@ -2,9 +2,6 @@
 - support for filtering items by tags
 - support add new book
 - support add new media item
-- support view tags
-- support view copies
-- support add new copies
-- support modify copies
-- support delete copies
+- support manage tags
+- support manage copies
 - provide database statistics

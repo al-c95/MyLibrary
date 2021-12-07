@@ -124,6 +124,11 @@ namespace MyLibrary
 
                 this.pictureBox.Image = null;
             });
+            this.tagsButton.Click += (async (sender, args) =>
+            {
+                var form = await ManageTagsForm.CreateAsync();
+                form.ShowDialog();
+            });
 
             LoadWindow();
         }//ctor

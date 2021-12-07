@@ -21,7 +21,6 @@ namespace MyLibrary_Test.Models_Tests
         public BookRepository_Tests()
         {
             // arrange
-            //var fakeDao = A.Fake<IBookDataAccessor>();
             var fakeDao = A.Fake<ItemDataAccessor<Book>>();
             Book book1 = new Book();
             book1.Id = 1;

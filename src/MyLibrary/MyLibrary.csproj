@@ -121,9 +121,11 @@
     <Compile Include="BusinessLogic\IBookRepository.cs" />
     <Compile Include="BusinessLogic\IMediaItemRepository.cs" />
     <Compile Include="BusinessLogic\MediaItemRepository.cs" />
+    <Compile Include="BusinessLogic\TagRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
+    <Compile Include="DataAccessLayer\ITagDataAccessor.cs" />
     <Compile Include="DataAccessLayer\ItemDataAccessor.cs" />
     <Compile Include="DataAccessLayer\MediaItemDataAccessor.cs" />
     <Compile Include="DataAccessLayer\TagDataAccessor.cs" />
@@ -132,6 +134,12 @@
     </Compile>
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManageTagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageTagsForm.Designer.cs">
+      <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Program.cs" />
@@ -145,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageTagsForm.resx">
+      <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
