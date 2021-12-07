@@ -6,4 +6,5 @@
 - support view copies
 - support add new copies
 - support modify copies
-- support delete copies 
+- support delete copies
+- provide database statistics
