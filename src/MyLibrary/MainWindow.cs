@@ -101,9 +101,6 @@ namespace MyLibrary
             });
             this.selectImageButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
-                SelectedItemModified?.Invoke(sender, args);
-
                 // load image from file
                 using (OpenFileDialog dialog = new OpenFileDialog())
                 {
@@ -114,6 +111,9 @@ namespace MyLibrary
                     {
                         byte[] bytes = File.ReadAllBytes(dialog.FileName);
                         this.pictureBox.Image = ReadImage(bytes);
+
+                        // fire the public event so the subscribed presenter can react
+                        SelectedItemModified?.Invoke(sender, args);
                     }
                 }
             });
