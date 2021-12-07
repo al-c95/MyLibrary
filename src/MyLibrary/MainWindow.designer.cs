@@ -61,6 +61,8 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
+            this.tagsList = new System.Windows.Forms.CheckedListBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -226,6 +228,8 @@ namespace MyLibrary
             // 
             // filterGroup
             // 
+            this.filterGroup.Controls.Add(this.label4);
+            this.filterGroup.Controls.Add(this.tagsList);
             this.filterGroup.Controls.Add(this.saveFilterButton);
             this.filterGroup.Controls.Add(this.clearFilterButton);
             this.filterGroup.Controls.Add(this.applyFilterButton);
@@ -233,7 +237,7 @@ namespace MyLibrary
             this.filterGroup.Controls.Add(this.titleFilterField);
             this.filterGroup.Location = new System.Drawing.Point(15, 102);
             this.filterGroup.Name = "filterGroup";
-            this.filterGroup.Size = new System.Drawing.Size(395, 125);
+            this.filterGroup.Size = new System.Drawing.Size(395, 211);
             this.filterGroup.TabIndex = 11;
             this.filterGroup.TabStop = false;
             this.filterGroup.Text = "Filter";
@@ -241,7 +245,7 @@ namespace MyLibrary
             // saveFilterButton
             // 
             this.saveFilterButton.Enabled = false;
-            this.saveFilterButton.Location = new System.Drawing.Point(235, 91);
+            this.saveFilterButton.Location = new System.Drawing.Point(235, 177);
             this.saveFilterButton.Name = "saveFilterButton";
             this.saveFilterButton.Size = new System.Drawing.Size(74, 28);
             this.saveFilterButton.TabIndex = 15;
@@ -250,7 +254,7 @@ namespace MyLibrary
             // 
             // clearFilterButton
             // 
-            this.clearFilterButton.Location = new System.Drawing.Point(315, 91);
+            this.clearFilterButton.Location = new System.Drawing.Point(315, 177);
             this.clearFilterButton.Name = "clearFilterButton";
             this.clearFilterButton.Size = new System.Drawing.Size(74, 28);
             this.clearFilterButton.TabIndex = 14;
@@ -259,7 +263,7 @@ namespace MyLibrary
             // 
             // applyFilterButton
             // 
-            this.applyFilterButton.Location = new System.Drawing.Point(9, 91);
+            this.applyFilterButton.Location = new System.Drawing.Point(6, 177);
             this.applyFilterButton.Name = "applyFilterButton";
             this.applyFilterButton.Size = new System.Drawing.Size(74, 28);
             this.applyFilterButton.TabIndex = 13;
@@ -269,7 +273,7 @@ namespace MyLibrary
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 24);
+            this.label2.Location = new System.Drawing.Point(12, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 17);
             this.label2.TabIndex = 13;
@@ -293,9 +297,9 @@ namespace MyLibrary
             this.detailsGroup.Controls.Add(this.discardChangesButton);
             this.detailsGroup.Controls.Add(this.saveChangesButton);
             this.detailsGroup.Controls.Add(this.pictureBox);
-            this.detailsGroup.Location = new System.Drawing.Point(12, 233);
+            this.detailsGroup.Location = new System.Drawing.Point(12, 319);
             this.detailsGroup.Name = "detailsGroup";
-            this.detailsGroup.Size = new System.Drawing.Size(398, 420);
+            this.detailsGroup.Size = new System.Drawing.Size(398, 334);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -303,7 +307,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeImageButton.Location = new System.Drawing.Point(120, 239);
+            this.removeImageButton.Location = new System.Drawing.Point(120, 153);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(154, 28);
             this.removeImageButton.TabIndex = 19;
@@ -313,7 +317,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(120, 208);
+            this.selectImageButton.Location = new System.Drawing.Point(120, 122);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(154, 28);
             this.selectImageButton.TabIndex = 18;
@@ -324,7 +328,7 @@ namespace MyLibrary
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 253);
+            this.label3.Location = new System.Drawing.Point(9, 167);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(45, 17);
             this.label3.TabIndex = 17;
@@ -333,7 +337,7 @@ namespace MyLibrary
             // textBoxNotes
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 273);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 187);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
             this.textBoxNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -344,7 +348,7 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(238, 386);
+            this.discardChangesButton.Location = new System.Drawing.Point(238, 300);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(154, 28);
             this.discardChangesButton.TabIndex = 15;
@@ -355,7 +359,7 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 386);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 300);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(154, 28);
             this.saveChangesButton.TabIndex = 14;
@@ -368,7 +372,7 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(12, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(380, 179);
+            this.pictureBox.Size = new System.Drawing.Size(380, 93);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -381,6 +385,23 @@ namespace MyLibrary
             this.categoryDropDown.Name = "categoryDropDown";
             this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
+            // 
+            // tagsList
+            // 
+            this.tagsList.FormattingEnabled = true;
+            this.tagsList.Location = new System.Drawing.Point(72, 62);
+            this.tagsList.Name = "tagsList";
+            this.tagsList.Size = new System.Drawing.Size(317, 106);
+            this.tagsList.TabIndex = 16;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 17);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Tags:";
             // 
             // MainWindow
             // 
@@ -449,6 +470,8 @@ namespace MyLibrary
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button selectImageButton;
         private System.Windows.Forms.Button removeImageButton;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckedListBox tagsList;
     }
 }
 
