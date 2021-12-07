@@ -53,14 +53,14 @@ namespace MyLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.titleFilterField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
+            this.removeImageButton = new System.Windows.Forms.Button();
+            this.selectImageButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxNotes = new System.Windows.Forms.TextBox();
             this.discardChangesButton = new System.Windows.Forms.Button();
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
-            this.selectImageButton = new System.Windows.Forms.Button();
-            this.removeImageButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -144,7 +144,6 @@ namespace MyLibrary
             // tagsButton
             // 
             this.tagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tagsButton.Enabled = false;
             this.tagsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.tagsButton.Location = new System.Drawing.Point(821, 31);
             this.tagsButton.Name = "tagsButton";
@@ -301,6 +300,26 @@ namespace MyLibrary
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
             // 
+            // removeImageButton
+            // 
+            this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.removeImageButton.Location = new System.Drawing.Point(120, 239);
+            this.removeImageButton.Name = "removeImageButton";
+            this.removeImageButton.Size = new System.Drawing.Size(154, 28);
+            this.removeImageButton.TabIndex = 19;
+            this.removeImageButton.Text = "Remove Image";
+            this.removeImageButton.UseVisualStyleBackColor = true;
+            // 
+            // selectImageButton
+            // 
+            this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.selectImageButton.Location = new System.Drawing.Point(120, 208);
+            this.selectImageButton.Name = "selectImageButton";
+            this.selectImageButton.Size = new System.Drawing.Size(154, 28);
+            this.selectImageButton.TabIndex = 18;
+            this.selectImageButton.Text = "Select Image";
+            this.selectImageButton.UseVisualStyleBackColor = true;
+            // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -362,26 +381,6 @@ namespace MyLibrary
             this.categoryDropDown.Name = "categoryDropDown";
             this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
-            // 
-            // selectImageButton
-            // 
-            this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(120, 208);
-            this.selectImageButton.Name = "selectImageButton";
-            this.selectImageButton.Size = new System.Drawing.Size(154, 28);
-            this.selectImageButton.TabIndex = 18;
-            this.selectImageButton.Text = "Select Image";
-            this.selectImageButton.UseVisualStyleBackColor = true;
-            // 
-            // removeImageButton
-            // 
-            this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeImageButton.Location = new System.Drawing.Point(120, 239);
-            this.removeImageButton.Name = "removeImageButton";
-            this.removeImageButton.Size = new System.Drawing.Size(154, 28);
-            this.removeImageButton.TabIndex = 19;
-            this.removeImageButton.Text = "Remove Image";
-            this.removeImageButton.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 

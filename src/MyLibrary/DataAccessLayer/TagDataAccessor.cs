@@ -11,7 +11,7 @@ namespace MyLibrary.DataAccessLayer
     /// <summary>
     /// Database interface for creating, reading and deleting tags.
     /// </summary>
-    public class TagDataAccessor : DataAccessor
+    public class TagDataAccessor : DataAccessor, ITagDataAccessor
     {
         /// <summary>
         /// Create a new tag.
@@ -53,6 +53,16 @@ namespace MyLibrary.DataAccessLayer
             {
                 await conn.ExecuteAsync(SQL, new { id });
             }
-        }//DeleteByIdAsync
+        }//DeleteById
+
+        public async Task DeleteByName(string name)
+        {
+            const string SQL = "DELETE FROM Tags WHERE name = @name;";
+
+            using (var conn = GetConnection())
+            {
+                await conn.ExecuteAsync(SQL, new { name });
+            }
+        }//DeleteByName
     }//class
 }
