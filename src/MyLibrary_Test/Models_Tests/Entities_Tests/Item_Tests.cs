@@ -10,13 +10,12 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
     [TestFixture]
     public class Item_Tests
     {
-        /*
-        //[Test]
+        [Test]
         public void GetCommaDelimitedTags_Test()
         {
             // arrange
             MockItem testItem = new MockItem();
-            testItem.tags = new List<Tag> { new Tag { Id = 1, Name = "History" },
+            testItem.Tags = new List<Tag> { new Tag { Id = 1, Name = "History" },
                     new Tag { Id = 2, Name = "Trains and railways" },
                     new Tag { Id = 3, Name = "Fiction" } };
             string expectedResult = "History, Trains and railways, Fiction";
@@ -27,6 +26,10 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // assert
             Assert.AreEqual(expectedResult, actualResult);
         }
-        */
+
+        class MockItem : Item
+        {
+
+        }
     }
 }
