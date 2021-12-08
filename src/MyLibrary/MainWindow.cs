@@ -146,25 +146,17 @@ namespace MyLibrary
             CategorySelectionChanged?.Invoke(this, null);
         }
 
-        public void PopulateFilterTags(IEnumerable<string> tagNames)
+        public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
         {
-            // make a note of the tags checked in the filter
-            List<string> checkedTagNames = new List<string>();
-            foreach (var tag in this.tagsList.CheckedItems)
-            {
-                checkedTagNames.Add(Convert.ToString(tag));
-            }
-
-            // clear the list
             this.tagsList.Items.Clear();
 
-            // re-populate the list
-            foreach (var tagName in tagNames)
+            foreach (var kvp in tagNamesAndCheckedStatuses)
             {
-                this.tagsList.Items.Add(tagName);
-            }
+                string tagName = kvp.Key;
+                bool isChecked = kvp.Value;
 
-            // TODO: re-check originally checked tags
+                this.tagsList.Items.Add(tagName, isChecked);
+            }
         }
 
         public string TitleFilterText
@@ -251,8 +243,11 @@ namespace MyLibrary
 
         public IEnumerable<string> SelectedFilterTags
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get
+            {
+                foreach (var tag in this.tagsList.CheckedItems)
+                    yield return tag.ToString();
+            }
         }
 
         #region events

@@ -19,10 +19,10 @@ namespace MyLibrary.Views
         string StatusText { get; set; }
         string ItemsDisplayedText { get; set; }
         string TitleFilterText { get; set; }
-        IEnumerable<string> SelectedFilterTags { get; set; }
+        IEnumerable<string> SelectedFilterTags { get; }
 
         void LoadWindow();
-        void PopulateFilterTags(IEnumerable<string> tagNames);
+        void PopulateFilterTags(Dictionary<string, bool> tagNamesAndCheckedStatuses);
 
         event EventHandler ItemSelectionChanged;
         event EventHandler CategorySelectionChanged;
