@@ -293,14 +293,23 @@ namespace MyLibrary.Presenters
 
         private async Task DisplayTags()
         {
+            Dictionary<string, bool> tagsAndCheckedStatuses = new Dictionary<string, bool>();
+
             var allTags = await this._tagRepo.GetAll();
-            List<string> tagNames = new List<string>();
-            foreach (var tag in allTags)
+            IEnumerable<string> checkedTags = this._view.SelectedFilterTags;
+            foreach (var tagName in checkedTags)
             {
-                tagNames.Add(tag.Name);
+                if (allTags.Any(t => t.Name==tagName))
+                    tagsAndCheckedStatuses.Add(tagName, true);
+            }
+            foreach (var tag in await this._tagRepo.GetAll())
+            {
+                string tagName = tag.Name;
+                if (!tagsAndCheckedStatuses.ContainsKey(tagName))
+                    tagsAndCheckedStatuses.Add(tagName, false);
             }
 
-            this._view.PopulateFilterTags(tagNames);
+            this._view.PopulateFilterTags(tagsAndCheckedStatuses);
         }
 
         private async Task DisplayItems()
