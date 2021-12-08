@@ -1,5 +1,5 @@
 - maintain/refactor code and unit tests (esp ItemPresenter)
-- support for filtering items by tags
+- support for filtering items by tags (DONE)
 - support add new book
 - support add new media item
 - support manage tags (DONE)

@@ -26,19 +26,28 @@ namespace MyLibrary_Test.Presenters_Tests
             // view
             var fakeView = A.Fake<IItemView>();
             fakeView.CategoryDropDownSelectedIndex = 0;
-            A.CallTo(() => fakeView.TitleFilterText).Returns("book 1");
+            A.CallTo(() => fakeView.TitleFilterText).Returns("book 2");
+            A.CallTo(() => fakeView.SelectedFilterTags).Returns(new List<string> { "tag2" });
             // repos
             var fakeBookRepo = A.Fake<IBookRepository>();
             DataTable allItems = new DataTable();
             allItems.Columns.Add("Id");
             allItems.Columns.Add("Title");
+            allItems.Columns.Add("Tags");
             allItems.Rows.Add(
                     1,
-                    "book 1"
+                    "book 1",
+                    "tag1"
                 );
             allItems.Rows.Add(
                     2,
-                    "book 2"
+                    "book 2",
+                    "tag2"
+                );
+            allItems.Rows.Add(
+                    3,
+                    "third book",
+                    "tag2"
                 );
             var fakeMediaItemRepo = A.Fake<IMediaItemRepository>();
             // presenter
@@ -50,7 +59,7 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // assert
             Assert.IsTrue(fakeView.DisplayedItems.Rows.Count == 1);
-            Assert.AreEqual("book 1", fakeView.DisplayedItems.Rows[0].ItemArray[1].ToString());
+            Assert.AreEqual("book 2", fakeView.DisplayedItems.Rows[0].ItemArray[1].ToString());
         }
 
         [Test]
@@ -112,5 +121,5 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             this._allItems = allItemsDt;
         }
-    }
+    }//class
 }

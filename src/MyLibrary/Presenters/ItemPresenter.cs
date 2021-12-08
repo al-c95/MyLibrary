@@ -189,39 +189,57 @@ namespace MyLibrary.Presenters
         }
 
         public void PerformFilter()
-        {
-            // grab the data to filter
-            // and determine whether we need to filter
-            DataTable oldDt = this._view.DisplayedItems.Copy();
-            string filterBy = this._view.TitleFilterText;
-            if (string.IsNullOrWhiteSpace(filterBy))
+        { 
+            // grab the filters
+            string filterByTitle = this._view.TitleFilterText;
+            IEnumerable<string> filterByTags = this._view.SelectedFilterTags;
+
+            // perform filtering
+            DataTable filteredTable = this._allItems.Copy();
+            if (!string.IsNullOrWhiteSpace(filterByTitle))
             {
-                // not filtering
-
-                this._view.DisplayedItems = this._allItems.Copy();
-
-                // update status bar
-                this._view.StatusText = "Ready.";
-                this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
-
-                return;
+                filteredTable = FilterByTitle(filteredTable, filterByTitle);
+            }
+            if (filterByTags.Count() > 0)
+            {
+                filteredTable = FilterByTags(filteredTable, filterByTags);
             }
 
-            // apply filter and display
-            // currently only filtering by title is supported
-            Regex filterPattern = new Regex(filterBy, REGEX_OPTIONS);
-            DataTable filteredDt = this._allItems.Clone();
-            var rows = this._allItems.AsEnumerable()
-                .Where(row => filterPattern.IsMatch(row.Field<string>("Title")));
-            foreach (var row in rows)
-            {
-                filteredDt.ImportRow(row);
-            }
-            this._view.DisplayedItems = filteredDt;
+            // update the view
+            this._view.DisplayedItems = filteredTable;
 
             // update status bar
             this._view.StatusText = "Ready.";
             this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+        }
+
+        private DataTable FilterByTitle(DataTable originalTable, string filterByTitle)
+        {
+            Regex filterPattern = new Regex(filterByTitle, REGEX_OPTIONS);
+
+            DataTable filteredTable = originalTable.Clone();
+            var rows = originalTable.AsEnumerable()
+                .Where(row => filterPattern.IsMatch(row.Field<string>("Title")));
+            foreach (var row in rows)
+                filteredTable.ImportRow(row);
+
+            return filteredTable;
+        }
+
+        private DataTable FilterByTags(DataTable originalTable, IEnumerable<string> filterByTags)
+        {
+            DataTable filteredTable = originalTable.Clone();
+            var rows = originalTable.AsEnumerable();
+            foreach (var row in rows)
+            {
+                foreach (var tag in filterByTags)
+                {
+                    if (row.Field<string>("Tags").Contains(tag))
+                        filteredTable.ImportRow(row);
+                }
+            }
+
+            return filteredTable;
         }
 
         public async void ItemSelectionChanged(object sender, EventArgs e)
