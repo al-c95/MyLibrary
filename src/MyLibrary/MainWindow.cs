@@ -33,6 +33,8 @@ namespace MyLibrary
             this.categoryDropDown.Items.Add(ItemType.Vinyl);
             this.categoryDropDown.Items.Add(ItemType.Other);
 
+            this.tagsList.CheckOnClick = true;
+
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
             this.addButton.Click += ((sender, args) =>
@@ -89,6 +91,10 @@ namespace MyLibrary
             this.clearFilterButton.Click += ((sender, args) =>
             {
                 this.TitleFilterText = null;
+                while (this.tagsList.CheckedIndices.Count > 0)
+                {
+                    this.tagsList.SetItemChecked(this.tagsList.CheckedIndices[0], false);
+                }
             });
             this.applyFilterButton.Click += ((sender, args) =>
             {
@@ -134,6 +140,11 @@ namespace MyLibrary
                     this.TagsUpdated?.Invoke(s, a);
                 });
                 form.ShowDialog();
+            });
+            this.tagsList.ItemCheck += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                FiltersUpdated?.Invoke(sender, args);
             });
 
             LoadWindow();
