@@ -1,4 +1,4 @@
-- maintain/refactor code and unit tests (esp ItemPresenter)
+- maintain/refactor code and unit tests (WIP)
 - support for filtering items by tags (DONE)
 - support add new book
 - support add new media item

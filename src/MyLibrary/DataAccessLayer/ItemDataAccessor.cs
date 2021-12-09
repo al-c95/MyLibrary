@@ -9,6 +9,7 @@ namespace MyLibrary.DataAccessLayer
 {
     public abstract class ItemDataAccessor<T> : DataAccessor where T : Item
     {
+        public ItemDataAccessor() { }
         public abstract Task Create(T toAdd);
         public abstract Task<IEnumerable<T>> ReadAll();
         public abstract Task Update(T toUpdate);

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data;
 using MyLibrary.BusinessLogic;
+using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
@@ -14,8 +15,8 @@ namespace MyLibrary.Presenters
 {
     public class ItemPresenter
     {
-        private IBookRepository _bookRepo;
-        private IMediaItemRepository _mediaItemRepo;
+        private BookRepository _bookRepo;
+        private MediaItemRepository _mediaItemRepo;
 
         private TagRepository _tagRepo;
 
@@ -28,7 +29,7 @@ namespace MyLibrary.Presenters
         private const int FILTER_DELAY = 2000; // millis
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
-        public ItemPresenter(IBookRepository bookRepository, IMediaItemRepository mediaItemRepository,
+        public ItemPresenter(BookRepository bookRepository, MediaItemRepository mediaItemRepository,
             IItemView view)
         {
             this._bookRepo = bookRepository;

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 
-namespace MyLibrary.BusinessLogic
+namespace MyLibrary.BusinessLogic.Repositories
 {
     public class TagRepository
     {
         private ITagDataAccessor _dao;
-        
+
         public TagRepository()
         {
             this._dao = new TagDataAccessor();
