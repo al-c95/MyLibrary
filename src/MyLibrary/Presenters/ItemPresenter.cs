@@ -154,14 +154,12 @@ namespace MyLibrary.Presenters
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
                 // book
-                BookDataAccessor dao = new BookDataAccessor();
-                await dao.DeleteById(this._view.SelectedItemId);
+                await this._bookRepo.DeleteById(this._view.SelectedItemId);
             }
             else
             {
                 // media item
-                MediaItemDataAccessor dao = new MediaItemDataAccessor();
-                await dao.DeleteById(this._view.SelectedItemId);
+                await this._mediaItemRepo.DeleteById(this._view.SelectedItemId);
             }
 
             // update the view
@@ -274,14 +272,12 @@ namespace MyLibrary.Presenters
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
                 // book
-                BookDataAccessor dao = new BookDataAccessor();
-                await dao.Update((Book)this._view.SelectedItem);
+                await this._bookRepo.Update((Book)this._view.SelectedItem);
             }
             else
             {
                 // media item
-                MediaItemDataAccessor dao = new MediaItemDataAccessor();
-                await dao.Update((MediaItem)this._view.SelectedItem);
+                await this._mediaItemRepo.Update((MediaItem)this._view.SelectedItem);
             }
 
             // update the view

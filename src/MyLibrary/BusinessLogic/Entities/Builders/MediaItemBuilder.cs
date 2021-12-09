@@ -78,5 +78,5 @@ namespace MyLibrary.Models.Entities.Builders
         }
 
         public MediaItem Get() => this.item;
-    }
+    }//class
 }
