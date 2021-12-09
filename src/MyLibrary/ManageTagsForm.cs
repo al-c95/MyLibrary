@@ -63,7 +63,7 @@ namespace MyLibrary
                 string newTagName = this.newTagText.Text;
 
                 // check for existing tag
-                if (await this._repo.TagWithNameExists(newTagName))
+                if (await this._repo.ExistsWithName(newTagName))
                 {
                     MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Add tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 

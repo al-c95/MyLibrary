@@ -27,7 +27,7 @@ namespace MyLibrary.BusinessLogic.Repositories
             return await this._dao.ReadAll();
         }
 
-        public async Task<bool> TagWithNameExists(string name)
+        public async Task<bool> ExistsWithName(string name)
         {
             var allTags = await GetAll();
 
