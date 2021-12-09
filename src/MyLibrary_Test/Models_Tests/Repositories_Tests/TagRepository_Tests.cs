@@ -52,7 +52,7 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
         public async Task GetByName_Test_Exists()
         {
             // act
-            var result = await _repo.TagWithNameExists("tag1");
+            var result = await _repo.ExistsWithName("tag1");
 
             // assert
             Assert.IsTrue(result);
@@ -62,7 +62,7 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
         public async Task GetByName_Test_DoesNotExist()
         {
             // act
-            var result = await _repo.TagWithNameExists("tag3");
+            var result = await _repo.ExistsWithName("tag3");
 
             // assert
             Assert.IsFalse(result);
