@@ -12,19 +12,31 @@ namespace MyLibrary.BusinessLogic.Repositories
     {
         private ITagDataAccessor _dao;
 
+        // ctor
         public TagRepository()
         {
             this._dao = new TagDataAccessor();
         }
 
+        // ctor
         public TagRepository(ITagDataAccessor dataAccessor)
         {
             this._dao = dataAccessor;
         }
 
+        public async Task Create(Tag tag)
+        {
+            await this._dao.Create(tag);
+        }
+
         public async Task<IEnumerable<Tag>> GetAll()
         {
             return await this._dao.ReadAll();
+        }
+
+        public async Task DeleteByName(string name)
+        {
+            await this._dao.DeleteByName(name);
         }
 
         public async Task<bool> ExistsWithName(string name)

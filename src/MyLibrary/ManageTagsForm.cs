@@ -71,10 +71,7 @@ namespace MyLibrary
                 }
 
                 // add tag
-                TagDataAccessor dao = new TagDataAccessor();
-                Tag newTag = new Tag();
-                newTag.Name = newTagName;
-                await dao.Create(newTag);
+                await this._repo.Create(new Tag { Name = newTagName });
 
                 // re-populate the list
                 await PopulateTags();
@@ -86,8 +83,7 @@ namespace MyLibrary
                 string selectedTag = this.tagsList.SelectedItems[0].SubItems[0].Text;
 
                 // delete tag
-                TagDataAccessor dao = new TagDataAccessor();
-                await dao.DeleteByName(selectedTag);
+                await this._repo.DeleteByName(selectedTag);
 
                 // re-populate the list
                 await PopulateTags();
