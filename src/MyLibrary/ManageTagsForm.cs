@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
-using MyLibrary.BusinessLogic;
+using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Views;
 
 namespace MyLibrary

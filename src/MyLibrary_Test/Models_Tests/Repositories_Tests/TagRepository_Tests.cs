@@ -7,11 +7,11 @@ using System.Linq;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.BusinessLogic;
+using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 
-namespace MyLibrary_Test.Models_Tests
+namespace MyLibrary_Test.Models_Tests.Repositories_Tests
 {
     [TestFixture]
     public class TagRepository_Tests

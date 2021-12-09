@@ -7,11 +7,11 @@ using System.Linq;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.BusinessLogic;
+using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 
-namespace MyLibrary_Test.Models_Tests
+namespace MyLibrary_Test.Models_Tests.Repositories_Tests
 {
     [TestFixture]
     public class MediaItemRepository_Tests
@@ -41,50 +41,7 @@ namespace MyLibrary_Test.Models_Tests
         }
 
         [Test]
-        public async Task GetAll_Test()
-        {
-            // act
-            var result = await _repo.GetAll();
-
-            // assert
-            Assert.IsTrue(result.ToList().Count == 2);
-            Assert.IsTrue(result.ToList()[0].Id == 1);
-            Assert.IsTrue(result.ToList()[1].Id == 2);
-        }
-
-        [Test]
-        public async Task GetById_Test_Exists()
-        {
-            // act
-            var result = await _repo.GetById(2);
-
-            // assert
-            Assert.IsTrue(result.Title == "Item 2");
-        }
-
-        [Test]
-        public async Task GetById_Test_DoesNotExist()
-        {
-            // act
-            var result = await _repo.GetById(3);
-
-            // assert
-            Assert.IsNull(result);
-        }
-
-        [TestCase(1, true)]
-        [TestCase(3, false)]
-        public async Task ItemWithIdExists_Test(int id, bool expectedResult)
-        {
-            // act
-            var actualResult = await _repo.ItemWithIdExists(id);
-
-            // assert
-            Assert.AreEqual(expectedResult, actualResult);
-        }
-
-        [Test]
-        public async Task GetByType_Tests()
+        public async Task GetByType_Test()
         {
             // act
             var result = await _repo.GetByType(ItemType.Dvd);
@@ -92,5 +49,5 @@ namespace MyLibrary_Test.Models_Tests
             // assert
             Assert.AreEqual(ItemType.Dvd, result.ToList()[0].Type);
         }
-    }
+    }// class
 }
