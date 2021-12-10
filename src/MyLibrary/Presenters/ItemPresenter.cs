@@ -303,6 +303,7 @@ namespace MyLibrary.Presenters
         public async void TagsUpdated(object sender, EventArgs e)
         {
             await DisplayTags();
+            await DisplayItems();
         }
         #endregion
 
