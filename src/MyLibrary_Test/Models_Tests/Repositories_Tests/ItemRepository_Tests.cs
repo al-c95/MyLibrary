@@ -37,7 +37,7 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
                     Title = "item2"
                 }
             });
-            this._repo = new ItemRepository<MockItem>(fakeDao);
+            this._repo = new MockItemRepository(fakeDao);
         }
 
         [Test]
@@ -98,5 +98,14 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
     public class MockItem : Item
     {
 
+    }//class
+
+    public class MockItemRepository : ItemRepository<MockItem>
+    {
+        public MockItemRepository(ItemDataAccessor<MockItem> dao)
+            :base(dao)
+        {
+
+        }
     }//class
 }

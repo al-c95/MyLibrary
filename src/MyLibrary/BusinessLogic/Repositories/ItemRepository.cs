@@ -8,7 +8,7 @@ using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary.BusinessLogic.Repositories
 {
-    public class ItemRepository<T> where T : Item
+    public abstract class ItemRepository<T> where T : Item
     {
         protected ItemDataAccessor<T> _dao;
 
