@@ -51,6 +51,7 @@ namespace MyLibrary
             // 
             // saveButton
             // 
+            this.saveButton.Enabled = false;
             this.saveButton.Location = new System.Drawing.Point(12, 393);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(150, 27);
@@ -163,7 +164,7 @@ namespace MyLibrary
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(335, 93);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 21);
+            this.label6.Size = new System.Drawing.Size(42, 17);
             this.label6.TabIndex = 23;
             this.label6.Text = "Year:";
             // 
@@ -180,6 +181,7 @@ namespace MyLibrary
             // 
             // addNewTagButton
             // 
+            this.addNewTagButton.Enabled = false;
             this.addNewTagButton.Location = new System.Drawing.Point(302, 21);
             this.addNewTagButton.Name = "addNewTagButton";
             this.addNewTagButton.Size = new System.Drawing.Size(78, 27);

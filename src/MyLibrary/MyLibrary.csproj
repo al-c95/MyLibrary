@@ -143,6 +143,7 @@
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IItemView.cs" />
     <EmbeddedResource Include="AddNewBookForm.resx">
       <DependentUpon>AddNewBookForm.cs</DependentUpon>
