@@ -56,6 +56,7 @@ namespace MyLibrary.Models.Entities
         public int Pages { get; set; }
         public string Dimensions { get; set; }
         public string Overview { get; set; }
+        public string Language { get; set; }
 
         public string Msrp { get; set; }
         public string Excerpt { get; set; }

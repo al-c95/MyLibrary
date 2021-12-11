@@ -12,7 +12,11 @@ namespace MyLibrary.Models.Entities.Builders
 
         private BookBuilder(string title, string titleLong)
         {
-            this.book = new Book { Title = title, TitleLong = titleLong };
+            this.book = new Book
+            { 
+                Title = title, 
+                TitleLong = titleLong 
+            };
         }
 
         private BookBuilder(int id, string title, string titleLong)
@@ -21,9 +25,12 @@ namespace MyLibrary.Models.Entities.Builders
             this.book.Id = id;
         }
 
-        public static BookBuilder CreateBook(string title, string titleLong)
+        public static BookBuilder CreateBook(string title, string titleLong, Publisher publisher, string language, int pages)
         {
-            return new BookBuilder(title, titleLong);
+            return new BookBuilder(title, titleLong)
+                .PublishedBy(publisher)
+                .WrittenInLanguage(language)
+                .Pages(pages);
         }
 
         public BookBuilder WithIsbn(string isbn)
@@ -115,6 +122,12 @@ namespace MyLibrary.Models.Entities.Builders
             return this;
         }
 
+        public BookBuilder WrittenInLanguage(string language)
+        {
+            this.book.Language = language;
+            return this;
+        }
+
         public BookBuilder WithTags(IEnumerable<Tag> tags)
         {
             foreach (var t in tags)
@@ -124,5 +137,5 @@ namespace MyLibrary.Models.Entities.Builders
         }
 
         public Book Get() => this.book;
-    }
+    }//class
 }

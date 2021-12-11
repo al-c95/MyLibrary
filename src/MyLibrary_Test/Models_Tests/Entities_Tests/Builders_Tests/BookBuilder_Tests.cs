@@ -16,7 +16,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         public void WithIsbn_Test_10()
         {
             // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book")
+            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
                 .WithIsbn("0123456789")
                     .Get();
 
@@ -28,7 +28,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         public void WithIsbn_Test_13()
         {
             // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book")
+            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
                 .WithIsbn("0123456789012")
                     .Get();
 
@@ -41,7 +41,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         [TestCase("01234567890123")]
         public void WithIsbn_Test_IncorrectNumberOfDigits(string isbn)
         {
-            Assert.Throws<ArgumentException>(() => BookBuilder.CreateBook("test", "test book")
+            Assert.Throws<ArgumentException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
                 .WithIsbn(isbn)
                     .Get());
         }
@@ -61,7 +61,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
                     Name = "tag2"
                 }
             };
-            Book book = BookBuilder.CreateBook("test", "test book")
+            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
                 .WithTags(tags)
                     .Get();
             var tagsResult = (List<Tag>)(book.Tags);
