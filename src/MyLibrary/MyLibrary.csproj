@@ -140,6 +140,7 @@
     <Compile Include="ManageTagsForm.Designer.cs">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presenters\AddMediaItemPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

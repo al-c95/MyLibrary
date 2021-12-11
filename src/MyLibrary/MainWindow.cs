@@ -45,7 +45,10 @@ namespace MyLibrary
                         new AddNewBookForm().ShowDialog();
                         break;
                     default:
-                        new AddNewMediaItemForm().ShowDialog();
+                        var addItemDialog = new AddNewMediaItemForm();
+                        var addItemPresenter = new MyLibrary.Presenters.AddMediaItemPresenter(new BusinessLogic.Repositories.MediaItemRepository(), new BusinessLogic.Repositories.TagRepository(),
+                            addItemDialog);
+                        addItemDialog.ShowDialog();
                         break;
                 }
             });
