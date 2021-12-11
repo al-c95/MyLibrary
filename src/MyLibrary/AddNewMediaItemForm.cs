@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 
 namespace MyLibrary
@@ -17,6 +18,16 @@ namespace MyLibrary
         public AddNewMediaItemForm()
         {
             InitializeComponent();
+
+            this.mediaTypesOptions.Items.Add(ItemType.Cd);
+            this.mediaTypesOptions.Items.Add(ItemType.Dvd);
+            this.mediaTypesOptions.Items.Add(ItemType.BluRay);
+            this.mediaTypesOptions.Items.Add(ItemType.Vhs);
+            this.mediaTypesOptions.Items.Add(ItemType.Vinyl);
+            this.mediaTypesOptions.Items.Add(ItemType.Other);
+            this.mediaTypesOptions.SelectedIndex = 0;
+
+            this.tagsList.CheckOnClick = true;
 
             // register event handlers
             this.titleField.TextChanged += ((sender, args) =>
@@ -39,12 +50,17 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
+            this.saveButton.Click += ((sender, args) =>
+            {
+                // fire the public event so the subscribed presenter can react
+                SaveButtonClicked?.Invoke(sender, args);
+            });
         }
 
         public int CategoryDropDownSelectedIndex
         {
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+            get => this.mediaTypesOptions.SelectedIndex;
+            set => this.mediaTypesOptions.SelectedIndex = value; 
         }
 
         public string TitleFieldText
@@ -64,6 +80,7 @@ namespace MyLibrary
             get => this.runningTimeField.Text;
             set => this.runningTimeField.Text = value; 
         }
+
         public string YearFieldEntry
         {
             get => this.yearField.Text;
@@ -76,7 +93,14 @@ namespace MyLibrary
             set => this.notesField.Text = value; 
         }
 
-        public IEnumerable<string> SelectedFilterTags => throw new NotImplementedException();
+        public IEnumerable<string> SelectedFilterTags
+        {
+            get
+            {
+                foreach (var tag in this.tagsList.CheckedItems)
+                    yield return tag.ToString();              
+            }
+        }
 
         public bool SaveButtonEnabled
         {
@@ -88,6 +112,16 @@ namespace MyLibrary
         {
             get => this.cancelButton.Enabled;
             set => this.cancelButton.Enabled = value; 
+        }
+
+        public void PopulateTagsList(IEnumerable<string> tagNames)
+        {
+            this.tagsList.Items.Clear();
+
+            foreach (var tagName in tagNames)
+            {
+                this.tagsList.Items.Add(tagName, false);
+            }
         }
 
         public event EventHandler InputFieldsUpdated;
