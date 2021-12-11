@@ -10,45 +10,51 @@ namespace MyLibrary.Models.Entities.Builders
     {
         private MediaItem item;
 
-        private MediaItemBuilder(string title, ItemType type)
+        private MediaItemBuilder(string title, ItemType type, long number, int releaseYear)
         {
-            this.item = new MediaItem { Title = title, Type = type };
+            this.item = new MediaItem
+            { 
+                Title = title, 
+                Type = type,
+                Number = number,
+                ReleaseYear = releaseYear
+            };
         }
 
-        private MediaItemBuilder(int id, string title, ItemType type)
-            : this(title, type)
+        private MediaItemBuilder(int id, string title, ItemType type, long number, int releaseYear)
+            : this(title, type, number, releaseYear)
         {
             this.item.Id = id;
         }
 
-        public static MediaItemBuilder CreateCd(string title)
+        public static MediaItemBuilder CreateCd(string title, long number, int releaseYear)
         {
-            return new MediaItemBuilder(title, ItemType.Cd);
+            return new MediaItemBuilder(title, ItemType.Cd, number, releaseYear);     
         }
 
-        public static MediaItemBuilder CreateDvd(string title)
+        public static MediaItemBuilder CreateDvd(string title, long number, int releaseYear)
         {
-            return new MediaItemBuilder(title, ItemType.Dvd);
+            return new MediaItemBuilder(title, ItemType.Dvd, number, releaseYear);
         }
 
-        public static MediaItemBuilder CreateBluray(string title)
+        public static MediaItemBuilder CreateBluray(string title, long number, int releaseYear)
         {
-            return new MediaItemBuilder(title, ItemType.BluRay);
+            return new MediaItemBuilder(title, ItemType.BluRay, number, releaseYear);
         }
 
-        public static MediaItemBuilder CreateVhs(string title)
+        public static MediaItemBuilder CreateVhs(string title, long number, int releaseYear)
         {
-            return new MediaItemBuilder(title, ItemType.Vhs);
+            return new MediaItemBuilder(title, ItemType.Vhs, number, releaseYear);
         }
 
-        public static MediaItemBuilder CreateVinyl(string title)
+        public static MediaItemBuilder CreateVinyl(string title, long number, int releaseYear)
         {
-            return new MediaItemBuilder(title, ItemType.Vinyl);
+            return new MediaItemBuilder(title, ItemType.Vinyl, number, releaseYear);
         }
 
-        public static MediaItemBuilder CreateMiscMediaItem(string title)
+        public static MediaItemBuilder CreateMiscMediaItem(string title, long number, int releaseYear)
         {
-            return new MediaItemBuilder(title, ItemType.Other);
+            return new MediaItemBuilder(title, ItemType.Other, number, releaseYear);
         }
 
         public MediaItemBuilder Numbered(long number)
