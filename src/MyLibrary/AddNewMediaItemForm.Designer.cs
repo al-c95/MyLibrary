@@ -71,6 +71,7 @@ namespace MyLibrary
             // 
             // mediaTypesOptions
             // 
+            this.mediaTypesOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mediaTypesOptions.FormattingEnabled = true;
             this.mediaTypesOptions.Location = new System.Drawing.Point(73, 6);
             this.mediaTypesOptions.Name = "mediaTypesOptions";

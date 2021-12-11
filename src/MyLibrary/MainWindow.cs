@@ -37,7 +37,7 @@ namespace MyLibrary
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
-            this.addButton.Click += ((sender, args) =>
+            this.addButton.Click += (async (sender, args) =>
             {
                 switch (this.categoryDropDown.SelectedIndex)
                 {
@@ -46,8 +46,9 @@ namespace MyLibrary
                         break;
                     default:
                         var addItemDialog = new AddNewMediaItemForm();
-                        var addItemPresenter = new MyLibrary.Presenters.AddMediaItemPresenter(new BusinessLogic.Repositories.MediaItemRepository(), new BusinessLogic.Repositories.TagRepository(),
+                        var addItemPresenter = new Presenters.AddMediaItemPresenter(new BusinessLogic.Repositories.MediaItemRepository(), new BusinessLogic.Repositories.TagRepository(),
                             addItemDialog);
+                        await addItemPresenter.PopulateTagsList();
                         addItemDialog.ShowDialog();
                         break;
                 }

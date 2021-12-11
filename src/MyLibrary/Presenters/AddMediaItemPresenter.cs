@@ -31,6 +31,16 @@ namespace MyLibrary.Presenters
             this._view.InputFieldsUpdated += InputFieldsUpdated;
         }
 
+        public async Task PopulateTagsList()
+        {
+            var allTags = await this._tagRepo.GetAll();
+            List<string> tagNames = new List<string>();
+            foreach (var tag in allTags)
+                tagNames.Add(tag.Name);
+
+            this._view.PopulateTagsList(tagNames);
+        }
+
         #region View event handlers
         public void SaveButtonClicked(object sender, EventArgs e)
         {

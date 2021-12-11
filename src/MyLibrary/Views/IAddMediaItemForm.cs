@@ -19,6 +19,8 @@ namespace MyLibrary.Views
         bool SaveButtonEnabled { get; set; }
         bool CancelButtonEnabled { get; set; }
 
+        void PopulateTagsList(IEnumerable<string> tagNames);
+
         event EventHandler InputFieldsUpdated;
         event EventHandler SaveButtonClicked;
     }
