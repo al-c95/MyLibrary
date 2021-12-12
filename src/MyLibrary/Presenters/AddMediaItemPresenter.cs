@@ -56,32 +56,10 @@ namespace MyLibrary.Presenters
             }
 
             // create appropriate type of item
-            int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
             MediaItemBuilder builder = null;
-            if (this._view.CategoryDropDownSelectedIndex == 0)
-            {
-                builder = MediaItemBuilder.CreateCd(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-            }
-            else if (selectedCategoryIndex == 1)
-            {
-                builder = MediaItemBuilder.CreateDvd(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-            }
-            else if (selectedCategoryIndex == 2)
-            {
-                builder = MediaItemBuilder.CreateBluray(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-            }
-            else if (selectedCategoryIndex == 3)
-            {
-                builder = MediaItemBuilder.CreateVhs(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-            }
-            else if (selectedCategoryIndex == 4)
-            {
-                builder = MediaItemBuilder.CreateVinyl(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-            }
-            else if (selectedCategoryIndex == 5)
-            {
-                builder = MediaItemBuilder.CreateMiscMediaItem(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-            }
+            string selectedCategory = this._view.SelectedCategory;
+            builder = new MediaItemBuilder(this._view.TitleFieldText, (ItemType)Enum.Parse(typeof(ItemType), this._view.SelectedCategory),
+                long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
 
             // fill in details
             MediaItem item = builder
