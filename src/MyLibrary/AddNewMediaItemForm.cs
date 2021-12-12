@@ -57,10 +57,9 @@ namespace MyLibrary
             });
         }
 
-        public int CategoryDropDownSelectedIndex
+        public string SelectedCategory
         {
-            get => this.mediaTypesOptions.SelectedIndex;
-            set => this.mediaTypesOptions.SelectedIndex = value; 
+            get => this.mediaTypesOptions.Text;
         }
 
         public string TitleFieldText

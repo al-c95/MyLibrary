@@ -10,7 +10,7 @@ namespace MyLibrary.Models.Entities.Builders
     {
         private MediaItem item;
 
-        private MediaItemBuilder(string title, ItemType type, long number, int releaseYear)
+        public MediaItemBuilder(string title, ItemType type, long number, int releaseYear)
         {
             this.item = new MediaItem
             { 

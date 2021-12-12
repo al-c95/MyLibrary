@@ -8,7 +8,7 @@ namespace MyLibrary.Views
 {
     public interface IAddMediaItemForm
     {
-        int CategoryDropDownSelectedIndex { get; set; }
+        string SelectedCategory { get; }
         string TitleFieldText { get; set; }
         string NumberFieldText { get; set; }
         string RunningTimeFieldEntry { get; set; }
