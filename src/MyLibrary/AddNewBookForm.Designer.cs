@@ -66,10 +66,12 @@ namespace MyLibrary
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.v = new System.Windows.Forms.Label();
             this.tagsGroup = new System.Windows.Forms.GroupBox();
             this.addNewTagButton = new System.Windows.Forms.Button();
             this.tagsList = new System.Windows.Forms.CheckedListBox();
+            this.languageField = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tagsGroup.SuspendLayout();
@@ -170,7 +172,7 @@ namespace MyLibrary
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(12, 710);
+            this.saveButton.Location = new System.Drawing.Point(15, 763);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(150, 27);
             this.saveButton.TabIndex = 9;
@@ -179,7 +181,7 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(638, 710);
+            this.cancelButton.Location = new System.Drawing.Point(638, 763);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(150, 27);
             this.cancelButton.TabIndex = 10;
@@ -219,17 +221,17 @@ namespace MyLibrary
             // 
             // notesField
             // 
-            this.notesField.Location = new System.Drawing.Point(15, 581);
+            this.notesField.Location = new System.Drawing.Point(15, 625);
             this.notesField.Multiline = true;
             this.notesField.Name = "notesField";
             this.notesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notesField.Size = new System.Drawing.Size(773, 115);
+            this.notesField.Size = new System.Drawing.Size(773, 132);
             this.notesField.TabIndex = 12;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 561);
+            this.label5.Location = new System.Drawing.Point(12, 605);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 17);
             this.label5.TabIndex = 13;
@@ -386,14 +388,14 @@ namespace MyLibrary
             this.label14.TabIndex = 32;
             this.label14.Text = "Synopsis:";
             // 
-            // label15
+            // v
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(15, 530);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(59, 17);
-            this.label15.TabIndex = 33;
-            this.label15.Text = "Excerpt:";
+            this.v.AutoSize = true;
+            this.v.Location = new System.Drawing.Point(15, 530);
+            this.v.Name = "v";
+            this.v.Size = new System.Drawing.Size(59, 17);
+            this.v.TabIndex = 33;
+            this.v.Text = "Excerpt:";
             // 
             // tagsGroup
             // 
@@ -424,13 +426,31 @@ namespace MyLibrary
             this.tagsList.Size = new System.Drawing.Size(290, 89);
             this.tagsList.TabIndex = 0;
             // 
+            // languageField
+            // 
+            this.languageField.Location = new System.Drawing.Point(314, 568);
+            this.languageField.Name = "languageField";
+            this.languageField.Size = new System.Drawing.Size(240, 22);
+            this.languageField.TabIndex = 34;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(213, 571);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(76, 17);
+            this.label15.TabIndex = 35;
+            this.label15.Text = "Language:";
+            // 
             // AddNewBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 749);
-            this.Controls.Add(this.tagsGroup);
+            this.ClientSize = new System.Drawing.Size(800, 802);
             this.Controls.Add(this.label15);
+            this.Controls.Add(this.languageField);
+            this.Controls.Add(this.tagsGroup);
+            this.Controls.Add(this.v);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
@@ -516,9 +536,11 @@ namespace MyLibrary
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label v;
         private System.Windows.Forms.GroupBox tagsGroup;
         private System.Windows.Forms.Button addNewTagButton;
         private System.Windows.Forms.CheckedListBox tagsList;
+        private System.Windows.Forms.TextBox languageField;
+        private System.Windows.Forms.Label label15;
     }
 }

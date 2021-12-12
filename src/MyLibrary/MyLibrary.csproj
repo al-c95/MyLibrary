@@ -140,11 +140,14 @@
     <Compile Include="ManageTagsForm.Designer.cs">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\IAddItemForm.cs" />
     <Compile Include="Views\IAddMediaItemForm.cs" />
+    <Compile Include="Views\IAddBookForm.cs" />
     <Compile Include="Views\IItemView.cs" />
     <EmbeddedResource Include="AddNewBookForm.resx">
       <DependentUpon>AddNewBookForm.cs</DependentUpon>

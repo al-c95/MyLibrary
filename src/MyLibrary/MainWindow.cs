@@ -41,11 +41,11 @@ namespace MyLibrary
             {
                 switch (this.categoryDropDown.SelectedIndex)
                 {
+                    // fire the public event so the subscribed present can react
                     case 0:
-                        new AddNewBookForm().ShowDialog();
+                        AddNewBookClicked?.Invoke(sender, args);
                         break;
                     default:
-                        // fire the public event so the subscribed present can react
                         AddNewMediaItemClicked?.Invoke(sender, args);
                         break;
                 }
@@ -273,6 +273,7 @@ namespace MyLibrary
         public event EventHandler DiscardSelectedItemChangesButtonClicked;
         public event EventHandler TagsUpdated;
         public event EventHandler AddNewMediaItemClicked;
+        public event EventHandler AddNewBookClicked;
         #endregion
 
         private Image ReadImage(byte[] bytes)
