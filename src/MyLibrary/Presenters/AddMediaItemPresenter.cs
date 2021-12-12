@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 
 namespace MyLibrary.Presenters
@@ -42,10 +43,64 @@ namespace MyLibrary.Presenters
         }
 
         #region View event handlers
-        public void SaveButtonClicked(object sender, EventArgs e)
+        public async void SaveButtonClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
-        }
+            // check if item with title already exists
+            if (await this._mediaItemRepo.ExistsWithTitle(this._view.TitleFieldText))
+            {
+                // tell the user
+                this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
+
+                // nothing more to do
+                return;
+            }
+
+            // create appropriate type of item
+            int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
+            MediaItemBuilder builder = null;
+            if (this._view.CategoryDropDownSelectedIndex == 0)
+            {
+                builder = MediaItemBuilder.CreateCd(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
+            }
+            else if (selectedCategoryIndex == 1)
+            {
+                builder = MediaItemBuilder.CreateDvd(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
+            }
+            else if (selectedCategoryIndex == 2)
+            {
+                builder = MediaItemBuilder.CreateBluray(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
+            }
+            else if (selectedCategoryIndex == 3)
+            {
+                builder = MediaItemBuilder.CreateVhs(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
+            }
+            else if (selectedCategoryIndex == 4)
+            {
+                builder = MediaItemBuilder.CreateVinyl(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
+            }
+            else if (selectedCategoryIndex == 5)
+            {
+                builder = MediaItemBuilder.CreateMiscMediaItem(this._view.TitleFieldText, long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
+            }
+
+            // fill in details
+            MediaItem item = builder
+                .Get();
+            item.Notes = this._view.NotesFieldText;
+            if (!string.IsNullOrWhiteSpace(this._view.RunningTimeFieldEntry))
+            {
+                item.RunningTime = int.Parse(this._view.RunningTimeFieldEntry);
+            }
+            foreach (var tagName in this._view.SelectedFilterTags)
+            {
+                item.Tags.Add(new Tag { Name = tagName });
+            }
+
+            // add new item
+            await this._mediaItemRepo.Create(item);
+            this._view.ItemAddedFinished();
+            this._view.CloseDialog();
+        }//SaveButtonClicked
 
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
@@ -56,6 +111,10 @@ namespace MyLibrary.Presenters
                 int number;
                 sane = sane && int.TryParse(this._view.NumberFieldText, out number);
             }
+            else
+            {
+                sane = false;
+            }
             if (!string.IsNullOrWhiteSpace(this._view.RunningTimeFieldEntry))
             {
                 int runningTime;
@@ -65,6 +124,10 @@ namespace MyLibrary.Presenters
             {
                 int year;
                 sane = sane && int.TryParse(this._view.YearFieldEntry, out year);
+            }
+            else
+            {
+                sane = false;
             }
 
             this._view.SaveButtonEnabled = sane;

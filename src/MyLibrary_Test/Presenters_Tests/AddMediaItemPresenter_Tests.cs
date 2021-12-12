@@ -44,17 +44,46 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveButtonEnabled);
         }
 
-        [TestCase("notes", "test")]
-        [TestCase("", "test")]
-        [TestCase(null, "test")]
-        public void InputFieldsUpdated_Test_Invalid(string notesFieldEntry, string runningTimeFieldEntry)
+        [TestCase(null, "0", "0", "0", "notes")]
+        [TestCase("", "0", "0", "0", "notes")]
+        [TestCase("title", "", "0", "0", "notes")]
+        [TestCase("title", "", "", "0", "notes")]
+        [TestCase("title", "", "", "", "notes")]
+        [TestCase("title", "", "", "", "")]
+        [TestCase("title", "0", "", "", "notes")]
+        [TestCase("title", "0", "0", "", "notes")]
+        [TestCase("title", "", "0", "", "notes")]
+        [TestCase(null, "0", "0", "0", "")]
+        [TestCase("", "0", "0", "0", "")]
+        [TestCase("title", "", "0", "0", "")]
+        [TestCase("title", "", "", "0", "")]
+        [TestCase("title", "", "", "", "")]
+        [TestCase("title", "", "", "", "")]
+        [TestCase("title", "0", "", "", "")]
+        [TestCase("title", "0", "0", "", "")]
+        [TestCase("title", "", "0", "", "")]
+        [TestCase(null, "", "0", "0", "")]
+        [TestCase(null, "", "", "0", "")]
+        [TestCase(null, "", "", "", "")]
+        [TestCase(null, "", "", "", "")]
+        [TestCase(null, "0", "", "", "")]
+        [TestCase(null, "0", "0", "", "")]
+        [TestCase(null, "", "0", "", "")]
+        [TestCase("", "", "0", "0", "")]
+        [TestCase("", "", "", "0", "")]
+        [TestCase("", "", "", "", "")]
+        [TestCase("", "", "", "", "")]
+        [TestCase("", "0", "", "", "")]
+        [TestCase("", "0", "0", "", "")]
+        [TestCase("", "", "0", "", "")]
+        public void InputFieldsUpdated_Test_Invalid(string titleFieldEntry, string numberFieldEntry, string runningTimeFieldEntry, string releaseYearFieldEntry, string notesFieldEntry)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
-            A.CallTo(() => fakeView.TitleFieldText).Returns("new item");
-            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.TitleFieldText).Returns(titleFieldEntry);
+            A.CallTo(() => fakeView.NumberFieldText).Returns(numberFieldEntry);
             A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
-            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.YearFieldEntry).Returns(releaseYearFieldEntry);
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();

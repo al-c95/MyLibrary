@@ -37,7 +37,7 @@ namespace MyLibrary
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
-            this.addButton.Click += (async (sender, args) =>
+            this.addButton.Click += ((sender, args) =>
             {
                 switch (this.categoryDropDown.SelectedIndex)
                 {
@@ -45,11 +45,8 @@ namespace MyLibrary
                         new AddNewBookForm().ShowDialog();
                         break;
                     default:
-                        var addItemDialog = new AddNewMediaItemForm();
-                        var addItemPresenter = new Presenters.AddMediaItemPresenter(new BusinessLogic.Repositories.MediaItemRepository(), new BusinessLogic.Repositories.TagRepository(),
-                            addItemDialog);
-                        await addItemPresenter.PopulateTagsList();
-                        addItemDialog.ShowDialog();
+                        // fire the public event so the subscribed present can react
+                        AddNewMediaItemClicked?.Invoke(sender, args);
                         break;
                 }
             });
@@ -275,6 +272,7 @@ namespace MyLibrary
         public event EventHandler SelectedItemModified;
         public event EventHandler DiscardSelectedItemChangesButtonClicked;
         public event EventHandler TagsUpdated;
+        public event EventHandler AddNewMediaItemClicked;
         #endregion
 
         private Image ReadImage(byte[] bytes)

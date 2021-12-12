@@ -21,6 +21,8 @@ namespace MyLibrary.Presenters
         private TagRepository _tagRepo;
 
         private IItemView _view;
+        private IAddMediaItemForm _addMediaItemView;
+
         protected DataTable _allItems;
 
         private ItemMemento _selectedItemMemento;
@@ -39,7 +41,7 @@ namespace MyLibrary.Presenters
 
             this._view = view;
 
-            // subscribe to the view's events
+            // subscribe to the views' events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
             this._view.ItemSelectionChanged += ItemSelectionChanged;
             this._view.FiltersUpdated += FiltersUpdated; //
@@ -49,6 +51,7 @@ namespace MyLibrary.Presenters
             this._view.SelectedItemModified += SelectedItemModified; //
             this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
             this._view.TagsUpdated += TagsUpdated;
+            this._view.AddNewMediaItemClicked += AddNewMediaItemClicked;
         }
 
         private async Task DisplayBooks()
@@ -303,6 +306,21 @@ namespace MyLibrary.Presenters
         public async void TagsUpdated(object sender, EventArgs e)
         {
             await DisplayTags();
+            await DisplayItems();
+        }
+
+        public async void AddNewMediaItemClicked(object sender, EventArgs e)
+        {
+            this._addMediaItemView = new AddNewMediaItemForm();
+            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemRepo, this._tagRepo,
+                this._addMediaItemView);
+            await addItemPresenter.PopulateTagsList();
+            this._addMediaItemView.ItemAdded += ItemAdded;
+            ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
+        }
+
+        public async void ItemAdded(object sender, EventArgs e)
+        {
             await DisplayItems();
         }
         #endregion

@@ -124,8 +124,24 @@ namespace MyLibrary
             }
         }
 
+        public void CloseDialog()
+        {
+            this.Close();
+        }
+
+        public void ShowItemAlreadyExistsDialog(string title)
+        {
+            MessageBox.Show("Item with title: " + title + " already exists.", "Add item", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        public void ItemAddedFinished()
+        {
+            ItemAdded?.Invoke(this, null);
+        }
+
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
+        public event EventHandler ItemAdded;
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
