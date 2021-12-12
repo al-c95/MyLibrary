@@ -20,8 +20,12 @@ namespace MyLibrary.Views
         bool CancelButtonEnabled { get; set; }
 
         void PopulateTagsList(IEnumerable<string> tagNames);
+        void CloseDialog();
+        void ShowItemAlreadyExistsDialog(string title);
+        void ItemAddedFinished();
 
         event EventHandler InputFieldsUpdated;
         event EventHandler SaveButtonClicked;
+        event EventHandler ItemAdded;
     }
 }

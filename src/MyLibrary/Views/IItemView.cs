@@ -33,5 +33,6 @@ namespace MyLibrary.Views
         event EventHandler SelectedItemModified;
         event EventHandler DiscardSelectedItemChangesButtonClicked;
         event EventHandler TagsUpdated;
+        event EventHandler AddNewMediaItemClicked;
     }
 }

@@ -16,8 +16,89 @@ namespace MyLibrary.DataAccessLayer
     {
         public override async Task Create(MediaItem toAdd)
         {
-            throw new NotImplementedException();
-        }
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    // insert Media table record
+                    const string INSERT_MEDIA_SQL = "INSERT INTO Media (title,type,number,image,runningTime,releaseYear,notes) " +
+                        "VALUES(@title,@type,@number,@image,@runningTime,@releaseYear,@notes);";
+                    string title = toAdd.Title;
+                    ItemType type = toAdd.Type;
+                    long number = toAdd.Number;
+                    byte[] image = toAdd.Image;
+                    int? runningTime = toAdd.RunningTime;
+                    int releaseYear = toAdd.ReleaseYear;
+                    string notes = toAdd.Notes;
+                    await conn.ExecuteAsync(INSERT_MEDIA_SQL, new
+                    {
+                        toAdd.Title,
+                        toAdd.Type,
+                        toAdd.Number,
+                        toAdd.Image,
+                        toAdd.RunningTime,
+                        toAdd.ReleaseYear,
+                        toAdd.Notes
+                    });
+
+                    // get all tag ids
+                    List<int> tagIds = new List<int>();
+                    foreach (var tag in toAdd.Tags)
+                    {
+                        bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Tags WHERE name=@name", new 
+                            { 
+                                tag.Name 
+                            });  
+                        if (exists)
+                        {
+                            // tag exists
+                            // get the id
+                            int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                                {
+                                    tag.Name
+                                });
+                            tagIds.Add(tagId);
+                        }
+                        else
+                        {
+                            // tag does not exist
+                            // insert tag
+                            await conn.ExecuteAsync("INSERT INTO Tags(name) VALUES(@name);", new 
+                            {
+                                tag.Name
+                            });
+                            // get the id
+                            int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                            {
+                                tag.Name
+                            });
+                            tagIds.Add(tagId);
+                        }
+                    }//foreach
+
+                    // insert record(s) in Media_Tags table
+                    int itemId = await conn.QuerySingleAsync<int>("SELECT id FROM Media WHERE title=@title", new 
+                        {
+                            toAdd.Title
+                        });
+                    foreach (int tagId in tagIds)
+                    {
+                        const string INSERT_MEDIA_TAG_SQL = "INSERT INTO Media_Tag(mediaId,tagId) " +
+                            "VALUES(@mediaId,@tagId);";
+                        await conn.ExecuteAsync(INSERT_MEDIA_TAG_SQL, new 
+                            {
+                                mediaId = itemId,
+                                tagId = tagId
+                            });
+                    }
+
+                    transaction.Commit();
+                }//transaction
+
+                conn.Close();
+            }//connection
+        }//Create
 
         /// <summary>
         /// Read all media item and associated tags records from the database.
