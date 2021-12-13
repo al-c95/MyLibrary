@@ -14,14 +14,18 @@ namespace MyLibrary.Presenters
     {
         private BookRepository _bookRepo;
         private TagRepository _tagRepo;
+        private AuthorRepository _authorRepo;
+        private PublisherRepository _publisherRepo;
 
         private IAddBookForm _view;
 
-        public AddBookPresenter(BookRepository bookRepository, TagRepository tagRepository,
+        public AddBookPresenter(BookRepository bookRepository, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
             IAddBookForm view)
         {
             this._bookRepo = bookRepository;
             this._tagRepo = tagRepository;
+            this._authorRepo = authorRepository;
+            this._publisherRepo = publisherRepository;
 
             this._view = view;
 
@@ -42,12 +46,22 @@ namespace MyLibrary.Presenters
 
         public async Task PopulateAuthorList()
         {
-            throw new NotImplementedException();
+            var allAuthors = await this._authorRepo.GetAll();
+            List<string> authorNames = new List<string>();
+            foreach (var author in allAuthors)
+                authorNames.Add(author.GetFullNameLastNameCommaFirstName());
+
+            this._view.PopulateAuthorList(authorNames);
         }
 
         public async Task PopulatePublisherList()
         {
-            throw new NotImplementedException();
+            var allPublishers = await this._publisherRepo.GetAll();
+            List<string> publisherNames = new List<string>();
+            foreach (var publisher in allPublishers)
+                publisherNames.Add(publisher.Name);
+
+            this._view.PopulatePublisherList(publisherNames);
         }
 
         #region View event handlers

@@ -30,7 +30,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.PagesFieldText).Returns("60");
             var fakeBookRepo = A.Fake<BookRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeView);
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo, 
+                fakeView);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -57,7 +60,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.PagesFieldText).Returns(pagesFieldText);
             var fakeBookRepo = A.Fake<BookRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeView);
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo, 
+                fakeView);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -69,8 +75,8 @@ namespace MyLibrary_Test.Presenters_Tests
 
     public class MockBookPresenter : AddBookPresenter
     {
-        public MockBookPresenter(BookRepository bookRepo, TagRepository tagRepo, IAddBookForm view)
-            :base(bookRepo, tagRepo, view)
+        public MockBookPresenter(BookRepository bookRepo, TagRepository tagRepo, AuthorRepository authorRepo, PublisherRepository publisherRepo, IAddBookForm view)
+            :base(bookRepo, tagRepo, authorRepo, publisherRepo, view)
         {
 
         }
