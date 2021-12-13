@@ -20,6 +20,10 @@ namespace MyLibrary.Presenters
 
         private TagRepository _tagRepo;
 
+        private AuthorRepository _authorRepo;
+
+        private PublisherRepository _publisherRepo;
+
         private IItemView _view;
 
         private IAddMediaItemForm _addMediaItemView;
@@ -40,6 +44,10 @@ namespace MyLibrary.Presenters
             this._mediaItemRepo = mediaItemRepository;
 
             this._tagRepo = new TagRepository();
+
+            this._authorRepo = new AuthorRepository();
+
+            this._publisherRepo = new PublisherRepository();
 
             this._view = view;
 
@@ -318,6 +326,7 @@ namespace MyLibrary.Presenters
             var addItemPresenter = new AddMediaItemPresenter(this._mediaItemRepo, this._tagRepo,
                 this._addMediaItemView);
             await addItemPresenter.PopulateTagsList();
+
             this._addMediaItemView.ItemAdded += ItemAdded;
             ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
         }
@@ -325,9 +334,12 @@ namespace MyLibrary.Presenters
         public async void AddNewBookClicked(object sender, EventArgs e)
         {
             this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookRepo, this._tagRepo,
+            var addBookPresenter = new AddBookPresenter(this._bookRepo, this._tagRepo, this._authorRepo, this._publisherRepo,
                 this._addBookView);
             await addBookPresenter.PopulateTagsList();
+            await addBookPresenter.PopulateAuthorList();
+            await addBookPresenter.PopulatePublisherList();
+
             this._addBookView.ItemAdded += ItemAdded;
             ((AddNewBookForm)this._addBookView).ShowDialog();
         }

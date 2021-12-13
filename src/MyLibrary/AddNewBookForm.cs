@@ -269,12 +269,14 @@ namespace MyLibrary
 
             foreach (var name in names)
             {
-                this.tagsList.Items.Add(name, false);
+                this.authorsList.Items.Add(name, false);
             }
         }
 
         public void PopulatePublisherList(IEnumerable<string> publisherNames)
         {
+            this.publishersList.Items.Clear();
+
             foreach (var publisherName in publisherNames)
             {
                 this.publishersList.Items.Add(publisherName);
