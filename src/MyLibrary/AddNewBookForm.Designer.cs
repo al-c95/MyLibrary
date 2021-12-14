@@ -38,11 +38,16 @@ namespace MyLibrary
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.newAuthorLastNameField = new System.Windows.Forms.TextBox();
+            this.newAuthorFirstNameField = new System.Windows.Forms.TextBox();
             this.addNewAuthorButton = new System.Windows.Forms.Button();
             this.authorsList = new System.Windows.Forms.CheckedListBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.newPublisherField = new System.Windows.Forms.TextBox();
             this.addNewPublisherButton = new System.Windows.Forms.Button();
             this.publishersList = new System.Windows.Forms.ListBox();
             this.notesField = new System.Windows.Forms.TextBox();
@@ -68,6 +73,7 @@ namespace MyLibrary
             this.label14 = new System.Windows.Forms.Label();
             this.v = new System.Windows.Forms.Label();
             this.tagsGroup = new System.Windows.Forms.GroupBox();
+            this.newTagField = new System.Windows.Forms.TextBox();
             this.addNewTagButton = new System.Windows.Forms.Button();
             this.tagsList = new System.Windows.Forms.CheckedListBox();
             this.languageField = new System.Windows.Forms.TextBox();
@@ -143,6 +149,10 @@ namespace MyLibrary
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.newAuthorLastNameField);
+            this.groupBox1.Controls.Add(this.newAuthorFirstNameField);
             this.groupBox1.Controls.Add(this.addNewAuthorButton);
             this.groupBox1.Controls.Add(this.authorsList);
             this.groupBox1.Location = new System.Drawing.Point(12, 146);
@@ -152,10 +162,41 @@ namespace MyLibrary
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Authors";
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(202, 52);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 17);
+            this.label17.TabIndex = 37;
+            this.label17.Text = "Last:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(201, 21);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(39, 17);
+            this.label16.TabIndex = 36;
+            this.label16.Text = "First:";
+            // 
+            // newAuthorLastNameField
+            // 
+            this.newAuthorLastNameField.Location = new System.Drawing.Point(246, 49);
+            this.newAuthorLastNameField.Name = "newAuthorLastNameField";
+            this.newAuthorLastNameField.Size = new System.Drawing.Size(134, 22);
+            this.newAuthorLastNameField.TabIndex = 39;
+            // 
+            // newAuthorFirstNameField
+            // 
+            this.newAuthorFirstNameField.Location = new System.Drawing.Point(246, 21);
+            this.newAuthorFirstNameField.Name = "newAuthorFirstNameField";
+            this.newAuthorFirstNameField.Size = new System.Drawing.Size(134, 22);
+            this.newAuthorFirstNameField.TabIndex = 38;
+            // 
             // addNewAuthorButton
             // 
-            this.addNewAuthorButton.Enabled = false;
-            this.addNewAuthorButton.Location = new System.Drawing.Point(302, 21);
+            this.addNewAuthorButton.Location = new System.Drawing.Point(302, 77);
             this.addNewAuthorButton.Name = "addNewAuthorButton";
             this.addNewAuthorButton.Size = new System.Drawing.Size(78, 27);
             this.addNewAuthorButton.TabIndex = 11;
@@ -167,7 +208,7 @@ namespace MyLibrary
             this.authorsList.FormattingEnabled = true;
             this.authorsList.Location = new System.Drawing.Point(6, 21);
             this.authorsList.Name = "authorsList";
-            this.authorsList.Size = new System.Drawing.Size(290, 89);
+            this.authorsList.Size = new System.Drawing.Size(190, 89);
             this.authorsList.TabIndex = 0;
             // 
             // saveButton
@@ -191,6 +232,7 @@ namespace MyLibrary
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.newPublisherField);
             this.groupBox2.Controls.Add(this.addNewPublisherButton);
             this.groupBox2.Controls.Add(this.publishersList);
             this.groupBox2.Location = new System.Drawing.Point(404, 146);
@@ -200,10 +242,16 @@ namespace MyLibrary
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Publisher";
             // 
+            // newPublisherField
+            // 
+            this.newPublisherField.Location = new System.Drawing.Point(211, 26);
+            this.newPublisherField.Name = "newPublisherField";
+            this.newPublisherField.Size = new System.Drawing.Size(167, 22);
+            this.newPublisherField.TabIndex = 37;
+            // 
             // addNewPublisherButton
             // 
-            this.addNewPublisherButton.Enabled = false;
-            this.addNewPublisherButton.Location = new System.Drawing.Point(296, 21);
+            this.addNewPublisherButton.Location = new System.Drawing.Point(300, 54);
             this.addNewPublisherButton.Name = "addNewPublisherButton";
             this.addNewPublisherButton.Size = new System.Drawing.Size(78, 27);
             this.addNewPublisherButton.TabIndex = 12;
@@ -214,9 +262,9 @@ namespace MyLibrary
             // 
             this.publishersList.FormattingEnabled = true;
             this.publishersList.ItemHeight = 16;
-            this.publishersList.Location = new System.Drawing.Point(6, 21);
+            this.publishersList.Location = new System.Drawing.Point(6, 26);
             this.publishersList.Name = "publishersList";
-            this.publishersList.Size = new System.Drawing.Size(284, 84);
+            this.publishersList.Size = new System.Drawing.Size(199, 84);
             this.publishersList.TabIndex = 0;
             // 
             // notesField
@@ -399,6 +447,7 @@ namespace MyLibrary
             // 
             // tagsGroup
             // 
+            this.tagsGroup.Controls.Add(this.newTagField);
             this.tagsGroup.Controls.Add(this.addNewTagButton);
             this.tagsGroup.Controls.Add(this.tagsList);
             this.tagsGroup.Location = new System.Drawing.Point(210, 274);
@@ -408,10 +457,16 @@ namespace MyLibrary
             this.tagsGroup.TabStop = false;
             this.tagsGroup.Text = "Tags";
             // 
+            // newTagField
+            // 
+            this.newTagField.Location = new System.Drawing.Point(213, 21);
+            this.newTagField.Name = "newTagField";
+            this.newTagField.Size = new System.Drawing.Size(167, 22);
+            this.newTagField.TabIndex = 36;
+            // 
             // addNewTagButton
             // 
-            this.addNewTagButton.Enabled = false;
-            this.addNewTagButton.Location = new System.Drawing.Point(302, 21);
+            this.addNewTagButton.Location = new System.Drawing.Point(302, 49);
             this.addNewTagButton.Name = "addNewTagButton";
             this.addNewTagButton.Size = new System.Drawing.Size(78, 27);
             this.addNewTagButton.TabIndex = 11;
@@ -423,7 +478,7 @@ namespace MyLibrary
             this.tagsList.FormattingEnabled = true;
             this.tagsList.Location = new System.Drawing.Point(6, 21);
             this.tagsList.Name = "tagsList";
-            this.tagsList.Size = new System.Drawing.Size(290, 89);
+            this.tagsList.Size = new System.Drawing.Size(201, 89);
             this.tagsList.TabIndex = 0;
             // 
             // languageField
@@ -446,7 +501,7 @@ namespace MyLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 802);
+            this.ClientSize = new System.Drawing.Size(801, 799);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.languageField);
             this.Controls.Add(this.tagsGroup);
@@ -490,8 +545,11 @@ namespace MyLibrary
             this.Name = "AddNewBookForm";
             this.Text = "Add New Book";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.tagsGroup.ResumeLayout(false);
+            this.tagsGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -542,5 +600,11 @@ namespace MyLibrary
         private System.Windows.Forms.CheckedListBox tagsList;
         private System.Windows.Forms.TextBox languageField;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox newTagField;
+        private System.Windows.Forms.TextBox newPublisherField;
+        private System.Windows.Forms.TextBox newAuthorLastNameField;
+        private System.Windows.Forms.TextBox newAuthorFirstNameField;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
     }
 }

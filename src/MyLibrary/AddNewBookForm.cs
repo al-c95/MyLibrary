@@ -123,6 +123,37 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 SaveButtonClicked?.Invoke(sender, args);
             });
+            this.addNewTagButton.Click += ((sender, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.newTagField.Text))
+                {
+                    if (this.tagsList.Items.Cast<Object>().Any(t => t.ToString() == this.newTagField.Text))
+                        return;
+
+                    this.tagsList.Items.Add(this.newTagField.Text, true);
+                }
+            });
+            this.addNewPublisherButton.Click += ((sender, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.newPublisherField.Text))
+                {
+                    if (this.publishersList.Items.Cast<Object>().Any(p => p.ToString() == this.newPublisherField.Text))
+                        return;
+
+                    this.publishersList.Items.Add(this.newPublisherField.Text);
+                }
+            });
+            this.addNewAuthorButton.Click += ((sender, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.newAuthorFirstNameField.Text) &&
+                    !string.IsNullOrWhiteSpace(this.newAuthorLastNameField.Text))
+                {
+                    if (this.authorsList.Items.Cast<Object>().Any(a => a.ToString() == this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text))
+                        return;
+
+                    this.authorsList.Items.Add(this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text);
+                }
+            });
         }
 
         public string TitleFieldText
@@ -137,12 +168,36 @@ namespace MyLibrary
             set => this.notesField.Text = value; 
         }
 
-        public IEnumerable<string> SelectedFilterTags
+        public IEnumerable<string> SelectedTags
         {
             get
             {
                 foreach (var tag in this.tagsList.CheckedItems)
                     yield return tag.ToString();
+            }
+        }
+
+        public IEnumerable<string> SelectedAuthors
+        {
+            get
+            {
+                foreach (var author in this.authorsList.CheckedItems)
+                    yield return author.ToString();
+            }
+        }
+
+        public string SelectedPublisher
+        {
+            get 
+            { 
+                if (this.publishersList.SelectedItems.Count==0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return this.publishersList.SelectedItem.ToString();
+                }
             }
         }
 
@@ -186,6 +241,7 @@ namespace MyLibrary
             get => this.formatField.Text;
             set => this.formatField.Text = value; 
         }
+
         public string LanguageFieldText
         {
             get => this.languageField.Text;
@@ -250,7 +306,7 @@ namespace MyLibrary
 
         public void ItemAddedFinished()
         {
-            throw new NotImplementedException();
+            ItemAdded?.Invoke(this, null);
         }
 
         public void PopulateTagsList(IEnumerable<string> tagNames)

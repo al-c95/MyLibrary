@@ -68,7 +68,7 @@ namespace MyLibrary.Presenters
             {
                 item.RunningTime = int.Parse(this._view.RunningTimeFieldEntry);
             }
-            foreach (var tagName in this._view.SelectedFilterTags)
+            foreach (var tagName in this._view.SelectedTags)
             {
                 item.Tags.Add(new Tag { Name = tagName });
             }

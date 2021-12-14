@@ -136,6 +136,14 @@ namespace MyLibrary.Models.Entities.Builders
             return this;
         }
 
+        public BookBuilder WithAuthors(IEnumerable<Author> authors)
+        {
+            foreach (var a in authors)
+                this.book.Authors.Add(a);
+
+            return this;
+        }
+
         public Book Get() => this.book;
     }//class
 }

@@ -42,15 +42,23 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveButtonEnabled);
         }
 
-        [TestCase("title", "", "", "")]
-        [TestCase("title", "long title", "", "")]
-        [TestCase("title", "long title", "English", "")]
-        [TestCase("", "", "", "")]
-        [TestCase("", "", "English", "")]
-        [TestCase("", "long title", "English", "")]
-        [TestCase("", "", "", "60")]
-        [TestCase("title", "long title", "English", "test")]
-        public void InputFieldsUpdated_Test_Invalid(string titleFieldText, string longTitleFieldText, string languageFieldText, string pagesFieldText)
+        [TestCase("title", "", "", "", "")]
+        [TestCase("title", "long title", "", "", "")]
+        [TestCase("title", "long title", "English", "", "")]
+        [TestCase("", "", "", "", "")]
+        [TestCase("", "", "English", "", "")]
+        [TestCase("", "long title", "English", "", "")]
+        [TestCase("", "", "", "60", "")]
+        [TestCase("title", "long title", "English", "test", "")]
+        [TestCase("title", "", "", "", "publisher")]
+        [TestCase("title", "long title", "", "", "publisher")]
+        [TestCase("title", "long title", "English", "", "publisher")]
+        [TestCase("", "", "", "", "publisher")]
+        [TestCase("", "", "English", "", "publisher")]
+        [TestCase("", "long title", "English", "", "publisher")]
+        [TestCase("", "", "", "60", "publisher")]
+        [TestCase("title", "long title", "English", "test", "publisher")]
+        public void InputFieldsUpdated_Test_Invalid(string titleFieldText, string longTitleFieldText, string languageFieldText, string pagesFieldText, string selectedPublisher)
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();

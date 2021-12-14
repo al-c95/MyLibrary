@@ -11,7 +11,7 @@ namespace MyLibrary.Views
         string TitleFieldText { get; set; }
         string NotesFieldText { get; set; }
 
-        IEnumerable<string> SelectedFilterTags { get; }
+        IEnumerable<string> SelectedTags { get; }
 
         bool SaveButtonEnabled { get; set; }
         bool CancelButtonEnabled { get; set; }

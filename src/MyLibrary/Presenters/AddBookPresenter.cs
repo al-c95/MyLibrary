@@ -67,7 +67,60 @@ namespace MyLibrary.Presenters
         #region View event handlers
         public async void SaveButtonClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            // check if item with title already exists
+            bool exists = false;
+            string existingTitle = null;
+            if (await this._bookRepo.ExistsWithTitle(this._view.TitleFieldText))
+            {
+                exists = true;
+                existingTitle = this._view.TitleFieldText;
+            }
+            if (await this._bookRepo.ExistsWithTitle(this._view.LongTitleFieldText))
+            {
+                exists = true;
+                existingTitle = this._view.LongTitleFieldText;
+            }
+            if (exists)
+            {
+                // tell the user
+                this._view.ShowItemAlreadyExistsDialog(existingTitle);
+
+                // nothing more to do
+                return;
+            }
+
+            // create item
+            List<Tag> tags = new List<Tag>();
+            foreach (var tagName in this._view.SelectedTags)
+                tags.Add(new Tag { Name = tagName });
+            List<Author> authors = new List<Author>();
+            foreach (var authorName in this._view.SelectedAuthors)
+            {
+                Author author = new Author();
+                author.SetFullNameFromCommaFormat(authorName);
+                authors.Add(author);
+            }
+            Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText, new Publisher { Name = this._view.SelectedPublisher }, this._view.LanguageFieldText, int.Parse(this._view.PagesFieldText))
+                .WithTags(tags)
+                .WithAuthors(authors)
+                .WithIsbn(this._view.IsbnFieldText)
+                .WithIsbn(this._view.Isbn13FieldText)
+                .WithOverview(this._view.OverviewFieldText)
+                .WithMsrp(this._view.MsrpFieldText)
+                .WithSynopsys(this._view.SynopsysFieldText)
+                .WithExcerpt(this._view.ExcerptFieldText)
+                .Edition(this._view.EditionFieldText)
+                //.WithDeweyDecimal(double.Parse(this._view.DeweyDecimalFieldText))
+                .PublishedIn(this._view.DatePublishedFieldText)
+                .InFormat(this._view.FormatFieldText)
+                .Sized(this._view.DimensionsFieldText)
+                    .Get();
+            book.Notes = this._view.NotesFieldText;
+
+            // add item
+            await this._bookRepo.Create(book);
+            this._view.ItemAddedFinished();
+            this._view.CloseDialog();
         }
 
         public void InputFieldsUpdated(object sender, EventArgs e)
@@ -79,6 +132,7 @@ namespace MyLibrary.Presenters
             sane = sane && !string.IsNullOrWhiteSpace(this._view.PagesFieldText);
             int pages;
             sane = sane && (int.TryParse(this._view.PagesFieldText, out pages));
+            sane = sane && this._view.SelectedPublisher != null;
 
             this._view.SaveButtonEnabled = sane;
         }

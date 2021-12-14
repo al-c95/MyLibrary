@@ -70,5 +70,20 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // act/assert
             Assert.AreEqual(expectedResult, testAuthor.GetFullNameWithFirstInitial());
         }
+
+        [Test]
+        public void SetFullNameFromCommaFormat()
+        {
+            // arrange
+            Author author = new Author();
+            string name = "Smith, John";
+
+            // act
+            author.SetFullNameFromCommaFormat(name);
+
+            // assert
+            author.FirstName = "John";
+            author.LastName = "Smith";
+        }//class
     }
 }
