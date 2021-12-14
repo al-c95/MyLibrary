@@ -55,6 +55,13 @@ namespace MyLibrary
                 // fire the public event so the subscribed presenter can react
                 SaveButtonClicked?.Invoke(sender, args);
             });
+            this.addNewTagButton.Click += ((sender, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.newTagField.Text))
+                {
+                    this.tagsList.Items.Add(this.newTagField.Text, true);
+                }
+            });
         }
 
         public string SelectedCategory
@@ -92,7 +99,7 @@ namespace MyLibrary
             set => this.notesField.Text = value; 
         }
 
-        public IEnumerable<string> SelectedFilterTags
+        public IEnumerable<string> SelectedTags
         {
             get
             {

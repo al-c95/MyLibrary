@@ -44,6 +44,7 @@ namespace MyLibrary
             this.yearField = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tagsGroup = new System.Windows.Forms.GroupBox();
+            this.newTagField = new System.Windows.Forms.TextBox();
             this.addNewTagButton = new System.Windows.Forms.Button();
             this.tagsList = new System.Windows.Forms.CheckedListBox();
             this.tagsGroup.SuspendLayout();
@@ -171,6 +172,7 @@ namespace MyLibrary
             // 
             // tagsGroup
             // 
+            this.tagsGroup.Controls.Add(this.newTagField);
             this.tagsGroup.Controls.Add(this.addNewTagButton);
             this.tagsGroup.Controls.Add(this.tagsList);
             this.tagsGroup.Location = new System.Drawing.Point(212, 118);
@@ -180,12 +182,18 @@ namespace MyLibrary
             this.tagsGroup.TabStop = false;
             this.tagsGroup.Text = "Tags";
             // 
+            // newTagField
+            // 
+            this.newTagField.Location = new System.Drawing.Point(213, 21);
+            this.newTagField.Name = "newTagField";
+            this.newTagField.Size = new System.Drawing.Size(167, 22);
+            this.newTagField.TabIndex = 25;
+            // 
             // addNewTagButton
             // 
-            this.addNewTagButton.Enabled = false;
-            this.addNewTagButton.Location = new System.Drawing.Point(302, 21);
+            this.addNewTagButton.Location = new System.Drawing.Point(285, 49);
             this.addNewTagButton.Name = "addNewTagButton";
-            this.addNewTagButton.Size = new System.Drawing.Size(78, 27);
+            this.addNewTagButton.Size = new System.Drawing.Size(95, 27);
             this.addNewTagButton.TabIndex = 11;
             this.addNewTagButton.Text = "Add New";
             this.addNewTagButton.UseVisualStyleBackColor = true;
@@ -195,7 +203,7 @@ namespace MyLibrary
             this.tagsList.FormattingEnabled = true;
             this.tagsList.Location = new System.Drawing.Point(6, 21);
             this.tagsList.Name = "tagsList";
-            this.tagsList.Size = new System.Drawing.Size(290, 89);
+            this.tagsList.Size = new System.Drawing.Size(201, 89);
             this.tagsList.TabIndex = 0;
             // 
             // AddNewMediaItemForm
@@ -224,6 +232,7 @@ namespace MyLibrary
             this.Name = "AddNewMediaItemForm";
             this.Text = "Add New Media Item";
             this.tagsGroup.ResumeLayout(false);
+            this.tagsGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,5 +257,6 @@ namespace MyLibrary
         private System.Windows.Forms.GroupBox tagsGroup;
         private System.Windows.Forms.Button addNewTagButton;
         private System.Windows.Forms.CheckedListBox tagsList;
+        private System.Windows.Forms.TextBox newTagField;
     }
 }
