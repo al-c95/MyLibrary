@@ -85,8 +85,8 @@ namespace MyLibrary.Presenters
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
             if (!string.IsNullOrWhiteSpace(this._view.NumberFieldText))
             {
-                int number;
-                sane = sane && int.TryParse(this._view.NumberFieldText, out number);
+                long number;
+                sane = sane && long.TryParse(this._view.NumberFieldText, out number);
             }
             else
             {
