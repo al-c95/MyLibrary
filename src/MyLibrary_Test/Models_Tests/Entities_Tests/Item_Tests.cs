@@ -29,7 +29,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
         class MockItem : Item
         {
-
+            public override ItemType Type { get; set; }
         }
     }
 }

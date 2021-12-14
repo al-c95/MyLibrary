@@ -8,7 +8,18 @@ namespace MyLibrary.Models.Entities
 {
     public class MediaItem : Item
     {
-        public ItemType Type { get; set; }
+        private ItemType _type;
+        public override ItemType Type
+        {
+            get => this._type;
+            set
+            {
+                if (value == ItemType.Book)
+                    throw new InvalidOperationException("Cannot set MediaItem.Type to ItemType.Book");
+
+                this._type = value;
+            } 
+        }
         public long Number { get; set; }
         public int? RunningTime { get; set; }
         public int ReleaseYear { get; set; }
