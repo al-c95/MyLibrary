@@ -105,5 +105,31 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // assert
             Assert.IsNull(book.GetAuthorList());
         }
-    }
+
+        [Test]
+        public void Isbn_Set_Test_Valid()
+        {
+            // arrange
+            Book book = new Book();
+            string givenIsbn = "0123456789";
+
+            // act
+            book.Isbn = givenIsbn;
+
+            // assert
+            Assert.AreEqual(givenIsbn, book.GetIsbn());
+        }
+
+        [TestCase("34hg5867g7")]
+        [TestCase("012345678")]
+        [TestCase("01234567891")]
+        public void Isbn_Set_Test_Invalid(string givenIsbn)
+        {
+            // arrange
+            Book book = new Book();
+
+            // act/assert
+            Assert.Throws<FormatException>(() => book.Isbn = givenIsbn);
+        }
+    }//class
 }
