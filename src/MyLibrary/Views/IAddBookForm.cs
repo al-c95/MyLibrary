@@ -23,6 +23,9 @@ namespace MyLibrary.Views
         string ExcerptFieldText { get; set; }
         string SynopsysFieldText { get; set; }
 
+        IEnumerable<string> SelectedAuthors { get; }
+        string SelectedPublisher { get; }
+
         void PopulateAuthorList(IEnumerable<string> names);
         void PopulatePublisherList(IEnumerable<string> publisherNames);
     }

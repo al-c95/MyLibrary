@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MyLibrary.Models.Entities
@@ -47,6 +48,13 @@ namespace MyLibrary.Models.Entities
         public string GetFullNameWithFirstInitial()
         {
             return (this.LastName + ", " + this.FirstName.Substring(0,1) + ".");
+        }
+
+        public void SetFullNameFromCommaFormat(string name)
+        {
+            string[] parts = Regex.Split(name, ", ");
+            this._lastName = parts[0];
+            this._firstName = parts.Length > 1 ? parts[1] : string.Empty;
         }
 
         public ICollection<Book> Books { get; set; }
