@@ -12,6 +12,8 @@ namespace MyLibrary.Models.Entities
     /// </summary>
     public abstract class Item : Entity // abstract class to reduce code duplication of title and image properties
     {
+        public abstract ItemType Type { get; set; }
+
         public Item()
         { 
             this.Tags = new List<Tag>(); 

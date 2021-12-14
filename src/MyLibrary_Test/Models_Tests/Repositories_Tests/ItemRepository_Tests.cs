@@ -97,7 +97,7 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
 
     public class MockItem : Item
     {
-
+        public override ItemType Type { get; set; }
     }//class
 
     public class MockItemRepository : ItemRepository<MockItem>

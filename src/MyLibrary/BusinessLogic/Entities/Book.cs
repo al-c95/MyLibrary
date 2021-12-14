@@ -9,6 +9,8 @@ namespace MyLibrary.Models.Entities
 {
     public sealed class Book : Item
     {
+        public override ItemType Type { get => ItemType.Book; set => throw new InvalidOperationException("Cannot change Book.Type."); }
+
         public Book()
         {
             this.Authors = new List<Author> { };
