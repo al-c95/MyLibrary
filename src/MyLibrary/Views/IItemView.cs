@@ -20,6 +20,8 @@ namespace MyLibrary.Views
         string ItemsDisplayedText { get; set; }
         string TitleFilterText { get; set; }
         IEnumerable<string> SelectedFilterTags { get; }
+        bool IsItemSelected { get; }
+        bool DeleteItemButtonEnabled { get; set; }
 
         void LoadWindow();
         void PopulateFilterTags(Dictionary<string, bool> tagNamesAndCheckedStatuses);

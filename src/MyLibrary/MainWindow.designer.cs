@@ -47,6 +47,8 @@ namespace MyLibrary
             this.itemsDisplayedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.filterGroup = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tagsList = new System.Windows.Forms.CheckedListBox();
             this.saveFilterButton = new System.Windows.Forms.Button();
             this.clearFilterButton = new System.Windows.Forms.Button();
             this.applyFilterButton = new System.Windows.Forms.Button();
@@ -61,8 +63,6 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
-            this.tagsList = new System.Windows.Forms.CheckedListBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -242,6 +242,23 @@ namespace MyLibrary
             this.filterGroup.TabStop = false;
             this.filterGroup.Text = "Filter";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 17);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Tags:";
+            // 
+            // tagsList
+            // 
+            this.tagsList.FormattingEnabled = true;
+            this.tagsList.Location = new System.Drawing.Point(72, 62);
+            this.tagsList.Name = "tagsList";
+            this.tagsList.Size = new System.Drawing.Size(317, 106);
+            this.tagsList.TabIndex = 16;
+            // 
             // saveFilterButton
             // 
             this.saveFilterButton.Enabled = false;
@@ -307,7 +324,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeImageButton.Location = new System.Drawing.Point(120, 153);
+            this.removeImageButton.Location = new System.Drawing.Point(238, 120);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(154, 28);
             this.removeImageButton.TabIndex = 19;
@@ -317,7 +334,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(120, 122);
+            this.selectImageButton.Location = new System.Drawing.Point(9, 120);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(154, 28);
             this.selectImageButton.TabIndex = 18;
@@ -385,23 +402,6 @@ namespace MyLibrary
             this.categoryDropDown.Name = "categoryDropDown";
             this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
-            // 
-            // tagsList
-            // 
-            this.tagsList.FormattingEnabled = true;
-            this.tagsList.Location = new System.Drawing.Point(72, 62);
-            this.tagsList.Name = "tagsList";
-            this.tagsList.Size = new System.Drawing.Size(317, 106);
-            this.tagsList.TabIndex = 16;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 62);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 17);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Tags:";
             // 
             // MainWindow
             // 
