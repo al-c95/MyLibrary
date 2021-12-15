@@ -262,6 +262,17 @@ namespace MyLibrary
             }
         }
 
+        public bool IsItemSelected
+        {
+            get => this.dataGrid.SelectedRows.Count != 0;
+        }
+
+        public bool DeleteItemButtonEnabled
+        {
+            get => this.deleteSelectedButton.Enabled;
+            set => this.deleteSelectedButton.Enabled = value;
+        }
+
         #region events
         public event EventHandler ItemSelectionChanged;
         public event EventHandler CategorySelectionChanged;

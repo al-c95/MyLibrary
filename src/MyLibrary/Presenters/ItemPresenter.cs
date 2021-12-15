@@ -257,6 +257,8 @@ namespace MyLibrary.Presenters
 
         public async void ItemSelectionChanged(object sender, EventArgs e)
         {
+            this._view.DeleteItemButtonEnabled = this._view.IsItemSelected;
+
             if (this._view.SelectedItemId == 0)
             {
                 return;
