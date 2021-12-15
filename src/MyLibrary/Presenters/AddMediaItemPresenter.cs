@@ -54,24 +54,24 @@ namespace MyLibrary.Presenters
                 return;
             }
 
-            // create appropriate type of item
-            MediaItemBuilder builder = null;
+            // create item
             string selectedCategory = this._view.SelectedCategory;
-            builder = new MediaItemBuilder(this._view.TitleFieldText, (ItemType)Enum.Parse(typeof(ItemType), this._view.SelectedCategory),
-                long.Parse(this._view.NumberFieldText), int.Parse(this._view.YearFieldEntry));
-
-            // fill in details
-            MediaItem item = builder
-                .Get();
-            item.Notes = this._view.NotesFieldText;
-            if (!string.IsNullOrWhiteSpace(this._view.RunningTimeFieldEntry))
+            string enteredRunningTime = this._view.RunningTimeFieldEntry;
+            MediaItem item = new MediaItem
             {
-                item.RunningTime = int.Parse(this._view.RunningTimeFieldEntry);
+                Title = this._view.TitleFieldText,
+                Type = (ItemType)Enum.Parse(typeof(ItemType), selectedCategory),
+                Number = long.Parse(this._view.NumberFieldText),
+                ReleaseYear = int.Parse(this._view.YearFieldEntry),
+                Notes = this._view.NotesFieldText
+            };
+            if (!string.IsNullOrWhiteSpace(enteredRunningTime))
+            {
+                item.RunningTime = int.Parse(enteredRunningTime);
             }
             foreach (var tagName in this._view.SelectedTags)
-            {
                 item.Tags.Add(new Tag { Name = tagName });
-            }
+            // TODO: add image
 
             // add new item
             await this._mediaItemRepo.Create(item);
