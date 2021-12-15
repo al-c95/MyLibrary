@@ -40,7 +40,7 @@ namespace MyLibrary.Models.Entities
             get => this._isbn;
             set
             {
-                if (Regex.IsMatch(value, ISBN_10_PATTERN) || string.IsNullOrEmpty(value))
+                if (Regex.IsMatch(value, ISBN_10_PATTERN) || string.IsNullOrWhiteSpace(value))
                     this._isbn = value;
                 else
                     throw new FormatException("Isbn: " + value + " has incorrect format.");
@@ -53,7 +53,7 @@ namespace MyLibrary.Models.Entities
             get => this._isbn13;
             set
             {
-                if (Regex.IsMatch(value, ISBN_13_PATTERN) || string.IsNullOrEmpty(value))
+                if (Regex.IsMatch(value, ISBN_13_PATTERN) || string.IsNullOrWhiteSpace(value))
                     this._isbn13 = value;
                 else
                     throw new FormatException("Isbn: " + value + " has incorrect format.");
@@ -80,7 +80,13 @@ namespace MyLibrary.Models.Entities
             }
         }
 
-        public double? DeweyDecimal { get; set; }
+        public static readonly string DEWEY_DECIMAL_PATTERN = @"^\d+\.?\d*$";
+        public decimal? DeweyDecimal 
+        {
+            get;
+            set;
+        }
+
         public string Format { get; set; }
         public string DatePublished { get; set; }
         public string Edition { get; set; }

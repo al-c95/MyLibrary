@@ -186,6 +186,9 @@ namespace MyLibrary
             }
         }
 
+        /// <summary>
+        /// Returns name of the selected publisher. If none selected, returns null.
+        /// </summary>
         public string SelectedPublisher
         {
             get 
