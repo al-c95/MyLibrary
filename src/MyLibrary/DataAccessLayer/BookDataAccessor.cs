@@ -10,6 +10,9 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer
 {
+    /// <summary>
+    /// Abstraction over database for book item operations.
+    /// </summary>
     public class BookDataAccessor : ItemDataAccessor<Book>
     {
         public override async Task Create(Book toAdd)
@@ -19,169 +22,181 @@ namespace MyLibrary.DataAccessLayer
                 conn.Open();
                 using (var transaction = conn.BeginTransaction())
                 {
-                    // insert publisher information
-                    int publisherId = 0;
-                    Publisher publisher = toAdd.Publisher;
-                    bool publisherExists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Publishers WHERE name=@name", new 
+                    try
                     {
-                        publisher.Name
-                    });
-                    if (publisherExists)
-                    {
-                        // publisher exists
-                        // get the id
-                        publisherId = await conn.QuerySingleAsync<int>("SELECT id FROM Publishers WHERE name=@name", new
+                        // insert publisher information
+                        int publisherId = 0;
+                        Publisher publisher = toAdd.Publisher;
+                        bool publisherExists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Publishers WHERE name=@name", new
                         {
                             publisher.Name
                         });
-                    }
-                    else
-                    {
-                        // publisher does not exist
-                        // insert publisher
-                        await conn.ExecuteAsync("INSERT INTO Publishers(name) VALUES(@name);", new
+                        if (publisherExists)
                         {
-                            name = publisher.Name
-                        });
-                        // get the id
-                        publisherId = await conn.QuerySingleAsync<int>("SELECT id FROM Publishers WHERE name=@name", new
-                        {
-                            publisher.Name
-                        });
-                    }
-
-                    // insert Book table record
-                    const string INSERT_BOOK_SQL = "INSERT INTO Books(title,titleLong,isbn,isbn13,deweyDecimal,publisherId,format,language,datePublished,edition,pages,dimensions,overview,image,msrp,excerpt,synopsys,notes) " +
-                        "VALUES(@title,@titleLong,@isbn,@isbn13,@deweyDecimal,@publisherId,@format,@language,@datePublished,@edition,@pages,@dimensions,@overview,@image,@msrp,@excerpt,@synopsys,@notes);";
-                    await conn.ExecuteAsync(INSERT_BOOK_SQL, new
-                    {
-                        title = toAdd.Title,
-                        titleLong = toAdd.TitleLong,
-                        isbn = toAdd.Isbn,
-                        isbn13 = toAdd.Isbn13,
-                        deweyDecimal = toAdd.DeweyDecimal,
-                        publisherId = publisherId,
-                        format = toAdd.Format,
-                        language = toAdd.Language,
-                        datePublished = toAdd.DatePublished,
-                        edition = toAdd.Edition,
-                        pages = toAdd.Pages,
-                        dimensions = toAdd.Dimensions,
-                        overview = toAdd.Overview,
-                        image = toAdd.Image,
-                        msrp = toAdd.Msrp,
-                        excerpt = toAdd.Excerpt,
-                        synopsys = toAdd.Synopsys,
-                        notes = toAdd.Notes
-                    });
-
-                    // get all tag ids
-                    List<int> tagIds = new List<int>();
-                    foreach (var tag in toAdd.Tags)
-                    {
-                        bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Tags WHERE name=@name", new
-                        {
-                            tag.Name
-                        });
-                        if (exists)
-                        {
-                            // tag exists
+                            // publisher exists
                             // get the id
-                            int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                            publisherId = await conn.QuerySingleAsync<int>("SELECT id FROM Publishers WHERE name=@name", new
                             {
-                                tag.Name
+                                publisher.Name
                             });
-                            tagIds.Add(tagId);
                         }
                         else
                         {
-                            // tag does not exist
-                            // insert tag
-                            await conn.ExecuteAsync("INSERT INTO Tags(name) VALUES(@name);", new
+                            // publisher does not exist
+                            // insert publisher
+                            await conn.ExecuteAsync("INSERT INTO Publishers(name) VALUES(@name);", new
+                            {
+                                name = publisher.Name
+                            });
+                            // get the id
+                            publisherId = await conn.QuerySingleAsync<int>("SELECT id FROM Publishers WHERE name=@name", new
+                            {
+                                publisher.Name
+                            });
+                        }
+
+                        // insert Book table record
+                        const string INSERT_BOOK_SQL = "INSERT INTO Books(title,titleLong,isbn,isbn13,deweyDecimal,publisherId,format,language,datePublished,edition,pages,dimensions,overview,image,msrp,excerpt,synopsys,notes) " +
+                            "VALUES(@title,@titleLong,@isbn,@isbn13,@deweyDecimal,@publisherId,@format,@language,@datePublished,@edition,@pages,@dimensions,@overview,@image,@msrp,@excerpt,@synopsys,@notes);";
+                        await conn.ExecuteAsync(INSERT_BOOK_SQL, new
+                        {
+                            title = toAdd.Title,
+                            titleLong = toAdd.TitleLong,
+                            isbn = toAdd.Isbn,
+                            isbn13 = toAdd.Isbn13,
+                            deweyDecimal = toAdd.DeweyDecimal,
+                            publisherId = publisherId,
+                            format = toAdd.Format,
+                            language = toAdd.Language,
+                            datePublished = toAdd.DatePublished,
+                            edition = toAdd.Edition,
+                            pages = toAdd.Pages,
+                            dimensions = toAdd.Dimensions,
+                            overview = toAdd.Overview,
+                            image = toAdd.Image,
+                            msrp = toAdd.Msrp,
+                            excerpt = toAdd.Excerpt,
+                            synopsys = toAdd.Synopsys,
+                            notes = toAdd.Notes
+                        });
+
+                        // get all tag ids
+                        List<int> tagIds = new List<int>();
+                        foreach (var tag in toAdd.Tags)
+                        {
+                            bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Tags WHERE name=@name", new
                             {
                                 tag.Name
                             });
-                            // get the id
-                            int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                            if (exists)
                             {
-                                tag.Name
-                            });
-                            tagIds.Add(tagId);
-                        }
-                    }//foreach
+                                // tag exists
+                                // get the id
+                                int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                                {
+                                    tag.Name
+                                });
+                                tagIds.Add(tagId);
+                            }
+                            else
+                            {
+                                // tag does not exist
+                                // insert tag
+                                await conn.ExecuteAsync("INSERT INTO Tags(name) VALUES(@name);", new
+                                {
+                                    tag.Name
+                                });
+                                // get the id
+                                int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                                {
+                                    tag.Name
+                                });
+                                tagIds.Add(tagId);
+                            }
+                        }//foreach
 
-                    // insert records into Book_Tag table
-                    int itemId = await conn.QuerySingleAsync<int>("SELECT id FROM Books WHERE title=@title", new
-                    {
-                        toAdd.Title
-                    });
-                    foreach (int tagId in tagIds)
-                    {
-                        const string INSERT_MEDIA_TAG_SQL = "INSERT INTO Book_Tag(bookId,tagId) " +
-                            "VALUES(@bookId,@tagId);";
-                        await conn.ExecuteAsync(INSERT_MEDIA_TAG_SQL, new
+                        // insert records into Book_Tag table
+                        int itemId = await conn.QuerySingleAsync<int>("SELECT id FROM Books WHERE title=@title", new
                         {
-                            bookId = itemId,
-                            tagId = tagId
+                            toAdd.Title
                         });
+                        foreach (int tagId in tagIds)
+                        {
+                            const string INSERT_MEDIA_TAG_SQL = "INSERT INTO Book_Tag(bookId,tagId) " +
+                                "VALUES(@bookId,@tagId);";
+                            await conn.ExecuteAsync(INSERT_MEDIA_TAG_SQL, new
+                            {
+                                bookId = itemId,
+                                tagId = tagId
+                            });
+                        }
+
+                        // get all author ids
+                        List<int> authorIds = new List<int>();
+                        foreach (var author in toAdd.Authors)
+                        {
+                            bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+                            {
+                                firstName = author.FirstName,
+                                lastName = author.LastName
+                            });
+                            if (exists)
+                            {
+                                // author exists
+                                // get the id
+                                int authorId = await conn.QuerySingleAsync<int>("SELECT id FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+                                {
+                                    firstName = author.FirstName,
+                                    lastName = author.LastName
+                                });
+                                authorIds.Add(authorId);
+                            }
+                            else
+                            {
+                                // author does not exist
+                                // insert author
+                                await conn.ExecuteAsync("INSERT INTO Authors(firstName,lastName) VALUES(@firstName,@lastName);", new
+                                {
+                                    firstName = author.FirstName,
+                                    lastName = author.LastName
+                                });
+                                // get the id
+                                int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+                                {
+                                    firstName = author.FirstName,
+                                    lastName = author.LastName
+                                });
+                                authorIds.Add(tagId);
+                            }
+                        }//foreach
+
+                        // insert records(s) in Book_Author table
+                        int bookId = await conn.QuerySingleAsync<int>("SELECT id FROM Books WHERE title=@title AND titleLong=@titleLong", new
+                        {
+                            title = toAdd.Title,
+                            titleLong = toAdd.TitleLong
+                        });
+                        foreach (int authorId in authorIds)
+                        {
+                            const string INSERT_BOOK_AUTHOR_SQL = "INSERT INTO Book_Author(bookId,authorId) VALUES(@bookId,@authorId)";
+                            await conn.ExecuteAsync(INSERT_BOOK_AUTHOR_SQL, new
+                            {
+                                bookId = bookId,
+                                authorId = authorId
+                            });
+                        }
+
+                        // if the transaction succeeded, commit it
+                        transaction.Commit();
                     }
-
-                    // get all author ids
-                    List<int> authorIds = new List<int>();
-                    foreach (var author in toAdd.Authors)
+                    catch (Exception)
                     {
-                        bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
-                        {
-                            firstName = author.FirstName,
-                            lastName = author.LastName
-                        });
-                        if (exists)
-                        {
-                            // author exists
-                            // get the id
-                            int authorId = await conn.QuerySingleAsync<int>("SELECT id FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
-                            {
-                                firstName = author.FirstName,
-                                lastName = author.LastName
-                            });
-                            authorIds.Add(authorId);
-                        }
-                        else
-                        {
-                            // author does not exist
-                            // insert author
-                            await conn.ExecuteAsync("INSERT INTO Authors(firstName,lastName) VALUES(@firstName,@lastName);", new 
-                            {
-                                firstName = author.FirstName,
-                                lastName = author.LastName
-                            });
-                            // get the id
-                            int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
-                            {
-                                firstName = author.FirstName,
-                                lastName = author.LastName
-                            });
-                            authorIds.Add(tagId);
-                        }
-                    }//foreach
-
-                    // insert records(s) in Book_Author table
-                    int bookId = await conn.QuerySingleAsync<int>("SELECT id FROM Books WHERE title=@title AND titleLong=@titleLong", new 
-                    {
-                        title = toAdd.Title,
-                        titleLong = toAdd.TitleLong
-                    });
-                    foreach (int authorId in authorIds)
-                    {
-                        const string INSERT_BOOK_AUTHOR_SQL = "INSERT INTO Book_Author(bookId,authorId) VALUES(@bookId,@authorId)";
-                        await conn.ExecuteAsync(INSERT_BOOK_AUTHOR_SQL, new
-                        {
-                            bookId = bookId,
-                            authorId = authorId
-                        });
+                        // transaction failed
+                        // roll it back
+                        transaction.Rollback();
+                        // pass up the exception
+                        throw;
                     }
-
-                    transaction.Commit();
                 }//transaction
 
                 conn.Close();
