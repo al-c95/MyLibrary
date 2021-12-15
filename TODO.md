@@ -19,3 +19,5 @@ https://dotnettutorials.net/lesson/generic-repository-pattern-csharp-mvc/
 Notes:
 - extract interface for each repository
 - think about refactoring data access layer/repositories
+https://github.com/timschreiber/DapperUnitOfWork
+https://stackoverflow.com/questions/31298235/how-to-implement-unit-of-work-pattern-with-dapper/45029588
