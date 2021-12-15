@@ -44,7 +44,6 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveButtonEnabled);
         }
 
-        [TestCase(null, "0", "0", "0", "notes")]
         [TestCase("", "0", "0", "0", "notes")]
         [TestCase("title", "", "0", "0", "notes")]
         [TestCase("title", "", "", "0", "notes")]
@@ -53,7 +52,6 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("title", "0", "", "", "notes")]
         [TestCase("title", "0", "0", "", "notes")]
         [TestCase("title", "", "0", "", "notes")]
-        [TestCase(null, "0", "0", "0", "")]
         [TestCase("", "0", "0", "0", "")]
         [TestCase("title", "", "0", "0", "")]
         [TestCase("title", "", "", "0", "")]
@@ -62,13 +60,6 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("title", "0", "", "", "")]
         [TestCase("title", "0", "0", "", "")]
         [TestCase("title", "", "0", "", "")]
-        [TestCase(null, "", "0", "0", "")]
-        [TestCase(null, "", "", "0", "")]
-        [TestCase(null, "", "", "", "")]
-        [TestCase(null, "", "", "", "")]
-        [TestCase(null, "0", "", "", "")]
-        [TestCase(null, "0", "0", "", "")]
-        [TestCase(null, "", "0", "", "")]
         [TestCase("", "", "0", "0", "")]
         [TestCase("", "", "", "0", "")]
         [TestCase("", "", "", "", "")]

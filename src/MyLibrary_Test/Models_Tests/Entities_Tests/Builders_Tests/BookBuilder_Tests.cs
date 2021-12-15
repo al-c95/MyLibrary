@@ -13,39 +13,49 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
     public class BookBuilder_Tests
     {
         [Test]
-        public void WithIsbn_Test_10()
+        public void WithIsbn_Test_Valid()
         {
             // arrange/act
+            string isbn = "0123456789";
             Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn("0123456789")
+                .WithIsbn(isbn)
                     .Get();
 
             // assert
-            Assert.AreEqual("0123456789", book.Isbn);
+            Assert.AreEqual(isbn, book.GetIsbn());
+        }
+
+        [TestCase("fhkjgh")]
+        [TestCase("01234h6789")]
+        [TestCase("01234567890")]
+        public void WithIsbn_Test_Invalid(string isbn)
+        {
+            Assert.Throws<FormatException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
+                .WithIsbn(isbn));
         }
 
         [Test]
-        public void WithIsbn_Test_13()
+        public void WithIsbn13_Test_Valid()
         {
             // arrange/act
+            string isbn = "0123456789012";
             Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn("0123456789012")
+                .WithIsbn13(isbn)
                     .Get();
 
             // assert
-            Assert.AreEqual("0123456789012", book.Isbn13);
+            Assert.AreEqual(isbn, book.GetIsbn());
         }
 
-        [TestCase("0")]
+        [TestCase("fhkjgh")]
+        [TestCase("01234h6789012")]
         [TestCase("01234567890")]
-        [TestCase("01234567890123")]
-        public void WithIsbn_Test_IncorrectNumberOfDigits(string isbn)
+        public void WithIsbn13_Test_Invalid(string isbn)
         {
-            Assert.Throws<ArgumentException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn(isbn)
-                    .Get());
+            Assert.Throws<FormatException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
+                .WithIsbn13(isbn));
         }
-        
+
         [Test]
         public void WithTags_Test()
         {

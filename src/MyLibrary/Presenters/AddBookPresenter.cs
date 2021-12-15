@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
@@ -110,7 +111,7 @@ namespace MyLibrary.Presenters
                 .WithSynopsys(this._view.SynopsysFieldText)
                 .WithExcerpt(this._view.ExcerptFieldText)
                 .Edition(this._view.EditionFieldText)
-                .WithDeweyDecimal(double.Parse(this._view.DeweyDecimalFieldText))
+                .WithDeweyDecimal(this._view.DeweyDecimalFieldText)
                 .PublishedIn(this._view.DatePublishedFieldText)
                 .InFormat(this._view.FormatFieldText)
                 .Sized(this._view.DimensionsFieldText)
@@ -137,13 +138,23 @@ namespace MyLibrary.Presenters
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
             bool sane = true;
+            // title fields mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LongTitleFieldText);
+            // language field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LanguageFieldText);
+            // number of pages field mandatory, should be an integer
             sane = sane && !string.IsNullOrWhiteSpace(this._view.PagesFieldText);
             int pages;
             sane = sane && (int.TryParse(this._view.PagesFieldText, out pages));
+            // publisher selection mandatory
             sane = sane && this._view.SelectedPublisher != null;
+            // ISBN fields must be either blank or have the appropriate pattern of digits
+            sane = sane && (Regex.IsMatch(this._view.IsbnFieldText, Book.ISBN_10_PATTERN) || string.IsNullOrWhiteSpace(this._view.IsbnFieldText));
+            sane = sane && (Regex.IsMatch(this._view.Isbn13FieldText, Book.ISBN_13_PATTERN) || string.IsNullOrWhiteSpace(this._view.Isbn13FieldText));
+            // dewey decimal field must be either blank or have the appropriate pattern
+            sane = sane && (Regex.IsMatch(this._view.DeweyDecimalFieldText, Book.DEWEY_DECIMAL_PATTERN) || string.IsNullOrWhiteSpace(this._view.DeweyDecimalFieldText));
+            // don't care about the other fields
 
             this._view.SaveButtonEnabled = sane;
         }
