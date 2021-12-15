@@ -19,8 +19,15 @@ namespace MyLibrary_Test.Presenters_Tests
     [TestFixture]
     class AddBookPresenter_Tests
     {
-        [Test]
-        public void InputFieldsUpdated_Test_Valid()
+        [TestCase("", "", "500.0")]
+        [TestCase("0123456789", "", "500.0")]
+        [TestCase("0123456789", "0123456789123", "500.0")]
+        [TestCase("", "0123456789123", "500.0")]
+        [TestCase("", "", "")]
+        [TestCase("0123456789", "", "")]
+        [TestCase("0123456789", "0123456789123", "")]
+        [TestCase("", "0123456789123", "")]
+        public void InputFieldsUpdated_Test_Valid(string isbnFieldText, string isbn13FieldText, string deweyDecimalFieldText)
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -28,6 +35,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("long title");
             A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
             A.CallTo(() => fakeView.PagesFieldText).Returns("60");
+            A.CallTo(() => fakeView.SelectedPublisher).Returns("publisher");
+            A.CallTo(() => fakeView.Isbn13FieldText).Returns(isbn13FieldText);
+            A.CallTo(() => fakeView.IsbnFieldText).Returns(isbnFieldText);
+            A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             var fakeBookRepo = A.Fake<BookRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();

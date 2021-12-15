@@ -8,5 +8,6 @@ namespace MyLibrary.Models.Entities
     {
         public Item Item { get; set; }
         public string Notes { get; set; }
+        public byte[] Image { get; set; }
     }
 }

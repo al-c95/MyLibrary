@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MyLibrary.Models.Entities.Builders
@@ -35,24 +36,52 @@ namespace MyLibrary.Models.Entities.Builders
 
         public BookBuilder WithIsbn(string isbn)
         {
-            switch (isbn.Length)
+            if (Regex.IsMatch(isbn, Book.ISBN_10_PATTERN) || string.IsNullOrWhiteSpace(isbn))
             {
-                case 10:
-                    this.book.Isbn = isbn;
-                    break;
-                case 13:
-                    this.book.Isbn13 = isbn;
-                    break;
-                default:
-                    throw new ArgumentException("ISBN must have 10 or 13 digits.");
+                this.book.Isbn = isbn;
+            }
+            else
+            {
+                throw new FormatException("ISBN: " + isbn + " does not have appropriate format.");
             }
 
             return this;
         }
 
-        public BookBuilder WithDeweyDecimal(double deweyDecimal)
+        public BookBuilder WithIsbn13(string isbn)
         {
-            this.book.DeweyDecimal = deweyDecimal;
+            if (Regex.IsMatch(isbn, Book.ISBN_13_PATTERN) || string.IsNullOrWhiteSpace(isbn))
+            {
+                this.book.Isbn13 = isbn;
+            }
+            else
+            {
+                throw new FormatException("ISBN: " + isbn + " does not have appropriate format.");
+            }
+
+            return this;
+        }
+
+        public BookBuilder WithDeweyDecimal(string deweyDecimal)
+        {
+            decimal? value;
+            if (string.IsNullOrWhiteSpace(deweyDecimal))
+            {
+                value = null;
+            }
+            else
+            {
+                if (Regex.IsMatch(deweyDecimal, Book.DEWEY_DECIMAL_PATTERN))
+                {
+                    value = decimal.Parse(deweyDecimal);
+                }
+                else
+                {
+                    throw new FormatException("Dewey decimal: " + deweyDecimal + " does not have appropriate format.");
+                }
+            }
+            this.book.DeweyDecimal = value;
+
             return this;
         }
 
