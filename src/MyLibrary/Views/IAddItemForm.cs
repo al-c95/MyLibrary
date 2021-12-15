@@ -21,6 +21,8 @@ namespace MyLibrary.Views
         void ShowItemAlreadyExistsDialog(string title);
         void ItemAddedFinished();
 
+        void ShowErrorDialog(string title, string message);
+
         event EventHandler InputFieldsUpdated;
         event EventHandler SaveButtonClicked;
         event EventHandler ItemAdded;

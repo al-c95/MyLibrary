@@ -348,5 +348,10 @@ namespace MyLibrary
         {
             this.Close();
         }
+
+        public void ShowErrorDialog(string title, string message)
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }//class
 }

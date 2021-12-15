@@ -74,8 +74,18 @@ namespace MyLibrary.Presenters
             // TODO: add image
 
             // add new item
-            await this._mediaItemRepo.Create(item);
-            this._view.ItemAddedFinished();
+            try
+            {
+                await this._mediaItemRepo.Create(item);
+                this._view.ItemAddedFinished();
+            }
+            catch (Exception ex)
+            {
+                // something bad happened
+                // notify the user
+                this._view.ShowErrorDialog("Error creating item", ex.Message);
+                return;
+            }
             this._view.CloseDialog();
         }//SaveButtonClicked
 
