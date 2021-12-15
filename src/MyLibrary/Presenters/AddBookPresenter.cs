@@ -143,7 +143,7 @@ namespace MyLibrary.Presenters
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LongTitleFieldText);
             // language field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LanguageFieldText);
-            // number of pages field mandatory, should be an integer
+            // number of pages field mandatory, must be an integer
             sane = sane && !string.IsNullOrWhiteSpace(this._view.PagesFieldText);
             int pages;
             sane = sane && (int.TryParse(this._view.PagesFieldText, out pages));

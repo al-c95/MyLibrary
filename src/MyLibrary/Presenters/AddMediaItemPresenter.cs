@@ -92,7 +92,9 @@ namespace MyLibrary.Presenters
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
             bool sane = true;
+            // title field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
+            // number field mandatory, must be an integer
             if (!string.IsNullOrWhiteSpace(this._view.NumberFieldText))
             {
                 long number;
@@ -102,11 +104,13 @@ namespace MyLibrary.Presenters
             {
                 sane = false;
             }
+            // running time field must be either blank or an integer
             if (!string.IsNullOrWhiteSpace(this._view.RunningTimeFieldEntry))
             {
                 int runningTime;
                 sane = sane && int.TryParse(this._view.RunningTimeFieldEntry, out runningTime);
             }
+            // year field mandatory, must be an integer
             if (!string.IsNullOrWhiteSpace(this._view.YearFieldEntry))
             {
                 int year;
