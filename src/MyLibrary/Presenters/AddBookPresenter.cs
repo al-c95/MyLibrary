@@ -110,7 +110,7 @@ namespace MyLibrary.Presenters
                 .WithSynopsys(this._view.SynopsysFieldText)
                 .WithExcerpt(this._view.ExcerptFieldText)
                 .Edition(this._view.EditionFieldText)
-                //.WithDeweyDecimal(double.Parse(this._view.DeweyDecimalFieldText))
+                .WithDeweyDecimal(double.Parse(this._view.DeweyDecimalFieldText))
                 .PublishedIn(this._view.DatePublishedFieldText)
                 .InFormat(this._view.FormatFieldText)
                 .Sized(this._view.DimensionsFieldText)
@@ -118,8 +118,19 @@ namespace MyLibrary.Presenters
             book.Notes = this._view.NotesFieldText;
 
             // add item
-            await this._bookRepo.Create(book);
-            this._view.ItemAddedFinished();
+            try
+            {
+                await this._bookRepo.Create(book);
+                this._view.ItemAddedFinished();
+            }
+            catch (Exception ex)
+            {
+                // something bad happened
+                // notify the user
+                this._view.ShowErrorDialog("Error creating book", ex.Message);
+                return;
+            }
+            
             this._view.CloseDialog();
         }
 
