@@ -30,31 +30,28 @@ namespace MyLibrary
             this.tagsList.CheckOnClick = true;
 
             // register event handlers
+            // fire the public event so the subscribed presenter can react
             this.titleField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.numberField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.runningTimeField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.yearField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.saveButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 SaveButtonClicked?.Invoke(sender, args);
             });
+            // handle the event here
             this.addNewTagButton.Click += ((sender, args) =>
             {
                 if (!string.IsNullOrWhiteSpace(this.newTagField.Text))

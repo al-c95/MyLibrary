@@ -23,106 +23,88 @@ namespace MyLibrary
             this.authorsList.CheckOnClick = true;
 
             // register event handlers
+            // fire the public event so the subscribed presenter can react
             this.titleField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.longTitleField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.IsbnField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.Isbn13Field.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.overviewField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.MsrpField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.pagesField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.synopsisField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.excerptField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.datePublishedField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.editionField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.deweyDecimalField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.formatField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.dimensionsField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.languageField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.notesField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.authorsList.ItemCheck += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.publishersList.SelectedIndexChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.tagsList.ItemCheck += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 InputFieldsUpdated?.Invoke(sender, args);
             });
             this.saveButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 SaveButtonClicked?.Invoke(sender, args);
             });
+            // handle the event here
             this.addNewTagButton.Click += ((sender, args) =>
             {
                 if (!string.IsNullOrWhiteSpace(this.newTagField.Text))
