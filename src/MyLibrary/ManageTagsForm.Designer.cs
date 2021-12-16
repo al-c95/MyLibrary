@@ -51,7 +51,7 @@ namespace MyLibrary
             // 
             this.addTagButton.Location = new System.Drawing.Point(6, 58);
             this.addTagButton.Name = "addTagButton";
-            this.addTagButton.Size = new System.Drawing.Size(87, 28);
+            this.addTagButton.Size = new System.Drawing.Size(146, 28);
             this.addTagButton.TabIndex = 1;
             this.addTagButton.Text = "Add";
             this.addTagButton.UseVisualStyleBackColor = true;
