@@ -36,12 +36,13 @@ namespace MyLibrary
             this.tagsList.CheckOnClick = true;
 
             // register event handlers
+            // fire the public event so the subscribed present can react
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
             this.addButton.Click += ((sender, args) =>
             {
                 switch (this.categoryDropDown.SelectedIndex)
                 {
-                    // fire the public event so the subscribed present can react
+                    
                     case 0:
                         AddNewBookClicked?.Invoke(sender, args);
                         break;
@@ -52,29 +53,24 @@ namespace MyLibrary
             });
             this.categoryDropDown.SelectedIndexChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 CategorySelectionChanged?.Invoke(sender, args);
             });
             this.titleFilterField.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 FiltersUpdated?.Invoke(sender, args);
             });
             this.dataGrid.SelectionChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 ItemSelectionChanged?.Invoke(sender, args);
             });
             this.textBoxNotes.TextChanged += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 SelectedItemModified?.Invoke(sender, args);
 
                 this._selectedItem.Notes = this.textBoxNotes.Text;
             });
             this.discardChangesButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 DiscardSelectedItemChangesButtonClicked?.Invoke(sender, args);
             });
             this.deleteSelectedButton.Click += ((sender, args) =>
@@ -86,7 +82,6 @@ namespace MyLibrary
                     return;
                 }
 
-                // fire the public event so the subscribed presenter can react
                 this.DeleteButtonClicked?.Invoke(this, args);
             });
             this.clearFilterButton.Click += ((sender, args) =>
@@ -99,12 +94,10 @@ namespace MyLibrary
             });
             this.applyFilterButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 this.ApplyFilterButtonClicked?.Invoke(this, args);
             });
             this.saveChangesButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 this.UpdateSelectedItemButtonClicked?.Invoke(this, args);
             });
             this.selectImageButton.Click += ((sender, args) =>
@@ -120,14 +113,12 @@ namespace MyLibrary
                         byte[] bytes = File.ReadAllBytes(dialog.FileName);
                         this.pictureBox.Image = ReadImage(bytes);
 
-                        // fire the public event so the subscribed presenter can react
                         SelectedItemModified?.Invoke(sender, args);
                     }
                 }
             });
             this.removeImageButton.Click += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 SelectedItemModified?.Invoke(sender, args);
 
                 this.pictureBox.Image = null;
@@ -137,14 +128,12 @@ namespace MyLibrary
                 var form = await ManageTagsForm.CreateAsync(this);
                 form.TagsUpdated += ((s, a) =>
                 {
-                    // fire the public event so the subscribed presenter can react
                     this.TagsUpdated?.Invoke(s, a);
                 });
                 form.ShowDialog();
             });
             this.tagsList.ItemCheck += ((sender, args) =>
             {
-                // fire the public event so the subscribed presenter can react
                 FiltersUpdated?.Invoke(sender, args);
             });
 
