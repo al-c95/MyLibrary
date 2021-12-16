@@ -140,7 +140,6 @@ namespace MyLibrary.Presenters
             bool sane = true;
             // title fields mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
-            sane = sane && !string.IsNullOrWhiteSpace(this._view.LongTitleFieldText);
             // language field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LanguageFieldText);
             // number of pages field mandatory, must be an integer

@@ -19,20 +19,28 @@ namespace MyLibrary_Test.Presenters_Tests
     [TestFixture]
     class AddBookPresenter_Tests
     {
-        [TestCase("", "", "500.0")]
-        [TestCase("0123456789", "", "500.0")]
-        [TestCase("0123456789", "0123456789123", "500.0")]
-        [TestCase("", "0123456789123", "500.0")]
-        [TestCase("", "", "")]
-        [TestCase("0123456789", "", "")]
-        [TestCase("0123456789", "0123456789123", "")]
-        [TestCase("", "0123456789123", "")]
-        public void InputFieldsUpdated_Test_Valid(string isbnFieldText, string isbn13FieldText, string deweyDecimalFieldText)
+        [TestCase("", "", "", "500.0")]
+        [TestCase("", "0123456789", "", "500.0")]
+        [TestCase("", "0123456789", "0123456789123", "500.0")]
+        [TestCase("", "", "0123456789123", "500.0")]
+        [TestCase("", "", "", "")]
+        [TestCase("", "0123456789", "", "")]
+        [TestCase("", "0123456789", "0123456789123", "")]
+        [TestCase("", "", "0123456789123", "")]
+        [TestCase("long title", "", "", "500.0")]
+        [TestCase("long title", "0123456789", "", "500.0")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0")]
+        [TestCase("long title", "", "0123456789123", "500.0")]
+        [TestCase("long title", "", "", "")]
+        [TestCase("long title", "0123456789", "", "")]
+        [TestCase("long title", "0123456789", "0123456789123", "")]
+        [TestCase("long title", "", "0123456789123", "")]
+        public void InputFieldsUpdated_Test_Valid(string longTitle, string isbnFieldText, string isbn13FieldText, string deweyDecimalFieldText)
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.TitleFieldText).Returns("title");
-            A.CallTo(() => fakeView.LongTitleFieldText).Returns("long title");
+            A.CallTo(() => fakeView.LongTitleFieldText).Returns(longTitle);
             A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
             A.CallTo(() => fakeView.PagesFieldText).Returns("60");
             A.CallTo(() => fakeView.SelectedPublisher).Returns("publisher");
