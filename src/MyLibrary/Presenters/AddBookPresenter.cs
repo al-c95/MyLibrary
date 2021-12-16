@@ -105,7 +105,7 @@ namespace MyLibrary.Presenters
                 .WithTags(tags)
                 .WithAuthors(authors)
                 .WithIsbn(this._view.IsbnFieldText)
-                .WithIsbn(this._view.Isbn13FieldText)
+                .WithIsbn13(this._view.Isbn13FieldText)
                 .WithOverview(this._view.OverviewFieldText)
                 .WithMsrp(this._view.MsrpFieldText)
                 .WithSynopsys(this._view.SynopsysFieldText)
