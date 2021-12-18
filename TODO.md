@@ -5,7 +5,9 @@
 - support images when adding new items
 - support updating tags for item
 - support manage tags (DONE)
+- improve error handling
 - support manage copies
+- support downloading new item information from the web
 - provide database statistics
 
 https://stackoverflow.com/questions/8766794/how-to-create-generic-data-access-object-dao-crud-methods-with-linq-to-sql

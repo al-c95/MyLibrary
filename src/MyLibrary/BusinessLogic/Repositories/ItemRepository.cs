@@ -39,14 +39,9 @@ namespace MyLibrary.BusinessLogic.Repositories
             await this._dao.Update(item);
         }
 
-        public async Task AssociateTag(T item, Tag tag)
+        public async Task UpdateTags(ItemTagsDto dto)
         {
-            await this._dao.AssociateExistingTag(item, tag);
-        }
-
-        public async Task RemoveTag(T item, Tag toRemove)
-        {
-            await this._dao.RemoveTag(item, toRemove);
+            await this._dao.UpdateTags(dto);
         }
 
         public async Task DeleteById(int id)

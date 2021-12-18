@@ -112,6 +112,7 @@
     <Compile Include="BusinessLogic\Entities\Entity.cs" />
     <Compile Include="BusinessLogic\Entities\Item.cs" />
     <Compile Include="BusinessLogic\Entities\ItemMemento.cs" />
+    <Compile Include="BusinessLogic\Entities\ItemTagsDto.cs" />
     <Compile Include="BusinessLogic\Entities\ItemType.cs" />
     <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
     <Compile Include="BusinessLogic\Entities\Publisher.cs" />
@@ -139,6 +140,12 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManageTagsForItemDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageTagsForItemDialog.Designer.cs">
+      <DependentUpon>ManageTagsForItemDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManageTagsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageTagsForItemDialog.resx">
+      <DependentUpon>ManageTagsForItemDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageTagsForm.resx">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>

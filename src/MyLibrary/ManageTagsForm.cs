@@ -94,7 +94,7 @@ namespace MyLibrary
 
         public event EventHandler TagsUpdated;
 
-        public static async Task<ManageTagsForm> CreateAsync(IItemView parent)
+        public static async Task<ManageTagsForm> CreateAsync()
         {
             ManageTagsForm form = new ManageTagsForm();
             await form.PopulateTags();
