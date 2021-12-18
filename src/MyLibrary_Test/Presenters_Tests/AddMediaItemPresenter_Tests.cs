@@ -39,12 +39,7 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("notes", null, ".png")]
         [TestCase("", "60", ".png")]
         [TestCase(null, "60", ".png")]
-        [TestCase("notes", "60", "")]
-        [TestCase("notes", "", "")]
-        [TestCase("notes", null, "")]
-        [TestCase("", "60", "")]
-        [TestCase(null, "60", "")]
-        public void InputFieldsUpdated_Test_Valid(string notesFieldEntry, string runningTimeFieldEntry, string ext)
+        public void InputFieldsUpdated_Test_Valid_HasImageFilePath(string notesFieldEntry, string runningTimeFieldEntry, string ext)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
@@ -54,6 +49,32 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeTagRepo = A.Fake<TagRepository>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+
+            // act
+            presenter.InputFieldsUpdated(null, null);
+
+            // assert
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+        }
+
+        [TestCase("notes", "60")]
+        [TestCase("notes", "")]
+        [TestCase("notes", null)]
+        [TestCase("", "60")]
+        [TestCase(null, "60")]
+        public void InputFieldsValidated_Test_Valid_NoImageFilePath(string notesFieldEntry, string runningTimeFieldEntry)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("new item");
+            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
+            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
