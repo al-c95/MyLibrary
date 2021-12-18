@@ -19,12 +19,32 @@ namespace MyLibrary_Test.Presenters_Tests
     [TestFixture]
     class AddMediaItemPresenter_Tests
     {
-        [TestCase("notes", "60")]
-        [TestCase("notes", "")]
-        [TestCase("notes", null)]
-        [TestCase("", "60")]
-        [TestCase(null, "60")]
-        public void InputFieldsUpdated_Test_Valid(string notesFieldEntry, string runningTimeFieldEntry)
+        [TestCase("notes", "60", ".bmp")]
+        [TestCase("notes", "", ".bmp")]
+        [TestCase("notes", null, ".bmp")]
+        [TestCase("", "60", ".bmp")]
+        [TestCase(null, "60", ".bmp")]
+        [TestCase("notes", "60", ".jpg")]
+        [TestCase("notes", "", ".jpg")]
+        [TestCase("notes", null, ".jpg")]
+        [TestCase("", "60", ".jpg")]
+        [TestCase(null, "60", ".jpg")]
+        [TestCase("notes", "60", ".jpeg")]
+        [TestCase("notes", "", ".jpeg")]
+        [TestCase("notes", null, ".jpeg")]
+        [TestCase("", "60", ".jpeg")]
+        [TestCase(null, "60", ".jpeg")]
+        [TestCase("notes", "60", ".png")]
+        [TestCase("notes", "", ".png")]
+        [TestCase("notes", null, ".png")]
+        [TestCase("", "60", ".png")]
+        [TestCase(null, "60", ".png")]
+        [TestCase("notes", "60", "")]
+        [TestCase("notes", "", "")]
+        [TestCase("notes", null, "")]
+        [TestCase("", "60", "")]
+        [TestCase(null, "60", "")]
+        public void InputFieldsUpdated_Test_Valid(string notesFieldEntry, string runningTimeFieldEntry, string ext)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
@@ -33,6 +53,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
             A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
@@ -44,30 +65,54 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveButtonEnabled);
         }
 
-        [TestCase("", "0", "0", "0", "notes")]
-        [TestCase("title", "", "0", "0", "notes")]
-        [TestCase("title", "", "", "0", "notes")]
-        [TestCase("title", "", "", "", "notes")]
-        [TestCase("title", "", "", "", "")]
-        [TestCase("title", "0", "", "", "notes")]
-        [TestCase("title", "0", "0", "", "notes")]
-        [TestCase("title", "", "0", "", "notes")]
-        [TestCase("", "0", "0", "0", "")]
-        [TestCase("title", "", "0", "0", "")]
-        [TestCase("title", "", "", "0", "")]
-        [TestCase("title", "", "", "", "")]
-        [TestCase("title", "", "", "", "")]
-        [TestCase("title", "0", "", "", "")]
-        [TestCase("title", "0", "0", "", "")]
-        [TestCase("title", "", "0", "", "")]
-        [TestCase("", "", "0", "0", "")]
-        [TestCase("", "", "", "0", "")]
-        [TestCase("", "", "", "", "")]
-        [TestCase("", "", "", "", "")]
-        [TestCase("", "0", "", "", "")]
-        [TestCase("", "0", "0", "", "")]
-        [TestCase("", "", "0", "", "")]
-        public void InputFieldsUpdated_Test_Invalid(string titleFieldEntry, string numberFieldEntry, string runningTimeFieldEntry, string releaseYearFieldEntry, string notesFieldEntry)
+        [TestCase("", "0", "0", "0", "notes", ".txt")]
+        [TestCase("title", "", "0", "0", "notes", ".txt")]
+        [TestCase("title", "", "", "0", "notes", ".txt")]
+        [TestCase("title", "", "", "", "notes", ".txt")]
+        [TestCase("title", "", "", "", "", ".txt")]
+        [TestCase("title", "0", "", "", "notes", ".txt")]
+        [TestCase("title", "0", "0", "", "notes", ".txt")]
+        [TestCase("title", "", "0", "", "notes", ".txt")]
+        [TestCase("", "0", "0", "0", "", ".txt")]
+        [TestCase("title", "", "0", "0", "", ".txt")]
+        [TestCase("title", "", "", "0", "", ".txt")]
+        [TestCase("title", "", "", "", "", ".txt")]
+        [TestCase("title", "", "", "", "", ".txt")]
+        [TestCase("title", "0", "", "", "", ".txt")]
+        [TestCase("title", "0", "0", "", "", ".txt")]
+        [TestCase("title", "", "0", "", "", ".txt")]
+        [TestCase("", "", "0", "0", "", ".txt")]
+        [TestCase("", "", "", "0", "", ".txt")]
+        [TestCase("", "", "", "", "", ".txt")]
+        [TestCase("", "", "", "", "", ".txt")]
+        [TestCase("", "0", "", "", "", ".txt")]
+        [TestCase("", "0", "0", "", "", ".txt")]
+        [TestCase("", "", "0", "", "", ".txt")]
+        [TestCase("", "0", "0", "0", "notes", "bogus file")]
+        [TestCase("title", "", "0", "0", "notes", "bogus file")]
+        [TestCase("title", "", "", "0", "notes", "bogus file")]
+        [TestCase("title", "", "", "", "notes", "bogus file")]
+        [TestCase("title", "", "", "", "", "bogus file")]
+        [TestCase("title", "0", "", "", "notes", "bogus file")]
+        [TestCase("title", "0", "0", "", "notes", "bogus file")]
+        [TestCase("title", "", "0", "", "notes", "bogus file")]
+        [TestCase("", "0", "0", "0", "", "bogus file")]
+        [TestCase("title", "", "0", "0", "", "bogus file")]
+        [TestCase("title", "", "", "0", "", "bogus file")]
+        [TestCase("title", "", "", "", "", "bogus file")]
+        [TestCase("title", "", "", "", "", "bogus file")]
+        [TestCase("title", "0", "", "", "", "bogus file")]
+        [TestCase("title", "0", "0", "", "", "bogus file")]
+        [TestCase("title", "", "0", "", "", "bogus file")]
+        [TestCase("", "", "0", "0", "", ".bogus file")]
+        [TestCase("", "", "", "0", "", ".bogus file")]
+        [TestCase("", "", "", "", "", "bogus file")]
+        [TestCase("", "", "", "", "", ".bogus file")]
+        [TestCase("", "0", "", "", "", "bogus file")]
+        [TestCase("", "0", "0", "", "", "bogus file")]
+        [TestCase("", "", "0", "", "", "bogus file")]
+        public void InputFieldsUpdated_Test_Invalid(string titleFieldEntry, string numberFieldEntry, string runningTimeFieldEntry, string releaseYearFieldEntry, string notesFieldEntry, 
+            string ext)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();

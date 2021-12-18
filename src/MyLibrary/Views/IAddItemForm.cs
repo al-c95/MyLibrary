@@ -10,6 +10,7 @@ namespace MyLibrary.Views
     {
         string TitleFieldText { get; set; }
         string NotesFieldText { get; set; }
+        string ImageFilePathFieldText { get; set; }
 
         IEnumerable<string> SelectedTags { get; }
 
