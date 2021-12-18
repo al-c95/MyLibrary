@@ -138,6 +138,12 @@ namespace MyLibrary
             });
         }
 
+        public string ImageFilePathFieldText
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
         public string TitleFieldText
         {
             get => this.titleField.Text;

@@ -81,8 +81,19 @@ namespace MyLibrary.Presenters
             }
             foreach (var tagName in this._view.SelectedTags)
                 item.Tags.Add(new Tag { Name = tagName });
-            // TODO: add image
-
+            try
+            {
+                byte[] imageBytes = System.IO.File.ReadAllBytes(this._view.ImageFilePathFieldText);
+                item.Image = imageBytes;
+            }
+            catch (System.IO.IOException ex)
+            {
+                // I/O error
+                // alert the user
+                this._view.ShowErrorDialog("File error", ex.Message);
+                return;
+            }
+            
             // add new item
             try
             {
@@ -129,6 +140,15 @@ namespace MyLibrary.Presenters
             else
             {
                 sane = false;
+            }
+            // image file path field must be either blank or a valid file path with supported extension
+            string imageFilePath = this._view.ImageFilePathFieldText;
+            if (!string.IsNullOrWhiteSpace(imageFilePath))
+            {
+                sane = sane && (System.IO.Path.GetExtension(imageFilePath).Equals(".bmp") ||
+                                System.IO.Path.GetExtension(imageFilePath).Equals(".jpg") ||
+                                System.IO.Path.GetExtension(imageFilePath).Equals(".jpeg") ||
+                                System.IO.Path.GetExtension(imageFilePath).Equals(".png"));
             }
 
             this._view.SaveButtonEnabled = sane;

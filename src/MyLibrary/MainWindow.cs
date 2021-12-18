@@ -105,8 +105,8 @@ namespace MyLibrary
                 // load image from file
                 using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    dialog.Title = "Load Image";
-                    dialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+                    dialog.Title = LOAD_IMAGE_DIALOG_TITLE;
+                    dialog.Filter = LOAD_IMAGE_DIALOG_FILTER;
 
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
@@ -148,6 +148,9 @@ namespace MyLibrary
 
             LoadWindow();
         }//ctor
+
+        public static readonly string LOAD_IMAGE_DIALOG_TITLE = "Load Image";
+        public static readonly string LOAD_IMAGE_DIALOG_FILTER = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
 
         public void LoadWindow()
         {

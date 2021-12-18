@@ -47,6 +47,10 @@ namespace MyLibrary
             {
                 InputFieldsUpdated?.Invoke(sender, args);
             });
+            this.imageFilePathField.TextChanged += ((sender, args) =>
+            {
+                InputFieldsUpdated?.Invoke(sender, args);
+            });
             this.saveButton.Click += ((sender, args) =>
             {
                 SaveButtonClicked?.Invoke(sender, args);
@@ -59,6 +63,25 @@ namespace MyLibrary
                     this.tagsList.Items.Add(this.newTagField.Text, true);
                 }
             });
+            this.browseImageButton.Click += ((sender, args) =>
+            {
+                using (OpenFileDialog dialog = new OpenFileDialog())
+                {
+                    dialog.Title = MainWindow.LOAD_IMAGE_DIALOG_TITLE;
+                    dialog.Filter = MainWindow.LOAD_IMAGE_DIALOG_FILTER;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.imageFilePathField.Text = dialog.FileName;
+                    }
+                }
+            });
+        }
+
+        public string ImageFilePathFieldText
+        {
+            get => this.imageFilePathField.Text;
+            set => this.imageFilePathField.Text = value;
         }
 
         public string SelectedCategory
