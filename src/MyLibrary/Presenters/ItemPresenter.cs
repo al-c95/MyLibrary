@@ -165,15 +165,25 @@ namespace MyLibrary.Presenters
         public async void DeleteButtonClicked(object sender, EventArgs args)
         {
             // delete the item
-            if (this._view.CategoryDropDownSelectedIndex == 0)
+            try
             {
-                // book
-                await this._bookRepo.DeleteById(this._view.SelectedItemId);
+                if (this._view.CategoryDropDownSelectedIndex == 0)
+                {
+                    // book
+                    await this._bookRepo.DeleteById(this._view.SelectedItemId);
+                }
+                else
+                {
+                    // media item
+                    await this._mediaItemRepo.DeleteById(this._view.SelectedItemId);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // media item
-                await this._mediaItemRepo.DeleteById(this._view.SelectedItemId);
+                // something bad happened
+                // notify the user
+                this._view.ShowErrorDialog("Error deleting item.", ex.Message);
+                return;
             }
 
             // update the view
@@ -285,15 +295,25 @@ namespace MyLibrary.Presenters
 
         public async void UpdateSelectedItemButtonClicked(object sender, EventArgs e)
         {
-            if (this._view.CategoryDropDownSelectedIndex == 0)
+            try
             {
-                // book
-                await this._bookRepo.Update((Book)this._view.SelectedItem);
+                if (this._view.CategoryDropDownSelectedIndex == 0)
+                {
+                    // book
+                    await this._bookRepo.Update((Book)this._view.SelectedItem);
+                }
+                else
+                {
+                    // media item
+                    await this._mediaItemRepo.Update((MediaItem)this._view.SelectedItem);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // media item
-                await this._mediaItemRepo.Update((MediaItem)this._view.SelectedItem);
+                // something bad happened
+                // notify the user
+                this._view.ShowErrorDialog("Error updating item.", ex.Message);
+                return;
             }
 
             // update the view

@@ -285,6 +285,11 @@ namespace MyLibrary
         public event EventHandler AddNewBookClicked;
         #endregion
 
+        public void ShowErrorDialog(string title, string message)
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         private Image ReadImage(byte[] bytes)
         {
             if (bytes is null)

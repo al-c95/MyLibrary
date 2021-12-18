@@ -71,22 +71,32 @@ namespace MyLibrary.Presenters
             // check if item with title already exists
             bool exists = false;
             string existingTitle = null;
-            if (await this._bookRepo.ExistsWithTitle(this._view.TitleFieldText))
+            try
             {
-                exists = true;
-                existingTitle = this._view.TitleFieldText;
-            }
-            if (await this._bookRepo.ExistsWithTitle(this._view.LongTitleFieldText))
-            {
-                exists = true;
-                existingTitle = this._view.LongTitleFieldText;
-            }
-            if (exists)
-            {
-                // tell the user
-                this._view.ShowItemAlreadyExistsDialog(existingTitle);
+                if (await this._bookRepo.ExistsWithTitle(this._view.TitleFieldText))
+                {
+                    exists = true;
+                    existingTitle = this._view.TitleFieldText;
+                }
+                if (await this._bookRepo.ExistsWithTitle(this._view.LongTitleFieldText))
+                {
+                    exists = true;
+                    existingTitle = this._view.LongTitleFieldText;
+                }
+                if (exists)
+                {
+                    // tell the user
+                    this._view.ShowItemAlreadyExistsDialog(existingTitle);
 
-                // nothing more to do
+                    // nothing more to do
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                // something bad happened
+                // notify the user
+                this._view.ShowErrorDialog("Error checking if title exists.", ex.Message);
                 return;
             }
 
