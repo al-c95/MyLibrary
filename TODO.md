@@ -5,10 +5,12 @@
 - support images when adding new items
 - support updating tags for item (DONE)
 - support manage tags (DONE)
-- improve error handling
+- improve error handling (WIP)
 - support manage copies
 - support downloading new item information from the web
 - provide database statistics
+- implement about box
+- add icons
 
 https://stackoverflow.com/questions/8766794/how-to-create-generic-data-access-object-dao-crud-methods-with-linq-to-sql
 https://softwareengineering.stackexchange.com/questions/171024/never-do-in-code-what-you-can-get-the-sql-server-to-do-well-for-you-is-this
