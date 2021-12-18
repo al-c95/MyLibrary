@@ -125,7 +125,16 @@ namespace MyLibrary
             });
             this.tagsButton.Click += (async (sender, args) =>
             {
-                var form = await ManageTagsForm.CreateAsync(this);
+                var form = await ManageTagsForm.CreateAsync();
+                form.TagsUpdated += ((s, a) =>
+                {
+                    this.TagsUpdated?.Invoke(s, a);
+                });
+                form.ShowDialog();
+            });
+            this.manageItemTagsButton.Click += (async (sender, args) =>
+            {
+                var form = await ManageTagsForItemDialog.CreateAsync(this.SelectedItem);
                 form.TagsUpdated += ((s, a) =>
                 {
                     this.TagsUpdated?.Invoke(s, a);

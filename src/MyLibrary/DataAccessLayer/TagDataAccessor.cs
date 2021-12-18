@@ -55,6 +55,11 @@ namespace MyLibrary.DataAccessLayer
             }
         }//DeleteById
 
+        /// <summary>
+        /// Delete a tag by its name. Tag names are unique.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public async Task DeleteByName(string name)
         {
             const string SQL = "DELETE FROM Tags WHERE name = @name;";

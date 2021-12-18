@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -179,49 +180,96 @@ namespace MyLibrary.DataAccessLayer
             }
         }
 
-        /// <summary>
-        /// Associate an existing tag to an existing item.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public override async Task AssociateExistingTag(MediaItem item, Tag tag)
+        public override async Task UpdateTags(ItemTagsDto itemTagsDto)
         {
-            const string SQL = "INSERT INTO Media_Tag (mediaId,tagId) " +
-                "VALUES(@itemId,@tagId);";
-
             using (var conn = GetConnection())
             {
-                int itemId = item.Id;
-                int tagId = tag.Id;
-                await conn.ExecuteAsync(SQL, new
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
                 {
-                    itemId,
-                    tagId
-                });
-            }
-        }
+                    try
+                    {
+                        // add tags
+                        foreach (var tag in itemTagsDto.TagsToAdd)
+                        {
+                            bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Tags WHERE name=@name", new
+                            {
+                                name = tag
+                            });
+                            if (exists)
+                            {
+                                // tag exists
+                                // get the id
+                                int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                                {
+                                    name = tag
+                                });
+                                // insert record into link table
+                                await conn.ExecuteAsync("INSERT INTO Media_Tag (mediaId,tagId) VALUES(@mediaId,@tagId);", new
+                                {
+                                    mediaId = itemTagsDto.Id,
+                                    tagId = tagId
+                                });
+                            }
+                            else
+                            {
+                                // tag does not exist
+                                // insert it
+                                await conn.ExecuteAsync("INSERT INTO Tags (name) VALUES(@name);", new
+                                {
+                                    name = tag
+                                });
+                                // get the id
+                                int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                                {
+                                    name = tag
+                                });
+                                // insert record into link table
+                                await conn.ExecuteAsync("INSERT INTO Media_Tag (mediaId,tagId) VALUES(@mediaId,@tagId);", new
+                                {
+                                    mediaId = itemTagsDto.Id,
+                                    tagId = tagId
+                                });
+                            }
+                        }
 
-        /// <summary>
-        /// Disassociate a tag from an existing item.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="toRemove"></param>
-        /// <returns></returns>
-        public override async Task RemoveTag(MediaItem item, Tag toRemove)
-        {
-            const string SQL = "DELETE FROM Media_Tag WHERE mediaId = @itemId AND tagId = @tagId;";
+                        // remove tags
+                        foreach (var tag in itemTagsDto.TagsToRemove)
+                        {
+                            bool exists = await conn.ExecuteScalarAsync<bool>("SELECT COUNT(1) FROM Tags WHERE name=@name", new
+                            {
+                                name = tag
+                            });
+                            if (exists)
+                            {
+                                // tag exists
+                                // get the id
+                                int tagId = await conn.QuerySingleAsync<int>("SELECT id FROM Tags WHERE name=@name", new
+                                {
+                                    name = tag
+                                });
+                                // delete record from link table
+                                await conn.ExecuteAsync("DELETE FROM Media_Tag WHERE mediaId=@mediaId AND tagId=@tagId;", new
+                                {
+                                    mediaId = itemTagsDto.Id,
+                                    tagId = tagId
+                                });
+                            }
+                        }
 
-            using (var conn = GetConnection())
-            {
-                int itemId = item.Id;
-                int tagId = toRemove.Id;
-                await conn.ExecuteAsync(SQL, new
-                {
-                    itemId,
-                    tagId
-                });
-            }
+                        // if the transaction succeeded, commit it
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        // transaction failed
+                        // roll it back
+                        transaction.Rollback();
+                        // pass up the exception
+                        throw;
+                    }
+                }//transaction
+            }//conn
         }
 
         /// <summary>

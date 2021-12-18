@@ -13,8 +13,7 @@ namespace MyLibrary.DataAccessLayer
         public abstract Task Create(T toAdd);
         public abstract Task<IEnumerable<T>> ReadAll();
         public abstract Task Update(T toUpdate);
-        public abstract Task AssociateExistingTag(T item, Tag tag);
-        public abstract Task RemoveTag(T item, Tag toRemove);
+        public abstract Task UpdateTags(ItemTagsDto itemTagsDto);
         public abstract Task DeleteById(int id);
     }
 }
