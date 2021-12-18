@@ -45,12 +45,22 @@ namespace MyLibrary.Presenters
         public async void SaveButtonClicked(object sender, EventArgs e)
         {
             // check if item with title already exists
-            if (await this._mediaItemRepo.ExistsWithTitle(this._view.TitleFieldText))
+            try
             {
-                // tell the user
-                this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
+                if (await this._mediaItemRepo.ExistsWithTitle(this._view.TitleFieldText))
+                {
+                    // tell the user
+                    this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
 
-                // nothing more to do
+                    // nothing more to do
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                // something bad happened
+                // notify the user
+                this._view.ShowErrorDialog("Error checking title.", ex.Message);
                 return;
             }
 

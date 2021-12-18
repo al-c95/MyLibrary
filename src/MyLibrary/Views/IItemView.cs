@@ -25,6 +25,7 @@ namespace MyLibrary.Views
 
         void LoadWindow();
         void PopulateFilterTags(Dictionary<string, bool> tagNamesAndCheckedStatuses);
+        void ShowErrorDialog(string title, string message);
 
         event EventHandler ItemSelectionChanged;
         event EventHandler CategorySelectionChanged;
