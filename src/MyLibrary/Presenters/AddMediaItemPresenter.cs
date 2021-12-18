@@ -143,13 +143,7 @@ namespace MyLibrary.Presenters
             }
             // image file path field must be either blank or a valid file path with supported extension
             string imageFilePath = this._view.ImageFilePathFieldText;
-            if (!string.IsNullOrWhiteSpace(imageFilePath))
-            {
-                sane = sane && (System.IO.Path.GetExtension(imageFilePath).Equals(".bmp") ||
-                                System.IO.Path.GetExtension(imageFilePath).Equals(".jpg") ||
-                                System.IO.Path.GetExtension(imageFilePath).Equals(".jpeg") ||
-                                System.IO.Path.GetExtension(imageFilePath).Equals(".png"));
-            }
+            sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
 
             this._view.SaveButtonEnabled = sane;
         }

@@ -62,6 +62,14 @@ namespace MyLibrary.Models.Entities
             return tagsBuilder.ToString();
         }
 
+        public static bool IsValidImageFileType(string path)
+        {
+            return (System.IO.Path.GetExtension(path).Equals(".bmp") ||
+                    System.IO.Path.GetExtension(path).Equals(".jpg") ||
+                    System.IO.Path.GetExtension(path).Equals(".jpeg") ||
+                    System.IO.Path.GetExtension(path).Equals(".png"));
+        }
+
         public ItemMemento GetMemento()
         {
             return new ItemMemento(this.Notes, this.Image);
