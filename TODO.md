@@ -3,7 +3,7 @@
 - support add new book (DONE)
 - support add new media item (DONE)
 - support images when adding new items
-- support updating tags for item
+- support updating tags for item (DONE)
 - support manage tags (DONE)
 - improve error handling
 - support manage copies
