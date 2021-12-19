@@ -10,7 +10,8 @@ DROP TABLE IF EXISTS Media_Tag;
 CREATE TABLE "Books" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL UNIQUE,
-    "titleLong" TEXT NOT NULL UNIQUE,
+    "titleLong" TEXT 
+    UNIQUE,
     "isbn" TEXT,
     "isbn13"    TEXT,
     "deweyDecimal"  REAL,
