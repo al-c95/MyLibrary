@@ -127,17 +127,20 @@ namespace MyLibrary.Presenters
                 .Sized(this._view.DimensionsFieldText)
                     .Get();
             book.Notes = this._view.NotesFieldText;
-            try
+            if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
-                byte[] imageBytes = System.IO.File.ReadAllBytes(this._view.ImageFilePathFieldText);
-                book.Image = imageBytes;
-            }
-            catch (System.IO.IOException ex)
-            {
-                // I/O error
-                // alert the user
-                this._view.ShowErrorDialog("Image file error", ex.Message);
-                return;
+                try
+                {
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(this._view.ImageFilePathFieldText);
+                    book.Image = imageBytes;
+                }
+                catch (System.IO.IOException ex)
+                {
+                    // I/O error
+                    // alert the user
+                    this._view.ShowErrorDialog("Image file error", ex.Message);
+                    return;
+                }
             }
 
             // add item
