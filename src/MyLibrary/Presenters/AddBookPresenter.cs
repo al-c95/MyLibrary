@@ -127,6 +127,18 @@ namespace MyLibrary.Presenters
                 .Sized(this._view.DimensionsFieldText)
                     .Get();
             book.Notes = this._view.NotesFieldText;
+            try
+            {
+                byte[] imageBytes = System.IO.File.ReadAllBytes(this._view.ImageFilePathFieldText);
+                book.Image = imageBytes;
+            }
+            catch (System.IO.IOException ex)
+            {
+                // I/O error
+                // alert the user
+                this._view.ShowErrorDialog("Image file error", ex.Message);
+                return;
+            }
 
             // add item
             try
@@ -163,6 +175,9 @@ namespace MyLibrary.Presenters
             sane = sane && (Regex.IsMatch(this._view.Isbn13FieldText, Book.ISBN_13_PATTERN) || string.IsNullOrWhiteSpace(this._view.Isbn13FieldText));
             // dewey decimal field must be either blank or have the appropriate pattern
             sane = sane && (Regex.IsMatch(this._view.DeweyDecimalFieldText, Book.DEWEY_DECIMAL_PATTERN) || string.IsNullOrWhiteSpace(this._view.DeweyDecimalFieldText));
+            // image file path field must be either blank or a valid file path with supported extension
+            string imageFilePath = this._view.ImageFilePathFieldText;
+            sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
             // don't care about the other fields
 
             this._view.SaveButtonEnabled = sane;
