@@ -57,11 +57,12 @@ The database system used is Sqlite, chosen for its simplicity, and the fact that
 ## Release schedule
 ### v0.9.0
 - R1-R3
-- R5-R8
+- R4
+- R6-R8
 - R10
 
 ### v1.0.0
-- R4
+- R5
 - R11-R13
 
 ### v2
