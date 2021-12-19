@@ -2,7 +2,7 @@
 - support for filtering items by tags (DONE)
 - support add new book (DONE)
 - support add new media item (DONE)
-- support images when adding new items
+- support images when adding new items (DONE)
 - support updating tags for item (DONE)
 - support manage tags (DONE)
 - improve error handling (WIP)
