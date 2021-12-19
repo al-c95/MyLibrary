@@ -417,9 +417,9 @@ namespace MyLibrary
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(12, 438);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(43, 17);
+            this.label12.Size = new System.Drawing.Size(64, 21);
             this.label12.TabIndex = 30;
-            this.label12.Text = "Msrp:";
+            this.label12.Text = "MSRP:";
             // 
             // label13
             // 

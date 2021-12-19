@@ -55,6 +55,7 @@ namespace MyLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.titleFilterField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
+            this.manageItemTagsButton = new System.Windows.Forms.Button();
             this.removeImageButton = new System.Windows.Forms.Button();
             this.selectImageButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,7 +64,6 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
-            this.manageItemTagsButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -191,7 +191,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(601, 581);
+            this.dataGrid.Size = new System.Drawing.Size(601, 763);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -200,7 +200,7 @@ namespace MyLibrary
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
             this.itemsDisplayedLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 668);
+            this.statusStrip.Location = new System.Drawing.Point(0, 850);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1029, 26);
             this.statusStrip.TabIndex = 8;
@@ -318,15 +318,25 @@ namespace MyLibrary
             this.detailsGroup.Controls.Add(this.pictureBox);
             this.detailsGroup.Location = new System.Drawing.Point(12, 319);
             this.detailsGroup.Name = "detailsGroup";
-            this.detailsGroup.Size = new System.Drawing.Size(398, 334);
+            this.detailsGroup.Size = new System.Drawing.Size(398, 516);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
             // 
+            // manageItemTagsButton
+            // 
+            this.manageItemTagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.manageItemTagsButton.Location = new System.Drawing.Point(120, 336);
+            this.manageItemTagsButton.Name = "manageItemTagsButton";
+            this.manageItemTagsButton.Size = new System.Drawing.Size(154, 28);
+            this.manageItemTagsButton.TabIndex = 20;
+            this.manageItemTagsButton.Text = "Manage Tags";
+            this.manageItemTagsButton.UseVisualStyleBackColor = true;
+            // 
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeImageButton.Location = new System.Drawing.Point(238, 120);
+            this.removeImageButton.Location = new System.Drawing.Point(238, 173);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(154, 28);
             this.removeImageButton.TabIndex = 19;
@@ -336,7 +346,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(9, 120);
+            this.selectImageButton.Location = new System.Drawing.Point(12, 173);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(154, 28);
             this.selectImageButton.TabIndex = 18;
@@ -347,7 +357,7 @@ namespace MyLibrary
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 185);
+            this.label3.Location = new System.Drawing.Point(9, 367);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(45, 17);
             this.label3.TabIndex = 17;
@@ -356,7 +366,7 @@ namespace MyLibrary
             // textBoxNotes
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 205);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 387);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
             this.textBoxNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -367,7 +377,7 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(238, 300);
+            this.discardChangesButton.Location = new System.Drawing.Point(238, 482);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(154, 28);
             this.discardChangesButton.TabIndex = 15;
@@ -378,7 +388,7 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 300);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 482);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(154, 28);
             this.saveChangesButton.TabIndex = 14;
@@ -391,7 +401,7 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(12, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(380, 93);
+            this.pictureBox.Size = new System.Drawing.Size(380, 146);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -405,21 +415,11 @@ namespace MyLibrary
             this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
             // 
-            // manageItemTagsButton
-            // 
-            this.manageItemTagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.manageItemTagsButton.Location = new System.Drawing.Point(120, 154);
-            this.manageItemTagsButton.Name = "manageItemTagsButton";
-            this.manageItemTagsButton.Size = new System.Drawing.Size(154, 28);
-            this.manageItemTagsButton.TabIndex = 20;
-            this.manageItemTagsButton.Text = "Manage Tags";
-            this.manageItemTagsButton.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1029, 694);
+            this.ClientSize = new System.Drawing.Size(1029, 876);
             this.Controls.Add(this.categoryDropDown);
             this.Controls.Add(this.detailsGroup);
             this.Controls.Add(this.filterGroup);

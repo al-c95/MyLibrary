@@ -78,13 +78,14 @@ namespace MyLibrary.Presenters
                     exists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
-                if (await this._bookRepo.ExistsWithTitle(this._view.LongTitleFieldText))
+                if (await this._bookRepo.ExistsWithLongTitle(this._view.LongTitleFieldText))
                 {
                     exists = true;
                     existingTitle = this._view.LongTitleFieldText;
                 }
                 if (exists)
                 {
+                    // title already exists
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(existingTitle);
 
@@ -163,7 +164,7 @@ namespace MyLibrary.Presenters
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
             bool sane = true;
-            // title fields mandatory
+            // title field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
             // language field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LanguageFieldText);
