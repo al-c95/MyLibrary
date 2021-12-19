@@ -24,11 +24,11 @@ namespace MyLibrary.BusinessLogic.Repositories
 
         }
 
-        public override async Task<bool> ExistsWithTitle(string title)
+        public async Task<Boolean> ExistsWithLongTitle(string longTitle)
         {
             var allBooks = await this._dao.ReadAll();
 
-            return allBooks.Any(b => (b.Title == title || b.TitleLong == title));
+            return allBooks.Any(b => b.TitleLong.Equals(longTitle));
         }
     }//class
 }

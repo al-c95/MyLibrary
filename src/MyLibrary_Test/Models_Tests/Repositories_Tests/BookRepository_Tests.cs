@@ -23,104 +23,30 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
             
         }
 
-        [Test]
-        public async Task ExistsWithTitle_Test_ExistsTitleOnly()
+        [TestCase("book1: book number one", true)]
+        [TestCase("book2: book number two", false)]
+        public async Task ExistsWithLongTitle_Test(string longTitle, bool expectedResult)
         {
             // arrange
-            string title = "test";
-            Book item3 = new Book();
-            item3.Id = 3;
-            item3.Title = "test";
-            item3.TitleLong = ".";
-            List<Book> items = new List<Book>
+            Book book1 = new Book
             {
-                item3
+                Title = "book1",
+                TitleLong = "book1: book number one"
+            };
+            List<Book> books = new List<Book>
+            {
+                book1
             };
             var fakeDao = A.Fake<ItemDataAccessor<Book>>();
             A.CallTo(() => fakeDao.ReadAll())
-                .Returns(items);
+                .Returns(books);
             this._repo = new BookRepository(fakeDao);
 
             // act
-            var result = await this._repo.ExistsWithTitle("test");
+            bool actualResult = await this._repo.ExistsWithLongTitle(longTitle);
 
             // assert
-            Assert.IsTrue(result);
-        }
-
-        [Test]
-        public async Task ExistsWithTitle_Test_ExistsTitleAndLongTitle()
-        {
-            // arrange
-            string title = "test";
-            Book item3 = new Book();
-            item3.Id = 3;
-            item3.Title = "test";
-            item3.TitleLong = "test";
-            List<Book> items = new List<Book>
-            {
-                item3
-            };
-            var fakeDao = A.Fake<ItemDataAccessor<Book>>();
-            A.CallTo(() => fakeDao.ReadAll())
-                .Returns(items);
-            this._repo = new BookRepository(fakeDao);
-
-            // act
-            var result = await this._repo.ExistsWithTitle("test");
-
-            // assert
-            Assert.IsTrue(result);
-        }
-
-        [Test]
-        public async Task ExistsWithTitle_Test_ExistsLongTitleOnly()
-        {
-            // arrange
-            string title = "test";
-            Book item3 = new Book();
-            item3.Id = 3;
-            item3.Title = ".";
-            item3.TitleLong = "test";
-            List<Book> items = new List<Book>
-            {
-                item3
-            };
-            var fakeDao = A.Fake<ItemDataAccessor<Book>>();
-            A.CallTo(() => fakeDao.ReadAll())
-                .Returns(items);
-            this._repo = new BookRepository(fakeDao);
-
-            // act
-            var result = await this._repo.ExistsWithTitle("test");
-
-            // assert
-            Assert.IsTrue(result);
-        }
-
-        [Test]
-        public async Task ExistsWithTitle_Test_DoesNotExist()
-        {
-            // arrange
-            string title = "test";
-            Book item3 = new Book();
-            item3.Id = 3;
-            item3.Title = ".";
-            item3.TitleLong = ".";
-            List<Book> items = new List<Book>
-            {
-                item3
-            };
-            var fakeDao = A.Fake<ItemDataAccessor<Book>>();
-            A.CallTo(() => fakeDao.ReadAll())
-                .Returns(items);
-            this._repo = new BookRepository(fakeDao);
-
-            // act
-            var result = await this._repo.ExistsWithTitle("test");
-
-            // assert
-            Assert.IsFalse(result);
+            Assert.AreEqual(expectedResult, actualResult);
         }
     }//class
 }

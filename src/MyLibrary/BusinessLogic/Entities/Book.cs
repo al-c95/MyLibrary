@@ -20,13 +20,7 @@ namespace MyLibrary.Models.Entities
         public string TitleLong
         {
             get => this._titleLong;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Can't have an empty title.");
-                else
-                    _titleLong = value;
-            }
+            set => this._titleLong = value;
         }
 
         // ensure 10 or 13 digits for now
