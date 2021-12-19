@@ -136,12 +136,25 @@ namespace MyLibrary
                     this.authorsList.Items.Add(this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text);
                 }
             });
+            this.browseImageButton.Click += ((sender, args) =>
+            {
+                using (OpenFileDialog dialog = new OpenFileDialog())
+                {
+                    dialog.Title = MainWindow.LOAD_IMAGE_DIALOG_TITLE;
+                    dialog.Filter = MainWindow.LOAD_IMAGE_DIALOG_FILTER;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.imageFilePathField.Text = dialog.FileName;
+                    }
+                }
+            });
         }
 
         public string ImageFilePathFieldText
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => this.imageFilePathField.Text;
+            set => this.imageFilePathField.Text = value;
         }
 
         public string TitleFieldText

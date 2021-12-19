@@ -78,6 +78,9 @@ namespace MyLibrary
             this.tagsList = new System.Windows.Forms.CheckedListBox();
             this.languageField = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.browseImageButton = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.imageFilePathField = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tagsGroup.SuspendLayout();
@@ -213,7 +216,7 @@ namespace MyLibrary
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(15, 763);
+            this.saveButton.Location = new System.Drawing.Point(15, 794);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(150, 27);
             this.saveButton.TabIndex = 9;
@@ -222,7 +225,7 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(638, 763);
+            this.cancelButton.Location = new System.Drawing.Point(638, 794);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(150, 27);
             this.cancelButton.TabIndex = 10;
@@ -269,7 +272,7 @@ namespace MyLibrary
             // 
             // notesField
             // 
-            this.notesField.Location = new System.Drawing.Point(15, 625);
+            this.notesField.Location = new System.Drawing.Point(15, 656);
             this.notesField.Multiline = true;
             this.notesField.Name = "notesField";
             this.notesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -279,7 +282,7 @@ namespace MyLibrary
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 605);
+            this.label5.Location = new System.Drawing.Point(12, 636);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 17);
             this.label5.TabIndex = 13;
@@ -497,11 +500,39 @@ namespace MyLibrary
             this.label15.TabIndex = 35;
             this.label15.Text = "Language:";
             // 
+            // browseImageButton
+            // 
+            this.browseImageButton.Location = new System.Drawing.Point(693, 607);
+            this.browseImageButton.Name = "browseImageButton";
+            this.browseImageButton.Size = new System.Drawing.Size(95, 27);
+            this.browseImageButton.TabIndex = 38;
+            this.browseImageButton.Text = "Browse";
+            this.browseImageButton.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(118, 612);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(72, 17);
+            this.label18.TabIndex = 37;
+            this.label18.Text = "Image file:";
+            // 
+            // imageFilePathField
+            // 
+            this.imageFilePathField.Location = new System.Drawing.Point(206, 609);
+            this.imageFilePathField.Name = "imageFilePathField";
+            this.imageFilePathField.Size = new System.Drawing.Size(481, 22);
+            this.imageFilePathField.TabIndex = 36;
+            // 
             // AddNewBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(801, 799);
+            this.ClientSize = new System.Drawing.Size(801, 829);
+            this.Controls.Add(this.browseImageButton);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.imageFilePathField);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.languageField);
             this.Controls.Add(this.tagsGroup);
@@ -606,5 +637,8 @@ namespace MyLibrary
         private System.Windows.Forms.TextBox newAuthorFirstNameField;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button browseImageButton;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox imageFilePathField;
     }
 }

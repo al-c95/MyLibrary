@@ -90,7 +90,7 @@ namespace MyLibrary.Presenters
             {
                 // I/O error
                 // alert the user
-                this._view.ShowErrorDialog("File error", ex.Message);
+                this._view.ShowErrorDialog("Image file error", ex.Message);
                 return;
             }
             
