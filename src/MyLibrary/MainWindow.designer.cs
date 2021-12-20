@@ -191,7 +191,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(601, 738);
+            this.dataGrid.Size = new System.Drawing.Size(601, 766);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -318,7 +318,7 @@ namespace MyLibrary
             this.detailsGroup.Controls.Add(this.pictureBox);
             this.detailsGroup.Location = new System.Drawing.Point(12, 319);
             this.detailsGroup.Name = "detailsGroup";
-            this.detailsGroup.Size = new System.Drawing.Size(398, 491);
+            this.detailsGroup.Size = new System.Drawing.Size(398, 519);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -326,7 +326,7 @@ namespace MyLibrary
             // manageItemTagsButton
             // 
             this.manageItemTagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.manageItemTagsButton.Location = new System.Drawing.Point(120, 311);
+            this.manageItemTagsButton.Location = new System.Drawing.Point(123, 347);
             this.manageItemTagsButton.Name = "manageItemTagsButton";
             this.manageItemTagsButton.Size = new System.Drawing.Size(154, 28);
             this.manageItemTagsButton.TabIndex = 20;
@@ -336,7 +336,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeImageButton.Location = new System.Drawing.Point(238, 148);
+            this.removeImageButton.Location = new System.Drawing.Point(238, 176);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(154, 28);
             this.removeImageButton.TabIndex = 19;
@@ -346,7 +346,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(12, 148);
+            this.selectImageButton.Location = new System.Drawing.Point(12, 176);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(154, 28);
             this.selectImageButton.TabIndex = 18;
@@ -357,7 +357,7 @@ namespace MyLibrary
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 342);
+            this.label3.Location = new System.Drawing.Point(9, 370);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(45, 17);
             this.label3.TabIndex = 17;
@@ -366,7 +366,7 @@ namespace MyLibrary
             // textBoxNotes
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 362);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 390);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
             this.textBoxNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -377,7 +377,7 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(238, 457);
+            this.discardChangesButton.Location = new System.Drawing.Point(238, 485);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(154, 28);
             this.discardChangesButton.TabIndex = 15;
@@ -388,7 +388,7 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 457);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 485);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(154, 28);
             this.saveChangesButton.TabIndex = 14;
@@ -401,7 +401,7 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox.Location = new System.Drawing.Point(12, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(380, 121);
+            this.pictureBox.Size = new System.Drawing.Size(380, 149);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
