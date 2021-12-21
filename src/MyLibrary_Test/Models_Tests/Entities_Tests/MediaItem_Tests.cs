@@ -41,7 +41,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             item.Number = 123;
             item.RunningTime = 60;
             item.ReleaseYear = 1999;
-            string expectedResult = "Id: " +
+            string expectedResult = "Id: " + "\r\n" +
                 "1" + "\r\n" +
                 "" + "\r\n" +
                 "Title: " + "\r\n" +
@@ -76,7 +76,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             item.Type = ItemType.Dvd;
             item.Number = 123;
             item.ReleaseYear = 1999;
-            string expectedResult = "Id: " +
+            string expectedResult = "Id: " + "\r\n" +
                 "1" + "\r\n" +
                 "" + "\r\n" +
                 "Title: " + "\r\n" +

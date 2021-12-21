@@ -35,7 +35,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             testItem.Id = 1;
             testItem.Title = "Test item";
             testItem.Type = ItemType.Book;
-            string expectedResult = "Id: " +
+            string expectedResult = "Id: " + "\r\n" +
                 "1" + "\r\n" +
                 "" + "\r\n" +
                 "Title: " + "\r\n" +

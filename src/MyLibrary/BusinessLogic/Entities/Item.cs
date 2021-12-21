@@ -86,7 +86,8 @@ namespace MyLibrary.Models.Entities
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder("Id: ");
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Id: ");
             builder.AppendLine(this.Id.ToString());
             builder.AppendLine();
             builder.AppendLine("Title: ");
