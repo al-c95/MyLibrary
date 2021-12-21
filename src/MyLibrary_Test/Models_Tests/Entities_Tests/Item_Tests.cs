@@ -27,9 +27,33 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
+        [Test]
+        public void ToString_Test()
+        {
+            // arrange
+            MockItem testItem = new MockItem();
+            testItem.Id = 1;
+            testItem.Title = "Test item";
+            testItem.Type = ItemType.Book;
+            string expectedResult = "Id: " +
+                "1" + "\r\n" +
+                "" + "\r\n" +
+                "Title: " + "\r\n" +
+                "Test item" + "\r\n" +
+                "" + "\r\n" +
+                "Type: " + "\r\n" +
+                "Book";
+
+            // act
+            string actualResult = testItem.ToString();
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
         class MockItem : Item
         {
             public override ItemType Type { get; set; }
         }
-    }
+    }//class
 }

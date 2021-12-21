@@ -83,5 +83,19 @@ namespace MyLibrary.Models.Entities
                 this.Image = m.Image;
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder("Id: ");
+            builder.AppendLine(this.Id.ToString());
+            builder.AppendLine();
+            builder.AppendLine("Title: ");
+            builder.AppendLine(this.Title);
+            builder.AppendLine();
+            builder.AppendLine("Type: ");
+            builder.Append(this.Type.ToString());
+
+            return builder.ToString();
+        }
     }//class
 }

@@ -131,5 +131,178 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // act/assert
             Assert.Throws<FormatException>(() => book.Isbn = givenIsbn);
         }
+
+        [Test]
+        public void ToString_Test_HasDeweyDecimal()
+        {
+            // arrange
+            Book item = new Book();
+            item.Id = 1;
+            item.Title = "Test item";
+            item.TitleLong = "Test item: this item is a test";
+            item.Isbn = "0123456789";
+            item.Isbn13 = "0123456789123";
+            item.DeweyDecimal = (decimal)500.0;
+            item.Format = "print";
+            item.Publisher = new Publisher { Name = "publisher" };
+            item.DatePublished = "2021";
+            item.Edition = "1st Edition";
+            item.Pages = 100;
+            item.Dimensions = "dim";
+            item.Overview = "overview";
+            item.Language = "English";
+            item.Msrp = "5.95";
+            item.Excerpt = "excerpt";
+            item.Synopsys = "synopsys";
+            item.Authors.Add(new Author { FirstName = "John", LastName = "Smith" });
+            string expectedResult = "Id: " +
+                "1" + "\r\n" +
+                "" + "\r\n" +
+                "Title: " + "\r\n" +
+                "Test item" + "\r\n" +
+                "" + "\r\n" +
+                "Type: " + "\r\n" +
+                "Book" + "\r\n" +
+                "" + "\r\n" +
+                "ISBN: " + "\r\n" +
+                "0123456789" + "\r\n" +
+                "" + "\r\n" +
+                "ISBN 13: " + "\r\n" +
+                "0123456789123" + "\r\n" +
+                "" + "\r\n" +
+                "Long Title: " + "\r\n" +
+                "Test item: this item is a test" + "\r\n" +
+                "" + "\r\n" +
+                "Dewey Decimal: " + "\r\n" +
+                "500" + "\r\n" +
+                "" + "\r\n" +
+                "Format: " + "\r\n" +
+                "print" + "\r\n" +
+                "" + "\r\n" +
+                "Publisher: " + "\r\n" +
+                "publisher" + "\r\n" +
+                "" + "\r\n" +
+                "Date Published: " + "\r\n" +
+                "2021" + "\r\n" +
+                "" + "\r\n" +
+                "Edition: " + "\r\n" +
+                "1st Edition" + "\r\n" +
+                "" + "\r\n" +
+                "Pages: " + "\r\n" +
+                "100" + "\r\n" +
+                "" + "\r\n" +
+                "Dimensions: " + "\r\n" +
+                "dim" + "\r\n" +
+                "" + "\r\n" +
+                "Overview: " + "\r\n" +
+                "overview" + "\r\n" +
+                "" + "\r\n" +
+                "Language: " + "\r\n" +
+                "English" + "\r\n" +
+                "" + "\r\n" +
+                "MSRP: " + "\r\n" +
+                "5.95" + "\r\n" +
+                "" + "\r\n" +
+                "Excerpt: " + "\r\n" +
+                "excerpt" + "\r\n" +
+                "" + "\r\n" +
+                "Synopsys: " + "\r\n" +
+                "synopsys" + "\r\n" +
+                "" + "\r\n" +
+                "Authors: " + "\r\n" +
+                "Smith, J.";
+
+            // act
+            string actualResult = item.ToString();
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public void ToString_Test_NoDeweyDecimal()
+        {
+            // arrange
+            Book item = new Book();
+            item.Id = 1;
+            item.Title = "Test item";
+            item.TitleLong = "Test item: this item is a test";
+            item.Isbn = "0123456789";
+            item.Isbn13 = "0123456789123";
+            item.Format = "print";
+            item.Publisher = new Publisher { Name = "publisher" };
+            item.DatePublished = "2021";
+            item.Edition = "1st Edition";
+            item.Pages = 100;
+            item.Dimensions = "dim";
+            item.Overview = "overview";
+            item.Language = "English";
+            item.Msrp = "5.95";
+            item.Excerpt = "excerpt";
+            item.Synopsys = "synopsys";
+            item.Authors.Add(new Author { FirstName = "John", LastName = "Smith" });
+            string expectedResult = "Id: " +
+                "1" + "\r\n" +
+                "" + "\r\n" +
+                "Title: " + "\r\n" +
+                "Test item" + "\r\n" +
+                "" + "\r\n" +
+                "Type: " + "\r\n" +
+                "Book" + "\r\n" +
+                "" + "\r\n" +
+                "ISBN: " + "\r\n" +
+                "0123456789" + "\r\n" +
+                "" + "\r\n" +
+                "ISBN 13: " + "\r\n" +
+                "0123456789123" + "\r\n" +
+                "" + "\r\n" +
+                "Long Title: " + "\r\n" +
+                "Test item: this item is a test" + "\r\n" +
+                "" + "\r\n" +
+                "Dewey Decimal: " + "\r\n" +
+                "" + "\r\n" +
+                "" + "\r\n" +
+                "Format: " + "\r\n" +
+                "print" + "\r\n" +
+                "" + "\r\n" +
+                "Publisher: " + "\r\n" +
+                "publisher" + "\r\n" +
+                "" + "\r\n" +
+                "Date Published: " + "\r\n" +
+                "2021" + "\r\n" +
+                "" + "\r\n" +
+                "Edition: " + "\r\n" +
+                "1st Edition" + "\r\n" +
+                "" + "\r\n" +
+                "Pages: " + "\r\n" +
+                "100" + "\r\n" +
+                "" + "\r\n" +
+                "Dimensions: " + "\r\n" +
+                "dim" + "\r\n" +
+                "" + "\r\n" +
+                "Overview: " + "\r\n" +
+                "overview" + "\r\n" +
+                "" + "\r\n" +
+                "Language: " + "\r\n" +
+                "English" + "\r\n" +
+                "" + "\r\n" +
+                "MSRP: " + "\r\n" +
+                "5.95" + "\r\n" +
+                "" + "\r\n" +
+                "Excerpt: " + "\r\n" +
+                "excerpt" + "\r\n" +
+                "" + "\r\n" +
+                "Synopsys: " + "\r\n" +
+                "synopsys" + "\r\n" +
+                "" + "\r\n" +
+                "Authors: " + "\r\n" +
+                "Smith, J.";
+
+            // act
+            string actualResult = item.ToString();
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }//class
 }

@@ -23,6 +23,7 @@ namespace MyLibrary.Views
         bool IsItemSelected { get; }
         bool DeleteItemButtonEnabled { get; set; }
         int NumberOfItemsSelected { get; }
+        string SelectedItemDetailsBoxEntry { get; set; }
 
         void LoadWindow();
         void PopulateFilterTags(Dictionary<string, bool> tagNamesAndCheckedStatuses);
