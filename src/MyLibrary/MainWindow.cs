@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
@@ -300,10 +301,54 @@ namespace MyLibrary
             set => this.deleteSelectedButton.Enabled = value;
         }
 
+        readonly string[] FIELD_NAME_PATTERNS = new string[]
+                {
+                    "Id: ",
+                    "Title: ",
+                    "Type: ",
+                    "ISBN: ",
+                    "ISBN 13: ",
+                    "Long Title: ",
+                    "Dewey Decimal: ",
+                    "Format: ",
+                    "Publisher: ",
+                    "Date Published: ",
+                    "Edition: ",
+                    "Pages: ",
+                    "Dimensions: ",
+                    "Overview: ",
+                    "Language: ",
+                    "MSRP: ",
+                    "Excerpt: ",
+                    "Synopsys: ",
+                    "Authors: ",
+                    "Number: ",
+                    "Running Time: ",
+                    "Release Year: "
+                };
         public string SelectedItemDetailsBoxEntry
         {
             get => this.detailsBox.Text;
-            set => this.detailsBox.Text = value;
+
+            set
+            {
+                // set text
+                this.detailsBox.Text = value;
+
+                // make field names bold
+                foreach (var pattern in FIELD_NAME_PATTERNS)
+                {
+                    foreach (string line in this.detailsBox.Lines)
+                    {
+                        int start = this.detailsBox.Find(pattern);
+                        if (start >= 0)
+                        {
+                            this.detailsBox.Select(start, pattern.Length);
+                            this.detailsBox.SelectionFont = new Font(this.detailsBox.Font, FontStyle.Bold);
+                        }
+                    }//foreach
+                }//foreach
+            }//set
         }
 
         #region events
