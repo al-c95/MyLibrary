@@ -30,6 +30,8 @@ namespace MyLibrary
 
             this.tagsList.CheckOnClick = true;
 
+            this.CenterToParent();
+
             // initially disable add and save buttons
             this.buttonSave.Enabled = false;
             this.addNewTagButton.Enabled = false;

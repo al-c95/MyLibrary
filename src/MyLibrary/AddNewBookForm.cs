@@ -22,6 +22,8 @@ namespace MyLibrary
             this.tagsList.CheckOnClick = true;
             this.authorsList.CheckOnClick = true;
 
+            this.CenterToParent();
+
             // register event handlers
             // fire the public event so the subscribed presenter can react
             this.titleField.TextChanged += ((sender, args) =>
