@@ -114,5 +114,87 @@ namespace MyLibrary.Models.Entities
 
             return authorsString;
         }//GetAuthorList
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(base.ToString());
+
+            builder.AppendLine();
+            builder.AppendLine();
+
+            builder.AppendLine("ISBN: ");
+            builder.AppendLine(this.Isbn);
+            builder.AppendLine();
+
+            builder.AppendLine("ISBN 13: ");
+            builder.AppendLine(this.Isbn13);
+            builder.AppendLine();
+
+            builder.AppendLine("Long Title: ");
+            builder.AppendLine(this.TitleLong);
+            builder.AppendLine();
+
+            builder.AppendLine("Dewey Decimal: ");
+            if (!(DeweyDecimal is null))
+            {
+                builder.AppendLine(this.DeweyDecimal.ToString());
+                builder.AppendLine();
+            }
+            else
+            {
+                builder.AppendLine(); 
+                builder.AppendLine();
+            }
+
+            builder.AppendLine("Format: ");
+            builder.AppendLine(this.Format);
+            builder.AppendLine();
+
+            builder.AppendLine("Publisher: ");
+            builder.AppendLine(this.Publisher.Name);
+            builder.AppendLine();
+
+            builder.AppendLine("Date Published: ");
+            builder.AppendLine(this.DatePublished);
+            builder.AppendLine();
+
+            builder.AppendLine("Edition: ");
+            builder.AppendLine(this.Edition);
+            builder.AppendLine();
+
+            builder.AppendLine("Pages: ");
+            builder.AppendLine(this.Pages.ToString());
+            builder.AppendLine();
+
+            builder.AppendLine("Dimensions: ");
+            builder.AppendLine(this.Dimensions);
+            builder.AppendLine();
+
+            builder.AppendLine("Overview: ");
+            builder.AppendLine(this.Overview);
+            builder.AppendLine();
+
+            builder.AppendLine("Language: ");
+            builder.AppendLine(this.Language);
+            builder.AppendLine();
+
+            builder.AppendLine("MSRP: ");
+            builder.AppendLine(this.Msrp);
+            builder.AppendLine();
+
+            builder.AppendLine("Excerpt: ");
+            builder.AppendLine(this.Excerpt);
+            builder.AppendLine();
+
+            builder.AppendLine("Synopsys: ");
+            builder.AppendLine(this.Synopsys);
+            builder.AppendLine();
+
+            builder.AppendLine("Authors: ");
+            builder.Append(this.GetAuthorList());
+
+            return builder.ToString();
+        }//ToString
     }//class
 }

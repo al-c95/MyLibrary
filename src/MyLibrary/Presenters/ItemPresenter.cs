@@ -286,6 +286,8 @@ namespace MyLibrary.Presenters
             }
             this._selectedItemMemento = this._view.SelectedItem.GetMemento();
             this._view.DiscardSelectedItemChangesButtonEnabled = false;
+
+            this._view.SelectedItemDetailsBoxEntry = this._view.SelectedItem.ToString();
         }
 
         public async void CategorySelectionChanged(object sender, EventArgs e)

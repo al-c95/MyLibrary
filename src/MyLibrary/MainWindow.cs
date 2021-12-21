@@ -35,6 +35,9 @@ namespace MyLibrary
 
             this.tagsList.CheckOnClick = true;
 
+            this.detailsBox.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
+            this.detailsBox.Text = "Item";
+
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
             // fire the public event so the subscribed present can react
@@ -295,6 +298,12 @@ namespace MyLibrary
         {
             get => this.deleteSelectedButton.Enabled;
             set => this.deleteSelectedButton.Enabled = value;
+        }
+
+        public string SelectedItemDetailsBoxEntry
+        {
+            get => this.detailsBox.Text;
+            set => this.detailsBox.Text = value;
         }
 
         #region events
