@@ -350,8 +350,18 @@ namespace MyLibrary.Presenters
             await addItemPresenter.PopulateTagsList();
 
             this._addMediaItemView.ItemAdded += ItemAdded;
-            int categoryIndexToSelect = this._view.CategoryDropDownSelectedIndex - 2;
+
+            int categoryIndexToSelect;
+            if (this._view.CategoryDropDownSelectedIndex > 2)
+            {
+                categoryIndexToSelect = this._view.CategoryDropDownSelectedIndex - 2;
+            }
+            else
+            {
+                categoryIndexToSelect = 0;
+            }
             this._addMediaItemView.SelectedCategoryIndex = categoryIndexToSelect;
+
             ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
         }
 

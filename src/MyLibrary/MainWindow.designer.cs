@@ -29,11 +29,13 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newMediaItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +59,7 @@ namespace MyLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.titleFilterField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
+            this.moreDetailsGroup = new System.Windows.Forms.GroupBox();
             this.manageItemTagsButton = new System.Windows.Forms.Button();
             this.removeImageButton = new System.Windows.Forms.Button();
             this.selectImageButton = new System.Windows.Forms.Button();
@@ -66,9 +69,6 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.newMediaItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moreDetailsGroup = new System.Windows.Forms.GroupBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -88,7 +88,7 @@ namespace MyLibrary
             this.helpMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1029, 28);
+            this.menuStrip.Size = new System.Drawing.Size(1286, 38);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -100,47 +100,58 @@ namespace MyLibrary
             this.toolStripSeparator1,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
-            this.fileMenu.Size = new System.Drawing.Size(46, 24);
+            this.fileMenu.Size = new System.Drawing.Size(46, 34);
             this.fileMenu.Text = "File";
             // 
             // newBookToolStripMenuItem
             // 
             this.newBookToolStripMenuItem.Name = "newBookToolStripMenuItem";
-            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.newBookToolStripMenuItem.Text = "New Book";
+            // 
+            // newMediaItemToolStripMenuItem
+            // 
+            this.newMediaItemToolStripMenuItem.Name = "newMediaItemToolStripMenuItem";
+            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.newMediaItemToolStripMenuItem.Text = "New Media Item";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitMenuItem.Size = new System.Drawing.Size(202, 26);
             this.exitMenuItem.Text = "Exit";
             // 
             // editMenu
             // 
             this.editMenu.Enabled = false;
             this.editMenu.Name = "editMenu";
-            this.editMenu.Size = new System.Drawing.Size(49, 24);
+            this.editMenu.Size = new System.Drawing.Size(49, 34);
             this.editMenu.Text = "Edit";
             // 
             // viewMenu
             // 
             this.viewMenu.Enabled = false;
             this.viewMenu.Name = "viewMenu";
-            this.viewMenu.Size = new System.Drawing.Size(55, 24);
+            this.viewMenu.Size = new System.Drawing.Size(55, 34);
             this.viewMenu.Text = "View";
             // 
             // settingsMenu
             // 
             this.settingsMenu.Enabled = false;
             this.settingsMenu.Name = "settingsMenu";
-            this.settingsMenu.Size = new System.Drawing.Size(76, 24);
+            this.settingsMenu.Size = new System.Drawing.Size(76, 34);
             this.settingsMenu.Text = "Settings";
             // 
             // helpMenu
             // 
             this.helpMenu.Enabled = false;
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(55, 24);
+            this.helpMenu.Size = new System.Drawing.Size(55, 34);
             this.helpMenu.Text = "Help";
             // 
             // addButton
@@ -194,14 +205,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGrid.Location = new System.Drawing.Point(416, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -342,6 +353,15 @@ namespace MyLibrary
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
             // 
+            // moreDetailsGroup
+            // 
+            this.moreDetailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.moreDetailsGroup.Location = new System.Drawing.Point(9, 157);
+            this.moreDetailsGroup.Name = "moreDetailsGroup";
+            this.moreDetailsGroup.Size = new System.Drawing.Size(383, 184);
+            this.moreDetailsGroup.TabIndex = 21;
+            this.moreDetailsGroup.TabStop = false;
+            // 
             // manageItemTagsButton
             // 
             this.manageItemTagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -434,26 +454,6 @@ namespace MyLibrary
             this.categoryDropDown.Name = "categoryDropDown";
             this.categoryDropDown.Size = new System.Drawing.Size(323, 24);
             this.categoryDropDown.TabIndex = 15;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
-            // 
-            // newMediaItemToolStripMenuItem
-            // 
-            this.newMediaItemToolStripMenuItem.Name = "newMediaItemToolStripMenuItem";
-            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.newMediaItemToolStripMenuItem.Text = "New Media Item";
-            // 
-            // moreDetailsGroup
-            // 
-            this.moreDetailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.moreDetailsGroup.Location = new System.Drawing.Point(9, 157);
-            this.moreDetailsGroup.Name = "moreDetailsGroup";
-            this.moreDetailsGroup.Size = new System.Drawing.Size(383, 184);
-            this.moreDetailsGroup.TabIndex = 21;
-            this.moreDetailsGroup.TabStop = false;
             // 
             // MainWindow
             // 

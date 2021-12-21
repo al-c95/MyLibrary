@@ -124,6 +124,12 @@
     <Compile Include="BusinessLogic\Repositories\PublisherRepository.cs" />
     <Compile Include="BusinessLogic\Repositories\TagRepository.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controls\ItemDetails\MediaItemDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ItemDetails\MediaItemDetails.Designer.cs">
+      <DependentUpon>MediaItemDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataAccessLayer\AuthorDataAccessor.cs" />
     <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
@@ -166,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddNewMediaItemForm.resx">
       <DependentUpon>AddNewMediaItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ItemDetails\MediaItemDetails.resx">
+      <DependentUpon>MediaItemDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
