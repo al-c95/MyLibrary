@@ -36,8 +36,16 @@ namespace MyLibrary
             this.tagsList.CheckOnClick = true;
 
             // register event handlers
-            // fire the public event so the subscribed present can react
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
+            // fire the public event so the subscribed present can react
+            this.newBookToolStripMenuItem.Click += ((sender, args) =>
+            {
+                AddNewBookClicked?.Invoke(sender, args);
+            });
+            this.newMediaItemToolStripMenuItem.Click += ((sender, args) =>
+            {
+                AddNewMediaItemClicked?.Invoke(sender, args);
+            });
             this.addButton.Click += ((sender, args) =>
             {
                 switch (this.categoryDropDown.SelectedIndex)
