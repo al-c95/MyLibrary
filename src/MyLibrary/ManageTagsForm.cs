@@ -35,6 +35,8 @@ namespace MyLibrary
             this.deleteSelectedTagButton.Enabled = false;
             this.addTagButton.Enabled = false;
 
+            this.CenterToParent();
+
             // register event handlers
             this.tagsList.SelectedIndexChanged += ((sender, args) =>
             {
