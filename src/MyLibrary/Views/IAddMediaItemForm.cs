@@ -9,6 +9,7 @@ namespace MyLibrary.Views
     public interface IAddMediaItemForm : IAddItemForm
     {
         string SelectedCategory { get; }
+        int SelectedCategoryIndex { get; set; }
         string NumberFieldText { get; set; }
         string RunningTimeFieldEntry { get; set; }
         string YearFieldEntry { get; set; }
