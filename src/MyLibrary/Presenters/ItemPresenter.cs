@@ -410,7 +410,7 @@ namespace MyLibrary.Presenters
         private async Task DisplayItems()
         {
             // update status bar
-            this._view.StatusText = "Updating...";
+            this._view.StatusText = "Please Wait...";
             this._view.ItemsDisplayedText = null;
 
             // update the view

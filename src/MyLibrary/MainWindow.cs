@@ -336,6 +336,7 @@ namespace MyLibrary
                 this.detailsBox.Text = value;
 
                 // make field names bold
+                Application.DoEvents();
                 foreach (var pattern in FIELD_NAME_PATTERNS)
                 {
                     foreach (string line in this.detailsBox.Lines)
