@@ -121,7 +121,7 @@ namespace MyLibrary
             {
                 SelectedItemModified?.Invoke(sender, args);
 
-                this.pictureBox.Image = null;
+                SetNoItemImage();
             });
             this.tagsButton.Click += (async (sender, args) =>
             {
@@ -214,8 +214,21 @@ namespace MyLibrary
                 this._selectedItem = value;
 
                 this.textBoxNotes.Text = this._selectedItem.Notes;
-                this.pictureBox.Image = ReadImage(this._selectedItem.Image);
+                Image itemImage = ReadImage(this._selectedItem.Image);
+                if (itemImage is null)
+                {
+                    SetNoItemImage();
+                }
+                else
+                {
+                    this.pictureBox.Image = ReadImage(this._selectedItem.Image);
+                }
             } 
+        }
+
+        private void SetNoItemImage()
+        {
+            this.pictureBox.Image = ReadImage(System.IO.File.ReadAllBytes("no_image.png"));
         }
 
         public DataTable DisplayedItems
