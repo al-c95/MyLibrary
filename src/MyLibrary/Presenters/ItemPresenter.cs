@@ -350,6 +350,8 @@ namespace MyLibrary.Presenters
             await addItemPresenter.PopulateTagsList();
 
             this._addMediaItemView.ItemAdded += ItemAdded;
+            int categoryIndexToSelect = this._view.CategoryDropDownSelectedIndex - 2;
+            this._addMediaItemView.SelectedCategoryIndex = categoryIndexToSelect;
             ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
         }
 
@@ -416,7 +418,7 @@ namespace MyLibrary.Presenters
 
             // update status bar
             this._view.StatusText = "Ready.";
-            this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+            this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(this._view.NumberOfItemsSelected, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
 
             PerformFilter();
         }

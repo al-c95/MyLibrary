@@ -91,6 +91,12 @@ namespace MyLibrary
             get => this.mediaTypesOptions.Text;
         }
 
+        public int SelectedCategoryIndex
+        {
+            get => this.mediaTypesOptions.SelectedIndex;
+            set => this.mediaTypesOptions.SelectedIndex = value;
+        }
+
         public string TitleFieldText
         {
             get => this.titleField.Text;

@@ -180,6 +180,8 @@ namespace MyLibrary
             }
         }
 
+        public int NumberOfItemsSelected => this.dataGrid.SelectedRows.Count;
+
         public string TitleFilterText
         {
             get => this.titleFilterField.Text;
