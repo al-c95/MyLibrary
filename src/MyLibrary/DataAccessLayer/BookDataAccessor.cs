@@ -19,7 +19,7 @@ namespace MyLibrary.DataAccessLayer
         {
             using (var conn = GetConnection())
             {
-                conn.Open();
+                await conn.OpenAsync();
                 using (var transaction = conn.BeginTransaction())
                 {
                     try

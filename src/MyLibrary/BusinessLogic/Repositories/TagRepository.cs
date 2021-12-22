@@ -26,17 +26,17 @@ namespace MyLibrary.BusinessLogic.Repositories
 
         public async Task Create(Tag tag)
         {
-            await this._dao.Create(tag);
+            await Task.Run(() => this._dao.Create(tag));
         }
 
         public async Task<IEnumerable<Tag>> GetAll()
         {
-            return await this._dao.ReadAll();
+            return await Task.Run(() => this._dao.ReadAll());
         }
 
         public async Task DeleteByName(string name)
         {
-            await this._dao.DeleteByName(name);
+            await Task.Run(() => this._dao.DeleteByName(name));
         }
 
         public async Task<bool> ExistsWithName(string name)

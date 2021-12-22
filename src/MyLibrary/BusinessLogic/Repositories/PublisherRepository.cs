@@ -26,12 +26,12 @@ namespace MyLibrary.BusinessLogic.Repositories
 
         public async Task Create(Publisher publisher)
         {
-            await this._dao.Create(publisher);
+            await Task.Run(() => this._dao.Create(publisher));
         }
 
         public async Task<IEnumerable<Publisher>> GetAll()
         {
-            return await this._dao.ReadAll();
+            return await Task.Run(() => this._dao.ReadAll());
         }
 
         public async Task<bool> Exists(string name)
