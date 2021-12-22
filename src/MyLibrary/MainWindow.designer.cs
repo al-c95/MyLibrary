@@ -59,6 +59,7 @@ namespace MyLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.titleFilterField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
+            this.detailsBox = new System.Windows.Forms.RichTextBox();
             this.manageItemTagsButton = new System.Windows.Forms.Button();
             this.removeImageButton = new System.Windows.Forms.Button();
             this.selectImageButton = new System.Windows.Forms.Button();
@@ -68,7 +69,6 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
-            this.detailsBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -88,7 +88,7 @@ namespace MyLibrary
             this.helpMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1286, 38);
+            this.menuStrip.Size = new System.Drawing.Size(1029, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -100,7 +100,7 @@ namespace MyLibrary
             this.toolStripSeparator1,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
-            this.fileMenu.Size = new System.Drawing.Size(46, 34);
+            this.fileMenu.Size = new System.Drawing.Size(46, 24);
             this.fileMenu.Text = "File";
             // 
             // newBookToolStripMenuItem
@@ -130,28 +130,28 @@ namespace MyLibrary
             // 
             this.editMenu.Enabled = false;
             this.editMenu.Name = "editMenu";
-            this.editMenu.Size = new System.Drawing.Size(49, 34);
+            this.editMenu.Size = new System.Drawing.Size(49, 24);
             this.editMenu.Text = "Edit";
             // 
             // viewMenu
             // 
             this.viewMenu.Enabled = false;
             this.viewMenu.Name = "viewMenu";
-            this.viewMenu.Size = new System.Drawing.Size(55, 34);
+            this.viewMenu.Size = new System.Drawing.Size(55, 24);
             this.viewMenu.Text = "View";
             // 
             // settingsMenu
             // 
             this.settingsMenu.Enabled = false;
             this.settingsMenu.Name = "settingsMenu";
-            this.settingsMenu.Size = new System.Drawing.Size(76, 34);
+            this.settingsMenu.Size = new System.Drawing.Size(76, 24);
             this.settingsMenu.Text = "Settings";
             // 
             // helpMenu
             // 
             this.helpMenu.Enabled = false;
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(55, 34);
+            this.helpMenu.Size = new System.Drawing.Size(55, 24);
             this.helpMenu.Text = "Help";
             // 
             // addButton
@@ -353,6 +353,17 @@ namespace MyLibrary
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
             // 
+            // detailsBox
+            // 
+            this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.detailsBox.Location = new System.Drawing.Point(9, 146);
+            this.detailsBox.Name = "detailsBox";
+            this.detailsBox.ReadOnly = true;
+            this.detailsBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.detailsBox.Size = new System.Drawing.Size(418, 195);
+            this.detailsBox.TabIndex = 0;
+            this.detailsBox.Text = "";
+            // 
             // manageItemTagsButton
             // 
             this.manageItemTagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -366,7 +377,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeImageButton.Location = new System.Drawing.Point(273, 96);
+            this.removeImageButton.Location = new System.Drawing.Point(273, 112);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(154, 28);
             this.removeImageButton.TabIndex = 19;
@@ -376,7 +387,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(9, 96);
+            this.selectImageButton.Location = new System.Drawing.Point(9, 112);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(154, 28);
             this.selectImageButton.TabIndex = 18;
@@ -432,7 +443,7 @@ namespace MyLibrary
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
             this.pictureBox.Location = new System.Drawing.Point(12, 21);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(415, 69);
+            this.pictureBox.Size = new System.Drawing.Size(415, 85);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -445,17 +456,6 @@ namespace MyLibrary
             this.categoryDropDown.Name = "categoryDropDown";
             this.categoryDropDown.Size = new System.Drawing.Size(358, 24);
             this.categoryDropDown.TabIndex = 15;
-            // 
-            // detailsBox
-            // 
-            this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.detailsBox.Location = new System.Drawing.Point(9, 130);
-            this.detailsBox.Name = "detailsBox";
-            this.detailsBox.ReadOnly = true;
-            this.detailsBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.detailsBox.Size = new System.Drawing.Size(418, 211);
-            this.detailsBox.TabIndex = 0;
-            this.detailsBox.Text = "";
             // 
             // MainWindow
             // 
