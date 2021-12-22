@@ -19,12 +19,12 @@ namespace MyLibrary.BusinessLogic.Repositories
 
         public async Task Create(T item)
         {
-            await this._dao.Create(item);
+            await Task.Run(() => this._dao.Create(item));
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            return await this._dao.ReadAll();
+            return await Task.Run(() => this._dao.ReadAll());
         }
 
         public async Task<T> GetById(int id)
@@ -36,17 +36,17 @@ namespace MyLibrary.BusinessLogic.Repositories
 
         public async Task Update(T item)
         {
-            await this._dao.Update(item);
+            await Task.Run(() => this._dao.Update(item));
         }
 
         public async Task UpdateTags(ItemTagsDto dto)
         {
-            await this._dao.UpdateTags(dto);
+            await Task.Run(() => this._dao.UpdateTags(dto));
         }
 
         public async Task DeleteById(int id)
         {
-            await this._dao.DeleteById(id);
+            await Task.Run(() => this._dao.DeleteById(id));
         }
 
         public async Task<bool> ExistsWithId(int id)
