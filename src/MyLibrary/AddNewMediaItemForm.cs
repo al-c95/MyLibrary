@@ -31,6 +31,13 @@ namespace MyLibrary
 
             this.CenterToParent();
 
+            // set tab order of controls
+            this.titleField.TabIndex = 0;
+            this.numberField.TabIndex = 1;
+            this.runningTimeField.TabIndex = 2;
+            this.yearField.TabIndex = 3;
+            this.notesField.TabIndex = 4;
+
             // register event handlers
             // fire the public event so the subscribed presenter can react
             this.titleField.TextChanged += ((sender, args) =>
