@@ -10,6 +10,7 @@ using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
+using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters
 {
@@ -348,7 +349,8 @@ namespace MyLibrary.Presenters
         {
             this._addMediaItemView = new AddNewMediaItemForm();
             var addItemPresenter = new AddMediaItemPresenter(this._mediaItemRepo, this._tagRepo,
-                this._addMediaItemView);
+                this._addMediaItemView,
+                new ImageFileReader());
             await addItemPresenter.PopulateTagsList();
 
             this._addMediaItemView.ItemAdded += ItemAdded;
