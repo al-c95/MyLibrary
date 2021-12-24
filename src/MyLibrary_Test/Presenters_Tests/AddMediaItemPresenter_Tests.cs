@@ -197,6 +197,88 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             Assert.IsFalse(fakeView.SaveButtonEnabled);
         }
+
+        [TestCase("", "", "")]
+        [TestCase("", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "", @"C:\path\to\file.png")]
+        [TestCase("", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", "")]
+        [TestCase("60", "", "")]
+        public void SaveButtonClicked_Test_ItemAlreadyExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
+            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            A.CallTo(() => fakeMediaItemRepo.ExistsWithTitle("title")).Returns(true);
+            var fakeTagRepo = A.Fake<TagRepository>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+
+            // act
+            presenter.SaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("title")).MustHaveHappened();
+        }
+
+        [TestCase("", "", "")]
+        [TestCase("", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "", @"C:\path\to\file.png")]
+        [TestCase("", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", "")]
+        [TestCase("60", "", "")]
+        public void SaveButtonClicked_Test_Error(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
+            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            A.CallTo(() => fakeMediaItemRepo.ExistsWithTitle("title")).Throws(new Exception("error"));
+            var fakeTagRepo = A.Fake<TagRepository>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+
+            // act
+            presenter.SaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Error checking title.", "error")).MustHaveHappened();
+        }
     }//class
 
     public class MockPresenter : AddMediaItemPresenter
