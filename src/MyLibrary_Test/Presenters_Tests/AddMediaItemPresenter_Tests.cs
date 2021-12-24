@@ -13,6 +13,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
+using MyLibrary.Utils;
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -51,7 +52,8 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file" + ext);
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -77,7 +79,8 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -145,7 +148,8 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file" + ext);
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -189,7 +193,8 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -230,7 +235,8 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             A.CallTo(() => fakeMediaItemRepo.ExistsWithTitle("title")).Returns(true);
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
 
             // act
             presenter.SaveButtonClicked(null, null);
@@ -258,7 +264,7 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("60", "", @"C:\path\to\file.png")]
         [TestCase("60", "notes", "")]
         [TestCase("60", "", "")]
-        public void SaveButtonClicked_Test_Error(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        public void SaveButtonClicked_Test_ErrorWhenCheckingIfExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
@@ -271,7 +277,8 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             A.CallTo(() => fakeMediaItemRepo.ExistsWithTitle("title")).Throws(new Exception("error"));
             var fakeTagRepo = A.Fake<TagRepository>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
 
             // act
             presenter.SaveButtonClicked(null, null);
@@ -283,8 +290,8 @@ namespace MyLibrary_Test.Presenters_Tests
 
     public class MockPresenter : AddMediaItemPresenter
     {
-        public MockPresenter(MediaItemRepository mediaItemRepo, TagRepository tagRepo, IAddMediaItemForm view)
-            :base(mediaItemRepo, tagRepo, view)
+        public MockPresenter(MediaItemRepository mediaItemRepo, TagRepository tagRepo, IAddMediaItemForm view, IImageFileReader imageFileReader)
+            :base(mediaItemRepo, tagRepo, view, imageFileReader)
         {
 
         }
