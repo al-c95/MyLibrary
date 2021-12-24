@@ -7,6 +7,7 @@ using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
+using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters
 {
@@ -17,14 +18,19 @@ namespace MyLibrary.Presenters
 
         private IAddMediaItemForm _view;
 
+        private IImageFileReader _imageFileReader;
+
         // ctor
         public AddMediaItemPresenter(MediaItemRepository mediaItemRepository, TagRepository tagRepository, 
-            IAddMediaItemForm view)
+            IAddMediaItemForm view,
+            IImageFileReader imageFileReader)
         {
             this._mediaItemRepo = mediaItemRepository;
             this._tagRepo = tagRepository;
 
             this._view = view;
+
+            this._imageFileReader = imageFileReader;
 
             // subscribe to the view's events
             this._view.SaveButtonClicked += SaveButtonClicked;
@@ -85,7 +91,8 @@ namespace MyLibrary.Presenters
             {
                 try
                 {
-                    byte[] imageBytes = System.IO.File.ReadAllBytes(this._view.ImageFilePathFieldText);
+                    this._imageFileReader.Path = this._view.ImageFilePathFieldText;
+                    byte[] imageBytes = this._imageFileReader.ReadBytes();
                     item.Image = imageBytes;
                 }
                 catch (System.IO.IOException ex)

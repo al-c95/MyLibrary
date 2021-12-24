@@ -157,6 +157,8 @@
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\IImageFileReader.cs" />
+    <Compile Include="Utils\ImageFileReader.cs" />
     <Compile Include="Views\IAddItemForm.cs" />
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
