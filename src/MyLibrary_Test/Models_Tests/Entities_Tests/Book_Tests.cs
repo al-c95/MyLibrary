@@ -146,6 +146,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             item.Format = "print";
             item.Publisher = new Publisher { Name = "publisher" };
             item.DatePublished = "2021";
+            item.PlaceOfPublication = "USA";
             item.Edition = "1st Edition";
             item.Pages = 100;
             item.Dimensions = "dim";
@@ -184,6 +185,9 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
                 "" + "\r\n" +
                 "Date Published: " + "\r\n" +
                 "2021" + "\r\n" +
+                "" + "\r\n" +
+                "Place of Publication: " + "\r\n" +
+                "USA" + "\r\n" +
                 "" + "\r\n" +
                 "Edition: " + "\r\n" +
                 "1st Edition" + "\r\n" +
@@ -232,6 +236,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             item.Format = "print";
             item.Publisher = new Publisher { Name = "publisher" };
             item.DatePublished = "2021";
+            item.PlaceOfPublication = "USA";
             item.Edition = "1st Edition";
             item.Pages = 100;
             item.Dimensions = "dim";
@@ -270,6 +275,9 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
                 "" + "\r\n" +
                 "Date Published: " + "\r\n" +
                 "2021" + "\r\n" +
+                "" + "\r\n" +
+                "Place of Publication: " + "\r\n" +
+                "USA" + "\r\n" +
                 "" + "\r\n" +
                 "Edition: " + "\r\n" +
                 "1st Edition" + "\r\n" +

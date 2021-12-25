@@ -83,6 +83,7 @@ namespace MyLibrary.Models.Entities
 
         public string Format { get; set; }
         public string DatePublished { get; set; }
+        public string PlaceOfPublication { get; set; }
         public string Edition { get; set; }
         public int Pages { get; set; }
         public string Dimensions { get; set; }
@@ -142,6 +143,7 @@ namespace MyLibrary.Models.Entities
             ToStringAppendField(builder, "Format: ", this.Format);
             ToStringAppendField(builder, "Publisher: ", this.Publisher.Name);
             ToStringAppendField(builder, "Date Published: ", this.DatePublished);
+            ToStringAppendField(builder, "Place of Publication: ", this.PlaceOfPublication);
             ToStringAppendField(builder, "Edition: ", this.Edition);
             ToStringAppendField(builder, "Pages: ", this.Pages.ToString());
             ToStringAppendField(builder, "Dimensions: ", this.Dimensions);

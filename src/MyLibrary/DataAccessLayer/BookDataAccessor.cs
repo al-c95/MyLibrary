@@ -56,8 +56,8 @@ namespace MyLibrary.DataAccessLayer
                         }
 
                         // insert Book table record
-                        const string INSERT_BOOK_SQL = "INSERT INTO Books(title,titleLong,isbn,isbn13,deweyDecimal,publisherId,format,language,datePublished,edition,pages,dimensions,overview,image,msrp,excerpt,synopsys,notes) " +
-                            "VALUES(@title,@titleLong,@isbn,@isbn13,@deweyDecimal,@publisherId,@format,@language,@datePublished,@edition,@pages,@dimensions,@overview,@image,@msrp,@excerpt,@synopsys,@notes);";
+                        const string INSERT_BOOK_SQL = "INSERT INTO Books(title,titleLong,isbn,isbn13,deweyDecimal,publisherId,format,language,datePublished,placeOfPublication,edition,pages,dimensions,overview,image,msrp,excerpt,synopsys,notes) " +
+                            "VALUES(@title,@titleLong,@isbn,@isbn13,@deweyDecimal,@publisherId,@format,@language,@datePublished,@placeOfPublication,@edition,@pages,@dimensions,@overview,@image,@msrp,@excerpt,@synopsys,@notes);";
                         await conn.ExecuteAsync(INSERT_BOOK_SQL, new
                         {
                             title = toAdd.Title,
@@ -69,6 +69,7 @@ namespace MyLibrary.DataAccessLayer
                             format = toAdd.Format,
                             language = toAdd.Language,
                             datePublished = toAdd.DatePublished,
+                            placeOfPublication = toAdd.PlaceOfPublication,
                             edition = toAdd.Edition,
                             pages = toAdd.Pages,
                             dimensions = toAdd.Dimensions,
