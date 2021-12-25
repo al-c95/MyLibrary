@@ -319,6 +319,12 @@ namespace MyLibrary
             set => this.synopsisField.Text = value; 
         }
 
+        public string PlaceOfPublicationFieldText
+        {
+            get => this.placeOfPublicationField.Text;
+            set => this.placeOfPublicationField.Text = value;
+        }
+
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
         public event EventHandler ItemAdded;

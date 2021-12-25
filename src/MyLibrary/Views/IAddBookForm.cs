@@ -15,6 +15,7 @@ namespace MyLibrary.Views
         string FormatFieldText { get; set; }
         string LanguageFieldText { get; set; }
         string DatePublishedFieldText { get; set; }
+        string PlaceOfPublicationFieldText { get; set; }
         string EditionFieldText { get; set; }
         string PagesFieldText { get; set; }
         string DimensionsFieldText { get; set; }

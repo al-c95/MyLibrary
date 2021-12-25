@@ -313,6 +313,7 @@ namespace MyLibrary
                     "Format: ",
                     "Publisher: ",
                     "Date Published: ",
+                    "Place of Publication: ",
                     "Edition: ",
                     "Pages: ",
                     "Dimensions: ",

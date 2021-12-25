@@ -128,6 +128,7 @@ namespace MyLibrary.Presenters
                 .Sized(this._view.DimensionsFieldText)
                     .Get();
             book.Notes = this._view.NotesFieldText;
+            book.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
                 try

@@ -19,6 +19,7 @@ CREATE TABLE "Books" (
     "format"    TEXT,
     "language"  TEXT NOT NULL,
     "datePublished" TEXT,
+    "placeOfPublication" TEXT,
     "edition"   TEXT,
     "pages" INTEGER NOT NULL,
     "dimensions"    TEXT,

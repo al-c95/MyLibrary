@@ -81,6 +81,8 @@ namespace MyLibrary
             this.browseImageButton = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.imageFilePathField = new System.Windows.Forms.TextBox();
+            this.placeOfPublicationField = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tagsGroup.SuspendLayout();
@@ -290,9 +292,9 @@ namespace MyLibrary
             // 
             // datePublishedField
             // 
-            this.datePublishedField.Location = new System.Drawing.Point(548, 404);
+            this.datePublishedField.Location = new System.Drawing.Point(560, 404);
             this.datePublishedField.Name = "datePublishedField";
-            this.datePublishedField.Size = new System.Drawing.Size(240, 22);
+            this.datePublishedField.Size = new System.Drawing.Size(228, 22);
             this.datePublishedField.TabIndex = 14;
             // 
             // label6
@@ -306,15 +308,15 @@ namespace MyLibrary
             // 
             // editionField
             // 
-            this.editionField.Location = new System.Drawing.Point(548, 435);
+            this.editionField.Location = new System.Drawing.Point(560, 466);
             this.editionField.Name = "editionField";
-            this.editionField.Size = new System.Drawing.Size(240, 22);
+            this.editionField.Size = new System.Drawing.Size(228, 22);
             this.editionField.TabIndex = 16;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(418, 438);
+            this.label7.Location = new System.Drawing.Point(418, 465);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 17);
             this.label7.TabIndex = 17;
@@ -322,15 +324,15 @@ namespace MyLibrary
             // 
             // deweyDecimalField
             // 
-            this.deweyDecimalField.Location = new System.Drawing.Point(548, 466);
+            this.deweyDecimalField.Location = new System.Drawing.Point(560, 496);
             this.deweyDecimalField.Name = "deweyDecimalField";
-            this.deweyDecimalField.Size = new System.Drawing.Size(240, 22);
+            this.deweyDecimalField.Size = new System.Drawing.Size(228, 22);
             this.deweyDecimalField.TabIndex = 18;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(418, 469);
+            this.label8.Location = new System.Drawing.Point(418, 497);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(108, 17);
             this.label8.TabIndex = 19;
@@ -338,15 +340,15 @@ namespace MyLibrary
             // 
             // formatField
             // 
-            this.formatField.Location = new System.Drawing.Point(548, 496);
+            this.formatField.Location = new System.Drawing.Point(560, 525);
             this.formatField.Name = "formatField";
-            this.formatField.Size = new System.Drawing.Size(240, 22);
+            this.formatField.Size = new System.Drawing.Size(228, 22);
             this.formatField.TabIndex = 20;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(418, 499);
+            this.label9.Location = new System.Drawing.Point(418, 528);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(56, 17);
             this.label9.TabIndex = 21;
@@ -354,15 +356,15 @@ namespace MyLibrary
             // 
             // dimensionsField
             // 
-            this.dimensionsField.Location = new System.Drawing.Point(548, 527);
+            this.dimensionsField.Location = new System.Drawing.Point(560, 556);
             this.dimensionsField.Name = "dimensionsField";
-            this.dimensionsField.Size = new System.Drawing.Size(240, 22);
+            this.dimensionsField.Size = new System.Drawing.Size(228, 22);
             this.dimensionsField.TabIndex = 22;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(418, 530);
+            this.label10.Location = new System.Drawing.Point(418, 559);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(85, 17);
             this.label10.TabIndex = 23;
@@ -370,37 +372,37 @@ namespace MyLibrary
             // 
             // overviewField
             // 
-            this.overviewField.Location = new System.Drawing.Point(86, 404);
+            this.overviewField.Location = new System.Drawing.Point(94, 404);
             this.overviewField.Name = "overviewField";
-            this.overviewField.Size = new System.Drawing.Size(312, 22);
+            this.overviewField.Size = new System.Drawing.Size(304, 22);
             this.overviewField.TabIndex = 24;
             // 
             // MsrpField
             // 
-            this.MsrpField.Location = new System.Drawing.Point(86, 435);
+            this.MsrpField.Location = new System.Drawing.Point(94, 435);
             this.MsrpField.Name = "MsrpField";
-            this.MsrpField.Size = new System.Drawing.Size(312, 22);
+            this.MsrpField.Size = new System.Drawing.Size(304, 22);
             this.MsrpField.TabIndex = 25;
             // 
             // pagesField
             // 
-            this.pagesField.Location = new System.Drawing.Point(86, 466);
+            this.pagesField.Location = new System.Drawing.Point(94, 466);
             this.pagesField.Name = "pagesField";
-            this.pagesField.Size = new System.Drawing.Size(312, 22);
+            this.pagesField.Size = new System.Drawing.Size(304, 22);
             this.pagesField.TabIndex = 26;
             // 
             // synopsisField
             // 
-            this.synopsisField.Location = new System.Drawing.Point(86, 496);
+            this.synopsisField.Location = new System.Drawing.Point(94, 496);
             this.synopsisField.Name = "synopsisField";
-            this.synopsisField.Size = new System.Drawing.Size(312, 22);
+            this.synopsisField.Size = new System.Drawing.Size(304, 22);
             this.synopsisField.TabIndex = 27;
             // 
             // excerptField
             // 
-            this.excerptField.Location = new System.Drawing.Point(86, 527);
+            this.excerptField.Location = new System.Drawing.Point(94, 527);
             this.excerptField.Name = "excerptField";
-            this.excerptField.Size = new System.Drawing.Size(312, 22);
+            this.excerptField.Size = new System.Drawing.Size(304, 22);
             this.excerptField.TabIndex = 28;
             // 
             // label11
@@ -415,16 +417,16 @@ namespace MyLibrary
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 438);
+            this.label12.Location = new System.Drawing.Point(9, 438);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(64, 21);
+            this.label12.Size = new System.Drawing.Size(51, 17);
             this.label12.TabIndex = 30;
             this.label12.Text = "MSRP:";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 469);
+            this.label13.Location = new System.Drawing.Point(9, 469);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(52, 17);
             this.label13.TabIndex = 31;
@@ -433,7 +435,7 @@ namespace MyLibrary
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 499);
+            this.label14.Location = new System.Drawing.Point(9, 499);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(69, 17);
             this.label14.TabIndex = 32;
@@ -442,7 +444,7 @@ namespace MyLibrary
             // v
             // 
             this.v.AutoSize = true;
-            this.v.Location = new System.Drawing.Point(15, 530);
+            this.v.Location = new System.Drawing.Point(9, 530);
             this.v.Name = "v";
             this.v.Size = new System.Drawing.Size(59, 17);
             this.v.TabIndex = 33;
@@ -486,15 +488,15 @@ namespace MyLibrary
             // 
             // languageField
             // 
-            this.languageField.Location = new System.Drawing.Point(314, 568);
+            this.languageField.Location = new System.Drawing.Point(94, 558);
             this.languageField.Name = "languageField";
-            this.languageField.Size = new System.Drawing.Size(240, 22);
+            this.languageField.Size = new System.Drawing.Size(304, 22);
             this.languageField.TabIndex = 34;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(213, 571);
+            this.label15.Location = new System.Drawing.Point(9, 561);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(76, 17);
             this.label15.TabIndex = 35;
@@ -525,11 +527,29 @@ namespace MyLibrary
             this.imageFilePathField.Size = new System.Drawing.Size(481, 22);
             this.imageFilePathField.TabIndex = 36;
             // 
+            // placeOfPublicationField
+            // 
+            this.placeOfPublicationField.Location = new System.Drawing.Point(560, 435);
+            this.placeOfPublicationField.Name = "placeOfPublicationField";
+            this.placeOfPublicationField.Size = new System.Drawing.Size(228, 22);
+            this.placeOfPublicationField.TabIndex = 39;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(418, 438);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(136, 17);
+            this.label19.TabIndex = 40;
+            this.label19.Text = "Place of Publication:";
+            // 
             // AddNewBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 829);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.placeOfPublicationField);
             this.Controls.Add(this.browseImageButton);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.imageFilePathField);
@@ -640,5 +660,7 @@ namespace MyLibrary
         private System.Windows.Forms.Button browseImageButton;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox imageFilePathField;
+        private System.Windows.Forms.TextBox placeOfPublicationField;
+        private System.Windows.Forms.Label label19;
     }
 }
