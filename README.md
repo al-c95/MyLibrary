@@ -13,7 +13,7 @@ root
 |
 +--docs
 |     |
-|     +--design // requirements and design of the application
+|     +--design // Requirements and design of the application. Detailed design is a living document describing the current design and architecture of the application.
 |     |
 |     +--user // documentation intended for users (TODO)
 |
