@@ -84,15 +84,20 @@ namespace MyLibrary.Models.Entities
             }
         }
 
+        protected StringBuilder ToStringAppendField(StringBuilder builder, string fieldName, string value)
+        {
+            builder.AppendLine(fieldName);
+            builder.AppendLine(value);
+            builder.AppendLine();
+
+            return builder;
+        }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Id: ");
-            builder.AppendLine(this.Id.ToString());
-            builder.AppendLine();
-            builder.AppendLine("Title: ");
-            builder.AppendLine(this.Title);
-            builder.AppendLine();
+            ToStringAppendField(builder, "Id: ", this.Id.ToString());
+            ToStringAppendField(builder, "Title: ", this.Title);
             builder.AppendLine("Type: ");
             builder.Append(this.Type.ToString());
 

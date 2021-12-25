@@ -123,17 +123,9 @@ namespace MyLibrary.Models.Entities
             builder.AppendLine();
             builder.AppendLine();
 
-            builder.AppendLine("ISBN: ");
-            builder.AppendLine(this.Isbn);
-            builder.AppendLine();
-
-            builder.AppendLine("ISBN 13: ");
-            builder.AppendLine(this.Isbn13);
-            builder.AppendLine();
-
-            builder.AppendLine("Long Title: ");
-            builder.AppendLine(this.TitleLong);
-            builder.AppendLine();
+            ToStringAppendField(builder, "ISBN: ", this.Isbn);
+            ToStringAppendField(builder, "ISBN 13: ", this.Isbn13);
+            ToStringAppendField(builder, "Long Title: ", this.TitleLong);
 
             builder.AppendLine("Dewey Decimal: ");
             if (!(DeweyDecimal is null))
@@ -147,49 +139,17 @@ namespace MyLibrary.Models.Entities
                 builder.AppendLine();
             }
 
-            builder.AppendLine("Format: ");
-            builder.AppendLine(this.Format);
-            builder.AppendLine();
-
-            builder.AppendLine("Publisher: ");
-            builder.AppendLine(this.Publisher.Name);
-            builder.AppendLine();
-
-            builder.AppendLine("Date Published: ");
-            builder.AppendLine(this.DatePublished);
-            builder.AppendLine();
-
-            builder.AppendLine("Edition: ");
-            builder.AppendLine(this.Edition);
-            builder.AppendLine();
-
-            builder.AppendLine("Pages: ");
-            builder.AppendLine(this.Pages.ToString());
-            builder.AppendLine();
-
-            builder.AppendLine("Dimensions: ");
-            builder.AppendLine(this.Dimensions);
-            builder.AppendLine();
-
-            builder.AppendLine("Overview: ");
-            builder.AppendLine(this.Overview);
-            builder.AppendLine();
-
-            builder.AppendLine("Language: ");
-            builder.AppendLine(this.Language);
-            builder.AppendLine();
-
-            builder.AppendLine("MSRP: ");
-            builder.AppendLine(this.Msrp);
-            builder.AppendLine();
-
-            builder.AppendLine("Excerpt: ");
-            builder.AppendLine(this.Excerpt);
-            builder.AppendLine();
-
-            builder.AppendLine("Synopsys: ");
-            builder.AppendLine(this.Synopsys);
-            builder.AppendLine();
+            ToStringAppendField(builder, "Format: ", this.Format);
+            ToStringAppendField(builder, "Publisher: ", this.Publisher.Name);
+            ToStringAppendField(builder, "Date Published: ", this.DatePublished);
+            ToStringAppendField(builder, "Edition: ", this.Edition);
+            ToStringAppendField(builder, "Pages: ", this.Pages.ToString());
+            ToStringAppendField(builder, "Dimensions: ", this.Dimensions);
+            ToStringAppendField(builder, "Overview: ", this.Overview);
+            ToStringAppendField(builder, "Language: ", this.Language);
+            ToStringAppendField(builder, "MSRP: ", this.Msrp);
+            ToStringAppendField(builder, "Excerpt: ", this.Excerpt);
+            ToStringAppendField(builder, "Synopsys: ", this.Synopsys);
 
             builder.AppendLine("Authors: ");
             builder.Append(this.GetAuthorList());

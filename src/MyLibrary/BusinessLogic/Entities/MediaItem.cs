@@ -32,9 +32,9 @@ namespace MyLibrary.Models.Entities
 
             builder.AppendLine();
             builder.AppendLine();
-            builder.AppendLine("Number: ");
-            builder.AppendLine(this.Number.ToString());
-            builder.AppendLine();
+
+            ToStringAppendField(builder, "Number: ", this.Number.ToString());
+
             builder.AppendLine("Running Time: ");
             if (!(RunningTime is null))
             {

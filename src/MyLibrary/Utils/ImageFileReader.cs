@@ -17,7 +17,7 @@ namespace MyLibrary.Utils
 
         public ImageFileReader(string path)
         {
-
+            this.Path = path;
         }
 
         public byte[] ReadBytes()
