@@ -23,6 +23,7 @@ This document describes some of the detail of the data, architecture and user in
 |format   |TEXT         |Yes         |               |
 |language |TEXT         |No          |               |
 |datePublished|TEXT     |Yes         |               |
+|placeOfPublication |TEXT|Yes        |               |
 |edition  |TEXT         |Yes         |               |
 |pages    |INTEGER      |No          |               |
 |dimensions|TEXT        |Yes         |               |
