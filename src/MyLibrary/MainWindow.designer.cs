@@ -69,6 +69,7 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
+            this.searchBooksButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -158,7 +159,7 @@ namespace MyLibrary
             // 
             this.addButton.Location = new System.Drawing.Point(12, 31);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(95, 35);
+            this.addButton.Size = new System.Drawing.Size(118, 35);
             this.addButton.TabIndex = 1;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = true;
@@ -166,9 +167,9 @@ namespace MyLibrary
             // deleteSelectedButton
             // 
             this.deleteSelectedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.deleteSelectedButton.Location = new System.Drawing.Point(113, 31);
+            this.deleteSelectedButton.Location = new System.Drawing.Point(260, 31);
             this.deleteSelectedButton.Name = "deleteSelectedButton";
-            this.deleteSelectedButton.Size = new System.Drawing.Size(95, 35);
+            this.deleteSelectedButton.Size = new System.Drawing.Size(119, 35);
             this.deleteSelectedButton.TabIndex = 2;
             this.deleteSelectedButton.Text = "Delete";
             this.deleteSelectedButton.UseVisualStyleBackColor = true;
@@ -457,11 +458,22 @@ namespace MyLibrary
             this.categoryDropDown.Size = new System.Drawing.Size(358, 24);
             this.categoryDropDown.TabIndex = 15;
             // 
+            // searchBooksButton
+            // 
+            this.searchBooksButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.8F);
+            this.searchBooksButton.Location = new System.Drawing.Point(136, 31);
+            this.searchBooksButton.Name = "searchBooksButton";
+            this.searchBooksButton.Size = new System.Drawing.Size(118, 35);
+            this.searchBooksButton.TabIndex = 16;
+            this.searchBooksButton.Text = "Search Books";
+            this.searchBooksButton.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1029, 876);
+            this.Controls.Add(this.searchBooksButton);
             this.Controls.Add(this.categoryDropDown);
             this.Controls.Add(this.detailsGroup);
             this.Controls.Add(this.filterGroup);
@@ -531,6 +543,7 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem newMediaItemToolStripMenuItem;
         private System.Windows.Forms.RichTextBox detailsBox;
+        private System.Windows.Forms.Button searchBooksButton;
     }
 }
 
