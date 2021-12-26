@@ -14,7 +14,7 @@ namespace MyLibrary.ApiService
     /// <summary>
     /// Retrieves book information, by isbn.
     /// </summary>
-    public class BookApiService
+    public class BookApiService : IDisposable
     {
         // injected values
         protected readonly IIsbnApiClient _isbnApiClient;
@@ -81,10 +81,6 @@ namespace MyLibrary.ApiService
             book.Pages = pages;
             book.Authors = authors;
 
-            // clean up
-            this._isbnApiClient.Dispose();
-            this._authorApiClient.Dispose();
-
             return book;
         }//GetBookByIsbnAsync
 
@@ -111,6 +107,12 @@ namespace MyLibrary.ApiService
             {
                 return "";
             }
+        }
+
+        public void Dispose()
+        {
+            this._isbnApiClient.Dispose();
+            this._authorApiClient.Dispose();
         }
     }//class
 }
