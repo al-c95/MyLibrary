@@ -105,9 +105,26 @@ This document describes some of the detail of the data, architecture and user in
 &nbsp;
 
 ## Interface Design
-### User Interface
+### Main User Interface
 #### Main Window
 ![Main window](img/main_window_design.PNG)
 
 ### Adding a new item
 ![Add new book form](img/add_new_book_form_design.PNG)
+
+### API Interface
+OpenLibrary API is used to find book data online. There is a dialog allowing the user to search for book data by ISBN, and pre-fill the add new book dialog with the returned data.
+
+When a search is made using an ISBN, a query is made to the following endpoint:
+```
+https://openlibrary.org/isbn/{isbn}.json
+```
+The data used to pre-fill an add new book dialog are the following:
+- The first entry in the resulting `publishers` array
+- The first entry in the resulting `publish_places` array
+- The `title`
+- The `number_of_pages`
+- The `isbn_13`
+- The `isbn_10`
+- The `publish_date`
+- In addition, the authors are retrieved using all objects from the `authors` array, using the endpoint `https://openlibrary.org/authors/{author_key}.json`. The resulting `name` field is used.
