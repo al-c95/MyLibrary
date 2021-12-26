@@ -21,6 +21,13 @@ namespace MyLibrary.Models.Entities
             }
         }
 
+        public Publisher() { }
+
+        public Publisher(string name)
+        {
+            this.Name = name;
+        }
+
         public ICollection<Book> Books { get; set; }
-    }
+    }//class
 }

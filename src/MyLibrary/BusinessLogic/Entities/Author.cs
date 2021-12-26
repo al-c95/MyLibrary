@@ -35,6 +35,15 @@ namespace MyLibrary.Models.Entities
             }
         }
 
+        public Author() { }
+
+        public Author(string fullName)
+        {
+            string[] parts = Regex.Split(fullName, " ");
+            this._lastName = parts[1];
+            this._firstName = parts.Length > 1 ? parts[0] : string.Empty;
+        }
+
         public string GetFullName()
         {
             return (this.FirstName + " " + this.LastName);
@@ -58,5 +67,5 @@ namespace MyLibrary.Models.Entities
         }
 
         public ICollection<Book> Books { get; set; }
-    }
+    }//class
 }

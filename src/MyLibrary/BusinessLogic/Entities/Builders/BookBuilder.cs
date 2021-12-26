@@ -151,6 +151,12 @@ namespace MyLibrary.Models.Entities.Builders
             return this;
         }
 
+        public BookBuilder PublishedAt(string placeOfPublication)
+        {
+            this.book.PlaceOfPublication = placeOfPublication;
+            return this;
+        }
+
         public BookBuilder WrittenInLanguage(string language)
         {
             this.book.Language = language;
