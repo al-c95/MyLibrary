@@ -48,6 +48,9 @@
     <Reference Include="Microsoft.Data.Sqlite, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Sqlite.Core.6.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2, Version=2.0.6.1341, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_e_sqlite3.2.0.6\lib\net461\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
@@ -105,6 +108,12 @@
     <Compile Include="AddNewMediaItemForm.Designer.cs">
       <DependentUpon>AddNewMediaItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApiService\ApiClient.cs" />
+    <Compile Include="ApiService\BookApiService.cs" />
+    <Compile Include="ApiService\AuthorApiClient.cs" />
+    <Compile Include="ApiService\IAuthorApiClient.cs" />
+    <Compile Include="ApiService\IIsbnApiClient.cs" />
+    <Compile Include="ApiService\IsbnApiClient.cs" />
     <Compile Include="ApiService\SearchByIsbnDialog.cs">
       <SubType>Form</SubType>
     </Compile>

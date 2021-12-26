@@ -88,7 +88,19 @@ namespace MyLibrary.Models.Entities
         public int Pages { get; set; }
         public string Dimensions { get; set; }
         public string Overview { get; set; }
-        public string Language { get; set; }
+
+        private string _language;
+        public string Language
+        {
+            get => this._language;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("Book.Language must not be empty.");
+
+                this._language = value;
+            }
+        }
 
         public string Msrp { get; set; }
         public string Excerpt { get; set; }
