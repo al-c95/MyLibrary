@@ -6,11 +6,12 @@
 - support updating tags for item (DONE)
 - support manage tags (DONE)
 - improve error handling (WIP)
-- support viewing more details for selected item
-- support downloading new item information from the web
+- support viewing more details for selected item (DONE)
+- support downloading new item information from the web (WIP)
 - provide database statistics
 - implement about box
 - support manage copies
+- support loaning
 - add icons
 
 https://stackoverflow.com/questions/8766794/how-to-create-generic-data-access-object-dao-crud-methods-with-linq-to-sql
