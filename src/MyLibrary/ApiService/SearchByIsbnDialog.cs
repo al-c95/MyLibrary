@@ -5,8 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyLibrary.Models.Entities;
 
 namespace MyLibrary.ApiService
 {
@@ -21,8 +23,24 @@ namespace MyLibrary.ApiService
             {
                 this.Close();
             });
+            this.isbnField.TextChanged += ((sender, args) =>
+            {
+                // TODO: factor this out for unit testing
+                bool sane = true;
+                if (!string.IsNullOrWhiteSpace(this.isbnField.Text))
+                {
+                    sane = sane && (Regex.IsMatch(this.isbnField.Text, Book.ISBN_10_PATTERN) || (Regex.IsMatch(this.isbnField.Text, Book.ISBN_13_PATTERN)));
+                }
+                else
+                {
+                    sane = false;
+                }
+
+                this.searchButton.Enabled = sane;
+            });
 
             this.StartPosition = FormStartPosition.CenterParent;
+            this.searchButton.Enabled = false;
         }
     }//class
 }

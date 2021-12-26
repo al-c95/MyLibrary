@@ -29,21 +29,21 @@ namespace MyLibrary.ApiService
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.isbnField = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // isbnField
             // 
-            this.textBox1.Location = new System.Drawing.Point(157, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(209, 22);
-            this.textBox1.TabIndex = 0;
+            this.isbnField.Location = new System.Drawing.Point(157, 12);
+            this.isbnField.Name = "isbnField";
+            this.isbnField.Size = new System.Drawing.Size(209, 22);
+            this.isbnField.TabIndex = 0;
             // 
             // label1
             // 
@@ -54,14 +54,14 @@ namespace MyLibrary.ApiService
             this.label1.TabIndex = 1;
             this.label1.Text = "ISBN or ISBN13:";
             // 
-            // button1
+            // searchButton
             // 
-            this.button1.Location = new System.Drawing.Point(12, 50);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 25);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Search";
-            this.button1.UseVisualStyleBackColor = true;
+            this.searchButton.Location = new System.Drawing.Point(12, 50);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(88, 25);
+            this.searchButton.TabIndex = 2;
+            this.searchButton.Text = "Search";
+            this.searchButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
             // 
@@ -96,9 +96,9 @@ namespace MyLibrary.ApiService
             this.ClientSize = new System.Drawing.Size(378, 108);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.searchButton);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.isbnField);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -113,9 +113,9 @@ namespace MyLibrary.ApiService
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox isbnField;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
