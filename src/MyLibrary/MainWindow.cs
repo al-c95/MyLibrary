@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.BusinessLogic;
+using MyLibrary.ApiService;
 
 namespace MyLibrary
 {
@@ -41,6 +42,10 @@ namespace MyLibrary
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
+            this.searchBooksButton.Click += ((sender, args) =>
+            {
+                new SearchByIsbnDialog().ShowDialog();
+            });
             // fire the public event so the subscribed present can react
             this.newBookToolStripMenuItem.Click += ((sender, args) =>
             {
