@@ -48,18 +48,26 @@ namespace MyLibrary.ApiService
         public async Task<Book> GetBookByIsbnAsync(string isbn)
         {
             // TODO: update unit tests
-            // retrieve and parse the book JSON data
+            
             string bookJson = await this._isbnApiClient.GetAsJson(isbn);
             if (bookJson is null)
             {
                 return null;
             }
 
+            // retrieve and parse the book JSON data
             JObject bookJsonObj = JObject.Parse(bookJson);
             string title = (string)bookJsonObj["title"];
-            string publisherName = (string)bookJsonObj["publishers"][0];
+            string publisherName;
+            if (JsonPropertyExists(bookJsonObj, "publishers"))
+            {
+                publisherName = (string)bookJsonObj["publishers"][0];
+            }
+            else
+            {
+                publisherName = "No Publisher";
+            }
             string placeOfPublication;
-            
             if (JsonPropertyExists(bookJsonObj, "publish_places"))
             {
                 placeOfPublication = (string)bookJsonObj["publish_places"][0];
@@ -106,14 +114,17 @@ namespace MyLibrary.ApiService
             }
 
             // retrieve and parse the authors JSON data
-            var authorsJsons = await GetAuthorsJsonAsync((JArray)bookJsonObj["authors"]);
             List<Author> authors = new List<Author>();
-            foreach (var authorJson in authorsJsons)
+            if (JsonPropertyExists(bookJsonObj, "authors"))
             {
-                JObject authorJsonObj = JObject.Parse(authorJson); 
-                string authorName = (string)authorJsonObj["name"];
+                var authorsJsons = await GetAuthorsJsonAsync((JArray)bookJsonObj["authors"]);
+                foreach (var authorJson in authorsJsons)
+                {
+                    JObject authorJsonObj = JObject.Parse(authorJson);
+                    string authorName = (string)authorJsonObj["name"];
 
-                authors.Add(new Author(authorName));
+                    authors.Add(new Author(authorName));
+                }
             }
 
             // create the object

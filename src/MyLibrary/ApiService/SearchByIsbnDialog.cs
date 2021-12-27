@@ -40,6 +40,12 @@ namespace MyLibrary.ApiService
                 }
 
                 this.searchButton.Enabled = sane;
+
+                // start search automatically if scan mode enabled
+                if (this.scanModecheckBox.Checked)
+                {
+                    this.searchButton.PerformClick();
+                }
             });
 
             this.StartPosition = FormStartPosition.CenterParent;
