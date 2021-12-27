@@ -48,16 +48,56 @@ namespace MyLibrary.ApiService
         public async Task<Book> GetBookByIsbnAsync(string isbn)
         {
             // retrieve and parse the book JSON data
-            // currently we are assuming all properties exist
             var bookJson = await this._isbnApiClient.GetAsJson(isbn);
             JObject bookJsonObj = JObject.Parse(bookJson);
             string title = (string)bookJsonObj["title"];
             string publisherName = (string)bookJsonObj["publishers"][0];
-            string placeOfPublication = (string)bookJsonObj["publish_places"][0];
-            string _isbn = (string)bookJsonObj["isbn_10"][0];
-            string _isbn13 = (string)bookJsonObj["isbn_13"][0];
-            string publishDate = (string)bookJsonObj["publish_date"];
-            int pages = (int)bookJsonObj["number_of_pages"];
+            string placeOfPublication;
+            // TODO: update unit tests
+            if (JsonPropertyExists(bookJsonObj, "publish_places"))
+            {
+                placeOfPublication = (string)bookJsonObj["publish_places"][0];
+            }
+            else
+            {
+                placeOfPublication = "";
+            }
+            string _isbn;
+            if (JsonPropertyExists(bookJsonObj, "isbn_10"))
+            {
+                _isbn = (string)bookJsonObj["isbn_10"][0];
+            }
+            else
+            {
+                _isbn = "";
+            }
+            string _isbn13;
+            if (JsonPropertyExists(bookJsonObj, "isbn_13"))
+            {
+                _isbn13 = (string)bookJsonObj["isbn_13"][0];
+            }
+            else
+            {
+                _isbn13 = "";
+            }
+            string publishDate;
+            if (JsonPropertyExists(bookJsonObj, "publish_date"))
+            {
+                publishDate = (string)bookJsonObj["publish_date"];
+            }
+            else
+            {
+                publishDate = "";
+            }
+            int pages;
+            if (JsonPropertyExists(bookJsonObj, "number_of_pages"))
+            {
+                pages = (int)bookJsonObj["number_of_pages"];
+            }
+            else
+            {
+                pages = 0;
+            }
 
             // retrieve and parse the authors JSON data
             var authorsJsons = await GetAuthorsJsonAsync((JArray)bookJsonObj["authors"]);
@@ -97,15 +137,16 @@ namespace MyLibrary.ApiService
             return authorJsons.AsEnumerable();
         }
 
-        private string GetJsonProperty(JObject obj, string prop)
+        private bool JsonPropertyExists(JObject obj, string prop)
         {
-            if (obj.Property(prop) != null)
+            JToken token = obj[prop];
+            if (token is null)
             {
-                return (string)obj.Property(prop).Value;
+                return false;
             }
             else
             {
-                return "";
+                return true;
             }
         }
 
