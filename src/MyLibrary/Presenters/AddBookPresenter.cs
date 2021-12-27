@@ -35,6 +35,15 @@ namespace MyLibrary.Presenters
             this._view.InputFieldsUpdated += InputFieldsUpdated;
         }
 
+        public void Prefill(Book book)
+        {
+            this._view.TitleFieldText = book.Title;
+            this._view.IsbnFieldText = book.Isbn;
+            this._view.Isbn13FieldText = book.Isbn13;
+            this._view.DatePublishedFieldText = book.DatePublished;
+            this._view.PlaceOfPublicationFieldText = book.PlaceOfPublication;
+        }
+
         public async Task PopulateTagsList()
         {
             var allTags = await this._tagRepo.GetAll();

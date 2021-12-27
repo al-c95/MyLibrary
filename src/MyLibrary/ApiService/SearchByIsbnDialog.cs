@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
+using MyLibrary.ApiService;
 
 namespace MyLibrary.ApiService
 {
@@ -41,6 +42,27 @@ namespace MyLibrary.ApiService
 
             this.StartPosition = FormStartPosition.CenterParent;
             this.searchButton.Enabled = false;
+        }
+
+        private async void searchButton_Click(object sender, EventArgs e)
+        {
+            // update status bar and disable buttons
+            this.statusLabel.Text = "Searching. Please wait...";
+            this.searchButton.Enabled = false;
+            this.cancelButton.Enabled = false;
+
+            Book book;
+            using (BookApiService apiService = new BookApiService())
+            {
+                book = await apiService.GetBookByIsbnAsync(this.isbnField.Text);
+            }//apiService
+
+            // update status bar and re-enable buttons
+            this.searchButton.Enabled = true;
+            this.cancelButton.Enabled = true;
+            this.statusLabel.Text = "Ready";
+
+            // TODO: show add new book dialog and prefill with data
         }
     }//class
 }
