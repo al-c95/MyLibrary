@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 
 namespace MyLibrary
@@ -382,6 +383,30 @@ namespace MyLibrary
         public void ShowErrorDialog(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public void SetAuthor(Author author, bool selected)
+        {
+            if (!(this.authorsList.Items.Cast<Object>().Any(a => a.ToString() == author.LastName + ", " + author.FirstName)))
+            {
+                // author does not exist
+                // add it to the list
+                this.authorsList.Items.Add(author.LastName + ", " + author.FirstName, selected);
+            }
+            // select this author
+            this.authorsList.SetItemChecked(this.authorsList.Items.IndexOf(author.LastName + ", " + author.FirstName), true);
+        }
+
+        public void SetPublisher(Publisher publisher, bool selected)
+        {
+            if (!(this.publishersList.Items.Cast<Object>().Any(p => p.ToString() == this.newPublisherField.Text)))
+            {
+                // publisher does not exist
+                // add it to the list
+                this.publishersList.Items.Add(publisher.Name);
+            }
+            // select this publisher
+            this.publishersList.SetSelected(this.publishersList.FindString(publisher.Name), true);
         }
     }//class
 }

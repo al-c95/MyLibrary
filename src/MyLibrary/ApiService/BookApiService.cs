@@ -47,13 +47,19 @@ namespace MyLibrary.ApiService
         /// <returns></returns>
         public async Task<Book> GetBookByIsbnAsync(string isbn)
         {
+            // TODO: update unit tests
             // retrieve and parse the book JSON data
-            var bookJson = await this._isbnApiClient.GetAsJson(isbn);
+            string bookJson = await this._isbnApiClient.GetAsJson(isbn);
+            if (bookJson is null)
+            {
+                return null;
+            }
+
             JObject bookJsonObj = JObject.Parse(bookJson);
             string title = (string)bookJsonObj["title"];
             string publisherName = (string)bookJsonObj["publishers"][0];
             string placeOfPublication;
-            // TODO: update unit tests
+            
             if (JsonPropertyExists(bookJsonObj, "publish_places"))
             {
                 placeOfPublication = (string)bookJsonObj["publish_places"][0];
@@ -120,6 +126,8 @@ namespace MyLibrary.ApiService
             book.Isbn13 = _isbn13;
             book.Pages = pages;
             book.Authors = authors;
+            // set language to English by default
+            book.Language = "English";
 
             return book;
         }//GetBookByIsbnAsync

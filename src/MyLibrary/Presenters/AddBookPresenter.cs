@@ -37,11 +37,24 @@ namespace MyLibrary.Presenters
 
         public void Prefill(Book book)
         {
+            // basic fields
             this._view.TitleFieldText = book.Title;
+            this._view.LongTitleFieldText = book.TitleLong;
             this._view.IsbnFieldText = book.Isbn;
             this._view.Isbn13FieldText = book.Isbn13;
             this._view.DatePublishedFieldText = book.DatePublished;
             this._view.PlaceOfPublicationFieldText = book.PlaceOfPublication;
+            this._view.PagesFieldText = book.Pages.ToString();
+            this._view.LanguageFieldText = book.Language;
+
+            // publisher
+            this._view.SetPublisher(book.Publisher, true);
+
+            // authors
+            foreach (var author in book.Authors)
+            {
+                this._view.SetAuthor(author, true);
+            }
         }
 
         public async Task PopulateTagsList()
@@ -87,6 +100,7 @@ namespace MyLibrary.Presenters
                     exists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
+                // FIXME: this will reject all new books with empty long titles if there is already such a book present!
                 if (await this._bookRepo.ExistsWithLongTitle(this._view.LongTitleFieldText))
                 {
                     exists = true;
