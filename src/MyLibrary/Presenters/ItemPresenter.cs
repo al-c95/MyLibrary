@@ -75,7 +75,6 @@ namespace MyLibrary.Presenters
             DataTable dt = new DataTable();
             dt.Columns.Add("Id");
             dt.Columns.Add("Title");
-            dt.Columns.Add("Long Title");
             dt.Columns.Add("ISBN");
             dt.Columns.Add("Publisher");
             dt.Columns.Add("Authors");
@@ -85,8 +84,7 @@ namespace MyLibrary.Presenters
                 dt.Rows.Add(
                     book.Id, 
                     book.Title, 
-                    book.TitleLong, 
-                    book.Isbn, 
+                    book.GetIsbn(), 
                     book.Publisher.Name, 
                     book.GetAuthorList(), 
                     book.GetCommaDelimitedTags()
