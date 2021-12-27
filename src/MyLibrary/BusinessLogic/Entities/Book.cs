@@ -70,7 +70,7 @@ namespace MyLibrary.Models.Entities
             }
             else
             {
-                return (Isbn + "; " + Isbn13);
+                return Isbn13;
             }
         }
 
