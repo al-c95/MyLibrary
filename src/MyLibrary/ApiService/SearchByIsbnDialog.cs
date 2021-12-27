@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
+using MyLibrary.Presenters;
+using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.ApiService;
 
 namespace MyLibrary.ApiService
@@ -62,7 +64,28 @@ namespace MyLibrary.ApiService
             this.cancelButton.Enabled = true;
             this.statusLabel.Text = "Ready";
 
-            // TODO: show add new book dialog and prefill with data
-        }
+            if (book is null)
+            {
+                // problem finding book with given ISBN
+                // TODO: make this error more informative
+                MessageBox.Show("Error retrieving book with ISBN: " + this.isbnField.Text, "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            else
+            {
+                // show add new book dialog and prefill with data
+                AddNewBookForm addBookDialog = new AddNewBookForm();
+                AddBookPresenter presenter = new AddBookPresenter(new BookRepository(), new TagRepository(), new AuthorRepository(), new PublisherRepository(),
+                    addBookDialog);
+                await presenter.PopulateTagsList();
+                await presenter.PopulateAuthorList();
+                await presenter.PopulatePublisherList();
+                presenter.Prefill(book);
+
+                addBookDialog.ShowDialog();
+
+                // TODO: update the main list when item is saved
+            }
+        }//searchButton_Click
     }//class
 }

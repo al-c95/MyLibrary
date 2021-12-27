@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 
 namespace MyLibrary.Views
 {
@@ -26,6 +27,9 @@ namespace MyLibrary.Views
 
         IEnumerable<string> SelectedAuthors { get; }
         string SelectedPublisher { get; }
+
+        void SetAuthor(Author author, bool selected);
+        void SetPublisher(Publisher publisher, bool selected);
 
         void PopulateAuthorList(IEnumerable<string> names);
         void PopulatePublisherList(IEnumerable<string> publisherNames);

@@ -21,8 +21,13 @@ namespace MyLibrary.ApiService
         protected async Task<string> GetJson(string url)
         {
             var response = await this._client.GetAsync(url);
-            string json = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
 
+            string json = await response.Content.ReadAsStringAsync();
+ 
             return json;
         }
         
