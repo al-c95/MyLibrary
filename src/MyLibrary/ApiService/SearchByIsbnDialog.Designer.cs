@@ -35,6 +35,7 @@ namespace MyLibrary.ApiService
             this.cancelButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scanModecheckBox = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,11 +91,22 @@ namespace MyLibrary.ApiService
             this.statusLabel.Size = new System.Drawing.Size(50, 20);
             this.statusLabel.Text = "Ready";
             // 
+            // scanModecheckBox
+            // 
+            this.scanModecheckBox.AutoSize = true;
+            this.scanModecheckBox.Location = new System.Drawing.Point(106, 50);
+            this.scanModecheckBox.Name = "scanModecheckBox";
+            this.scanModecheckBox.Size = new System.Drawing.Size(101, 21);
+            this.scanModecheckBox.TabIndex = 5;
+            this.scanModecheckBox.Text = "Scan Mode";
+            this.scanModecheckBox.UseVisualStyleBackColor = true;
+            // 
             // SearchByIsbnDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(378, 108);
+            this.Controls.Add(this.scanModecheckBox);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.searchButton);
@@ -120,5 +132,6 @@ namespace MyLibrary.ApiService
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.CheckBox scanModecheckBox;
     }
 }
