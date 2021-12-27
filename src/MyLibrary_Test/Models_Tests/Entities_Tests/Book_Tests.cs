@@ -43,7 +43,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         {
             // arrange
             Book testBook = new Book { Isbn13 = "0123456789012", Isbn = "0123456789" };
-            string expectedResult = "0123456789; 0123456789012";
+            string expectedResult = "0123456789012";
 
             // act
             string actualResult = testBook.GetIsbn();
