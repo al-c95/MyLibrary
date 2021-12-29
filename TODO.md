@@ -8,7 +8,7 @@
 - support viewing more details for selected item (DONE)
 - support downloading new item information from the web (DONE)
     - update main list when new item saved (DONE)
-- provide database statistics
+- provide database statistics (WIP)
 - implement about box
 
 - maintain/refactor code and unit tests (WIP)
