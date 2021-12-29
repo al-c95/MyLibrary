@@ -51,6 +51,10 @@ namespace MyLibrary
             {
                 ResizeColumns();
             });
+            this.aboutToolStripMenuItem.Click += ((sender, args) =>
+            {
+                new AboutBox().ShowDialog();
+            });
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
