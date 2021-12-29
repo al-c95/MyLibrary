@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.BusinessLogic;
@@ -44,7 +45,7 @@ namespace MyLibrary
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
             this.searchBooksButton.Click += ((sender, args) =>
             {
-                new SearchByIsbnDialog().ShowDialog();
+                SearchByIsbnClicked?.Invoke(sender, args);
             });
             // fire the public event so the subscribed present can react
             this.newBookToolStripMenuItem.Click += ((sender, args) =>
@@ -370,6 +371,7 @@ namespace MyLibrary
         public event EventHandler TagsUpdated;
         public event EventHandler AddNewMediaItemClicked;
         public event EventHandler AddNewBookClicked;
+        public event EventHandler SearchByIsbnClicked;
         #endregion
 
         public void ShowErrorDialog(string title, string message)

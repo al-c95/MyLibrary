@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data;
+using MyLibrary.ApiService;
 using MyLibrary.BusinessLogic;
 using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
@@ -64,6 +65,7 @@ namespace MyLibrary.Presenters
             this._view.TagsUpdated += TagsUpdated;
             this._view.AddNewMediaItemClicked += AddNewMediaItemClicked;
             this._view.AddNewBookClicked += AddNewBookClicked;
+            this._view.SearchByIsbnClicked += SearchByIsbnClicked;
         }
 
         private async Task DisplayBooks()
@@ -351,7 +353,7 @@ namespace MyLibrary.Presenters
                 new ImageFileReader());
             await addItemPresenter.PopulateTagsList();
 
-            this._addMediaItemView.ItemAdded += ItemAdded;
+            this._addMediaItemView.ItemAdded += ItemsAdded;
 
             int categoryIndexToSelect;
             if (this._view.CategoryDropDownSelectedIndex > 2)
@@ -376,11 +378,20 @@ namespace MyLibrary.Presenters
             await addBookPresenter.PopulateAuthorList();
             await addBookPresenter.PopulatePublisherList();
 
-            this._addBookView.ItemAdded += ItemAdded;
+            this._addBookView.ItemAdded += ItemsAdded;
             ((AddNewBookForm)this._addBookView).ShowDialog();
         }
 
-        public async void ItemAdded(object sender, EventArgs e)
+        public void SearchByIsbnClicked(object sender, EventArgs e)
+        {
+            SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
+            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view);
+            searchDialog.ShowDialog();
+
+            ItemsAdded(null,null);
+        }
+
+        public async void ItemsAdded(object sender, EventArgs e)
         {
             await DisplayItems();
         }
