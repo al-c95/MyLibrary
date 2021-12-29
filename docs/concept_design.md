@@ -58,7 +58,7 @@ The database system used is Sqlite, chosen for its simplicity, and the fact that
 ### v0.9.0
 - R1-R3
 - R4
-- R6-R8
+- R6-R9
 - R10
 
 ### v1.0.0
