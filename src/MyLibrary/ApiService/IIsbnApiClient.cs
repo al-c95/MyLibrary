@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System;
+using System.Net.Http;
 
 namespace MyLibrary.ApiService
 {
     public interface IIsbnApiClient : IDisposable
     {
-        Task<string> GetAsJson(string isbn);
+        Task<HttpResponseWrapper> GetResponse(string isbn);
     }
 }

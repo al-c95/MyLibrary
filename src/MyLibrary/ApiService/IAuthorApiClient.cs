@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System;
+using System.Net.Http;
 
 namespace MyLibrary.ApiService
 {
     public interface IAuthorApiClient : IDisposable
     {
-        Task<string> GetAsJson(string authorKey);
+        Task<HttpResponseWrapper> GetResponse(string authorKey);
     }
 }

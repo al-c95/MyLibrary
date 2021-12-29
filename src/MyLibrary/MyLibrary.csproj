@@ -111,7 +111,10 @@
     <Compile Include="ApiService\ApiClient.cs" />
     <Compile Include="ApiService\BookApiService.cs" />
     <Compile Include="ApiService\AuthorApiClient.cs" />
+    <Compile Include="ApiService\BookNotFoundException.cs" />
+    <Compile Include="ApiService\HttpResponseWrapper.cs" />
     <Compile Include="ApiService\IAuthorApiClient.cs" />
+    <Compile Include="ApiService\IHttpResponseWrapper.cs" />
     <Compile Include="ApiService\IIsbnApiClient.cs" />
     <Compile Include="ApiService\IsbnApiClient.cs" />
     <Compile Include="ApiService\SearchByIsbnDialog.cs">

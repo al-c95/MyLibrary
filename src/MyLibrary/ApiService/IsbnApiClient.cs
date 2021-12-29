@@ -16,11 +16,11 @@ namespace MyLibrary.ApiService
 
         }
 
-        public async Task<string> GetAsJson(string isbn)
+        public async Task<HttpResponseWrapper> GetResponse(string isbn)
         {
             string url = BASE_URL + "/isbn/" + isbn + ".json";
 
-            return await GetJson(url);
+            return await GetResponseBase(url);
         }
     }//class
 }

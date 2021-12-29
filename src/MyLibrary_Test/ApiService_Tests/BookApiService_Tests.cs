@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Http;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
@@ -14,6 +15,21 @@ namespace MyLibrary_Test.ApiService_Tests
     [TestFixture]
     class BookApiService_Tests
     {
+        [Test]
+        public void GetBookByIsbnAsync_Test_NotFound()
+        {
+            // arrange
+            var fakeIsbnApiClient = A.Fake<IIsbnApiClient>();
+            var fakeAuthorApiClient = A.Fake<IAuthorApiClient>();
+            var fakeIsbnHttpResponse = A.Fake<HttpResponseWrapper>();
+            A.CallTo(() => fakeIsbnHttpResponse.StatusCode).Returns(System.Net.HttpStatusCode.NotFound);
+            A.CallTo(() => fakeIsbnApiClient.GetResponse("0123456789")).Returns(fakeIsbnHttpResponse);
+            BookApiService service = new BookApiService(fakeIsbnApiClient, fakeAuthorApiClient);
+
+            // act/assert
+            Assert.ThrowsAsync<BookNotFoundException>(() => service.GetBookByIsbnAsync("0123456789"));
+        }
+
         [Test]
         public async Task GetBookByIsbnAsync_Test_Success()
         {
@@ -73,7 +89,11 @@ namespace MyLibrary_Test.ApiService_Tests
     "}\r\n" + "\r\n" +
     "}";
             var fakeIsbnApiClient = A.Fake<IIsbnApiClient>();
-            A.CallTo(() => fakeIsbnApiClient.GetAsJson("0123456789")).Returns(bookJson);
+            var fakeIsbnHttpResponse = A.Fake<HttpResponseWrapper>();
+            A.CallTo(() => fakeIsbnHttpResponse.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            A.CallTo(() => fakeIsbnHttpResponse.ReadAsStringAsync()).Returns(bookJson);
+            A.CallTo(() => fakeIsbnApiClient.GetResponse("0123456789")).Returns(fakeIsbnHttpResponse);
+
             string author1Json = "{\r\n" +
     "\"name\": \"John Smith\"," + "\r\n" +
     "\"last_modified\": {" + "\r\n" +
@@ -101,8 +121,15 @@ namespace MyLibrary_Test.ApiService_Tests
     "\"revision\": 1" + "\r\n" +
 "}";
             var fakeAuthorApiClient = A.Fake<IAuthorApiClient>();
-            A.CallTo(() => fakeAuthorApiClient.GetAsJson("/authors/OL0000001A")).Returns(author1Json);
-            A.CallTo(() => fakeAuthorApiClient.GetAsJson("/authors/OL0000002A")).Returns(author2Json);
+            var fakeAuthor1HttpResponse = A.Fake<HttpResponseWrapper>();
+            A.CallTo(() => fakeAuthor1HttpResponse.ReadAsStringAsync()).Returns(author1Json);
+            A.CallTo(() => fakeAuthor1HttpResponse.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            A.CallTo(() => fakeAuthorApiClient.GetResponse("/authors/OL0000001A")).Returns(fakeAuthor1HttpResponse);
+            var fakeAuthor2HttpResponse = A.Fake<HttpResponseWrapper>();
+            A.CallTo(() => fakeAuthor2HttpResponse.ReadAsStringAsync()).Returns(author2Json);
+            A.CallTo(() => fakeAuthor2HttpResponse.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            A.CallTo(() => fakeAuthorApiClient.GetResponse("/authors/OL0000002A")).Returns(fakeAuthor2HttpResponse);
+
             BookApiService service = new BookApiService(fakeIsbnApiClient, fakeAuthorApiClient);
 
             // act
