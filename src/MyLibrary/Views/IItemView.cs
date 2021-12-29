@@ -41,5 +41,6 @@ namespace MyLibrary.Views
         event EventHandler AddNewMediaItemClicked;
         event EventHandler AddNewBookClicked;
         event EventHandler SearchByIsbnClicked;
+        event EventHandler ShowStatsClicked;
     }
 }

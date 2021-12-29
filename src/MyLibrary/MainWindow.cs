@@ -52,6 +52,10 @@ namespace MyLibrary
                 ResizeColumns();
             });
             // fire the public event so the subscribed present can react
+            this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ShowStatsClicked?.Invoke(sender, args);
+            });
             this.newBookToolStripMenuItem.Click += ((sender, args) =>
             {
                 AddNewBookClicked?.Invoke(sender, args);
@@ -392,6 +396,7 @@ namespace MyLibrary
         public event EventHandler AddNewMediaItemClicked;
         public event EventHandler AddNewBookClicked;
         public event EventHandler SearchByIsbnClicked;
+        public event EventHandler ShowStatsClicked;
         #endregion
 
         public void ShowErrorDialog(string title, string message)
