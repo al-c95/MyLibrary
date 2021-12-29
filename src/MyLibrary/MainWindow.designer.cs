@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +70,7 @@ namespace MyLibrary
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
             this.searchBooksButton = new System.Windows.Forms.Button();
+            this.databaseStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -136,7 +137,8 @@ namespace MyLibrary
             // 
             // viewMenu
             // 
-            this.viewMenu.Enabled = false;
+            this.viewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseStatisticsToolStripMenuItem});
             this.viewMenu.Name = "viewMenu";
             this.viewMenu.Size = new System.Drawing.Size(55, 24);
             this.viewMenu.Text = "View";
@@ -206,14 +208,14 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(451, 72);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -468,6 +470,12 @@ namespace MyLibrary
             this.searchBooksButton.Text = "Search Books";
             this.searchBooksButton.UseVisualStyleBackColor = true;
             // 
+            // databaseStatisticsToolStripMenuItem
+            // 
+            this.databaseStatisticsToolStripMenuItem.Name = "databaseStatisticsToolStripMenuItem";
+            this.databaseStatisticsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.databaseStatisticsToolStripMenuItem.Text = "Database statistics";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -544,6 +552,7 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem newMediaItemToolStripMenuItem;
         private System.Windows.Forms.RichTextBox detailsBox;
         private System.Windows.Forms.Button searchBooksButton;
+        private System.Windows.Forms.ToolStripMenuItem databaseStatisticsToolStripMenuItem;
     }
 }
 

@@ -66,6 +66,7 @@ namespace MyLibrary.Presenters
             this._view.AddNewMediaItemClicked += AddNewMediaItemClicked;
             this._view.AddNewBookClicked += AddNewBookClicked;
             this._view.SearchByIsbnClicked += SearchByIsbnClicked;
+            this._view.ShowStatsClicked += ShowStatsClicked;
         }
 
         private async Task DisplayBooks()
@@ -274,7 +275,7 @@ namespace MyLibrary.Presenters
             {
                 return;
             }
-;
+
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
                 // book
@@ -394,6 +395,14 @@ namespace MyLibrary.Presenters
         public async void ItemsAdded(object sender, EventArgs e)
         {
             await DisplayItems();
+        }
+
+        public async void ShowStatsClicked(object sender, EventArgs e)
+        {
+            ShowStatsDialog statsDialog = new ShowStatsDialog();
+            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookRepo, this._mediaItemRepo, this._tagRepo, this._publisherRepo, this._authorRepo);
+            await statsPresenter.ShowStats();
+            statsDialog.ShowDialog();
         }
         #endregion
 
