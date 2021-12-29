@@ -32,6 +32,10 @@ namespace MyLibrary.ApiService
             {
                 IsbnFieldTextChanged?.Invoke(sender, args);
             });
+            this.scanModecheckBox.CheckedChanged += ((sender, args) =>
+            {
+                this.ActiveControl = this.isbnField;
+            });
 
             this.StartPosition = FormStartPosition.CenterParent;
             this.searchButton.Enabled = false;
