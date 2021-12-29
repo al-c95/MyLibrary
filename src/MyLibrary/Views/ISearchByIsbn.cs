@@ -18,6 +18,7 @@ namespace MyLibrary.Views
         event EventHandler SearchButtonClicked;
 
         void ShowCouldNotFindBookDialog(string isbn);
+        void ShowConnectionErrorDialog();
 
         Task ClickSearchButton();
     }

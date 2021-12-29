@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
 using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
@@ -57,7 +59,6 @@ namespace MyLibrary.Presenters
 
         public async void SearchButtonClicked(object sender, EventArgs e)
         {
-            // TODO
             // update status bar and disable buttons
             this._view.StatusLabelText = "Searching. Please wait...";
             this._view.SearchButtonEnabled = false;
@@ -75,6 +76,11 @@ namespace MyLibrary.Presenters
             catch (BookNotFoundException ex)
             {
                 this._view.ShowCouldNotFindBookDialog(ex.Isbn);
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.InnerException.Message.Equals("The remote name could not be resolved: 'openlibrary.org'"))
+                    this._view.ShowConnectionErrorDialog();
             }
             finally
             {

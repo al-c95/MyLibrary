@@ -79,6 +79,11 @@ namespace MyLibrary.ApiService
             MessageBox.Show("Could not find book with ISBN: " + isbn, "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
+        public void ShowConnectionErrorDialog()
+        {
+            MessageBox.Show("Could not connect to openlibrary.org. Check internet connection.", "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         public async Task ClickSearchButton()
         {
             await Task.Delay(100);
