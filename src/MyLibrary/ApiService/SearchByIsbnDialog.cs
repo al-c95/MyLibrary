@@ -13,10 +13,11 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Presenters;
 using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.ApiService;
+using MyLibrary.Views;
 
 namespace MyLibrary.ApiService
 {
-    public partial class SearchByIsbnDialog : Form
+    public partial class SearchByIsbnDialog : Form, ISearchByIsbn
     {
         public SearchByIsbnDialog()
         {
@@ -27,77 +28,62 @@ namespace MyLibrary.ApiService
             {
                 this.Close();
             });
-            this.isbnField.TextChanged += (async (sender, args) =>
+            this.isbnField.TextChanged += ((sender, args) =>
             {
-                // TODO: factor this out for unit testing
-                bool sane = true;
-                if (!string.IsNullOrWhiteSpace(this.isbnField.Text))
-                {
-                    sane = sane && (Regex.IsMatch(this.isbnField.Text, Book.ISBN_10_PATTERN) || (Regex.IsMatch(this.isbnField.Text, Book.ISBN_13_PATTERN)));
-                }
-                else
-                {
-                    sane = false;
-                }
-
-                this.searchButton.Enabled = sane;
-
-                // start search automatically if scan mode enabled
-                if (this.scanModecheckBox.Checked)
-                {
-                    await Task.Delay(100);
-                    this.searchButton.PerformClick();
-                }
+                IsbnFieldTextChanged?.Invoke(sender, args);
             });
 
             this.StartPosition = FormStartPosition.CenterParent;
             this.searchButton.Enabled = false;
         }
 
-        private async void searchButton_Click(object sender, EventArgs e)
+        public string IsbnFieldText
         {
-            // update status bar and disable buttons
-            this.statusLabel.Text = "Searching. Please wait...";
-            this.searchButton.Enabled = false;
-            this.cancelButton.Enabled = false;
+            get => this.isbnField.Text;
+            set => this.isbnField.Text = value;
+        }
 
-            Book book = null;
-            string isbn = this.isbnField.Text;
-            try
-            {
-                using (BookApiService apiService = new BookApiService())
-                {
-                    book = await apiService.GetBookByIsbnAsync(this.isbnField.Text);
-                }//apiService
-            }
-            catch (BookNotFoundException ex)
-            {
-                MessageBox.Show("Could not find book with ISBN: " + ex.Isbn, "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            finally
-            {
-                // clear, update status bar and re-enable buttons
-                this.searchButton.Enabled = true;
-                this.cancelButton.Enabled = true;
-                this.statusLabel.Text = "Ready";
-                this.isbnField.Clear();
-            }
+        public bool ScanModeChecked 
+        {
+            get => this.scanModecheckBox.Checked;
+            set => this.scanModecheckBox.Checked = value;
+        }
 
-            if (book != null)
-            {
-                // show add new book dialog and prefill with data
-                AddNewBookForm addBookDialog = new AddNewBookForm();
-                AddBookPresenter presenter = new AddBookPresenter(new BookRepository(), new TagRepository(), new AuthorRepository(), new PublisherRepository(),
-                    addBookDialog);
-                await presenter.PopulateTagsList();
-                await presenter.PopulateAuthorList();
-                await presenter.PopulatePublisherList();
-                presenter.Prefill(book);
+        public bool SearchButtonEnabled
+        {
+            get => this.searchButton.Enabled;
+            set => this.searchButton.Enabled = value;
+        }
 
-                addBookDialog.ShowDialog();
+        public bool CancelButtonEnabled
+        {
+            get => this.cancelButton.Enabled;
+            set => this.cancelButton.Enabled = value;
+        }
 
-                // TODO: update the main list when item is saved
-            }
+        public string StatusLabelText
+        {
+            get => this.statusLabel.Text;
+            set => this.statusLabel.Text = value;
+        }
+
+        public event EventHandler SearchButtonClicked;
+        public event EventHandler IsbnFieldTextChanged;
+
+        public void ShowCouldNotFindBookDialog(string isbn)
+        {
+            MessageBox.Show("Could not find book with ISBN: " + isbn, "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        public async Task ClickSearchButton()
+        {
+            await Task.Delay(100);
+            this.searchButton.PerformClick();
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            SearchButtonClicked?.Invoke(sender, e);
         }//searchButton_Click
     }//class
 }

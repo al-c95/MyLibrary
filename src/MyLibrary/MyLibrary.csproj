@@ -173,6 +173,7 @@
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
+    <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\IImageFileReader.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
     <Compile Include="Views\IItemView.cs" />
+    <Compile Include="Views\ISearchByIsbn.cs" />
     <EmbeddedResource Include="AddNewBookForm.resx">
       <DependentUpon>AddNewBookForm.cs</DependentUpon>
     </EmbeddedResource>
