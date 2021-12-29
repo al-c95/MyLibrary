@@ -8,8 +8,10 @@
 - improve error handling (WIP)
 - support viewing more details for selected item (DONE)
 - support downloading new item information from the web (WIP)
+    - update main list when new item saved (WIP)
 - provide database statistics
 - implement about box
+
 - support manage copies
 - support loaning
 - add icons
