@@ -12,6 +12,6 @@ namespace MyLibrary
         public const string CONNECTION_STRING = @"Data Source=..\..\..\library.db; foreign keys=True";
 
         public const string APP_NAME = "MyLibrary";
-        public const string APP_VERSION = "0.1.0";
+        public const string APP_VERSION = "0.9.0";
     }
 }
