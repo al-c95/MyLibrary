@@ -48,14 +48,21 @@ namespace MyLibrary.ApiService
         public async Task<Book> GetBookByIsbnAsync(string isbn)
         {
             // TODO: update unit tests
-            
-            string bookJson = await this._isbnApiClient.GetAsJson(isbn);
-            if (bookJson is null)
+
+            // make a request for the book data
+            HttpResponseWrapper response = await this._isbnApiClient.GetResponse(isbn);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                return null;
+                // something went wrong
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    // could not find book
+                    throw new BookNotFoundException(isbn);
+                }
             }
 
-            // retrieve and parse the book JSON data
+            // parse the book JSON data
+            string bookJson = await response.ReadAsStringAsync();
             JObject bookJsonObj = JObject.Parse(bookJson);
             string title = (string)bookJsonObj["title"];
             string publisherName;
@@ -130,6 +137,7 @@ namespace MyLibrary.ApiService
             // create the object
             Book book = new Book();
             book.Title = title;
+            book.TitleLong = title;
             book.Publisher = new Publisher(publisherName);
             book.DatePublished = publishDate;
             book.PlaceOfPublication = placeOfPublication;
@@ -150,7 +158,11 @@ namespace MyLibrary.ApiService
             foreach (var authorEntry in authorsArray)
             {
                 string authorKey = (string)authorEntry["key"];
-                authorJsons.Add(await this._authorApiClient.GetAsJson(authorKey));
+
+                var response = await this._authorApiClient.GetResponse(authorKey);
+                string authorJson = await response.ReadAsStringAsync();
+
+                authorJsons.Add(authorJson);
             }
 
             return authorJsons.AsEnumerable();

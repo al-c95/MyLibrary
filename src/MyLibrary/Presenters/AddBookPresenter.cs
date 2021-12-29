@@ -135,7 +135,8 @@ namespace MyLibrary.Presenters
                 author.SetFullNameFromCommaFormat(authorName);
                 authors.Add(author);
             }
-            Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText, new Publisher { Name = this._view.SelectedPublisher }, this._view.LanguageFieldText, int.Parse(this._view.PagesFieldText))
+            Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText, 
+                new Publisher { Name = this._view.SelectedPublisher }, this._view.LanguageFieldText, int.Parse(this._view.PagesFieldText))
                 .WithTags(tags)
                 .WithAuthors(authors)
                 .WithIsbn(this._view.IsbnFieldText)

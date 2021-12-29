@@ -18,19 +18,11 @@ namespace MyLibrary.ApiService
             this._client = new HttpClient();
         }
 
-        protected async Task<string> GetJson(string url)
+        protected async Task<HttpResponseWrapper> GetResponseBase(string url)
         {
-            var response = await this._client.GetAsync(url);
-            if (!response.IsSuccessStatusCode)
-            {
-                return null;
-            }
-
-            string json = await response.Content.ReadAsStringAsync();
- 
-            return json;
+            return new HttpResponseWrapper(await this._client.GetAsync(url));
         }
-        
+
         public void Dispose()
         {
             this._client?.Dispose();

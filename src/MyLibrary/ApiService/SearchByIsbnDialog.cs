@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
 using MyLibrary.Models.Entities;
 using MyLibrary.Presenters;
 using MyLibrary.BusinessLogic.Repositories;
@@ -26,7 +27,7 @@ namespace MyLibrary.ApiService
             {
                 this.Close();
             });
-            this.isbnField.TextChanged += ((sender, args) =>
+            this.isbnField.TextChanged += (async (sender, args) =>
             {
                 // TODO: factor this out for unit testing
                 bool sane = true;
@@ -44,6 +45,7 @@ namespace MyLibrary.ApiService
                 // start search automatically if scan mode enabled
                 if (this.scanModecheckBox.Checked)
                 {
+                    await Task.Delay(100);
                     this.searchButton.PerformClick();
                 }
             });
@@ -59,25 +61,29 @@ namespace MyLibrary.ApiService
             this.searchButton.Enabled = false;
             this.cancelButton.Enabled = false;
 
-            Book book;
-            using (BookApiService apiService = new BookApiService())
+            Book book = null;
+            string isbn = this.isbnField.Text;
+            try
             {
-                book = await apiService.GetBookByIsbnAsync(this.isbnField.Text);
-            }//apiService
-
-            // update status bar and re-enable buttons
-            this.searchButton.Enabled = true;
-            this.cancelButton.Enabled = true;
-            this.statusLabel.Text = "Ready";
-
-            if (book is null)
-            {
-                // problem finding book with given ISBN
-                // TODO: make this error more informative
-                MessageBox.Show("Error retrieving book with ISBN: " + this.isbnField.Text, "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+                using (BookApiService apiService = new BookApiService())
+                {
+                    book = await apiService.GetBookByIsbnAsync(this.isbnField.Text);
+                }//apiService
             }
-            else
+            catch (BookNotFoundException ex)
+            {
+                MessageBox.Show("Could not find book with ISBN: " + ex.Isbn, "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            finally
+            {
+                // clear, update status bar and re-enable buttons
+                this.searchButton.Enabled = true;
+                this.cancelButton.Enabled = true;
+                this.statusLabel.Text = "Ready";
+                this.isbnField.Clear();
+            }
+
+            if (book != null)
             {
                 // show add new book dialog and prefill with data
                 AddNewBookForm addBookDialog = new AddNewBookForm();

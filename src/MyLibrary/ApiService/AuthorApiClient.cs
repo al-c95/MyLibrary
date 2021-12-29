@@ -15,11 +15,11 @@ namespace MyLibrary.ApiService
 
         }
 
-        public async Task<string> GetAsJson(string authorKey)
+        public async Task<HttpResponseWrapper> GetResponse(string authorKey)
         {
             string url = BASE_URL + authorKey + ".json";
 
-            return await GetJson(url);
+            return await GetResponseBase(url);
         }
     }//class
 }
