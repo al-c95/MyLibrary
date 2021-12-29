@@ -1,4 +1,3 @@
-- maintain/refactor code and unit tests (WIP)
 - support for filtering items by tags (DONE)
 - support add new book (DONE)
 - support add new media item (DONE)
@@ -7,11 +6,12 @@
 - support manage tags (DONE)
 - improve error handling (WIP)
 - support viewing more details for selected item (DONE)
-- support downloading new item information from the web (WIP)
-    - update main list when new item saved (WIP)
+- support downloading new item information from the web (DONE)
+    - update main list when new item saved (DONE)
 - provide database statistics
 - implement about box
 
+- maintain/refactor code and unit tests (WIP)
 - support manage copies
 - support loaning
 - add icons
