@@ -47,6 +47,10 @@ namespace MyLibrary
             {
                 SearchByIsbnClicked?.Invoke(sender, args);
             });
+            this.Resize += ((sender, args) =>
+            {
+                ResizeColumns();
+            });
             // fire the public event so the subscribed present can react
             this.newBookToolStripMenuItem.Click += ((sender, args) =>
             {
@@ -170,6 +174,18 @@ namespace MyLibrary
         public static readonly string LOAD_IMAGE_DIALOG_TITLE = "Load Image";
         public static readonly string LOAD_IMAGE_DIALOG_FILTER = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
 
+        private void ResizeColumns()
+        {
+            // resize DataGridView columns nicely
+            this.dataGrid.Columns[0].Width = this.dataGrid.Width / 20;
+            if (this.categoryDropDown.SelectedIndex == 0)
+            {
+                // books displayed
+                this.dataGrid.Columns[1].Width = this.dataGrid.Width / 5;
+                this.dataGrid.Columns[2].Width = this.dataGrid.Width / 10;
+            }
+        }
+
         public void LoadWindow()
         {
             // select viewing books by default
@@ -254,7 +270,11 @@ namespace MyLibrary
         public DataTable DisplayedItems
         {
             get => (DataTable)this.dataGrid.DataSource;
-            set => this.dataGrid.DataSource = value;
+            set
+            {
+                this.dataGrid.DataSource = value;
+                ResizeColumns();
+            }
         }
 
         public int CategoryDropDownSelectedIndex
