@@ -50,6 +50,10 @@ namespace MyLibrary.Presenters
         #region View event handlers
         public async void SaveButtonClicked(object sender, EventArgs e)
         {
+            // disable save and cancel buttons
+            this._view.SaveButtonEnabled = false;
+            this._view.CancelButtonEnabled = false;
+
             // check if item with title already exists
             try
             {
@@ -57,6 +61,10 @@ namespace MyLibrary.Presenters
                 {
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
+
+                    // re-enable save and cancel buttons
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
 
                     // nothing more to do
                     return;
@@ -67,6 +75,11 @@ namespace MyLibrary.Presenters
                 // something bad happened
                 // notify the user
                 this._view.ShowErrorDialog("Error checking title.", ex.Message);
+
+                // re-enable save and cancel buttons
+                this._view.SaveButtonEnabled = true;
+                this._view.CancelButtonEnabled = true;
+
                 return;
             }
 
@@ -100,6 +113,11 @@ namespace MyLibrary.Presenters
                     // I/O error
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
+
+                    // re-enable save and cancel buttons
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
+
                     return;
                 }
             }
@@ -115,9 +133,18 @@ namespace MyLibrary.Presenters
                 // something bad happened
                 // notify the user
                 this._view.ShowErrorDialog("Error creating item", ex.Message);
+
+                // re-enable save and cancel buttons
+                this._view.SaveButtonEnabled = true;
+                this._view.CancelButtonEnabled = true;
+
                 return;
             }
             this._view.CloseDialog();
+
+            // re-enable save and cancel buttons
+            this._view.SaveButtonEnabled = true;
+            this._view.CancelButtonEnabled = true;
         }//SaveButtonClicked
 
         public void InputFieldsUpdated(object sender, EventArgs e)
