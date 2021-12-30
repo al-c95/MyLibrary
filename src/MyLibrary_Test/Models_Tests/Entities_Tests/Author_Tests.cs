@@ -11,11 +11,50 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
     public class Author_Tests
     {
         [Test]
-        public void GetFullName_Test()
+        public void Author_Test_WithMiddleName()
         {
             // arrange
-            Author testAuthor = new Author { FirstName = "John", LastName = "Smith" };
-            string expectedResult = "John Smith";
+            string authorName = "John H. Smith";
+
+            // act
+            Author author = new Author(authorName);
+
+            // assert
+            Assert.AreEqual("John H.", author.FirstName);
+            Assert.AreEqual("Smith", author.LastName);
+        }
+
+        [Test]
+        public void Author_Test_NoMiddleName()
+        {
+            // arrange
+            string authorName = "John Smith";
+
+            // act
+            Author author = new Author(authorName);
+
+            // assert
+            Assert.AreEqual("John", author.FirstName);
+            Assert.AreEqual("Smith", author.LastName);
+        }
+
+        [Test]
+        public void Author_Test_InvalidFormat()
+        {
+            // arrange
+            string authorName = "JohnSmith";
+
+            // act/assert
+            Assert.Throws<ArgumentException>(() => new Author(authorName));
+        }
+
+        [TestCase("John", "Smith")]
+        [TestCase("John H.", "Smith")]
+        public void GetFullName_Test(string firstName, string lastName)
+        {
+            // arrange
+            Author testAuthor = new Author { FirstName = firstName, LastName = lastName };
+            string expectedResult = firstName + " " + lastName;
 
             // act
             string actualResult = testAuthor.GetFullName();
@@ -24,12 +63,13 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
-        [Test]
-        public void GetFullNameLastNameCommaFirstName_Test()
+        [TestCase("John", "Smith")]
+        [TestCase("John H.", "Smith")]
+        public void GetFullNameLastNameCommaFirstName_Test(string firstName, string lastName)
         {
             // arrange
-            Author testAuthor = new Author { FirstName = "John", LastName = "Smith" };
-            string expectedResult = "Smith, John";
+            Author testAuthor = new Author { FirstName = firstName, LastName = lastName };
+            string expectedResult = lastName + ", " + firstName;
 
             // act
             string actualResult = testAuthor.GetFullNameLastNameCommaFirstName();
@@ -60,30 +100,32 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.Throws<ArgumentNullException>(() => testAuthor.FirstName = null);
         }
 
-        [Test]
-        public void GetFullNameWithFirstInitial()
+        [TestCase("John", "Smith")]
+        [TestCase("John H.", "Smith")]
+        public void GetFullNameWithFirstInitial(string firstName, string lastName)
         {
             // arrange
-            Author testAuthor = new Author { FirstName = "John", LastName = "Smith" };
-            string expectedResult = "Smith, J.";
+            Author testAuthor = new Author { FirstName = firstName, LastName = lastName };
+            string expectedResult = lastName + ", J.";
 
             // act/assert
             Assert.AreEqual(expectedResult, testAuthor.GetFullNameWithFirstInitial());
         }
 
-        [Test]
-        public void SetFullNameFromCommaFormat()
+        [TestCase("John", "Smith")]
+        [TestCase("John H.", "Smith")]
+        public void SetFullNameFromCommaFormat(string firstName, string lastName)
         {
             // arrange
             Author author = new Author();
-            string name = "Smith, John";
+            string name = lastName + ", " + firstName;
 
             // act
             author.SetFullNameFromCommaFormat(name);
 
             // assert
-            author.FirstName = "John";
-            author.LastName = "Smith";
+            author.FirstName = firstName;
+            author.LastName = lastName;
         }//class
     }
 }

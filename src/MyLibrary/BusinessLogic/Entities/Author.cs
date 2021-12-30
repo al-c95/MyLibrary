@@ -39,9 +39,27 @@ namespace MyLibrary.Models.Entities
 
         public Author(string fullName)
         {
-            string[] parts = Regex.Split(fullName, " ");
-            this._lastName = parts[1];
-            this._firstName = parts.Length > 1 ? parts[0] : string.Empty;
+            const string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z]+ [a-zA-Z]. [a-zA-Z]+$";
+            const string NO_MIDDLE_NAME_PATTERN = @"^[a-zA-Z]+ [a-zA-Z]+$";
+
+            if (Regex.IsMatch(fullName, WITH_MIDDLE_NAME_PATTERN))
+            {
+                string[] parts = Regex.Split(fullName, @" [a-zA-Z]. ");
+                string middleSubstring = fullName.Substring(fullName.IndexOf(' '), 3);
+
+                this._lastName = parts[1];
+                this._firstName = parts[0] + middleSubstring;
+            }
+            else if (Regex.IsMatch(fullName, NO_MIDDLE_NAME_PATTERN))
+            {
+                string[] parts = Regex.Split(fullName, " ");
+                this._lastName = parts[1];
+                this._firstName = parts[0];
+            }
+            else
+            {
+                throw new ArgumentException("Author full name: " + fullName + " has incorrect format.");
+            }
         }
 
         public string GetFullName()
