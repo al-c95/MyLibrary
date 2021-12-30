@@ -30,5 +30,27 @@ namespace MyLibrary.BusinessLogic.Repositories
 
             return allBooks.Any(b => b.TitleLong.Equals(longTitle));
         }
+
+        public async Task<Boolean> ExistsWithIsbn(string isbn)
+        {
+            var allBooks = await this._dao.ReadAll();
+
+            foreach (var book in allBooks)
+            {
+                if (book.Isbn != null)
+                {
+                    if (book.Isbn.Equals(isbn))
+                        return true;
+                }
+
+                if (book.Isbn13 != null)
+                {
+                    if (book.Isbn13.Equals(isbn))
+                        return true;
+                }
+            }//foreach
+
+            return false;
+        }
     }//class
 }

@@ -84,6 +84,11 @@ namespace MyLibrary.ApiService
             MessageBox.Show("Could not connect to openlibrary.org. Check internet connection.", "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        public void ShowAlreadyExistsWithIsbnDialog(string isbn)
+        {
+            MessageBox.Show("Book with ISBN10 or ISBN13: " + isbn + " already exists in database.", "Search by ISBN", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
         public async Task ClickSearchButton()
         {
             await Task.Delay(100);
