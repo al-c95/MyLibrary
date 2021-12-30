@@ -64,8 +64,27 @@ namespace MyLibrary.Presenters
             this._view.SearchButtonEnabled = false;
             this._view.SearchButtonEnabled = false;
 
-            Book book = null;
             string enteredIsbn = this._view.IsbnFieldText;
+
+            // check if book with this ISBN already exists in database
+            BookRepository bookRepo = new BookRepository();
+            if (await bookRepo.ExistsWithIsbn(enteredIsbn))
+            {
+                // book already exists
+                // tell the user
+                this._view.ShowAlreadyExistsWithIsbnDialog(enteredIsbn);
+
+                // clear, update status bar and re-enable buttons
+                this._view.SearchButtonEnabled = true;
+                this._view.CancelButtonEnabled = true;
+                this._view.StatusLabelText = "Ready";
+                this._view.IsbnFieldText = "";
+
+                // nothing more to do
+                return;
+            }
+
+            Book book = null;
             try
             {
                 using (var apiService = new BookApiService())

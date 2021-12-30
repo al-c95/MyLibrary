@@ -19,6 +19,7 @@ namespace MyLibrary.Views
 
         void ShowCouldNotFindBookDialog(string isbn);
         void ShowConnectionErrorDialog();
+        void ShowAlreadyExistsWithIsbnDialog(string isbn);
 
         Task ClickSearchButton();
     }
