@@ -38,6 +38,8 @@ namespace MyLibrary
             this.yearField.TabIndex = 3;
             this.notesField.TabIndex = 4;
 
+            this.addNewTagButton.Enabled = false;
+
             // register event handlers
             // fire the public event so the subscribed presenter can react
             this.titleField.TextChanged += ((sender, args) =>
@@ -84,6 +86,10 @@ namespace MyLibrary
                         this.imageFilePathField.Text = dialog.FileName;
                     }
                 }
+            });
+            this.newTagField.TextChanged += ((sender, args) =>
+            {
+                this.addNewTagButton.Enabled = !string.IsNullOrWhiteSpace(this.newTagField.Text);
             });
         }
 
