@@ -62,6 +62,10 @@ namespace MyLibrary
             });
             this.addTagButton.Click += (async (sender, args) =>
             {
+                // disable add and delete buttons
+                this.addTagButton.Enabled = false;
+                this.deleteSelectedTagButton.Enabled = false;
+
                 string newTagName = this.newTagText.Text;
 
                 // check for existing tag
@@ -69,14 +73,50 @@ namespace MyLibrary
                 {
                     MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Add tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                    // re-enable add and delete buttons
+                    this.addTagButton.Enabled = true;
+                    this.deleteSelectedTagButton.Enabled = true;
+
                     return;
                 }
 
-                // add tag
-                await this._repo.Create(new Tag { Name = newTagName });
+                try
+                {
+                    // add tag
+                    await this._repo.Create(new Tag { Name = newTagName });
+                }
+                catch (Exception ex)
+                {
+                    // something bad happened
+                    MessageBox.Show("Error creating tag: " + ex.Message, "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                // re-populate the list
-                await PopulateTags();
+                    // re-enable add and delete buttons
+                    this.addTagButton.Enabled = true;
+                    this.deleteSelectedTagButton.Enabled = true;
+
+                    return;
+                }
+
+                try
+                {
+                    // re-populate the list
+                    await PopulateTags();
+                }
+                catch(Exception ex)
+                {
+                    // something bad happened
+                    MessageBox.Show("Error reading tags: " + ex.Message, "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // re-enable add and delete buttons
+                    this.addTagButton.Enabled = true;
+                    this.deleteSelectedTagButton.Enabled = true;
+
+                    return;
+                }
+
+                // re-enable add and delete buttons
+                this.addTagButton.Enabled = true;
+                this.deleteSelectedTagButton.Enabled = true;
 
                 TagsUpdated?.Invoke(this, args);
             });
