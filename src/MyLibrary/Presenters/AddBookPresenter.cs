@@ -90,6 +90,10 @@ namespace MyLibrary.Presenters
         #region View event handlers
         public async void SaveButtonClicked(object sender, EventArgs e)
         {
+            // disable buttons
+            this._view.SaveButtonEnabled = false;
+            this._view.CancelButtonEnabled = false;
+
             // check if item with title already exists
             bool exists = false;
             string existingTitle = null;
@@ -106,16 +110,21 @@ namespace MyLibrary.Presenters
                     {
                         exists = true;
                         existingTitle = this._view.LongTitleFieldText;
-                    }
-                    if (exists)
-                    {
-                        // title already exists
-                        // tell the user
-                        this._view.ShowItemAlreadyExistsDialog(existingTitle);
+                    }          
+                }
 
-                        // nothing more to do
-                        return;
-                    }
+                if (exists)
+                {
+                    // title already exists
+                    // tell the user
+                    this._view.ShowItemAlreadyExistsDialog(existingTitle);
+
+                    // re-enable buttons
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
+
+                    // nothing more to do
+                    return;
                 }
             }
             catch (Exception ex)
@@ -123,6 +132,11 @@ namespace MyLibrary.Presenters
                 // something bad happened
                 // notify the user
                 this._view.ShowErrorDialog("Error checking if title exists.", ex.Message);
+
+                // re-enable buttons
+                this._view.SaveButtonEnabled = true;
+                this._view.CancelButtonEnabled = true;
+
                 return;
             }
 
@@ -167,6 +181,11 @@ namespace MyLibrary.Presenters
                     // I/O error
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
+
+                    // re-enable buttons
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
+
                     return;
                 }
             }
@@ -182,6 +201,11 @@ namespace MyLibrary.Presenters
                 // something bad happened
                 // notify the user
                 this._view.ShowErrorDialog("Error creating book", ex.Message);
+
+                // re-enable buttons
+                this._view.SaveButtonEnabled = true;
+                this._view.CancelButtonEnabled = true;
+
                 return;
             }
             
