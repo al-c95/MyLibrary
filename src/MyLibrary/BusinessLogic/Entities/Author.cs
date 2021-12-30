@@ -74,6 +74,7 @@ namespace MyLibrary.Models.Entities
 
         public string GetFullNameWithFirstInitial()
         {
+            // TODO: have two initials in the case of a middle name
             return (this.LastName + ", " + this.FirstName.Substring(0,1) + ".");
         }
 
