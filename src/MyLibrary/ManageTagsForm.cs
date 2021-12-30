@@ -68,10 +68,24 @@ namespace MyLibrary
 
                 string newTagName = this.newTagText.Text;
 
-                // check for existing tag
-                if (await this._repo.ExistsWithName(newTagName))
+                try
                 {
-                    MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Add tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // check for existing tag
+                    if (await this._repo.ExistsWithName(newTagName))
+                    {
+                        MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        // re-enable add and delete buttons
+                        this.addTagButton.Enabled = true;
+                        this.deleteSelectedTagButton.Enabled = true;
+
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // something bad happened
+                    MessageBox.Show("Error checking if tag \"" + newTagName + "\" already exists.", "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     // re-enable add and delete buttons
                     this.addTagButton.Enabled = true;
@@ -84,6 +98,9 @@ namespace MyLibrary
                 {
                     // add tag
                     await this._repo.Create(new Tag { Name = newTagName });
+
+                    // clear new tag field
+                    this.newTagText.Clear();
                 }
                 catch (Exception ex)
                 {
@@ -122,13 +139,45 @@ namespace MyLibrary
             });
             this.deleteSelectedTagButton.Click += (async (sender, args) =>
             {
+                // disable add and delete buttons
+                this.addTagButton.Enabled = false;
+                this.deleteSelectedTagButton.Enabled = false;
+
                 string selectedTag = this.tagsList.SelectedItems[0].SubItems[0].Text;
 
-                // delete tag
-                await this._repo.DeleteByName(selectedTag);
+                try
+                {
+                    // delete tag
+                    await this._repo.DeleteByName(selectedTag);
+                }
+                catch (Exception ex)
+                {
+                    // something bad happened
+                    MessageBox.Show("Error deleting tag ", "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                // re-populate the list
-                await PopulateTags();
+                    // re-enable add and delete buttons
+                    this.addTagButton.Enabled = true;
+                    this.deleteSelectedTagButton.Enabled = true;
+
+                    return;
+                }
+
+                try
+                {
+                    // re-populate the list
+                    await PopulateTags();
+                }
+                catch (Exception ex)
+                {
+                    // something bad happened
+                    MessageBox.Show("Error reading tags: " + ex.Message, "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // re-enable add and delete buttons
+                    this.addTagButton.Enabled = true;
+                    this.deleteSelectedTagButton.Enabled = true;
+
+                    return;
+                }
 
                 TagsUpdated?.Invoke(this, args);
             });
