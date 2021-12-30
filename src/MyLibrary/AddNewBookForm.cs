@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
@@ -18,7 +19,11 @@ namespace MyLibrary
         {
             InitializeComponent();
 
+            // disable some buttons initially
             this.saveButton.Enabled = false;
+            this.addNewAuthorButton.Enabled = false;
+            this.addNewPublisherButton.Enabled = false;
+            this.addNewTagButton.Enabled = false;
 
             this.tagsList.CheckOnClick = true;
             this.authorsList.CheckOnClick = true;
@@ -134,6 +139,8 @@ namespace MyLibrary
                         return;
 
                     this.tagsList.Items.Add(this.newTagField.Text, true);
+
+                    this.newTagField.Clear();
                 }
             });
             this.addNewPublisherButton.Click += ((sender, args) =>
@@ -144,7 +151,30 @@ namespace MyLibrary
                         return;
 
                     this.publishersList.Items.Add(this.newPublisherField.Text);
+
+                    this.publishersList.SelectedItem = this.publishersList.Items.IndexOf(this.newPublisherField.Text);
+
+                    int newPublisherIndex = this.publishersList.Items.IndexOf(this.newPublisherField.Text);
+                    this.publishersList.SelectedIndex = newPublisherIndex;
+
+                    this.newPublisherField.Clear();
                 }
+            });
+            this.newAuthorFirstNameField.TextChanged += ((sender, args) =>
+            {
+                ValidateAuthorFields();
+            });
+            this.newAuthorLastNameField.TextChanged += ((sender, args) =>
+            {
+                ValidateAuthorFields();
+            });
+            this.newPublisherField.TextChanged += ((sender, args) =>
+            {
+                this.addNewPublisherButton.Enabled = !string.IsNullOrWhiteSpace(this.newPublisherField.Text);
+            });
+            this.newTagField.TextChanged += ((sender, ars) =>
+            {
+                this.addNewTagButton.Enabled = !string.IsNullOrWhiteSpace(this.newTagField.Text);
             });
             this.addNewAuthorButton.Click += ((sender, args) =>
             {
@@ -154,7 +184,10 @@ namespace MyLibrary
                     if (this.authorsList.Items.Cast<Object>().Any(a => a.ToString() == this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text))
                         return;
 
-                    this.authorsList.Items.Add(this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text);
+                    this.authorsList.Items.Add(this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text, true);
+
+                    this.newAuthorFirstNameField.Clear();
+                    this.newAuthorLastNameField.Clear();
                 }
             });
             this.browseImageButton.Click += ((sender, args) =>
@@ -170,6 +203,21 @@ namespace MyLibrary
                     }
                 }
             });
+        }
+
+        private void ValidateAuthorFields()
+        {
+            string firstNameFieldEntry = newAuthorFirstNameField.Text;
+            string lastNameFieldEntry = newAuthorLastNameField.Text;
+
+            const string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z]+ [a-zA-Z].$";
+            const string NAME_PATTERN = @"^[a-zA-Z]+$";
+
+            bool sane = true;
+            sane = sane && Regex.IsMatch(firstNameFieldEntry, NAME_PATTERN) || Regex.IsMatch(firstNameFieldEntry, WITH_MIDDLE_NAME_PATTERN);
+            sane = sane && Regex.IsMatch(lastNameFieldEntry, NAME_PATTERN);
+
+            this.addNewAuthorButton.Enabled = sane;
         }
 
         public string ImageFilePathFieldText
