@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace MyLibrary
 {
     static class Configuration
     {
         // database connection string
-        public const string CONNECTION_STRING = @"Data Source=..\..\..\library.db; foreign keys=True";
+        public static readonly string CONNECTION_STRING;
 
         public const string APP_NAME = "MyLibrary";
         public const string APP_VERSION = "0.9.0";
@@ -32,5 +34,10 @@ namespace MyLibrary
         }
 
         public const string APP_COPYRIGHT = "License: MIT";
+
+        static Configuration()
+        {
+            CONNECTION_STRING = @"Data Source=" + ConfigurationManager.AppSettings.Get("dbPath") + "; foreign keys=True";
+        }
     }//class
 }
