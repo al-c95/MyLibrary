@@ -100,20 +100,22 @@ namespace MyLibrary.Presenters
                     exists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
-                // FIXME: this will reject all new books with empty long titles if there is already such a book present!
-                if (await this._bookRepo.ExistsWithLongTitle(this._view.LongTitleFieldText))
+                if (!string.IsNullOrWhiteSpace(this._view.LongTitleFieldText))
                 {
-                    exists = true;
-                    existingTitle = this._view.LongTitleFieldText;
-                }
-                if (exists)
-                {
-                    // title already exists
-                    // tell the user
-                    this._view.ShowItemAlreadyExistsDialog(existingTitle);
+                    if (await this._bookRepo.ExistsWithLongTitle(this._view.LongTitleFieldText))
+                    {
+                        exists = true;
+                        existingTitle = this._view.LongTitleFieldText;
+                    }
+                    if (exists)
+                    {
+                        // title already exists
+                        // tell the user
+                        this._view.ShowItemAlreadyExistsDialog(existingTitle);
 
-                    // nothing more to do
-                    return;
+                        // nothing more to do
+                        return;
+                    }
                 }
             }
             catch (Exception ex)
