@@ -43,6 +43,11 @@ namespace MyLibrary
             });
             this.buttonSave.Click += (async (sender, args) =>
             {
+                // disable add, save and cancel buttons
+                this.addNewTagButton.Enabled = false;
+                this.buttonSave.Enabled = false;
+                this.buttonCancel.Enabled = false;
+
                 // save changes
                 List<string> originalTags = new List<string>();
                 foreach (var tag in this._item.Tags)
@@ -67,8 +72,14 @@ namespace MyLibrary
                 {
                     // something bad happened
                     // notify the user
-                    MessageBox.Show("Error updating tags: " + ex.Message, "Update tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("Error updating tags: " + ex.Message, "manage tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    // re-enable buttons
+                    this.addNewTagButton.Enabled = true;
+                    this.buttonSave.Enabled = true;
+                    this.buttonCancel.Enabled = true;
                 }
 
                 TagsUpdated?.Invoke(this, args);
@@ -79,17 +90,42 @@ namespace MyLibrary
             });
             this.addNewTagButton.Click += (async (sender, args) =>
             {
+                // disable add, save and cancel buttons
+                this.addNewTagButton.Enabled = false;
+                this.buttonSave.Enabled = false;
+                this.buttonCancel.Enabled = false;
+
                 string newTagName = this.newTagField.Text;
 
-                // check for existing tag
-                if (await this._tagRepo.ExistsWithName(newTagName))
+                try
                 {
-                    MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Add tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // check for existing tag
+                    if (await this._tagRepo.ExistsWithName(newTagName))
+                    {
+                        MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Manage tags", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // something bad happened
+                    MessageBox.Show("Error checking if tag \"" + newTagName + "\" exists: " + ex.Message, "Manage tags", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // re-enable buttons
+                    this.addNewTagButton.Enabled = true;
+                    this.buttonSave.Enabled = true;
+                    this.buttonCancel.Enabled = true;
 
                     return;
                 }
 
                 this.tagsList.Items.Add(this.newTagField.Text, true);
+
+                // re-enable buttons
+                this.addNewTagButton.Enabled = true;
+                this.buttonSave.Enabled = true;
+                this.buttonCancel.Enabled = true;
             });
             this.tagsList.ItemCheck += ((sender, args) =>
             {
@@ -129,5 +165,5 @@ namespace MyLibrary
 
             this.buttonSave.Enabled = false;
         }//PopulateTags
-    }
+    }//class
 }
