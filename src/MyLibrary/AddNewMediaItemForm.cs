@@ -71,7 +71,12 @@ namespace MyLibrary
             {
                 if (!string.IsNullOrWhiteSpace(this.newTagField.Text))
                 {
+                    if (this.tagsList.Items.Cast<Object>().Any(t => t.ToString() == this.newTagField.Text))
+                        return;
+
                     this.tagsList.Items.Add(this.newTagField.Text, true);
+
+                    this.newTagField.Clear();
                 }
             });
             this.browseImageButton.Click += ((sender, args) =>
