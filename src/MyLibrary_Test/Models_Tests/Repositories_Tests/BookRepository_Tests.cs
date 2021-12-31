@@ -48,5 +48,65 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
             // assert
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [TestCase("0123456789")]
+        [TestCase("0123456789012")]
+        public async Task ExistsWithIsbn_Test_Exists(string isbn)
+        {
+            // arrange
+            Book book1 = new Book
+            {
+                Isbn = "0123456789"
+            };
+            Book book2 = new Book
+            {
+                Isbn13 = "0123456789012"
+            };
+            List<Book> books = new List<Book>
+            {
+                book1,
+                book2
+            };
+            var fakeDao = A.Fake<ItemDataAccessor<Book>>();
+            A.CallTo(() => fakeDao.ReadAll())
+                .Returns(books);
+            this._repo = new BookRepository(fakeDao);
+
+            // act
+            bool actualResult = await this._repo.ExistsWithIsbn(isbn);
+
+            // assert
+            Assert.IsTrue(actualResult);
+        }
+        
+        [Test]
+        public async Task ExistsWithIsbn_Test_DoesNotExist()
+        {
+            // arrange
+            string isbn = "987654321";
+            Book book1 = new Book
+            {
+                Isbn = "0123456789"
+            };
+            Book book2 = new Book
+            {
+                Isbn13 = "0123456789012"
+            };
+            List<Book> books = new List<Book>
+            {
+                book1,
+                book2
+            };
+            var fakeDao = A.Fake<ItemDataAccessor<Book>>();
+            A.CallTo(() => fakeDao.ReadAll())
+                .Returns(books);
+            this._repo = new BookRepository(fakeDao);
+
+            // act
+            bool actualResult = await this._repo.ExistsWithIsbn(isbn);
+
+            // assert
+            Assert.IsFalse(actualResult);
+        }
     }//class
 }
