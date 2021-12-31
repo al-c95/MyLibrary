@@ -31,6 +31,9 @@ namespace MyLibrary.Presenters
             // subscribe to the view's events
             this._view.IsbnFieldTextChanged += IsbnFieldTextChanged;
             this._view.SearchButtonClicked += SearchButtonClicked;
+
+            // enable scan mode by default
+            this._view.ScanModeChecked = true;
         }
 
         #region view event handlers
