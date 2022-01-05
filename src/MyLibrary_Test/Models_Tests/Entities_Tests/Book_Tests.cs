@@ -159,6 +159,31 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         }
 
         [Test]
+        public void Language_Test_Valid()
+        {
+            // arrange
+            string language = "English";
+            Book book = new Book();
+
+            // act
+            book.Language = language;
+
+            // assert
+            Assert.AreEqual(language, book.Language);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void Language_Test_Empty(string language)
+        {
+            // arrange
+            Book book = new Book();
+
+            // act/assert
+            Assert.Throws<ArgumentNullException>(() => book.Language = language);
+        }
+
+        [Test]
         public void ToString_Test_HasDeweyDecimal()
         {
             // arrange
