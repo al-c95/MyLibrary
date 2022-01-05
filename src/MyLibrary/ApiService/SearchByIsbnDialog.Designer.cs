@@ -1,6 +1,7 @@
 ﻿
 namespace MyLibrary.ApiService
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     partial class SearchByIsbnDialog
     {
         /// <summary>
