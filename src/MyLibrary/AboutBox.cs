@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     partial class AboutBox : Form
     {
         public AboutBox()

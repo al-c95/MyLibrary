@@ -65,7 +65,7 @@ namespace MyLibrary
             this.manageItemTagsButton = new System.Windows.Forms.Button();
             this.removeImageButton = new System.Windows.Forms.Button();
             this.selectImageButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.notesLabel = new System.Windows.Forms.Label();
             this.textBoxNotes = new System.Windows.Forms.TextBox();
             this.discardChangesButton = new System.Windows.Forms.Button();
             this.saveChangesButton = new System.Windows.Forms.Button();
@@ -388,7 +388,7 @@ namespace MyLibrary
             this.detailsGroup.Controls.Add(this.manageItemTagsButton);
             this.detailsGroup.Controls.Add(this.removeImageButton);
             this.detailsGroup.Controls.Add(this.selectImageButton);
-            this.detailsGroup.Controls.Add(this.label3);
+            this.detailsGroup.Controls.Add(this.notesLabel);
             this.detailsGroup.Controls.Add(this.textBoxNotes);
             this.detailsGroup.Controls.Add(this.discardChangesButton);
             this.detailsGroup.Controls.Add(this.saveChangesButton);
@@ -447,15 +447,15 @@ namespace MyLibrary
             this.selectImageButton.Text = "Select Image";
             this.selectImageButton.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // notesLabel
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 342);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 17);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Notes";
+            this.notesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.notesLabel.AutoSize = true;
+            this.notesLabel.Location = new System.Drawing.Point(12, 342);
+            this.notesLabel.Name = "notesLabel";
+            this.notesLabel.Size = new System.Drawing.Size(45, 17);
+            this.notesLabel.TabIndex = 17;
+            this.notesLabel.Text = "Notes";
             // 
             // textBoxNotes
             // 
@@ -623,7 +623,7 @@ namespace MyLibrary
         private System.Windows.Forms.Button discardChangesButton;
         private System.Windows.Forms.Button saveChangesButton;
         private System.Windows.Forms.TextBox textBoxNotes;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label notesLabel;
         private System.Windows.Forms.Button selectImageButton;
         private System.Windows.Forms.Button removeImageButton;
         private System.Windows.Forms.Label label4;
