@@ -15,7 +15,7 @@ namespace MyLibrary.Models.Entities
             get => _firstName;
             set
             {
-                if (value == null || string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException("Author must have first name.");
                 else
                     _firstName = value;
@@ -28,7 +28,7 @@ namespace MyLibrary.Models.Entities
             get => _lastName;
             set
             {
-                if (value == null || string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException("Author must have last name.");
                 else
                     _lastName = value;
@@ -80,9 +80,18 @@ namespace MyLibrary.Models.Entities
 
         public void SetFullNameFromCommaFormat(string name)
         {
-            string[] parts = Regex.Split(name, ", ");
-            this._lastName = parts[0];
-            this._firstName = parts.Length > 1 ? parts[1] : string.Empty;
+            const string NAME_PATTERN = @"^[a-zA-Z]+, [a-zA-Z]+( [a-zA-Z].)?$";
+
+            if (Regex.IsMatch(name, NAME_PATTERN))
+            {
+                string[] parts = Regex.Split(name, ", ");
+                this._firstName = parts[1];
+                this._lastName = parts[0];
+            }
+            else
+            {
+                throw new ArgumentException("Invalid comma-format name: " + name);
+            }
         }
 
         public ICollection<Book> Books { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Encodings;
 using NUnit;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;
@@ -49,6 +50,79 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public void Title_Setter_Test_Valid()
+        {
+            // arrange
+            MockItem item = new MockItem();
+            string title = "item";
+
+            // act
+            item.Title = title;
+
+            // assert
+            Assert.AreEqual(title, item.Title);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void Title_Setter_Test_Empty(string title)
+        {
+            // arrange
+            MockItem item = new MockItem();
+
+            // act/assert
+            Assert.Throws<ArgumentNullException>(() => item.Title = title);
+        }
+
+        [Test]
+        public void GetMemento_Test()
+        {
+            // arrange
+            MockItem item = new MockItem
+            {
+                Notes = "test",
+                Image = Encoding.ASCII.GetBytes("test")
+            };
+
+            // act
+            ItemMemento memento = item.GetMemento();
+
+            // assert
+            Assert.AreEqual("test", memento.Notes);
+            Assert.AreEqual(Encoding.ASCII.GetBytes("test"), memento.Image);
+        }
+
+        [Test]
+        public void Restore_Test()
+        {
+            // arrange
+            MockItem item = new MockItem();
+
+            // act
+            ItemMemento memento = new ItemMemento("test", Encoding.ASCII.GetBytes("test"));
+            item.Restore(memento);
+
+            // assert
+            Assert.AreEqual("test", item.Notes);
+            Assert.AreEqual(Encoding.ASCII.GetBytes("test"), item.Image);
+        }
+
+        [Test]
+        public void Restore_Test_NullMemento()
+        {
+            // arrange
+            MockItem item = new MockItem();
+
+            // act
+            ItemMemento memento = null;
+            item.Restore(memento);
+
+            // assert
+            Assert.AreEqual(null, item.Notes);
+            Assert.AreEqual(null, item.Image);
         }
 
         class MockItem : Item

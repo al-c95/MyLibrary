@@ -79,6 +79,20 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         }
 
         [Test]
+        public void FirstName_setter_Test_Valid()
+        {
+            // arrange
+            Author author = new Author();
+            string name = "John";
+
+            // act
+            author.FirstName = name;
+
+            // assert
+            Assert.AreEqual(name, author.FirstName);
+        }
+
+        [Test]
         public void FirstName_setter_Test_noname()
         {
             // arrange
@@ -90,14 +104,28 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         }
 
         [Test]
+        public void LastName_setter_Test_Valid()
+        {
+            // arrange
+            Author author = new Author();
+            string name = "Smith";
+
+            // act
+            author.LastName = name;
+
+            // assert
+            Assert.AreEqual(name, author.LastName);
+        }
+
+        [Test]
         public void LastName_setter_Test_noname()
         {
             // arrange
             Author testAuthor = new Author();
 
             // act/assert
-            Assert.Throws<ArgumentNullException>(() => testAuthor.FirstName = "");
-            Assert.Throws<ArgumentNullException>(() => testAuthor.FirstName = null);
+            Assert.Throws<ArgumentNullException>(() => testAuthor.LastName = "");
+            Assert.Throws<ArgumentNullException>(() => testAuthor.LastName = null);
         }
 
         [TestCase("John", "Smith")]
@@ -126,6 +154,17 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // assert
             author.FirstName = firstName;
             author.LastName = lastName;
-        }//class
-    }
+        }
+
+        [Test]
+        public void SetFullNameFromCommaFormat_Test_Invalid()
+        {
+            // arrange
+            Author author = new Author();
+            string name = "bogus";
+
+            // act/assert
+            Assert.Throws<ArgumentException>(() => author.SetFullNameFromCommaFormat(name));
+        }
+    }//class
 }
