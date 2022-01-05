@@ -233,9 +233,7 @@ namespace MyLibrary.Presenters
             // update the view
             this._view.DisplayedItems = filteredTable;
 
-            // update status bar
-            this._view.StatusText = "Ready.";
-            this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(1, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+            UpdateStatusBarAndSelectedItemDetails();
         }
 
         private DataTable FilterByTitle(DataTable originalTable, string filterByTitle)
@@ -448,11 +446,21 @@ namespace MyLibrary.Presenters
                     break;
             }
 
+            PerformFilter();
+
+            UpdateStatusBarAndSelectedItemDetails();
+        }
+
+        private void UpdateStatusBarAndSelectedItemDetails()
+        {
             // update status bar
             this._view.StatusText = "Ready.";
             this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(this._view.NumberOfItemsSelected, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
-
-            PerformFilter();
+            // "unselect" item if no items displayed
+            if (this._view.DisplayedItems.Rows.Count == 0)
+            {
+                this._view.SelectedItem = null;
+            }
         }
 
         private string SetItemsDisplayedStatusText(int numberSelected, int numberDisplayed, int total)

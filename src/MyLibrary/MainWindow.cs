@@ -237,6 +237,8 @@ namespace MyLibrary
         private Item _selectedItem;
         public Item SelectedItem
         {
+            // TODO: factor this logic out to the presenter
+
             get
             {
                 Item temp = _selectedItem;
@@ -255,8 +257,22 @@ namespace MyLibrary
 
             set
             {
-                this._selectedItem = value;
+                this.manageItemTagsButton.Enabled = !(value is null);
+                this.selectImageButton.Enabled = !(value is null);
+                this.removeImageButton.Enabled = !(value is null);
+                this.saveChangesButton.Enabled = !(value is null);
+                this.discardChangesButton.Enabled = !(value is null);
 
+                if (value is null)
+                {
+                    this.textBoxNotes.Clear();
+                    this.detailsBox.Clear();
+                    this.pictureBox.Image = null;
+
+                    return;
+                }
+
+                this._selectedItem = value;
                 this.textBoxNotes.Text = this._selectedItem.Notes;
                 Image itemImage = ReadImage(this._selectedItem.Image);
                 if (itemImage is null)

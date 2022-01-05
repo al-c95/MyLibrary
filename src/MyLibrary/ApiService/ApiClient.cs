@@ -7,7 +7,7 @@ using System.Net.Http;
 
 namespace MyLibrary.ApiService
 {
-    public abstract class ApiClient
+    public abstract class ApiClient : IDisposable
     {
         public const string BASE_URL = "https://openlibrary.org";
 
