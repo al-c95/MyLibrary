@@ -12,6 +12,7 @@ using MyLibrary.Views;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class AddNewMediaItemForm : Form, IAddMediaItemForm
     {
         // ctor

@@ -13,6 +13,7 @@ using MyLibrary.Views;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class AddNewBookForm : Form, IAddBookForm
     {
         public AddNewBookForm()

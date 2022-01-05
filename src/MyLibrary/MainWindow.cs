@@ -18,6 +18,7 @@ using MyLibrary.ApiService;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class MainWindow : Form, IItemView
     {
         public MainWindow()
@@ -262,6 +263,8 @@ namespace MyLibrary
                 this.removeImageButton.Enabled = !(value is null);
                 this.saveChangesButton.Enabled = !(value is null);
                 this.discardChangesButton.Enabled = !(value is null);
+                this.notesLabel.Enabled = !(value is null);
+                this.textBoxNotes.Enabled = !(value is null);
 
                 if (value is null)
                 {

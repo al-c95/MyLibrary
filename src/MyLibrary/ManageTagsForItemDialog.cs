@@ -13,6 +13,7 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ManageTagsForItemDialog : Form
     {
         private TagRepository _tagRepo;

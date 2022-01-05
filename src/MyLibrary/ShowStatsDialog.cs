@@ -11,6 +11,7 @@ using MyLibrary.Views;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ShowStatsDialog : Form, IShowStats
     {
         public ShowStatsDialog()
