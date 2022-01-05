@@ -14,6 +14,7 @@ using MyLibrary.Views;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ManageTagsForm : Form
     {
         private TagRepository _repo;
