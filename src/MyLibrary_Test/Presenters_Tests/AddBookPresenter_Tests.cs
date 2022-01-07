@@ -364,6 +364,70 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             A.CallTo(() => fakeView.PopulatePublisherList(A<List<string>>.That.Matches(l => l.Count() == 1 && l.Contains("some_publisher"))));
         }
+
+        [Test]
+        public void SaveButtonClicked_Test_ItemWithTitleAlreadyExists()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
+            var fakeBookRepo = A.Fake<BookRepository>();
+            A.CallTo(() => fakeBookRepo.ExistsWithTitle("test book")).Returns(true);
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            presenter.SaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
+        }
+
+        [Test]
+        public void SaveButtonClicked_Test_ItemWithLongTitleAlreadyExists()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
+            var fakeBookRepo = A.Fake<BookRepository>();
+            A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Returns(true);
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            presenter.SaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
+        }
+
+        [Test]
+        public void SaveButtonClicked_Test_ErrorWhileCheckingIfAlreadyExists()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
+            var fakeBookRepo = A.Fake<BookRepository>();
+            Exception ex = new Exception("error");
+            A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Throws(ex);
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            presenter.SaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Error checking if title exists.", "error"));
+        }
     }//class
 
     public class MockBookPresenter : AddBookPresenter
