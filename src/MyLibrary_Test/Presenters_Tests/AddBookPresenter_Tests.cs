@@ -248,6 +248,122 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             Assert.IsFalse(fakeView.SaveButtonEnabled);
         }
+
+        [Test]
+        public void Prefill_Test()
+        {
+            // arrange
+            Author author1 = new Author { FirstName = "John", LastName = "Smith" };
+            Author author2 = new Author { FirstName = "Jane", LastName = "Doe" };
+            Publisher publisher = new Publisher("some_publisher");
+            Book book = new Book
+            {
+                Title = "test book",
+                TitleLong = "test book: this book is a test",
+                Isbn = "0123456789",
+                Isbn13 = "0123456789012",
+                DatePublished = "2020",
+                PlaceOfPublication = "AU",
+                Pages = 100,
+                Language = "English",
+
+                Publisher = publisher,
+
+                Authors = new List<Author> 
+                {
+                    author1,
+                    author2
+                }
+            };
+            var fakeView = A.Fake<IAddBookForm>();
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            presenter.Prefill(book);
+
+            // assert
+            Assert.AreEqual("test book", fakeView.TitleFieldText);
+            Assert.AreEqual("test book: this book is a test", fakeView.LongTitleFieldText);
+            Assert.AreEqual("0123456789", fakeView.IsbnFieldText);
+            Assert.AreEqual("0123456789012", fakeView.Isbn13FieldText);
+            Assert.AreEqual("2020", fakeView.DatePublishedFieldText);
+            Assert.AreEqual("AU", fakeView.PlaceOfPublicationFieldText);
+            Assert.AreEqual("100", fakeView.PagesFieldText);
+            Assert.AreEqual("English", fakeView.LanguageFieldText);
+            A.CallTo(() => fakeView.SetPublisher(publisher, true)).MustHaveHappened();
+            A.CallTo(() => fakeView.SetAuthor(author1, true)).MustHaveHappened();
+            A.CallTo(() => fakeView.SetAuthor(author2, true)).MustHaveHappened();
+        }
+
+        [Test]
+        public async Task PopulateTagsList_Test()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeTagRepo = A.Fake<TagRepository>();
+            Tag tag1 = new Tag { Name = "tag1" };
+            Tag tag2 = new Tag { Name = "tag2" };
+            List<Tag> tags = new List<Tag> { tag1, tag2 };
+            A.CallTo(() => fakeTagRepo.GetAll()).Returns(tags);
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            await presenter.PopulateTagsList();
+
+            // assert
+            A.CallTo(() => fakeView.PopulateTagsList(A<List<string>>.That.Matches(l => l.Contains("tag1")&&l.Contains("tag2"))));
+        }
+
+        [Test]
+        public async Task PopulateAuthorList_Test()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            Author author1 = new Author { FirstName = "John", LastName = "Smith" };
+            A.CallTo(() => fakeAuthorRepo.GetAll()).Returns(new List<Author> { author1 });
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            await presenter.PopulateAuthorList();
+
+            // assert
+            A.CallTo(() => fakeView.PopulateAuthorList(A<List<string>>.That.Matches(l => l.Count() == 1 && l.Contains("Smith, John"))));
+        }
+
+        [Test]
+        public async Task PopulatePublisherList_Test()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakePublisherRepo = A.Fake<PublisherRepository>();
+            Publisher publisher1 = new Publisher("some_publisher");
+            A.CallTo(() => fakePublisherRepo.GetAll()).Returns(new List<Publisher> { publisher1 });
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo,
+                fakeView);
+
+            // act
+            await presenter.PopulatePublisherList();
+
+            // assert
+            A.CallTo(() => fakeView.PopulatePublisherList(A<List<string>>.That.Matches(l => l.Count() == 1 && l.Contains("some_publisher"))));
+        }
     }//class
 
     public class MockBookPresenter : AddBookPresenter
