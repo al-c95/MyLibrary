@@ -33,5 +33,7 @@ namespace MyLibrary.Views
 
         void PopulateAuthorList(IEnumerable<string> names);
         void PopulatePublisherList(IEnumerable<string> publisherNames);
+
+        void ShowAsDialog();
     }
 }

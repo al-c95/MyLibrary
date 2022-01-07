@@ -384,7 +384,10 @@ namespace MyLibrary.Presenters
         public void SearchByIsbnClicked(object sender, EventArgs e)
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
-            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view);
+            this._addBookView = new AddNewBookForm();
+            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookRepository(), new ApiServiceProvider());
+            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookRepo, this._tagRepo, this._authorRepo, this._publisherRepo,
+                this._addBookView);
             searchDialog.ShowDialog();
 
             ItemsAdded(null,null);

@@ -434,6 +434,11 @@ namespace MyLibrary
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        public void ShowAsDialog()
+        {
+            this.ShowDialog();
+        }
+
         public void SetAuthor(Author author, bool selected)
         {
             if (!(this.authorsList.Items.Cast<Object>().Any(a => a.ToString() == author.LastName + ", " + author.FirstName)))

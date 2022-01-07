@@ -121,6 +121,7 @@
     <Compile Include="ApiService\BookNotFoundException.cs" />
     <Compile Include="ApiService\HttpResponseWrapper.cs" />
     <Compile Include="ApiService\IAuthorApiClient.cs" />
+    <Compile Include="ApiService\IBookApiService.cs" />
     <Compile Include="ApiService\IHttpResponseWrapper.cs" />
     <Compile Include="ApiService\IIsbnApiClient.cs" />
     <Compile Include="ApiService\IsbnApiClient.cs" />
@@ -179,6 +180,8 @@
     </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
+    <Compile Include="Presenters\ApiServiceProvider.cs" />
+    <Compile Include="Presenters\IApiServiceProvider.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
     <Compile Include="Presenters\StatsPresenter.cs" />

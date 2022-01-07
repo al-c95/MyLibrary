@@ -12,26 +12,26 @@ namespace MyLibrary.BusinessLogic.Repositories
     {
         // ctor
         public BookRepository()
-            :base(new BookDataAccessor())
+            : base(new BookDataAccessor())
         {
 
         }
-        
+
         // ctor
         public BookRepository(ItemDataAccessor<Book> dataAccessor)
-            :base(dataAccessor)
+            : base(dataAccessor)
         {
 
         }
 
-        public async Task<Boolean> ExistsWithLongTitle(string longTitle)
+        public async virtual Task<Boolean> ExistsWithLongTitle(string longTitle)
         {
             var allBooks = await this._dao.ReadAll();
 
             return allBooks.Any(b => b.TitleLong.Equals(longTitle));
         }
 
-        public async Task<Boolean> ExistsWithIsbn(string isbn)
+        public async virtual Task<Boolean> ExistsWithIsbn(string isbn)
         {
             var allBooks = await this._dao.ReadAll();
 

@@ -14,7 +14,7 @@ namespace MyLibrary.ApiService
     /// <summary>
     /// Retrieves book information, by isbn.
     /// </summary>
-    public class BookApiService : IDisposable
+    public class BookApiService : IDisposable, IBookApiService
     {
         // injected values
         protected readonly IIsbnApiClient _isbnApiClient;
