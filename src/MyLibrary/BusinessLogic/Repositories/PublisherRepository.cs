@@ -24,17 +24,17 @@ namespace MyLibrary.BusinessLogic.Repositories
             this._dao = dataAccessor;
         }
 
-        public async Task Create(Publisher publisher)
+        public async virtual Task Create(Publisher publisher)
         {
             await Task.Run(() => this._dao.Create(publisher));
         }
 
-        public async Task<IEnumerable<Publisher>> GetAll()
+        public async virtual Task<IEnumerable<Publisher>> GetAll()
         {
             return await Task.Run(() => this._dao.ReadAll());
         }
 
-        public async Task<bool> Exists(string name)
+        public async virtual Task<bool> Exists(string name)
         {
             IEnumerable<Publisher> allPublishers = await this._dao.ReadAll();
 

@@ -17,39 +17,39 @@ namespace MyLibrary.BusinessLogic.Repositories
             this._dao = dataAccessor;
         }
 
-        public async Task Create(T item)
+        public async virtual Task Create(T item)
         {
             await Task.Run(() => this._dao.Create(item));
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async virtual Task<IEnumerable<T>> GetAll()
         {
             return await Task.Run(() => this._dao.ReadAll());
         }
 
-        public async Task<T> GetById(int id)
+        public async virtual Task<T> GetById(int id)
         {
             IEnumerable<T> allItems = await GetAll();
 
             return allItems.FirstOrDefault(i => i.Id == id);
         }
 
-        public async Task Update(T item)
+        public async virtual Task Update(T item)
         {
             await Task.Run(() => this._dao.Update(item));
         }
 
-        public async Task UpdateTags(ItemTagsDto dto)
+        public async virtual Task UpdateTags(ItemTagsDto dto)
         {
             await Task.Run(() => this._dao.UpdateTags(dto));
         }
 
-        public async Task DeleteById(int id)
+        public async virtual Task DeleteById(int id)
         {
             await Task.Run(() => this._dao.DeleteById(id));
         }
 
-        public async Task<bool> ExistsWithId(int id)
+        public async virtual Task<bool> ExistsWithId(int id)
         {
             IEnumerable<T> allItems = await GetAll();
 

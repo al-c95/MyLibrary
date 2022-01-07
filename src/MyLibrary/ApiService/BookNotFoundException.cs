@@ -10,6 +10,11 @@ namespace MyLibrary.ApiService
     {
         public string Isbn { get; private set; }
 
+        public BookNotFoundException()
+        {
+
+        }
+
         public BookNotFoundException(string isbn)
         {
             this.Isbn = isbn;

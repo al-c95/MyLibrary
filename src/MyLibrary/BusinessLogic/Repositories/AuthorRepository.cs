@@ -24,24 +24,24 @@ namespace MyLibrary.BusinessLogic.Repositories
             this._dao = dataAccessor;
         }
 
-        public async Task Create(Author author)
+        public async virtual Task Create(Author author)
         {
             await Task.Run(() => this._dao.Create(author));
         }
 
-        public async Task<IEnumerable<Author>> GetAll()
+        public async virtual Task<IEnumerable<Author>> GetAll()
         {
             return await Task.Run(() => this._dao.ReadAll());
         }
 
-        public async Task<bool> ExistsWithName(string firstName, string lastName)
+        public async virtual Task<bool> ExistsWithName(string firstName, string lastName)
         {
             IEnumerable<Author> allAuthors = await GetAll();
 
             return allAuthors.Any(a => (a.FirstName == firstName && a.LastName == lastName));
         }
 
-        public async Task<bool> ExistsWithName(string name)
+        public async virtual Task<bool> ExistsWithName(string name)
         {
             IEnumerable<Author> allAuthors = await GetAll();
 

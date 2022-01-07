@@ -18,15 +18,28 @@ namespace MyLibrary.Presenters
         // injected values
         private ISearchByIsbn _view;
         private IItemView _mainView;
+        private IAddBookForm _addBookView;
+        private BookRepository _bookRepo;
+        private IApiServiceProvider _apiServiceProvider;
+
+        public AddBookPresenter AddBookPresenter;
 
         /// <summary>
         /// Constructor with dependency injection.
         /// </summary>
         /// <param name="view"></param>
-        public SearchByIsbnPresenter(ISearchByIsbn view, IItemView mainView)
+        public SearchByIsbnPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
+            BookRepository bookRepo,
+            IApiServiceProvider apiServiceProvider)
         {
+            // inject values
             this._view = view;
             this._mainView = mainView;
+            this._addBookView = addBookView;
+            this._bookRepo = bookRepo;
+            this._apiServiceProvider = apiServiceProvider;
+
+            //this.AddBookPresenter = new AddBookPresenter(new BookRepository(), new TagRepository(), new AuthorRepository(), new PublisherRepository(), this._addBookView);
 
             // subscribe to the view's events
             this._view.IsbnFieldTextChanged += IsbnFieldTextChanged;
@@ -52,6 +65,10 @@ namespace MyLibrary.Presenters
                 sane = false;
             }
             this._view.SearchButtonEnabled = sane;
+            if (!sane)
+            {
+                return;
+            }
 
             // start search automatically if scan mode enabled
             if (this._view.ScanModeChecked)
@@ -68,29 +85,24 @@ namespace MyLibrary.Presenters
             this._view.SearchButtonEnabled = false;
 
             string enteredIsbn = this._view.IsbnFieldText;
-
+            
             // check if book with this ISBN already exists in database
-            BookRepository bookRepo = new BookRepository();
-            if (await bookRepo.ExistsWithIsbn(enteredIsbn))
+            if (await this._bookRepo.ExistsWithIsbn(enteredIsbn))
             {
                 // book already exists
                 // tell the user
                 this._view.ShowAlreadyExistsWithIsbnDialog(enteredIsbn);
 
-                // clear, update status bar and re-enable buttons
-                this._view.SearchButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
-                this._view.StatusLabelText = "Ready";
-                this._view.IsbnFieldText = "";
+                Reset();
 
                 // nothing more to do
                 return;
             }
-
+            
             Book book = null;
             try
             {
-                using (var apiService = new BookApiService())
+                using (var apiService = this._apiServiceProvider.Get())
                 {
                     book = await apiService.GetBookByIsbnAsync(enteredIsbn);
                 }//apiService
@@ -106,26 +118,28 @@ namespace MyLibrary.Presenters
             }
             finally
             {
-                // clear, update status bar and re-enable buttons
-                this._view.SearchButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
-                this._view.StatusLabelText = "Ready";
-                this._view.IsbnFieldText = "";
+                Reset();
             }
 
             if (book != null)
             {
                 // show add new book dialog and prefill with data
-                AddNewBookForm addBookDialog = new AddNewBookForm();
-                AddBookPresenter presenter = new AddBookPresenter(new BookRepository(), new TagRepository(), new AuthorRepository(), new PublisherRepository(),
-                    addBookDialog);
-                await presenter.PopulateTagsList();
-                await presenter.PopulateAuthorList();
-                await presenter.PopulatePublisherList();
-                presenter.Prefill(book);
-                addBookDialog.ShowDialog();
+                await this.AddBookPresenter.PopulateTagsList();
+                await this.AddBookPresenter.PopulateAuthorList();
+                await this.AddBookPresenter.PopulatePublisherList();
+                this.AddBookPresenter.Prefill(book);
+                this._addBookView.ShowAsDialog();
             }
         }
         #endregion
+
+        private void Reset()
+        {
+            // clear, update status bar and re-enable buttons
+            this._view.SearchButtonEnabled = false;
+            this._view.CancelButtonEnabled = true;
+            this._view.StatusLabelText = "Ready";
+            this._view.IsbnFieldText = "";
+        }
     }//class
 }

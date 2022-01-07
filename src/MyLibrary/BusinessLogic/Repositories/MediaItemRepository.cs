@@ -23,7 +23,7 @@ namespace MyLibrary.BusinessLogic.Repositories
 
         }
 
-        public async Task<IEnumerable<MediaItem>> GetByType(ItemType type)
+        public async virtual Task<IEnumerable<MediaItem>> GetByType(ItemType type)
         {
             var allItems = await GetAll();
 
