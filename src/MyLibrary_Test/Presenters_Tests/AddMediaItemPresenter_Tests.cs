@@ -286,9 +286,50 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Error checking title.", "error")).MustHaveHappened();
         }
+
+        [TestCase("", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "", @"C:\path\to\file.png")]
+        [TestCase("", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "", @"C:\path\to\file.png")]
+        public void SaveButtonClicked_Test_ErrorWhenReadingImage(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
+            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            A.CallTo(() => fakeMediaItemRepo.ExistsWithTitle("title")).Returns(false);
+            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            A.CallTo(() => fakeImageFileReader.ReadBytes()).Throws(new System.IO.IOException("error"));
+            MockPresenter presenter = new MockPresenter(fakeMediaItemRepo, fakeTagRepo, fakeView, fakeImageFileReader);
+
+            // act
+            presenter.SaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Image file error", "error")).MustHaveHappened();
+        }
     }//class
 
-    public class MockPresenter : AddMediaItemPresenter
+    class MockPresenter : AddMediaItemPresenter
     {
         public MockPresenter(MediaItemRepository mediaItemRepo, TagRepository tagRepo, IAddMediaItemForm view, IImageFileReader imageFileReader)
             :base(mediaItemRepo, tagRepo, view, imageFileReader)

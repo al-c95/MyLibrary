@@ -21,6 +21,8 @@ namespace MyLibrary
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class MainWindow : Form, IItemView
     {
+        private const int FILTER_DELAY = 2000; // millis
+
         public MainWindow()
         {
             InitializeComponent();
@@ -86,8 +88,10 @@ namespace MyLibrary
             {
                 CategorySelectionChanged?.Invoke(sender, args);
             });
-            this.titleFilterField.TextChanged += ((sender, args) =>
+            this.titleFilterField.TextChanged += (async (sender, args) =>
             {
+                await Task.Delay(FILTER_DELAY);
+
                 FiltersUpdated?.Invoke(sender, args);
             });
             this.dataGrid.SelectionChanged += ((sender, args) =>
@@ -115,9 +119,11 @@ namespace MyLibrary
 
                 this.DeleteButtonClicked?.Invoke(this, args);
             });
-            this.clearFilterButton.Click += ((sender, args) =>
+            this.clearFilterButton.Click += (async (sender, args) =>
             {
+                // clear title filter field
                 this.TitleFilterText = null;
+                // uncheck filter tags
                 while (this.tagsList.CheckedIndices.Count > 0)
                 {
                     this.tagsList.SetItemChecked(this.tagsList.CheckedIndices[0], false);
@@ -172,8 +178,10 @@ namespace MyLibrary
                 });
                 form.ShowDialog();
             });
-            this.tagsList.ItemCheck += ((sender, args) =>
+            this.tagsList.ItemCheck += (async (sender, args) =>
             {
+                await Task.Delay(FILTER_DELAY);
+
                 FiltersUpdated?.Invoke(sender, args);
             });
 
