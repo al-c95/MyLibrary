@@ -35,8 +35,7 @@ namespace MyLibrary.Presenters
 
         private ItemMemento _selectedItemMemento;
 
-        // filter constants
-        private const int FILTER_DELAY = 2000; // millis
+        //private const int FILTER_DELAY = 2000; // millis
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
         public ItemPresenter(BookRepository bookRepository, MediaItemRepository mediaItemRepository,
@@ -56,8 +55,8 @@ namespace MyLibrary.Presenters
             // subscribe to the view's events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
             this._view.ItemSelectionChanged += ItemSelectionChanged;
-            this._view.FiltersUpdated += FiltersUpdated; //
-            this._view.ApplyFilterButtonClicked += ApplyFilterButtonClicked; //
+            this._view.FiltersUpdated += PerformFilter; //FiltersUpdated; //
+            this._view.ApplyFilterButtonClicked += PerformFilter; //FiltersUpdated; //ApplyFilterButtonClicked; //
             this._view.DeleteButtonClicked += DeleteButtonClicked;
             this._view.UpdateSelectedItemButtonClicked += UpdateSelectedItemButtonClicked;
             this._view.SelectedItemModified += SelectedItemModified; //
@@ -67,100 +66,6 @@ namespace MyLibrary.Presenters
             this._view.AddNewBookClicked += AddNewBookClicked;
             this._view.SearchByIsbnClicked += SearchByIsbnClicked;
             this._view.ShowStatsClicked += ShowStatsClicked;
-        }
-
-        private async Task DisplayBooks()
-        {
-            // fetch the data
-            var allBooks = await this._bookRepo.GetAll();
-
-            // create DataTable to display and assign to the view
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Id");
-            dt.Columns.Add("Title");
-            dt.Columns.Add("ISBN");
-            dt.Columns.Add("Publisher");
-            dt.Columns.Add("Authors");
-            dt.Columns.Add("Tags");
-            foreach (var book in allBooks)
-            {
-                dt.Rows.Add(
-                    book.Id, 
-                    book.Title, 
-                    book.GetIsbn(), 
-                    book.Publisher.Name, 
-                    book.GetAuthorList(), 
-                    book.GetCommaDelimitedTags()
-                    );
-            }
-            this._view.DisplayedItems = dt;
-            this._allItems = dt;
-
-            PerformFilter();
-        }
-
-        private async Task DisplayMediaItems()
-        {
-            // fetch the data
-            var allItems = await this._mediaItemRepo.GetAll();
-
-            // create DataTable to display and assign to the view
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Id");
-            dt.Columns.Add("Title");
-            dt.Columns.Add("Type");
-            dt.Columns.Add("Number");
-            dt.Columns.Add("Run Time");
-            dt.Columns.Add("Release Year");
-            dt.Columns.Add("Tags");
-            foreach (var item in allItems)
-            {
-                dt.Rows.Add(
-                    item.Id,
-                    item.Title,
-                    item.Type,
-                    item.Number,
-                    item.RunningTime,
-                    item.ReleaseYear,
-                    item.GetCommaDelimitedTags()
-                    );
-            }
-            this._view.DisplayedItems = dt;
-            this._allItems = dt;
-
-            PerformFilter();
-        }
-
-        private async Task DisplayMediaItems(ItemType type)
-        {
-            // fetch the data
-            var items = await this._mediaItemRepo.GetByType(type);
-
-            // create DataTable to display and assign to the view
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Id");
-            dt.Columns.Add("Title");
-            dt.Columns.Add("Type");
-            dt.Columns.Add("Number");
-            dt.Columns.Add("Run Time");
-            dt.Columns.Add("Release Year");
-            dt.Columns.Add("Tags");
-            foreach (var item in items)
-            {
-                dt.Rows.Add(
-                    item.Id,
-                    item.Title,
-                    item.Type,
-                    item.Number,
-                    item.RunningTime,
-                    item.ReleaseYear,
-                    item.GetCommaDelimitedTags()
-                    );
-            }
-            this._view.DisplayedItems = dt;
-            this._allItems = dt;
-
-            PerformFilter();
         }
 
         #region View event handlers
@@ -192,29 +97,8 @@ namespace MyLibrary.Presenters
             await DisplayItems();
         }
 
-        /// <summary>
-        /// Apply filter button clicked. No time delay in filtering.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void ApplyFilterButtonClicked(object sender, EventArgs e)
+        public void PerformFilter(object sender, EventArgs e)
         {
-            PerformFilter();
-        }
-
-        /// <summary>
-        /// Filter has been updated. Include a time delay in filtering.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void FiltersUpdated(object sender, EventArgs e)
-        {
-            await Task.Delay(FILTER_DELAY);
-            PerformFilter();
-        }
-
-        public void PerformFilter()
-        { 
             // grab the filters
             string filterByTitle = this._view.TitleFilterText;
             IEnumerable<string> filterByTags = this._view.SelectedFilterTags;
@@ -390,7 +274,7 @@ namespace MyLibrary.Presenters
                 this._addBookView);
             searchDialog.ShowDialog();
 
-            ItemsAdded(null,null);
+            ItemsAdded(null, null);
         }
 
         public async void ItemsAdded(object sender, EventArgs e)
@@ -406,6 +290,100 @@ namespace MyLibrary.Presenters
             statsDialog.ShowDialog();
         }
         #endregion
+
+        private async Task DisplayBooks()
+        {
+            // fetch the data
+            var allBooks = await this._bookRepo.GetAll();
+
+            // create DataTable to display and assign to the view
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("Title");
+            dt.Columns.Add("ISBN");
+            dt.Columns.Add("Publisher");
+            dt.Columns.Add("Authors");
+            dt.Columns.Add("Tags");
+            foreach (var book in allBooks)
+            {
+                dt.Rows.Add(
+                    book.Id, 
+                    book.Title, 
+                    book.GetIsbn(), 
+                    book.Publisher.Name, 
+                    book.GetAuthorList(), 
+                    book.GetCommaDelimitedTags()
+                    );
+            }
+            this._view.DisplayedItems = dt;
+            this._allItems = dt;
+
+            PerformFilter(null,null);
+        }
+
+        private async Task DisplayMediaItems()
+        {
+            // fetch the data
+            var allItems = await this._mediaItemRepo.GetAll();
+
+            // create DataTable to display and assign to the view
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("Title");
+            dt.Columns.Add("Type");
+            dt.Columns.Add("Number");
+            dt.Columns.Add("Run Time");
+            dt.Columns.Add("Release Year");
+            dt.Columns.Add("Tags");
+            foreach (var item in allItems)
+            {
+                dt.Rows.Add(
+                    item.Id,
+                    item.Title,
+                    item.Type,
+                    item.Number,
+                    item.RunningTime,
+                    item.ReleaseYear,
+                    item.GetCommaDelimitedTags()
+                    );
+            }
+            this._view.DisplayedItems = dt;
+            this._allItems = dt;
+
+            PerformFilter(null,null);
+        }
+
+        private async Task DisplayMediaItems(ItemType type)
+        {
+            // fetch the data
+            var items = await this._mediaItemRepo.GetByType(type);
+
+            // create DataTable to display and assign to the view
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("Title");
+            dt.Columns.Add("Type");
+            dt.Columns.Add("Number");
+            dt.Columns.Add("Run Time");
+            dt.Columns.Add("Release Year");
+            dt.Columns.Add("Tags");
+            foreach (var item in items)
+            {
+                dt.Rows.Add(
+                    item.Id,
+                    item.Title,
+                    item.Type,
+                    item.Number,
+                    item.RunningTime,
+                    item.ReleaseYear,
+                    item.GetCommaDelimitedTags()
+                    );
+            }
+            this._view.DisplayedItems = dt;
+            this._allItems = dt;
+
+            PerformFilter(null,null);
+        }
 
         private async Task DisplayTags()
         {
@@ -449,7 +427,7 @@ namespace MyLibrary.Presenters
                     break;
             }
 
-            PerformFilter();
+            PerformFilter(null,null);
 
             UpdateStatusBarAndSelectedItemDetails();
         }

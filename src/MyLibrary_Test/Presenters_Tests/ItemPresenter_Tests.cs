@@ -55,7 +55,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 allItems);
 
             // act
-            presenter.PerformFilter();
+            presenter.PerformFilter(null,null);
 
             // assert
             Assert.IsTrue(fakeView.DisplayedItems.Rows.Count == 1);
@@ -89,7 +89,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 allItems);
 
             // act
-            presenter.PerformFilter();
+            presenter.PerformFilter(null,null);
 
             // assert
             Assert.IsTrue(fakeView.DisplayedItems.Rows.Count == 2);
@@ -110,6 +110,78 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             Assert.IsTrue(fakeView.UpdateSelectedItemButtonEnabled);
             Assert.IsTrue(fakeView.DiscardSelectedItemChangesButtonEnabled);
+        }
+
+        [Test]
+        public void DeleteButtonClicked_Test_Book()
+        {
+            // arrange
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeView = A.Fake<IItemView>();
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+
+            // act
+            presenter.DeleteButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+        }
+
+        [Test]
+        public void DeleteButtonClicked_Test_MediaItem()
+        {
+            // arrange
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeView = A.Fake<IItemView>();
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+
+            // act
+            presenter.DeleteButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeMediaItemRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+        }
+
+        [Test]
+        public void DeleteButtonClicked_Test_Book_Error()
+        {
+            // arrange
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeView = A.Fake<IItemView>();
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
+            A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+
+            // act
+            presenter.DeleteButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+            A.CallTo(() => fakeView.ShowErrorDialog("Error deleting item.", "error")).MustHaveHappened();
+        }
+
+        [Test]
+        public void DeleteButtonClicked_Test_MediaItem_Error()
+        {
+            // arrange
+            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeView = A.Fake<IItemView>();
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
+            A.CallTo(() => fakeMediaItemRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+
+            // act
+            presenter.DeleteButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeMediaItemRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+            A.CallTo(() => fakeView.ShowErrorDialog("Error deleting item.", "error")).MustHaveHappened();
         }
     }//class
 
