@@ -8,8 +8,6 @@ using NUnit;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
-using MyLibrary.DataAccessLayer;
-using MyLibrary.DataAccessLayer.Repositories;
 
 namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
 {
