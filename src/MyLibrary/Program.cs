@@ -24,7 +24,7 @@ namespace MyLibrary
             Application.SetCompatibleTextRenderingDefault(false);
 
             MainWindow window = new MainWindow();
-            ItemPresenter presenter = new ItemPresenter(new BookService(), new MediaItemRepository(),
+            ItemPresenter presenter = new ItemPresenter(new BookService(), new MediaItemService(),
                 window);
             window.LoadWindow();
             Application.Run(window);

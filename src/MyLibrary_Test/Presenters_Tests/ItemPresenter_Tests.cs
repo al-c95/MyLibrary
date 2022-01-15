@@ -8,9 +8,6 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
@@ -52,9 +49,9 @@ namespace MyLibrary_Test.Presenters_Tests
                     "third book",
                     "tag2"
                 );
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             // presenter
-            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView,
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView,
                 allItems);
 
             // act
@@ -86,9 +83,9 @@ namespace MyLibrary_Test.Presenters_Tests
                     2,
                     "book 2"
                 );
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             // presenter
-            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView,
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView,
                 allItems);
 
             // act
@@ -103,9 +100,9 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeView = A.Fake<IItemView>();
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
 
             // act
             presenter.SelectedItemModified(null, null);
@@ -120,10 +117,10 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
@@ -137,16 +134,16 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeMediaItemRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+            A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
         }
 
         [Test]
@@ -154,11 +151,11 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
@@ -173,26 +170,26 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
-            A.CallTo(() => fakeMediaItemRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
+            A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeMediaItemRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+            A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
             A.CallTo(() => fakeView.ShowErrorDialog("Error deleting item.", "error")).MustHaveHappened();
         }
     }//class
 
     public class MockItemPresenter : ItemPresenter
     {
-        public MockItemPresenter(IBookService bookRepository, MediaItemRepository mediaItemRepository, IItemView view,
+        public MockItemPresenter(IBookService bookRepository, IMediaItemService mediaItemService, IItemView view,
             DataTable allItemsDt)
-            :base(bookRepository, mediaItemRepository, view)
+            :base(bookRepository, mediaItemService, view)
         {
             this._allItems = allItemsDt;
         }

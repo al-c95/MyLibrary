@@ -79,7 +79,7 @@ namespace MyLibrary.Models.BusinessLogic
             return false;
         }
 
-        public async Task Add(Book book)
+        public async virtual Task Add(Book book)
         {
             await Task.Run(() =>
             {
@@ -135,7 +135,6 @@ namespace MyLibrary.Models.BusinessLogic
                     }
                 }
                 // insert records in Book_Tag link table
-                //int bookId = GetIdByTitle(book.Title).Result;
                 int bookId = bookRepo.GetIdByTitle(book.Title);
                 foreach (int tagId in tagIds)
                 {
