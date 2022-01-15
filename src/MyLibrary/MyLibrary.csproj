@@ -150,7 +150,9 @@
     <Compile Include="Models\BusinessLogic\IAuthorService.cs" />
     <Compile Include="Models\BusinessLogic\IBookService.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
+    <Compile Include="Models\BusinessLogic\IPublisherService.cs" />
     <Compile Include="Models\BusinessLogic\MediaItemService.cs" />
+    <Compile Include="Models\BusinessLogic\PublisherService.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
