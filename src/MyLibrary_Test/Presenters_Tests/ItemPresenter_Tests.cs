@@ -8,7 +8,10 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
@@ -29,7 +32,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.TitleFilterText).Returns("book 2");
             A.CallTo(() => fakeView.SelectedFilterTags).Returns(new List<string> { "tag2" });
             // repos
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             DataTable allItems = new DataTable();
             allItems.Columns.Add("Id");
             allItems.Columns.Add("Title");
@@ -71,7 +74,7 @@ namespace MyLibrary_Test.Presenters_Tests
             fakeView.CategoryDropDownSelectedIndex = 0;
             A.CallTo(() => fakeView.TitleFilterText).Returns("");
             // repos
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             DataTable allItems = new DataTable();
             allItems.Columns.Add("Id");
             allItems.Columns.Add("Title");
@@ -99,7 +102,7 @@ namespace MyLibrary_Test.Presenters_Tests
         public void SelectedItemModified_Test()
         {
             // arrange
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeView = A.Fake<IItemView>();
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemRepo, fakeView);
@@ -116,7 +119,7 @@ namespace MyLibrary_Test.Presenters_Tests
         public void DeleteButtonClicked_Test_Book()
         {
             // arrange
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
@@ -133,7 +136,7 @@ namespace MyLibrary_Test.Presenters_Tests
         public void DeleteButtonClicked_Test_MediaItem()
         {
             // arrange
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
@@ -150,7 +153,7 @@ namespace MyLibrary_Test.Presenters_Tests
         public void DeleteButtonClicked_Test_Book_Error()
         {
             // arrange
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
@@ -169,7 +172,7 @@ namespace MyLibrary_Test.Presenters_Tests
         public void DeleteButtonClicked_Test_MediaItem_Error()
         {
             // arrange
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
@@ -187,7 +190,7 @@ namespace MyLibrary_Test.Presenters_Tests
 
     public class MockItemPresenter : ItemPresenter
     {
-        public MockItemPresenter(BookRepository bookRepository, MediaItemRepository mediaItemRepository, IItemView view,
+        public MockItemPresenter(IBookService bookRepository, MediaItemRepository mediaItemRepository, IItemView view,
             DataTable allItemsDt)
             :base(bookRepository, mediaItemRepository, view)
         {

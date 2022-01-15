@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -114,7 +113,7 @@ namespace MyLibrary.DataAccessLayer
         }//Create
 
         /// <summary>
-        /// Read all media item and associated tags records from the database.
+        /// Read all media items and associated tags records from the database.
         /// </summary>
         /// <returns></returns>
         public override async Task<IEnumerable<MediaItem>> ReadAll()

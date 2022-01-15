@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
@@ -13,17 +16,17 @@ namespace MyLibrary.Presenters
 {
     public class AddBookPresenter
     {
-        private BookRepository _bookRepo;
+        private IBookService _bookService;
         private TagRepository _tagRepo;
         private AuthorRepository _authorRepo;
         private PublisherRepository _publisherRepo;
 
         private IAddBookForm _view;
 
-        public AddBookPresenter(BookRepository bookRepository, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
+        public AddBookPresenter(IBookService bookService, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
             IAddBookForm view)
         {
-            this._bookRepo = bookRepository;
+            this._bookService = bookService;
             this._tagRepo = tagRepository;
             this._authorRepo = authorRepository;
             this._publisherRepo = publisherRepository;
@@ -99,14 +102,14 @@ namespace MyLibrary.Presenters
             string existingTitle = null;
             try
             {
-                if (await this._bookRepo.ExistsWithTitle(this._view.TitleFieldText))
+                if (await this._bookService.ExistsWithTitle(this._view.TitleFieldText))
                 {
                     exists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
                 if (!string.IsNullOrWhiteSpace(this._view.LongTitleFieldText))
                 {
-                    if (await this._bookRepo.ExistsWithLongTitle(this._view.LongTitleFieldText))
+                    if (await this._bookService.ExistsWithLongTitle(this._view.LongTitleFieldText))
                     {
                         exists = true;
                         existingTitle = this._view.LongTitleFieldText;
@@ -193,7 +196,7 @@ namespace MyLibrary.Presenters
             // add item
             try
             {
-                await this._bookRepo.Create(book);
+                await this._bookService.Add(book);
                 this._view.ItemAddedFinished();
             }
             catch (Exception ex)

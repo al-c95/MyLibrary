@@ -131,27 +131,41 @@
     <Compile Include="ApiService\SearchByIsbnDialog.Designer.cs">
       <DependentUpon>SearchByIsbnDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="BusinessLogic\Entities\Author.cs" />
-    <Compile Include="BusinessLogic\Entities\Book.cs" />
-    <Compile Include="BusinessLogic\Entities\Builders\BookBuilder.cs" />
-    <Compile Include="BusinessLogic\Entities\Copy.cs" />
-    <Compile Include="BusinessLogic\Entities\Entity.cs" />
-    <Compile Include="BusinessLogic\Entities\Item.cs" />
-    <Compile Include="BusinessLogic\Entities\ItemMemento.cs" />
-    <Compile Include="BusinessLogic\Entities\ItemTagsDto.cs" />
-    <Compile Include="BusinessLogic\Entities\ItemType.cs" />
-    <Compile Include="BusinessLogic\Entities\MediaItem.cs" />
-    <Compile Include="BusinessLogic\Entities\Publisher.cs" />
-    <Compile Include="BusinessLogic\Entities\Tag.cs" />
-    <Compile Include="BusinessLogic\Repositories\AuthorRepository.cs" />
-    <Compile Include="BusinessLogic\Repositories\BookRepository.cs" />
-    <Compile Include="BusinessLogic\Repositories\ItemRepository.cs" />
-    <Compile Include="BusinessLogic\Repositories\MediaItemRepository.cs" />
-    <Compile Include="BusinessLogic\Repositories\PublisherRepository.cs" />
-    <Compile Include="BusinessLogic\Repositories\TagRepository.cs" />
+    <Compile Include="DataAccessLayer\IUnitOfWork.cs" />
+    <Compile Include="DataAccessLayer\Repositories\AuthorRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\BookRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\IAuthorRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\IBookRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\IMediaItemRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\IPublisherRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\ITagRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\ItemRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\MediaItemRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\PublisherRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\Repository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\TagRepository.cs" />
+    <Compile Include="DataAccessLayer\UnitOfWork.cs" />
+    <Compile Include="Models\BusinessLogic\BookService.cs" />
+    <Compile Include="Models\BusinessLogic\IBookService.cs" />
+    <Compile Include="Models\Entities\Author.cs" />
+    <Compile Include="Models\Entities\Book.cs" />
+    <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
+    <Compile Include="Models\Entities\Copy.cs" />
+    <Compile Include="Models\Entities\Entity.cs" />
+    <Compile Include="Models\Entities\Item.cs" />
+    <Compile Include="Models\Entities\ItemMemento.cs" />
+    <Compile Include="Models\Entities\ItemTagsDto.cs" />
+    <Compile Include="Models\Entities\ItemType.cs" />
+    <Compile Include="Models\Entities\MediaItem.cs" />
+    <Compile Include="Models\Entities\Publisher.cs" />
+    <Compile Include="Models\Entities\Tag.cs" />
+    <Compile Include="Models\Repositories\AuthorRepository.cs" />
+    <Compile Include="Models\Repositories\ItemRepository.cs" />
+    <Compile Include="Models\Repositories\MediaItemRepository.cs" />
+    <Compile Include="Models\Repositories\PublisherRepository.cs" />
+    <Compile Include="Models\Repositories\TagRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="DataAccessLayer\AuthorDataAccessor.cs" />
-    <Compile Include="DataAccessLayer\BookDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
     <Compile Include="DataAccessLayer\IAuthorDataAccessor.cs" />
     <Compile Include="DataAccessLayer\IPublisherDataAccessor.cs" />
@@ -253,6 +267,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.2.0.6\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.2.0.6\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

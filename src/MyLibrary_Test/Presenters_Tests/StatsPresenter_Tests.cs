@@ -11,7 +11,9 @@ using FakeItEasy;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
-using MyLibrary.BusinessLogic.Repositories;
+using MyLibrary.Models.BusinessLogic;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -23,7 +25,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeDialog = A.Fake<IShowStats>();
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeBookRepo.GetAll()).Returns(new List<Book> { });
             var fakeMediaItemRepo = A.Fake<MediaItemRepository>();
             A.CallTo(() => fakeMediaItemRepo.GetAll()).Returns(new List<MediaItem> { new MediaItem { Title = "mediaItem" } });

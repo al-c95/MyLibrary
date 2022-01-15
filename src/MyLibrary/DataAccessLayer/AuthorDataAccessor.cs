@@ -12,8 +12,6 @@ namespace MyLibrary.DataAccessLayer
 {
     public class AuthorDataAccessor : DataAccessor, IAuthorDataAccessor
     {
-        public AuthorDataAccessor() { }
-
         public async Task Create(Author author)
         {
             using (var conn = GetConnection())

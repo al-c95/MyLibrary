@@ -6,7 +6,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.ApiService;
@@ -19,7 +22,7 @@ namespace MyLibrary.Presenters
         private ISearchByIsbn _view;
         private IItemView _mainView;
         private IAddBookForm _addBookView;
-        private BookRepository _bookRepo;
+        private IBookService _bookService;
         private IApiServiceProvider _apiServiceProvider;
 
         public AddBookPresenter AddBookPresenter;
@@ -29,14 +32,14 @@ namespace MyLibrary.Presenters
         /// </summary>
         /// <param name="view"></param>
         public SearchByIsbnPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
-            BookRepository bookRepo,
+            IBookService bookService,
             IApiServiceProvider apiServiceProvider)
         {
             // inject values
             this._view = view;
             this._mainView = mainView;
             this._addBookView = addBookView;
-            this._bookRepo = bookRepo;
+            this._bookService = bookService;
             this._apiServiceProvider = apiServiceProvider;
 
             //this.AddBookPresenter = new AddBookPresenter(new BookRepository(), new TagRepository(), new AuthorRepository(), new PublisherRepository(), this._addBookView);
@@ -87,7 +90,7 @@ namespace MyLibrary.Presenters
             string enteredIsbn = this._view.IsbnFieldText;
             
             // check if book with this ISBN already exists in database
-            if (await this._bookRepo.ExistsWithIsbn(enteredIsbn))
+            if (await this._bookService.ExistsWithIsbn(enteredIsbn))
             {
                 // book already exists
                 // tell the user
