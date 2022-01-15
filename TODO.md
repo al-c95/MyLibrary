@@ -9,7 +9,7 @@
 - support downloading new item information from the web (DONE)
     - update main list when new item saved (DONE)
 - provide database statistics (DONE)
-- implement about box
+- implement about box (DONE)
 
 - maintain/refactor code and unit tests (WIP)
 - support manage copies
@@ -23,9 +23,3 @@ https://enterprisecraftsmanship.com/posts/specification-pattern-c-implementation
 https://stackoverflow.com/questions/50413130/how-to-unit-test-the-expression-being-passed-into-the-repository-layer
 https://stackoverflow.com/questions/16572743/generic-repository-with-data-access-layer
 https://dotnettutorials.net/lesson/generic-repository-pattern-csharp-mvc/
-
-Notes:
-- extract interface for each repository
-- think about refactoring data access layer/repositories
-https://github.com/timschreiber/DapperUnitOfWork
-https://stackoverflow.com/questions/31298235/how-to-implement-unit-of-work-pattern-with-dapper/45029588

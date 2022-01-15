@@ -67,5 +67,3 @@ The database system used is Sqlite, chosen for its simplicity, and the fact that
 
 ### v2
 - R14
-
-### WPF version
