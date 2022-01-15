@@ -6,8 +6,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data;
 using MyLibrary.ApiService;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.BusinessLogic;
-using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
@@ -17,7 +20,7 @@ namespace MyLibrary.Presenters
 {
     public class ItemPresenter
     {
-        private BookRepository _bookRepo;
+        private IBookService _bookService;
         private MediaItemRepository _mediaItemRepo;
 
         private TagRepository _tagRepo;
@@ -35,13 +38,12 @@ namespace MyLibrary.Presenters
 
         private ItemMemento _selectedItemMemento;
 
-        //private const int FILTER_DELAY = 2000; // millis
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
-        public ItemPresenter(BookRepository bookRepository, MediaItemRepository mediaItemRepository,
+        public ItemPresenter(IBookService bookService, MediaItemRepository mediaItemRepository,
             IItemView view)
         {
-            this._bookRepo = bookRepository;
+            this._bookService = bookService;
             this._mediaItemRepo = mediaItemRepository;
 
             this._tagRepo = new TagRepository();
@@ -77,7 +79,7 @@ namespace MyLibrary.Presenters
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
                     // book
-                    await this._bookRepo.DeleteById(this._view.SelectedItemId);
+                    await this._bookService.DeleteById(this._view.SelectedItemId);
                 }
                 else
                 {
@@ -161,7 +163,7 @@ namespace MyLibrary.Presenters
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
                 // book
-                this._view.SelectedItem = await this._bookRepo.GetById(this._view.SelectedItemId);
+                this._view.SelectedItem = await this._bookService.GetById(this._view.SelectedItemId);
             }
             else
             {
@@ -186,7 +188,7 @@ namespace MyLibrary.Presenters
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
                     // book
-                    await this._bookRepo.Update((Book)this._view.SelectedItem);
+                    await this._bookService.Update((Book)this._view.SelectedItem);
                 }
                 else
                 {
@@ -255,7 +257,7 @@ namespace MyLibrary.Presenters
         public async void AddNewBookClicked(object sender, EventArgs e)
         {
             this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookRepo, this._tagRepo, this._authorRepo, this._publisherRepo,
+            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorRepo, this._publisherRepo,
                 this._addBookView);
             await addBookPresenter.PopulateTagsList();
             await addBookPresenter.PopulateAuthorList();
@@ -269,8 +271,8 @@ namespace MyLibrary.Presenters
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
             this._addBookView = new AddNewBookForm();
-            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookRepository(), new ApiServiceProvider());
-            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookRepo, this._tagRepo, this._authorRepo, this._publisherRepo,
+            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookService(), new ApiServiceProvider());
+            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorRepo, this._publisherRepo,
                 this._addBookView);
             searchDialog.ShowDialog();
 
@@ -285,7 +287,7 @@ namespace MyLibrary.Presenters
         public async void ShowStatsClicked(object sender, EventArgs e)
         {
             ShowStatsDialog statsDialog = new ShowStatsDialog();
-            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookRepo, this._mediaItemRepo, this._tagRepo, this._publisherRepo, this._authorRepo);
+            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemRepo, this._tagRepo, this._publisherRepo, this._authorRepo);
             await statsPresenter.ShowStats();
             statsDialog.ShowDialog();
         }
@@ -294,7 +296,7 @@ namespace MyLibrary.Presenters
         private async Task DisplayBooks()
         {
             // fetch the data
-            var allBooks = await this._bookRepo.GetAll();
+            var allBooks = await this._bookService.GetAll();
 
             // create DataTable to display and assign to the view
             DataTable dt = new DataTable();

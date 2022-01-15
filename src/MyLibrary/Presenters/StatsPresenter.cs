@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
-using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Views;
 
 namespace MyLibrary.Presenters
@@ -13,7 +16,7 @@ namespace MyLibrary.Presenters
     {
         private IShowStats _view;
 
-        private BookRepository _bookRepo;
+        private IBookService _bookService;
         private MediaItemRepository _mediaItemRepo;
         private TagRepository _tagRepo;
         private PublisherRepository _publisherRepo;
@@ -29,13 +32,13 @@ namespace MyLibrary.Presenters
         /// <param name="publisherRepository"></param>
         /// <param name="authorRepository"></param>
         public StatsPresenter(IShowStats view,
-            BookRepository bookRepository, MediaItemRepository mediaItemRepository, 
+            IBookService bookService, MediaItemRepository mediaItemRepository, 
             TagRepository tagRepository, PublisherRepository publisherRepository,
             AuthorRepository authorRepository)
         {
             this._view = view;
 
-            this._bookRepo = bookRepository;
+            this._bookService = bookService;
             this._mediaItemRepo = mediaItemRepository;
             this._tagRepo = tagRepository;
             this._publisherRepo = publisherRepository;
@@ -47,7 +50,7 @@ namespace MyLibrary.Presenters
             this._view.StatusLabelText = "Loading...";
 
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Books: " + (await _bookRepo.GetAll()).Count());
+            builder.AppendLine("Books: " + (await _bookService.GetAll()).Count());
             builder.AppendLine("Publishers: " + (await _publisherRepo.GetAll()).Count());
             builder.AppendLine("Authors: " + (await _authorRepo.GetAll()).Count());
             builder.AppendLine("");

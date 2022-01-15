@@ -13,6 +13,7 @@ using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary_Test.Models_Tests.Repositories_Tests
 {
+    /*
     [TestFixture]
     class BookRepository_Tests
     {
@@ -109,4 +110,5 @@ namespace MyLibrary_Test.Models_Tests.Repositories_Tests
             Assert.IsFalse(actualResult);
         }
     }//class
+    */
 }

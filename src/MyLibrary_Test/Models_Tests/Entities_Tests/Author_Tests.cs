@@ -142,6 +142,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
         [TestCase("John", "Smith")]
         [TestCase("John H.", "Smith")]
+        [TestCase("John", "Smith-Jones")]
         public void SetFullNameFromCommaFormat(string firstName, string lastName)
         {
             // arrange

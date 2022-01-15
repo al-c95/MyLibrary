@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Dapper;
+using MyLibrary.Models.Entities;
+
+namespace MyLibrary.DataAccessLayer.Repositories
+{
+    public class TagRepository : Repository<Tag>, ITagRepository
+    {
+        public TagRepository(IUnitOfWork uow)
+            : base(uow) { }
+
+        /// <summary>
+        /// Create a new tag.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public override void Create(Tag entity)
+        {
+            const string SQL = "INSERT INTO Tags(name) " +
+                "VALUES (@name);";
+
+            this._uow.Connection.Execute(SQL, new { entity.Name });
+        }
+
+        /// <summary>
+        /// Read all tags from the database.
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<Tag> ReadAll()
+        {
+            // TODO: include associated items
+            const string SQL = "SELECT * FROM Tags;";
+            return this._uow.Connection.Query<Tag>(SQL);
+        }
+
+        /// <summary>
+        /// Delete a tag by its id.
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteById(int id)
+        {
+            const string SQL = "DELETE FROM Tags WHERE id = @id;";
+
+            this._uow.Connection.Execute(SQL, new { id });
+        }//DeleteById
+
+        /// <summary>
+        /// Delete a tag by its name. Tag names are unique.
+        /// </summary>
+        /// <param name="name"></param>
+        public void DeleteByName(string name)
+        {
+            const string SQL = "DELETE FROM Tags WHERE name = @name;";
+
+            this._uow.Connection.Execute(SQL, new { name });
+        }//DeleteByName
+
+        public bool ExistsWithName(string name)
+        {
+            const string SQL = "SELECT COUNT(1) FROM Tags WHERE name=@name;";
+
+            return this._uow.Connection.ExecuteScalar<bool>(SQL, new
+            {
+                name = name
+            });
+        }//ExistsWithName
+
+        public int GetIdByName(string name)
+        {
+            const string SQL = "SELECT id FROM Tags WHERE name=@name;";
+
+            return this._uow.Connection.QuerySingle<int>(SQL, new
+            {
+                name = name
+            });
+        }//GetIdByName
+
+        public void LinkBook(int bookId, int tagId)
+        {
+            // insert record into link table
+            this._uow.Connection.Execute("INSERT INTO Book_Tag (bookId,tagId) VALUES(@bookId,@tagId);", new
+            {
+                bookId = bookId,
+                tagId = tagId
+            });
+        }
+
+        public void LinkMediaItem(int mediaId, int tagId)
+        {
+            // insert record into link table
+            this._uow.Connection.Execute("INSERT INTO Media_Tag (mediaId,tagId) VALUES(@mediaId,@tagId);", new
+            {
+                mediaId = mediaId,
+                tagId = tagId
+            });
+        }
+
+        public void UnlinkBook(int bookId, int tagId)
+        {
+            // delete record from link table
+            this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId AND tagId=@tagId;", new
+            {
+                bookId = bookId,
+                tagId = tagId
+            });
+        }
+
+        public void UnlinkMediaItem(int mediaId, int tagId)
+        {
+            // delete record from link table
+            this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId AND tagId=@tagId;", new
+            {
+                bookId = mediaId,
+                tagId = tagId
+            });
+        }
+    }//class
+}

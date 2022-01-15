@@ -80,7 +80,7 @@ namespace MyLibrary.Models.Entities
 
         public void SetFullNameFromCommaFormat(string name)
         {
-            const string NAME_PATTERN = @"^[a-zA-Z]+, [a-zA-Z]+( [a-zA-Z].)?$";
+            const string NAME_PATTERN = @"^[a-zA-Z\-]+, [a-zA-Z]+( [a-zA-Z].)?$";
 
             if (Regex.IsMatch(name, NAME_PATTERN))
             {

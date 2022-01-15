@@ -8,7 +8,10 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
@@ -97,7 +100,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.IsbnFieldText).Returns(isbnFieldText);
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -140,7 +143,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.IsbnFieldText).Returns(isbnFieldText);
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -179,7 +182,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.LanguageFieldText).Returns(languageFieldText);
             A.CallTo(() => fakeView.PagesFieldText).Returns(pagesFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -235,7 +238,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.LanguageFieldText).Returns(languageFieldText);
             A.CallTo(() => fakeView.PagesFieldText).Returns(pagesFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -276,7 +279,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 }
             };
             var fakeView = A.Fake<IAddBookForm>();
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -305,7 +308,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             Tag tag1 = new Tag { Name = "tag1" };
             Tag tag2 = new Tag { Name = "tag2" };
@@ -328,7 +331,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             Author author1 = new Author { FirstName = "John", LastName = "Smith" };
@@ -349,7 +352,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -371,7 +374,7 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeBookRepo.ExistsWithTitle("test book")).Returns(true);
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
@@ -392,7 +395,7 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Returns(true);
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
@@ -413,7 +416,7 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             Exception ex = new Exception("error");
             A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Throws(ex);
             var fakeTagRepo = A.Fake<TagRepository>();
@@ -432,7 +435,7 @@ namespace MyLibrary_Test.Presenters_Tests
 
     public class MockBookPresenter : AddBookPresenter
     {
-        public MockBookPresenter(BookRepository bookRepo, TagRepository tagRepo, AuthorRepository authorRepo, PublisherRepository publisherRepo, IAddBookForm view)
+        public MockBookPresenter(IBookService bookRepo, TagRepository tagRepo, AuthorRepository authorRepo, PublisherRepository publisherRepo, IAddBookForm view)
             :base(bookRepo, tagRepo, authorRepo, publisherRepo, view)
         {
 

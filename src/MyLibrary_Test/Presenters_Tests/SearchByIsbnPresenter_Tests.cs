@@ -12,7 +12,9 @@ using MyLibrary.Views;
 using MyLibrary.Presenters;
 using MyLibrary.ApiService;
 using MyLibrary.Models.Entities;
-using MyLibrary.BusinessLogic.Repositories;
+using MyLibrary.Models.BusinessLogic;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -23,7 +25,7 @@ namespace MyLibrary_Test.Presenters_Tests
 
         public SearchByIsbnPresenter_Tests()
         {
-            var fakeBookRepo = A.Fake<BookRepository>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
             var fakeAuthorRepo = A.Fake<AuthorRepository>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
@@ -97,7 +99,7 @@ namespace MyLibrary_Test.Presenters_Tests
             string isbn = "0123456789";
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
-            var fakeRepo = A.Fake<BookRepository>();
+            var fakeRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(true);
             var presenter = new MockPresenter(fakeSearchByIsbnDialog, null, null, fakeRepo, null);
             presenter.AddBookPresenter = this._addBookPresenter;
@@ -116,7 +118,7 @@ namespace MyLibrary_Test.Presenters_Tests
             string isbn = "0123456789";
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
-            var fakeRepo = A.Fake<BookRepository>();
+            var fakeRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
@@ -139,7 +141,7 @@ namespace MyLibrary_Test.Presenters_Tests
             string isbn = "0123456789";
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
-            var fakeRepo = A.Fake<BookRepository>();
+            var fakeRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
@@ -159,7 +161,7 @@ namespace MyLibrary_Test.Presenters_Tests
         class MockPresenter : SearchByIsbnPresenter
         {
             public MockPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
-            BookRepository bookRepo,
+            IBookService bookRepo,
             IApiServiceProvider apiServiceProvider)
                 :base(view, mainView, addBookView, bookRepo, apiServiceProvider)
             {
@@ -169,7 +171,7 @@ namespace MyLibrary_Test.Presenters_Tests
 
         class MockAddBookPresenter : AddBookPresenter
         {
-            public MockAddBookPresenter(BookRepository bookRepository, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
+            public MockAddBookPresenter(IBookService bookRepository, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
             IAddBookForm view)
                 :base(bookRepository, tagRepository, authorRepository, publisherRepository, view)
             {

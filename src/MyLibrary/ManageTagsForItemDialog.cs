@@ -7,7 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 
@@ -58,8 +61,8 @@ namespace MyLibrary
                 {
                     if (this._item.Type == ItemType.Book)
                     {
-                        BookRepository _bookRepo = new BookRepository();
-                        await _bookRepo.UpdateTags(dto);
+                        IBookService _bookService = new BookService();
+                        await _bookService.UpdateTags(dto);
                     }
                     else
                     {

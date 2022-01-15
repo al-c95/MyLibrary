@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Presenters;
 using MyLibrary.Views;
 
@@ -21,7 +24,7 @@ namespace MyLibrary
             Application.SetCompatibleTextRenderingDefault(false);
 
             MainWindow window = new MainWindow();
-            ItemPresenter presenter = new ItemPresenter(new BookRepository(), new MediaItemRepository(),
+            ItemPresenter presenter = new ItemPresenter(new BookService(), new MediaItemRepository(),
                 window);
             window.LoadWindow();
             Application.Run(window);
