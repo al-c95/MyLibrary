@@ -18,17 +18,17 @@ namespace MyLibrary.Presenters
     {
         private IBookService _bookService;
         private TagRepository _tagRepo;
-        private AuthorRepository _authorRepo;
+        private IAuthorService _authorService;
         private PublisherRepository _publisherRepo;
 
         private IAddBookForm _view;
 
-        public AddBookPresenter(IBookService bookService, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
+        public AddBookPresenter(IBookService bookService, TagRepository tagRepository, IAuthorService authorService, PublisherRepository publisherRepository,
             IAddBookForm view)
         {
             this._bookService = bookService;
             this._tagRepo = tagRepository;
-            this._authorRepo = authorRepository;
+            this._authorService = authorService;
             this._publisherRepo = publisherRepository;
 
             this._view = view;
@@ -72,7 +72,7 @@ namespace MyLibrary.Presenters
 
         public async Task PopulateAuthorList()
         {
-            var allAuthors = await this._authorRepo.GetAll();
+            var allAuthors = await this._authorService.GetAll();
             List<string> authorNames = new List<string>();
             foreach (var author in allAuthors)
                 authorNames.Add(author.GetFullNameLastNameCommaFirstName());

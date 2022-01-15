@@ -20,7 +20,7 @@ namespace MyLibrary.Presenters
         private IMediaItemService _mediaItemService;
         private TagRepository _tagRepo;
         private PublisherRepository _publisherRepo;
-        private AuthorRepository _authorRepo;
+        private IAuthorService _authorService;
 
         /// <summary>
         /// Constructor with dependency injection.
@@ -34,7 +34,7 @@ namespace MyLibrary.Presenters
         public StatsPresenter(IShowStats view,
             IBookService bookService, IMediaItemService mediaItemService, 
             TagRepository tagRepository, PublisherRepository publisherRepository,
-            AuthorRepository authorRepository)
+            IAuthorService authorRepository)
         {
             this._view = view;
 
@@ -42,7 +42,7 @@ namespace MyLibrary.Presenters
             this._mediaItemService = mediaItemService;
             this._tagRepo = tagRepository;
             this._publisherRepo = publisherRepository;
-            this._authorRepo = authorRepository;
+            this._authorService = authorRepository;
         }
 
         public async Task ShowStats()
@@ -52,7 +52,7 @@ namespace MyLibrary.Presenters
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Books: " + (await _bookService.GetAll()).Count());
             builder.AppendLine("Publishers: " + (await _publisherRepo.GetAll()).Count());
-            builder.AppendLine("Authors: " + (await _authorRepo.GetAll()).Count());
+            builder.AppendLine("Authors: " + (await _authorService.GetAll()).Count());
             builder.AppendLine("");
             builder.AppendLine("Media Items: " + (await _mediaItemService.GetAll()).Count());
             builder.AppendLine("");

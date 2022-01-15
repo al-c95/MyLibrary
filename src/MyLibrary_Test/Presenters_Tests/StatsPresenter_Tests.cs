@@ -33,10 +33,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeTagRepo.GetAll()).Returns(new List<Tag> { new Tag { Name="tag1" }, new Tag { Name = "tag2" } });
             var fakePublisherRepo = A.Fake<PublisherRepository>();
             A.CallTo(() => fakePublisherRepo.GetAll()).Returns(new List<Publisher> { new Publisher { Name = "somePublisher" } });
-            var fakeAuthorRepo = A.Fake<AuthorRepository>();
-            A.CallTo(() => fakeAuthorRepo.GetAll()).Returns(new List<Author> { new Author { FirstName="John", LastName="Smith" }, new Author { FirstName="Jane", LastName="Doe" } });
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            A.CallTo(() => fakeAuthorService.GetAll()).Returns(new List<Author> { new Author { FirstName="John", LastName="Smith" }, new Author { FirstName="Jane", LastName="Doe" } });
             StatsPresenter presenter = new StatsPresenter(fakeDialog,
-                fakeBookRepo, fakeMediaItemService, fakeTagRepo, fakePublisherRepo, fakeAuthorRepo);
+                fakeBookRepo, fakeMediaItemService, fakeTagRepo, fakePublisherRepo, fakeAuthorService);
             string expectedText = "Books: 0\r\nPublishers: 1\r\nAuthors: 2\r\n\r\nMedia Items: 1\r\n\r\nTags: 2\r\n";
 
             // act

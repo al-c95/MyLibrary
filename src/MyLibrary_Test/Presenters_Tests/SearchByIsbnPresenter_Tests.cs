@@ -27,10 +27,10 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             var fakeBookRepo = A.Fake<IBookService>();
             var fakeTagRepo = A.Fake<TagRepository>();
-            var fakeAuthorRepo = A.Fake<AuthorRepository>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherRepo = A.Fake<PublisherRepository>();
             var fakeDialog = A.Fake<IAddBookForm>();
-            this._addBookPresenter = new MockAddBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorRepo, fakePublisherRepo, fakeDialog);
+            this._addBookPresenter = new MockAddBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherRepo, fakeDialog);
         }
 
         [TestCase("0123456789")]
@@ -171,9 +171,9 @@ namespace MyLibrary_Test.Presenters_Tests
 
         class MockAddBookPresenter : AddBookPresenter
         {
-            public MockAddBookPresenter(IBookService bookRepository, TagRepository tagRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository,
+            public MockAddBookPresenter(IBookService bookRepository, TagRepository tagRepository, IAuthorService authorService, PublisherRepository publisherRepository,
             IAddBookForm view)
-                :base(bookRepository, tagRepository, authorRepository, publisherRepository, view)
+                :base(bookRepository, tagRepository, authorService, publisherRepository, view)
             {
 
             }

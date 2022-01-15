@@ -8,6 +8,7 @@ using MyLibrary.DataAccessLayer;
 
 namespace MyLibrary.BusinessLogic.Repositories
 {
+    /*
     public class AuthorRepository
     {
         protected IAuthorDataAccessor _dao;
@@ -48,4 +49,5 @@ namespace MyLibrary.BusinessLogic.Repositories
             return allAuthors.Any(a => (a.FirstName == name || a.LastName == name));
         }
     }//class
+    */
 }

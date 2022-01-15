@@ -145,7 +145,9 @@
     <Compile Include="DataAccessLayer\Repositories\Repository.cs" />
     <Compile Include="DataAccessLayer\Repositories\TagRepository.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
+    <Compile Include="Models\BusinessLogic\AuthorService.cs" />
     <Compile Include="Models\BusinessLogic\BookService.cs" />
+    <Compile Include="Models\BusinessLogic\IAuthorService.cs" />
     <Compile Include="Models\BusinessLogic\IBookService.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
     <Compile Include="Models\BusinessLogic\MediaItemService.cs" />
@@ -165,9 +167,7 @@
     <Compile Include="Models\Repositories\PublisherRepository.cs" />
     <Compile Include="Models\Repositories\TagRepository.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="DataAccessLayer\AuthorDataAccessor.cs" />
     <Compile Include="DataAccessLayer\DataAccessor.cs" />
-    <Compile Include="DataAccessLayer\IAuthorDataAccessor.cs" />
     <Compile Include="DataAccessLayer\IPublisherDataAccessor.cs" />
     <Compile Include="DataAccessLayer\ITagDataAccessor.cs" />
     <Compile Include="DataAccessLayer\PublisherDataAccessor.cs" />
