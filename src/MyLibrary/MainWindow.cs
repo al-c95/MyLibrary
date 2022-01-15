@@ -13,8 +13,6 @@ using System.Windows.Forms;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
-using MyLibrary.BusinessLogic;
-using MyLibrary.ApiService;
 
 namespace MyLibrary
 {

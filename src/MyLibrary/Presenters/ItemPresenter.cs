@@ -6,13 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data;
 using MyLibrary.ApiService;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 using MyLibrary.Models.BusinessLogic;
-using MyLibrary.BusinessLogic;
 using MyLibrary.Models.Entities;
-using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 using MyLibrary.Utils;
 
@@ -23,7 +18,7 @@ namespace MyLibrary.Presenters
         private IBookService _bookService;
         private IMediaItemService _mediaItemService;
 
-        private TagRepository _tagRepo;
+        private ITagService _tagService;
 
         private IAuthorService _authorService;
 
@@ -46,7 +41,7 @@ namespace MyLibrary.Presenters
             this._bookService = bookService;
             this._mediaItemService = mediaItemService;
 
-            this._tagRepo = new TagRepository();
+            this._tagService = new TagService();
 
             this._authorService = new AuthorService();
 
@@ -233,7 +228,7 @@ namespace MyLibrary.Presenters
         public async void AddNewMediaItemClicked(object sender, EventArgs e)
         {
             this._addMediaItemView = new AddNewMediaItemForm();
-            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, this._tagRepo,
+            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, this._tagService,
                 this._addMediaItemView,
                 new ImageFileReader());
             await addItemPresenter.PopulateTagsList();
@@ -257,7 +252,7 @@ namespace MyLibrary.Presenters
         public async void AddNewBookClicked(object sender, EventArgs e)
         {
             this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorService, this._publisherService,
+            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
                 this._addBookView);
             await addBookPresenter.PopulateTagsList();
             await addBookPresenter.PopulateAuthorList();
@@ -272,7 +267,7 @@ namespace MyLibrary.Presenters
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
             this._addBookView = new AddNewBookForm();
             var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookService(), new ApiServiceProvider());
-            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorService, this._publisherService,
+            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
                 this._addBookView);
             searchDialog.ShowDialog();
 
@@ -287,7 +282,7 @@ namespace MyLibrary.Presenters
         public async void ShowStatsClicked(object sender, EventArgs e)
         {
             ShowStatsDialog statsDialog = new ShowStatsDialog();
-            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagRepo, this._publisherService, this._authorService);
+            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagService, this._publisherService, this._authorService);
             await statsPresenter.ShowStats();
             statsDialog.ShowDialog();
         }
@@ -391,14 +386,14 @@ namespace MyLibrary.Presenters
         {
             Dictionary<string, bool> tagsAndCheckedStatuses = new Dictionary<string, bool>();
 
-            var allTags = await this._tagRepo.GetAll();
+            var allTags = await this._tagService.GetAll();
             IEnumerable<string> checkedTags = this._view.SelectedFilterTags;
             foreach (var tagName in checkedTags)
             {
                 if (allTags.Any(t => t.Name==tagName))
                     tagsAndCheckedStatuses.Add(tagName, true);
             }
-            foreach (var tag in await this._tagRepo.GetAll())
+            foreach (var tag in await this._tagService.GetAll())
             {
                 string tagName = tag.Name;
                 if (!tagsAndCheckedStatuses.ContainsKey(tagName))
