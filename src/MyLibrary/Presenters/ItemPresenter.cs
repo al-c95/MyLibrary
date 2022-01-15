@@ -27,7 +27,7 @@ namespace MyLibrary.Presenters
 
         private IAuthorService _authorService;
 
-        private PublisherRepository _publisherRepo;
+        private IPublisherService _publisherService;
 
         private IItemView _view;
 
@@ -50,7 +50,7 @@ namespace MyLibrary.Presenters
 
             this._authorService = new AuthorService();
 
-            this._publisherRepo = new PublisherRepository();
+            this._publisherService = new PublisherService();
 
             this._view = view;
 
@@ -257,7 +257,7 @@ namespace MyLibrary.Presenters
         public async void AddNewBookClicked(object sender, EventArgs e)
         {
             this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorService, this._publisherRepo,
+            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorService, this._publisherService,
                 this._addBookView);
             await addBookPresenter.PopulateTagsList();
             await addBookPresenter.PopulateAuthorList();
@@ -272,7 +272,7 @@ namespace MyLibrary.Presenters
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
             this._addBookView = new AddNewBookForm();
             var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookService(), new ApiServiceProvider());
-            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorService, this._publisherRepo,
+            searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagRepo, this._authorService, this._publisherService,
                 this._addBookView);
             searchDialog.ShowDialog();
 
@@ -287,7 +287,7 @@ namespace MyLibrary.Presenters
         public async void ShowStatsClicked(object sender, EventArgs e)
         {
             ShowStatsDialog statsDialog = new ShowStatsDialog();
-            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagRepo, this._publisherRepo, this._authorService);
+            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagRepo, this._publisherService, this._authorService);
             await statsPresenter.ShowStats();
             statsDialog.ShowDialog();
         }
