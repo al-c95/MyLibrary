@@ -17,7 +17,7 @@ namespace MyLibrary.Presenters
         private IShowStats _view;
 
         private IBookService _bookService;
-        private MediaItemRepository _mediaItemRepo;
+        private IMediaItemService _mediaItemService;
         private TagRepository _tagRepo;
         private PublisherRepository _publisherRepo;
         private AuthorRepository _authorRepo;
@@ -32,14 +32,14 @@ namespace MyLibrary.Presenters
         /// <param name="publisherRepository"></param>
         /// <param name="authorRepository"></param>
         public StatsPresenter(IShowStats view,
-            IBookService bookService, MediaItemRepository mediaItemRepository, 
+            IBookService bookService, IMediaItemService mediaItemService, 
             TagRepository tagRepository, PublisherRepository publisherRepository,
             AuthorRepository authorRepository)
         {
             this._view = view;
 
             this._bookService = bookService;
-            this._mediaItemRepo = mediaItemRepository;
+            this._mediaItemService = mediaItemService;
             this._tagRepo = tagRepository;
             this._publisherRepo = publisherRepository;
             this._authorRepo = authorRepository;
@@ -54,7 +54,7 @@ namespace MyLibrary.Presenters
             builder.AppendLine("Publishers: " + (await _publisherRepo.GetAll()).Count());
             builder.AppendLine("Authors: " + (await _authorRepo.GetAll()).Count());
             builder.AppendLine("");
-            builder.AppendLine("Media Items: " + (await _mediaItemRepo.GetAll()).Count());
+            builder.AppendLine("Media Items: " + (await _mediaItemService.GetAll()).Count());
             builder.AppendLine("");
             builder.AppendLine("Tags: " + (await _tagRepo.GetAll()).Count());
 

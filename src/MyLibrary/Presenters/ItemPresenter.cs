@@ -21,7 +21,7 @@ namespace MyLibrary.Presenters
     public class ItemPresenter
     {
         private IBookService _bookService;
-        private MediaItemRepository _mediaItemRepo;
+        private IMediaItemService _mediaItemService;
 
         private TagRepository _tagRepo;
 
@@ -40,11 +40,11 @@ namespace MyLibrary.Presenters
 
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
-        public ItemPresenter(IBookService bookService, MediaItemRepository mediaItemRepository,
+        public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService,
             IItemView view)
         {
             this._bookService = bookService;
-            this._mediaItemRepo = mediaItemRepository;
+            this._mediaItemService = mediaItemService;
 
             this._tagRepo = new TagRepository();
 
@@ -84,7 +84,7 @@ namespace MyLibrary.Presenters
                 else
                 {
                     // media item
-                    await this._mediaItemRepo.DeleteById(this._view.SelectedItemId);
+                    await this._mediaItemService.DeleteById(this._view.SelectedItemId);
                 }
             }
             catch (Exception ex)
@@ -168,7 +168,7 @@ namespace MyLibrary.Presenters
             else
             {
                 // media item
-                this._view.SelectedItem = await this._mediaItemRepo.GetById(this._view.SelectedItemId);
+                this._view.SelectedItem = await this._mediaItemService.GetById(this._view.SelectedItemId);
             }
             this._selectedItemMemento = this._view.SelectedItem.GetMemento();
             this._view.DiscardSelectedItemChangesButtonEnabled = false;
@@ -193,7 +193,7 @@ namespace MyLibrary.Presenters
                 else
                 {
                     // media item
-                    await this._mediaItemRepo.Update((MediaItem)this._view.SelectedItem);
+                    await this._mediaItemService.Update((MediaItem)this._view.SelectedItem);
                 }
             }
             catch (Exception ex)
@@ -233,7 +233,7 @@ namespace MyLibrary.Presenters
         public async void AddNewMediaItemClicked(object sender, EventArgs e)
         {
             this._addMediaItemView = new AddNewMediaItemForm();
-            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemRepo, this._tagRepo,
+            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, this._tagRepo,
                 this._addMediaItemView,
                 new ImageFileReader());
             await addItemPresenter.PopulateTagsList();
@@ -287,7 +287,7 @@ namespace MyLibrary.Presenters
         public async void ShowStatsClicked(object sender, EventArgs e)
         {
             ShowStatsDialog statsDialog = new ShowStatsDialog();
-            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemRepo, this._tagRepo, this._publisherRepo, this._authorRepo);
+            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagRepo, this._publisherRepo, this._authorRepo);
             await statsPresenter.ShowStats();
             statsDialog.ShowDialog();
         }
@@ -326,7 +326,7 @@ namespace MyLibrary.Presenters
         private async Task DisplayMediaItems()
         {
             // fetch the data
-            var allItems = await this._mediaItemRepo.GetAll();
+            var allItems = await this._mediaItemService.GetAll();
 
             // create DataTable to display and assign to the view
             DataTable dt = new DataTable();
@@ -358,7 +358,7 @@ namespace MyLibrary.Presenters
         private async Task DisplayMediaItems(ItemType type)
         {
             // fetch the data
-            var items = await this._mediaItemRepo.GetByType(type);
+            var items = await this._mediaItemService.GetByType(type);
 
             // create DataTable to display and assign to the view
             DataTable dt = new DataTable();

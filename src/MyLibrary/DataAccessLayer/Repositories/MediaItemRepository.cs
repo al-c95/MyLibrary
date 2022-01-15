@@ -9,7 +9,7 @@ using MyLibrary.Models.Entities;
 namespace MyLibrary.DataAccessLayer.Repositories
 {
     public class MediaItemRepository : ItemRepository<MediaItem>, IMediaItemRepository
-    {
+    { 
         public MediaItemRepository(IUnitOfWork uow)
             : base(uow) { }
 
@@ -18,13 +18,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
             // insert Media table record
             const string INSERT_MEDIA_SQL = "INSERT INTO Media (title,type,number,image,runningTime,releaseYear,notes) " +
                 "VALUES(@title,@type,@number,@image,@runningTime,@releaseYear,@notes);";
-            string title = entity.Title;
-            ItemType type = entity.Type;
-            long number = entity.Number;
-            byte[] image = entity.Image;
-            int? runningTime = entity.RunningTime;
-            int releaseYear = entity.ReleaseYear;
-            string notes = entity.Notes;
             this._uow.Connection.Execute(INSERT_MEDIA_SQL, new
             {
                 title = entity.Title,
@@ -80,6 +73,13 @@ namespace MyLibrary.DataAccessLayer.Repositories
             // concatenate and return the results
             IEnumerable<MediaItem> result = itemsWithTags.Concat(itemsNoTags);
             return result;
+        }
+
+        public int GetIdByTitle(string title)
+        {
+            const string SQL = "SELECT id FROM Media WHERE title=@title;";
+
+            return this._uow.Connection.QuerySingle<int>(SQL, new { title = title });
         }
 
         /// <summary>

@@ -147,6 +147,8 @@
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
     <Compile Include="Models\BusinessLogic\BookService.cs" />
     <Compile Include="Models\BusinessLogic\IBookService.cs" />
+    <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
+    <Compile Include="Models\BusinessLogic\MediaItemService.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
@@ -160,8 +162,6 @@
     <Compile Include="Models\Entities\Publisher.cs" />
     <Compile Include="Models\Entities\Tag.cs" />
     <Compile Include="Models\Repositories\AuthorRepository.cs" />
-    <Compile Include="Models\Repositories\ItemRepository.cs" />
-    <Compile Include="Models\Repositories\MediaItemRepository.cs" />
     <Compile Include="Models\Repositories\PublisherRepository.cs" />
     <Compile Include="Models\Repositories\TagRepository.cs" />
     <Compile Include="Configuration.cs" />
@@ -170,8 +170,6 @@
     <Compile Include="DataAccessLayer\IAuthorDataAccessor.cs" />
     <Compile Include="DataAccessLayer\IPublisherDataAccessor.cs" />
     <Compile Include="DataAccessLayer\ITagDataAccessor.cs" />
-    <Compile Include="DataAccessLayer\ItemDataAccessor.cs" />
-    <Compile Include="DataAccessLayer\MediaItemDataAccessor.cs" />
     <Compile Include="DataAccessLayer\PublisherDataAccessor.cs" />
     <Compile Include="DataAccessLayer\TagDataAccessor.cs" />
     <Compile Include="MainWindow.cs">

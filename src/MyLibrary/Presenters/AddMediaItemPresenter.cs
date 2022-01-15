@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.BusinessLogic.Repositories;
+
+using MyLibrary.BusinessLogic.Repositories; // TODO: remove this
+
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
@@ -13,7 +16,7 @@ namespace MyLibrary.Presenters
 {
     public class AddMediaItemPresenter
     {
-        private MediaItemRepository _mediaItemRepo;
+        private IMediaItemService _mediaItemService;
         private TagRepository _tagRepo;
 
         private IAddMediaItemForm _view;
@@ -21,11 +24,11 @@ namespace MyLibrary.Presenters
         private IImageFileReader _imageFileReader;
 
         // ctor
-        public AddMediaItemPresenter(MediaItemRepository mediaItemRepository, TagRepository tagRepository, 
+        public AddMediaItemPresenter(IMediaItemService mediaItemService, TagRepository tagRepository, 
             IAddMediaItemForm view,
             IImageFileReader imageFileReader)
         {
-            this._mediaItemRepo = mediaItemRepository;
+            this._mediaItemService = mediaItemService;
             this._tagRepo = tagRepository;
 
             this._view = view;
@@ -57,7 +60,7 @@ namespace MyLibrary.Presenters
             // check if item with title already exists
             try
             {
-                if (await this._mediaItemRepo.ExistsWithTitle(this._view.TitleFieldText))
+                if (await this._mediaItemService.ExistsWithTitle(this._view.TitleFieldText))
                 {
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
@@ -125,7 +128,7 @@ namespace MyLibrary.Presenters
             // add new item
             try
             {
-                await this._mediaItemRepo.Create(item);
+                await this._mediaItemService.Add(item);
                 this._view.ItemAddedFinished();
             }
             catch (Exception ex)

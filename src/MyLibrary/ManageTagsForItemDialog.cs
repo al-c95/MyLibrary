@@ -66,7 +66,7 @@ namespace MyLibrary
                     }
                     else
                     {
-                        MediaItemRepository _itemRepo = new MediaItemRepository();
+                        IMediaItemService _itemRepo = new MediaItemService();
                         await _itemRepo.UpdateTags(dto);
                     }
 
