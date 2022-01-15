@@ -7,9 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
@@ -19,7 +16,7 @@ namespace MyLibrary
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ManageTagsForItemDialog : Form
     {
-        private TagRepository _tagRepo;
+        private ITagService _tagService;
 
         private Item _item;
 
@@ -27,7 +24,7 @@ namespace MyLibrary
         {
             InitializeComponent();
 
-            this._tagRepo = new TagRepository();
+            this._tagService = new TagService();
 
             this._item = item;
             this.itemTitleLabel.Text = item.Title;
@@ -104,7 +101,7 @@ namespace MyLibrary
                 try
                 {
                     // check for existing tag
-                    if (await this._tagRepo.ExistsWithName(newTagName))
+                    if (await this._tagService.ExistsWithName(newTagName))
                     {
                         MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Manage tags", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -160,7 +157,7 @@ namespace MyLibrary
         {
             this.tagsList.Items.Clear();
 
-            var allTags = await this._tagRepo.GetAll();
+            var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
                 bool checkedState = this._item.Tags.Any(t => t.Name.Equals(tag.Name));

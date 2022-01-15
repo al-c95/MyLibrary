@@ -8,9 +8,6 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
@@ -100,11 +97,11 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.IsbnFieldText).Returns(isbnFieldText);
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
-            var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService, 
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, 
                 fakeView);
 
             // act
@@ -144,10 +141,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -183,10 +180,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.PagesFieldText).Returns(pagesFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns("");
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService, 
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService, 
                 fakeView);
 
             // act
@@ -239,10 +236,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.PagesFieldText).Returns(pagesFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -280,10 +277,10 @@ namespace MyLibrary_Test.Presenters_Tests
             };
             var fakeView = A.Fake<IAddBookForm>();
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -309,14 +306,14 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             Tag tag1 = new Tag { Name = "tag1" };
             Tag tag2 = new Tag { Name = "tag2" };
             List<Tag> tags = new List<Tag> { tag1, tag2 };
-            A.CallTo(() => fakeTagRepo.GetAll()).Returns(tags);
+            A.CallTo(() => fakeTagService.GetAll()).Returns(tags);
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -332,12 +329,12 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             Author author1 = new Author { FirstName = "John", LastName = "Smith" };
             A.CallTo(() => fakeAuthorService.GetAll()).Returns(new List<Author> { author1 });
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -353,12 +350,12 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             Publisher publisher1 = new Publisher("some_publisher");
             A.CallTo(() => fakePublisherService.GetAll()).Returns(new List<Publisher> { publisher1 });
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -376,10 +373,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeBookRepo.ExistsWithTitle("test book")).Returns(true);
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -397,10 +394,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
             A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Returns(true);
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -419,10 +416,10 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeBookRepo = A.Fake<IBookService>();
             Exception ex = new Exception("error");
             A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Throws(ex);
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView);
 
             // act
@@ -435,8 +432,8 @@ namespace MyLibrary_Test.Presenters_Tests
 
     public class MockBookPresenter : AddBookPresenter
     {
-        public MockBookPresenter(IBookService bookRepo, TagRepository tagRepo, IAuthorService authorService, IPublisherService publisherService, IAddBookForm view)
-            :base(bookRepo, tagRepo, authorService, publisherService, view)
+        public MockBookPresenter(IBookService bookRepo, ITagService tagService, IAuthorService authorService, IPublisherService publisherService, IAddBookForm view)
+            :base(bookRepo, tagService, authorService, publisherService, view)
         {
 
         }

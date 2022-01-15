@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
@@ -18,7 +15,7 @@ namespace MyLibrary.Presenters
 
         private IBookService _bookService;
         private IMediaItemService _mediaItemService;
-        private TagRepository _tagRepo;
+        private ITagService _tagService;
         private IPublisherService _publisherService;
         private IAuthorService _authorService;
 
@@ -33,14 +30,14 @@ namespace MyLibrary.Presenters
         /// <param name="authorRepository"></param>
         public StatsPresenter(IShowStats view,
             IBookService bookService, IMediaItemService mediaItemService, 
-            TagRepository tagRepository, IPublisherService publisherService,
+            ITagService tagService, IPublisherService publisherService,
             IAuthorService authorRepository)
         {
             this._view = view;
 
             this._bookService = bookService;
             this._mediaItemService = mediaItemService;
-            this._tagRepo = tagRepository;
+            this._tagService = tagService;
             this._publisherService = publisherService;
             this._authorService = authorRepository;
         }
@@ -56,7 +53,7 @@ namespace MyLibrary.Presenters
             builder.AppendLine("");
             builder.AppendLine("Media Items: " + (await _mediaItemService.GetAll()).Count());
             builder.AppendLine("");
-            builder.AppendLine("Tags: " + (await _tagRepo.GetAll()).Count());
+            builder.AppendLine("Tags: " + (await _tagService.GetAll()).Count());
 
             this._view.StatsBoxTest = builder.ToString();
             this._view.StatusLabelText = "Ready";

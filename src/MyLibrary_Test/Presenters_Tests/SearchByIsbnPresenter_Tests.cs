@@ -14,8 +14,6 @@ using MyLibrary.ApiService;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 namespace MyLibrary_Test.Presenters_Tests
 {
     [TestFixture]
@@ -26,11 +24,11 @@ namespace MyLibrary_Test.Presenters_Tests
         public SearchByIsbnPresenter_Tests()
         {
             var fakeBookRepo = A.Fake<IBookService>();
-            var fakeTagRepo = A.Fake<TagRepository>();
+            var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeDialog = A.Fake<IAddBookForm>();
-            this._addBookPresenter = new MockAddBookPresenter(fakeBookRepo, fakeTagRepo, fakeAuthorService, fakePublisherService, fakeDialog);
+            this._addBookPresenter = new MockAddBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService, fakeDialog);
         }
 
         [TestCase("0123456789")]
@@ -171,9 +169,9 @@ namespace MyLibrary_Test.Presenters_Tests
 
         class MockAddBookPresenter : AddBookPresenter
         {
-            public MockAddBookPresenter(IBookService bookRepository, TagRepository tagRepository, IAuthorService authorService, IPublisherService publisherService,
+            public MockAddBookPresenter(IBookService bookRepository, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IAddBookForm view)
-                :base(bookRepository, tagRepository, authorService, publisherService, view)
+                :base(bookRepository, tagService, authorService, publisherService, view)
             {
 
             }

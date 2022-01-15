@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove this
-
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
@@ -17,19 +14,19 @@ namespace MyLibrary.Presenters
     public class AddMediaItemPresenter
     {
         private IMediaItemService _mediaItemService;
-        private TagRepository _tagRepo;
+        private ITagService _tagService;
 
         private IAddMediaItemForm _view;
 
         private IImageFileReader _imageFileReader;
 
         // ctor
-        public AddMediaItemPresenter(IMediaItemService mediaItemService, TagRepository tagRepository, 
+        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, 
             IAddMediaItemForm view,
             IImageFileReader imageFileReader)
         {
             this._mediaItemService = mediaItemService;
-            this._tagRepo = tagRepository;
+            this._tagService = tagService;
 
             this._view = view;
 
@@ -42,7 +39,7 @@ namespace MyLibrary.Presenters
 
         public async Task PopulateTagsList()
         {
-            var allTags = await this._tagRepo.GetAll();
+            var allTags = await this._tagService.GetAll();
             List<string> tagNames = new List<string>();
             foreach (var tag in allTags)
                 tagNames.Add(tag.Name);

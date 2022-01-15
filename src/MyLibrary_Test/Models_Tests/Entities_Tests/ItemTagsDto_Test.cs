@@ -7,7 +7,6 @@ using System.Linq;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.BusinessLogic.Repositories;
 using MyLibrary.Models.Entities;
 
 namespace MyLibrary_Test.Models_Tests.Entities_Tests

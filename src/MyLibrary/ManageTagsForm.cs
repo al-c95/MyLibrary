@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
-using MyLibrary.BusinessLogic.Repositories;
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views;
 
 namespace MyLibrary
@@ -17,13 +17,13 @@ namespace MyLibrary
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ManageTagsForm : Form
     {
-        private TagRepository _repo;
+        private ITagService _service;
 
         private ManageTagsForm()
         {
             InitializeComponent();
 
-            this._repo = new TagRepository();
+            this._service = new TagService();
 
             // set up ListView
             this.tagsList.GridLines = true;
@@ -72,7 +72,7 @@ namespace MyLibrary
                 try
                 {
                     // check for existing tag
-                    if (await this._repo.ExistsWithName(newTagName))
+                    if (await this._service.ExistsWithName(newTagName))
                     {
                         MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Manage Tags", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -98,7 +98,7 @@ namespace MyLibrary
                 try
                 {
                     // add tag
-                    await this._repo.Create(new Tag { Name = newTagName });
+                    await this._service.Add(new Tag { Name = newTagName });
 
                     // clear new tag field
                     this.newTagText.Clear();
@@ -149,7 +149,7 @@ namespace MyLibrary
                 try
                 {
                     // delete tag
-                    await this._repo.DeleteByName(selectedTag);
+                    await this._service.DeleteByName(selectedTag);
                 }
                 catch (Exception ex)
                 {
@@ -198,7 +198,7 @@ namespace MyLibrary
         {
             this.tagsList.Items.Clear();
 
-            var allTags = await this._repo.GetAll();
+            var allTags = await this._service.GetAll();
             foreach (var tag in allTags)
             {
                 this.tagsList.Items.Add(tag.Name);

@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
-using MyLibrary.BusinessLogic.Repositories; // TODO: remove
-
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
@@ -17,17 +14,17 @@ namespace MyLibrary.Presenters
     public class AddBookPresenter
     {
         private IBookService _bookService;
-        private TagRepository _tagRepo;
+        private ITagService _tagService;
         private IAuthorService _authorService;
         private IPublisherService _publisherService;
 
         private IAddBookForm _view;
 
-        public AddBookPresenter(IBookService bookService, TagRepository tagRepository, IAuthorService authorService, IPublisherService publisherService,
+        public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IAddBookForm view)
         {
             this._bookService = bookService;
-            this._tagRepo = tagRepository;
+            this._tagService = tagService;
             this._authorService = authorService;
             this._publisherService = publisherService;
 
@@ -62,7 +59,7 @@ namespace MyLibrary.Presenters
 
         public async Task PopulateTagsList()
         {
-            var allTags = await this._tagRepo.GetAll();
+            var allTags = await this._tagService.GetAll();
             List<string> tagNames = new List<string>();
             foreach (var tag in allTags)
                 tagNames.Add(tag.Name);
