@@ -102,7 +102,7 @@ This document describes some of the detail of the data, architecture and user in
 ## Architecture Design
 - The software comprises a local Sqlite database and a client application implemented in WinForms targeting .NET Framework 4.7.2.
 - The application is based on a **Model-View-Presenter** architecture. The data access layer implements the **repository** and **unit of work** patterns.
-![Architecutre](img/architecture.PNG)
+![Architecture](img/architecture.png)
 
 &nbsp;
 
