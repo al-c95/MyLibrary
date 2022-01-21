@@ -133,7 +133,9 @@
     </Compile>
     <Compile Include="DataAccessLayer\IUnitOfWork.cs" />
     <Compile Include="DataAccessLayer\Repositories\AuthorRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\BookCopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\BookRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\CopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IAuthorRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IBookRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IMediaItemRepository.cs" />
