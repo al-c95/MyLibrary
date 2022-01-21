@@ -233,12 +233,9 @@ namespace MyLibrary
             string firstNameFieldEntry = newAuthorFirstNameField.Text;
             string lastNameFieldEntry = newAuthorLastNameField.Text;
 
-            const string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z-]+ [a-zA-Z].$";
-            const string NAME_PATTERN = @"^[a-zA-Z-]+$";
-
             bool sane = true;
-            sane = sane && Regex.IsMatch(firstNameFieldEntry, NAME_PATTERN) || Regex.IsMatch(firstNameFieldEntry, WITH_MIDDLE_NAME_PATTERN);
-            sane = sane && Regex.IsMatch(lastNameFieldEntry, NAME_PATTERN);
+            sane = sane && Regex.IsMatch(firstNameFieldEntry, Author.NAME_PATTERN) || Regex.IsMatch(firstNameFieldEntry, Author.WITH_MIDDLE_NAME_PATTERN);
+            sane = sane && Regex.IsMatch(lastNameFieldEntry, Author.NAME_PATTERN);
 
             this.addNewAuthorButton.Enabled = sane;
         }

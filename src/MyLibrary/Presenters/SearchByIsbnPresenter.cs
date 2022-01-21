@@ -61,8 +61,6 @@ namespace MyLibrary.Presenters
             this._bookService = bookService;
             this._apiServiceProvider = apiServiceProvider;
 
-            //this.AddBookPresenter = new AddBookPresenter(new BookRepository(), new TagRepository(), new AuthorRepository(), new PublisherRepository(), this._addBookView);
-
             // subscribe to the view's events
             this._view.IsbnFieldTextChanged += IsbnFieldTextChanged;
             this._view.SearchButtonClicked += SearchButtonClicked;

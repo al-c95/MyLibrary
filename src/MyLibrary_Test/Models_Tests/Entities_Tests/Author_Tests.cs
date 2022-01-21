@@ -93,6 +93,17 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         }
 
         [Test]
+        public void FirstName_setter_Test_Invalid()
+        {
+            // arrange
+            Author author = new Author();
+            string name = "John1";
+
+            // act/assert
+            Assert.Throws<FormatException>(() => author.FirstName = name);
+        }
+
+        [Test]
         public void FirstName_setter_Test_noname()
         {
             // arrange
@@ -115,6 +126,17 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
             // assert
             Assert.AreEqual(name, author.LastName);
+        }
+
+        [Test]
+        public void LastName_setter_Test_Invalid()
+        {
+            // arrange
+            Author author = new Author();
+            string name = "Smith1";
+
+            // act/assert
+            Assert.Throws<FormatException>(() => author.LastName = name);
         }
 
         [Test]
