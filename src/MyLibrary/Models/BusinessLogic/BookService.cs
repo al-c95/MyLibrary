@@ -35,6 +35,10 @@ namespace MyLibrary.Models.BusinessLogic
     {
         public BookService() { }
 
+        /// <summary>
+        /// Gets all books in the database.
+        /// </summary>
+        /// <returns></returns>
         public async virtual Task<IEnumerable<Book>> GetAll()
         {
             IEnumerable<Book> allBooks = null;
@@ -49,6 +53,11 @@ namespace MyLibrary.Models.BusinessLogic
             return allBooks;
         }
 
+        /// <summary>
+        /// Gets a single book object from the database, by its Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Book> GetById(int id)
         {
             var allBooks = await GetAll();

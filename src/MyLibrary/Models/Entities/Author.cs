@@ -31,6 +31,9 @@ namespace MyLibrary.Models.Entities
 {
     public sealed class Author : Entity
     {
+        public static readonly string NAME_PATTERN = @"^[a-zA-Z-]+$";
+        public static readonly string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z-]+ [a-zA-Z].$";
+
         private string _firstName;
         public string FirstName
         {
@@ -38,10 +41,22 @@ namespace MyLibrary.Models.Entities
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
+                {
                     throw new ArgumentNullException("Author must have first name.");
+                }
                 else
-                    _firstName = value;
-            }
+                {
+                    if (Regex.IsMatch(value, NAME_PATTERN) ||
+                        Regex.IsMatch(value, WITH_MIDDLE_NAME_PATTERN))
+                    {
+                        _firstName = value;
+                    }
+                    else
+                    {
+                        throw new FormatException("Author first name: " + value + " has incorrect format.");
+                    }
+                }
+            }//set
         }
 
         private string _lastName;
@@ -51,10 +66,21 @@ namespace MyLibrary.Models.Entities
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
+                {
                     throw new ArgumentNullException("Author must have last name.");
+                }
                 else
-                    _lastName = value;
-            }
+                {
+                    if (Regex.IsMatch(value, NAME_PATTERN))
+                    {
+                        _lastName = value;
+                    }
+                    else
+                    {
+                        throw new FormatException("Author last name: " + value + " has incorrect format.");
+                    }
+                }
+            }//set
         }
 
         public Author() { }
