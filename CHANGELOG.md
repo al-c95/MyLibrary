@@ -3,7 +3,9 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
-## [unreleased]
+## [1.0.0] - 23-1-2022
+### Added
+- manage copies feature
 ### Fixed
 - bug with processing author names in comma format while adding new book
 

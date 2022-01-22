@@ -63,7 +63,6 @@ The database system used is Sqlite, chosen for its simplicity, and the fact that
 
 ### v1.0.0
 - R5
-- R11-R13
 
-### v2
-- R14
+### later versions
+- R11-R14
