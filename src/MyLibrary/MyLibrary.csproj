@@ -142,11 +142,18 @@
     <Compile Include="DataAccessLayer\Repositories\IPublisherRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\ITagRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\ItemRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\MediaItemCopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\MediaItemRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\PublisherRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\Repository.cs" />
     <Compile Include="DataAccessLayer\Repositories\TagRepository.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
+    <Compile Include="ManageCopiesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageCopiesDialog.Designer.cs">
+      <DependentUpon>ManageCopiesDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BusinessLogic\AuthorService.cs" />
     <Compile Include="Models\BusinessLogic\BookService.cs" />
     <Compile Include="Models\BusinessLogic\IAuthorService.cs" />
@@ -225,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageCopiesDialog.resx">
+      <DependentUpon>ManageCopiesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageTagsForItemDialog.resx">
       <DependentUpon>ManageTagsForItemDialog.cs</DependentUpon>
