@@ -12,7 +12,7 @@
 - implement about box (DONE)
 
 - maintain/refactor code and unit tests (WIP)
-- support manage copies
+- support manage copies (DONE)
 - support loaning
 - add icons
 
