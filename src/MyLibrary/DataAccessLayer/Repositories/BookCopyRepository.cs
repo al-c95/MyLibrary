@@ -30,42 +30,47 @@ using Dapper;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
-    public class BookCopyRepository : CopyRepository
+    public class BookCopyRepository : Repository<BookCopy>
     {
         public BookCopyRepository(IUnitOfWork uow)
             : base(uow) { }
 
-        public override void Create(Copy entity)
+        public override void Create(BookCopy entity)
         {
-            const string SQL = "INSERT INTO BookCopies(bookId,notes) VALUES(@bookId,@notes);";
+            const string SQL = "INSERT INTO BookCopies(bookId,description,notes) VALUES(@bookId,@description,@notes);";
 
             this._uow.Connection.Execute(SQL, new
             {
-                bookId = entity.Item.Id,
-                notes = entity.Item.Notes
+                bookId = entity.BookId,
+                description = entity.Description,
+                notes = entity.Notes
             });
         }
 
-        public override void DeleteById(int id)
+        public void DeleteById(int id)
         {
             const string SQL = "DELETE FROM BookCopies WHERE id = @id;";
 
             this._uow.Connection.Execute(SQL, new { id = id });
         }
 
-        public override IEnumerable<Copy> ReadAll()
+        public override IEnumerable<BookCopy> ReadAll()
         {
             const string SQL = "SELECT * FROM BookCopies;";
 
-            // TODO: include book
-            return this._uow.Connection.Query<Copy>(SQL);
+            return this._uow.Connection.Query<BookCopy>(SQL);
         }
 
-        public override void Update(Copy toUpdate)
+        public void Update(BookCopy toUpdate)
         {
-            const string SQL = "UPDATE BookCopies SET notes = @notes;";
+            const string SQL = "UPDATE BookCopies SET description = @description, notes = @notes WHERE id = @id;";
 
-            this._uow.Connection.Execute(SQL, new { notes = toUpdate.Notes });
+            this._uow.Connection.Execute(SQL, new 
+            { 
+                id = toUpdate.Id,
+                description = toUpdate.Description,
+                notes = toUpdate.Notes 
+            });
         }
     }//class
 }

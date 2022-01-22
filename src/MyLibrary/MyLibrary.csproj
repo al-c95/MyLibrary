@@ -135,7 +135,6 @@
     <Compile Include="DataAccessLayer\Repositories\AuthorRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\BookCopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\BookRepository.cs" />
-    <Compile Include="DataAccessLayer\Repositories\CopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IAuthorRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IBookRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IMediaItemRepository.cs" />
@@ -155,25 +154,28 @@
       <DependentUpon>ManageCopiesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessLogic\AuthorService.cs" />
+    <Compile Include="Models\BusinessLogic\BookCopyService.cs" />
     <Compile Include="Models\BusinessLogic\BookService.cs" />
     <Compile Include="Models\BusinessLogic\IAuthorService.cs" />
     <Compile Include="Models\BusinessLogic\IBookService.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
     <Compile Include="Models\BusinessLogic\IPublisherService.cs" />
     <Compile Include="Models\BusinessLogic\ITagService.cs" />
+    <Compile Include="Models\BusinessLogic\MediaItemCopyService.cs" />
     <Compile Include="Models\BusinessLogic\MediaItemService.cs" />
     <Compile Include="Models\BusinessLogic\PublisherService.cs" />
     <Compile Include="Models\BusinessLogic\TagService.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
-    <Compile Include="Models\Entities\Copy.cs" />
+    <Compile Include="Models\Entities\BookCopy.cs" />
     <Compile Include="Models\Entities\Entity.cs" />
     <Compile Include="Models\Entities\Item.cs" />
     <Compile Include="Models\Entities\ItemMemento.cs" />
     <Compile Include="Models\Entities\ItemTagsDto.cs" />
     <Compile Include="Models\Entities\ItemType.cs" />
     <Compile Include="Models\Entities\MediaItem.cs" />
+    <Compile Include="Models\Entities\MediaItemCopy.cs" />
     <Compile Include="Models\Entities\Publisher.cs" />
     <Compile Include="Models\Entities\Tag.cs" />
     <Compile Include="Configuration.cs" />

@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +46,6 @@ namespace MyLibrary
             this.addButton = new System.Windows.Forms.Button();
             this.deleteSelectedButton = new System.Windows.Forms.Button();
             this.tagsButton = new System.Windows.Forms.Button();
-            this.wishListButton = new System.Windows.Forms.Button();
             this.dataGrid = new System.Windows.Forms.DataGridView();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -61,6 +60,7 @@ namespace MyLibrary
             this.label2 = new System.Windows.Forms.Label();
             this.titleFilterField = new System.Windows.Forms.TextBox();
             this.detailsGroup = new System.Windows.Forms.GroupBox();
+            this.manageItemCopiesButton = new System.Windows.Forms.Button();
             this.detailsBox = new System.Windows.Forms.RichTextBox();
             this.manageItemTagsButton = new System.Windows.Forms.Button();
             this.removeImageButton = new System.Windows.Forms.Button();
@@ -73,6 +73,7 @@ namespace MyLibrary
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
             this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.wishlistButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -203,26 +204,13 @@ namespace MyLibrary
             // 
             this.tagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tagsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.tagsButton.Location = new System.Drawing.Point(1140, 2);
+            this.tagsButton.Location = new System.Drawing.Point(1138, 2);
             this.tagsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tagsButton.Name = "tagsButton";
             this.tagsButton.Size = new System.Drawing.Size(95, 34);
             this.tagsButton.TabIndex = 5;
             this.tagsButton.Text = "Tags";
             this.tagsButton.UseVisualStyleBackColor = true;
-            // 
-            // wishListButton
-            // 
-            this.wishListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.wishListButton.Enabled = false;
-            this.wishListButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.wishListButton.Location = new System.Drawing.Point(1240, 2);
-            this.wishListButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.wishListButton.Name = "wishListButton";
-            this.wishListButton.Size = new System.Drawing.Size(95, 34);
-            this.wishListButton.TabIndex = 6;
-            this.wishListButton.Text = "Wishlist";
-            this.wishListButton.UseVisualStyleBackColor = true;
             // 
             // dataGrid
             // 
@@ -234,14 +222,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(485, 42);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -384,6 +372,7 @@ namespace MyLibrary
             // 
             this.detailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.detailsGroup.Controls.Add(this.manageItemCopiesButton);
             this.detailsGroup.Controls.Add(this.detailsBox);
             this.detailsGroup.Controls.Add(this.manageItemTagsButton);
             this.detailsGroup.Controls.Add(this.removeImageButton);
@@ -402,6 +391,16 @@ namespace MyLibrary
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
             // 
+            // manageItemCopiesButton
+            // 
+            this.manageItemCopiesButton.Location = new System.Drawing.Point(306, 19);
+            this.manageItemCopiesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.manageItemCopiesButton.Name = "manageItemCopiesButton";
+            this.manageItemCopiesButton.Size = new System.Drawing.Size(155, 28);
+            this.manageItemCopiesButton.TabIndex = 21;
+            this.manageItemCopiesButton.Text = "Manage Copies";
+            this.manageItemCopiesButton.UseVisualStyleBackColor = true;
+            // 
             // detailsBox
             // 
             this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -417,7 +416,7 @@ namespace MyLibrary
             // 
             // manageItemTagsButton
             // 
-            this.manageItemTagsButton.Location = new System.Drawing.Point(161, 14);
+            this.manageItemTagsButton.Location = new System.Drawing.Point(8, 19);
             this.manageItemTagsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.manageItemTagsButton.Name = "manageItemTagsButton";
             this.manageItemTagsButton.Size = new System.Drawing.Size(155, 28);
@@ -499,10 +498,10 @@ namespace MyLibrary
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
-            this.pictureBox.Location = new System.Drawing.Point(9, 47);
+            this.pictureBox.Location = new System.Drawing.Point(9, 51);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(453, 56);
+            this.pictureBox.Size = new System.Drawing.Size(453, 52);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -537,6 +536,7 @@ namespace MyLibrary
             // 
             // toolStripContainer1.ContentPanel
             // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.wishlistButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.addButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.detailsGroup);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.categoryDropDown);
@@ -544,14 +544,13 @@ namespace MyLibrary
             this.toolStripContainer1.ContentPanel.Controls.Add(this.searchBooksButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.label1);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.deleteSelectedButton);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.wishListButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tagsButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGrid);
-            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1349, 787);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.Size = new System.Drawing.Size(1349, 841);
             this.toolStripContainer1.TabIndex = 17;
@@ -560,6 +559,19 @@ namespace MyLibrary
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip);
+            // 
+            // wishlistButton
+            // 
+            this.wishlistButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.wishlistButton.Enabled = false;
+            this.wishlistButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.wishlistButton.Location = new System.Drawing.Point(1239, 2);
+            this.wishlistButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.wishlistButton.Name = "wishlistButton";
+            this.wishlistButton.Size = new System.Drawing.Size(95, 34);
+            this.wishlistButton.TabIndex = 17;
+            this.wishlistButton.Text = "Wishlist";
+            this.wishlistButton.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -604,7 +616,6 @@ namespace MyLibrary
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button deleteSelectedButton;
         private System.Windows.Forms.Button tagsButton;
-        private System.Windows.Forms.Button wishListButton;
         private System.Windows.Forms.DataGridView dataGrid;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
@@ -637,6 +648,8 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem databaseStatisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.Button manageItemCopiesButton;
+        private System.Windows.Forms.Button wishlistButton;
     }
 }
 

@@ -41,7 +41,7 @@ namespace MyLibrary
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class MainWindow : Form, IItemView
     {
-        private const int FILTER_DELAY = 2000; // millis
+        public static readonly int FILTER_DELAY = 2000; // millis
 
         public MainWindow()
         {
@@ -196,6 +196,11 @@ namespace MyLibrary
                 {
                     this.TagsUpdated?.Invoke(s, a);
                 });
+                form.ShowDialog();
+            });
+            this.manageItemCopiesButton.Click += ((sender, args) =>
+            {
+                var form = new ManageCopiesDialog(this.SelectedItem);
                 form.ShowDialog();
             });
             this.tagsList.ItemCheck += (async (sender, args) =>

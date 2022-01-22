@@ -30,42 +30,47 @@ using Dapper;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
-    public class MediaItemCopyRepository : CopyRepository
+    public class MediaItemCopyRepository : Repository<MediaItemCopy>
     {
         public MediaItemCopyRepository(IUnitOfWork uow)
             : base(uow) { }
 
-        public override void Create(Copy entity)
+        public override void Create(MediaItemCopy entity)
         {
-            const string SQL = "INSERT INTO MediaItemCopies(mediaItemId,notes) VALUES(@mediaItemId,@notes);";
+            const string SQL = "INSERT INTO MediaItemCopies(mediaItemId,description,notes) VALUES(@mediaItemId,@description,@notes);";
 
             this._uow.Connection.Execute(SQL, new
             {
-                mediaItemId = entity.Item.Id,
+                mediaItemId = entity.MediaItemId,
+                description = entity.Description,
                 notes = entity.Notes
             });
         }
 
-        public override void DeleteById(int id)
+        public void DeleteById(int id)
         {
             const string SQL = "DELETE FROM MediaItemCopies WHERE id = @id;";
 
             this._uow.Connection.Execute(SQL, new { id = id });
         }
 
-        public override IEnumerable<Copy> ReadAll()
+        public override IEnumerable<MediaItemCopy> ReadAll()
         {
             const string SQL = "SELECT * FROM MediaItemCopies;";
 
-            // TODO: include item
-            return this._uow.Connection.Query<Copy>(SQL);
+            return this._uow.Connection.Query<MediaItemCopy>(SQL);
         }
 
-        public override void Update(Copy toUpdate)
+        public void Update(MediaItemCopy toUpdate)
         {
-            const string SQL = "UPDATE MediaItemCopies SET notes = @notes;";
+            const string SQL = "UPDATE MediaItemCopies SET description = @description, notes = @notes WHERE id = @id;";
 
-            this._uow.Connection.Execute(SQL, new { notes = toUpdate.Notes });
+            this._uow.Connection.Execute(SQL, new 
+            {
+                id = toUpdate.Id,
+                description = toUpdate.Description,
+                notes = toUpdate.Notes
+            });
         }
     }//class
 }
