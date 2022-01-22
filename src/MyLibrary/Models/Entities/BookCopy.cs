@@ -22,19 +22,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
 
-namespace MyLibrary.DataAccessLayer.Repositories
+namespace MyLibrary.Models.Entities
 {
-    public abstract class CopyRepository : Repository<Copy>
+    public sealed class BookCopy : Entity
     {
-        public CopyRepository(IUnitOfWork uow)
-            : base(uow) { }
-
-        public abstract void Update(Copy toUpdate);
-        public abstract void DeleteById(int id);
-    }//class
+        public int BookId { get; set; }
+        public string Description { get; set; }
+        public string Notes { get; set; }
+    }
 }

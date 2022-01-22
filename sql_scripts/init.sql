@@ -90,13 +90,15 @@ CREATE TABLE "Media_Tag" (
 
 CREATE TABLE "BookCopies" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "description" TEXT NOT NULL,
     "bookId"    INTEGER NOT NULL,
     "notes" TEXT,
-    FOREIGN KEY("bookId") REFERENCES "Book"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+    FOREIGN KEY("bookId") REFERENCES "Books"("id") ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
 CREATE TABLE "MediaItemCopies" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "description" TEXT NOT NULL,
     "mediaItemId"   INTEGER NOT NULL,
     "notes", TEXT,
     FOREIGN KEY("mediaItemId") REFERENCES "Media"("id") ON DELETE CASCADE ON UPDATE NO ACTION
