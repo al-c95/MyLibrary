@@ -47,6 +47,20 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             Assert.AreEqual(expectedId, actualId);
         }
 
+        [Test]
+        public async Task GetByType_Test()
+        {
+            // arrange
+            MockMediaItemService service = new MockMediaItemService();
+
+            // act
+            var result = await service.GetByType(ItemType.Dvd);
+
+            // assert
+            Assert.IsTrue(result.ToList().Count() == 1);
+            Assert.IsTrue(result.ToList()[0].Id == 1);
+        }
+
         [TestCase(1,true)]
         [TestCase(3, false)]
         public async Task ExistsWithId_Test(int id, bool expectedResult)
@@ -85,13 +99,15 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                     items.Add(new MediaItem
                     {
                         Id=1,
-                        Title = "item1"
+                        Title = "item1",
+                        Type=ItemType.Dvd
                     });
 
                     items.Add(new MediaItem
                     {
                         Id = 2,
-                        Title = "item2"
+                        Title = "item2",
+                        Type=ItemType.BluRay
                     });
                 });
 

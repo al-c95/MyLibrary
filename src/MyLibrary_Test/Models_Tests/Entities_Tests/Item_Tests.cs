@@ -125,6 +125,21 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.AreEqual(null, item.Image);
         }
 
+        [TestCase("", false)]
+        [TestCase("bogus", false)]
+        [TestCase(@"C:\path\to\file.bmp", true)]
+        [TestCase(@"C:\path\to\file.jpg", true)]
+        [TestCase(@"C:\path\to\file.jpeg", true)]
+        [TestCase(@"C:\path\to\file.png", true)]
+        public void IsValidImageFileType_Test(string path, bool expectedResult)
+        {
+            // act
+            bool actualResult = Item.IsValidImageFileType(path);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
         class MockItem : Item
         {
             public override ItemType Type { get; set; }
