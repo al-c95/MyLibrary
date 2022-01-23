@@ -443,6 +443,11 @@ namespace MyLibrary
             MessageBox.Show("Item with title: " + title + " already exists.", "Add item", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
+        public void ShowIsbnAlreadyExistsDialog(string isbn)
+        {
+            MessageBox.Show("Item with ISBN10 or ISBN13: " + isbn + " already exists.", "Add item", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -116,30 +116,57 @@ namespace MyLibrary.Presenters
             this._view.SaveButtonEnabled = false;
             this._view.CancelButtonEnabled = false;
 
-            // check if item with title already exists
-            bool exists = false;
+            // check if item with title or ISBN already exists
+            bool titleExists = false;
             string existingTitle = null;
+            bool isbnExists = false;
+            string existingIsbn = null;
             try
             {
                 if (await this._bookService.ExistsWithTitle(this._view.TitleFieldText))
                 {
-                    exists = true;
+                    titleExists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
                 if (!string.IsNullOrWhiteSpace(this._view.LongTitleFieldText))
                 {
                     if (await this._bookService.ExistsWithLongTitle(this._view.LongTitleFieldText))
                     {
-                        exists = true;
+                        titleExists = true;
                         existingTitle = this._view.LongTitleFieldText;
                     }          
                 }
 
-                if (exists)
+                if (await this._bookService.ExistsWithIsbn(this._view.IsbnFieldText))
+                {
+                    isbnExists = true;
+                    existingIsbn = this._view.IsbnFieldText;
+                }
+                if (await this._bookService.ExistsWithIsbn(this._view.Isbn13FieldText))
+                {
+                    isbnExists = true;
+                    existingIsbn = this._view.Isbn13FieldText;
+                }
+
+                if (titleExists)
                 {
                     // title already exists
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(existingTitle);
+
+                    // re-enable buttons
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
+
+                    // nothing more to do
+                    return;
+                }
+
+                if (isbnExists)
+                {
+                    // isbn already exists
+                    // tell the user
+                    this._view.ShowIsbnAlreadyExistsDialog(existingIsbn);
 
                     // re-enable buttons
                     this._view.SaveButtonEnabled = true;
@@ -153,7 +180,7 @@ namespace MyLibrary.Presenters
             {
                 // something bad happened
                 // notify the user
-                this._view.ShowErrorDialog("Error checking if title exists.", ex.Message);
+                this._view.ShowErrorDialog("Error checking if title or ISBN exists.", ex.Message);
 
                 // re-enable buttons
                 this._view.SaveButtonEnabled = true;
