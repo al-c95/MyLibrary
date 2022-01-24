@@ -40,7 +40,11 @@ namespace MyLibrary.Models.BusinessLogic
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public PublisherService() { }
+        public PublisherService() 
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new PublisherRepositoryProvider();
+        }
 
         public PublisherService(IUnitOfWorkProvider uowProvider, IPublisherRepositoryProvider repoProvider)
         {

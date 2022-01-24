@@ -28,14 +28,33 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class TagService : ITagService
     {
+        protected readonly IUnitOfWorkProvider _uowProvider;
+        protected readonly ITagRepositoryServiceProvider _repoProvider;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public TagService()
         {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new TagRepositoryServiceProvider();
+        }
 
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="uowProvider"></param>
+        /// <param name="repoProvider"></param>
+        public TagService(IUnitOfWorkProvider uowProvider, ITagRepositoryServiceProvider repoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
         }
 
         public async virtual Task<IEnumerable<Tag>> GetAll()
@@ -43,8 +62,8 @@ namespace MyLibrary.Models.BusinessLogic
             IEnumerable<Tag> allTags = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                TagRepository repo = new TagRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                ITagRepository repo = this._repoProvider.Get(uow);
                 allTags = repo.ReadAll();
                 uow.Dispose();
             });
@@ -58,23 +77,23 @@ namespace MyLibrary.Models.BusinessLogic
             return allTags.Any(t => t.Name.Equals(name));
         }
 
-        public async virtual Task Add(Tag tag)
+        public async Task Add(Tag tag)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                TagRepository repo = new TagRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                ITagRepository repo = this._repoProvider.Get(uow);
                 repo.Create(tag);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task DeleteByName(string name)
+        public async Task DeleteByName(string name)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                TagRepository repo = new TagRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                ITagRepository repo = this._repoProvider.Get(uow);
                 repo.DeleteByName(name);
                 uow.Dispose();
             });
