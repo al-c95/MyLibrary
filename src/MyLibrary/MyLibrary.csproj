@@ -146,6 +146,10 @@
     <Compile Include="DataAccessLayer\Repositories\PublisherRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\Repository.cs" />
     <Compile Include="DataAccessLayer\Repositories\TagRepository.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\AuthorRepositoryProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\IAuthorRepositoryProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\IUnitOfWorkProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
     <Compile Include="ManageCopiesDialog.cs">
       <SubType>Form</SubType>
@@ -199,10 +203,12 @@
     </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
-    <Compile Include="Presenters\ApiServiceProvider.cs" />
-    <Compile Include="Presenters\IApiServiceProvider.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
+    <Compile Include="Presenters\ServiceProviders\ApiServiceProvider.cs" />
+    <Compile Include="Presenters\ServiceProviders\AuthorServiceProvider.cs" />
+    <Compile Include="Presenters\ServiceProviders\IApiServiceProvider.cs" />
+    <Compile Include="Presenters\ServiceProviders\IAuthorServiceProvider.cs" />
     <Compile Include="Presenters\StatsPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

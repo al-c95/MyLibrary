@@ -13,6 +13,7 @@ using MyLibrary.Presenters;
 using MyLibrary.ApiService;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
+using MyLibrary.Presenters.ServiceProviders;
 
 namespace MyLibrary_Test.Presenters_Tests
 {

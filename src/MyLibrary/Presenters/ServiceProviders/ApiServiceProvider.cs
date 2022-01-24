@@ -27,10 +27,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MyLibrary.ApiService;
 
-namespace MyLibrary.Presenters
+namespace MyLibrary.Presenters.ServiceProviders
 {
-    public interface IApiServiceProvider
+    public class ApiServiceProvider : IApiServiceProvider
     {
-        IBookApiService Get();
-    }
+        public IBookApiService Get()
+        {
+            return new BookApiService();
+        }
+    }//class
 }
