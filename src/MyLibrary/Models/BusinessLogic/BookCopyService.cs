@@ -28,19 +28,41 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class BookCopyService
     {
-        public BookCopyService() { }
+        protected readonly IUnitOfWorkProvider _uowProvider;
+        protected readonly IBookCopyRepositoryProvider _repoProvider;
 
-        public async virtual Task Create(BookCopy copy)
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public BookCopyService()
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new BookCopyRepositoryProvider();
+        }
+
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="uowProvider"></param>
+        /// <param name="repoProvider"></param>
+        public BookCopyService(IUnitOfWorkProvider uowProvider, IBookCopyRepositoryProvider repoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
+        }
+
+        public async Task Create(BookCopy copy)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookCopyRepository repo = new BookCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookCopyRepository repo = this._repoProvider.Get(uow);
                 repo.Create(copy);
                 uow.Dispose();
             });
@@ -51,8 +73,8 @@ namespace MyLibrary.Models.BusinessLogic
             IEnumerable<BookCopy> allCopies = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookCopyRepository repo = new BookCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookCopyRepository repo = this._repoProvider.Get(uow);
                 allCopies = repo.ReadAll();
                 uow.Dispose();
             });
@@ -67,23 +89,23 @@ namespace MyLibrary.Models.BusinessLogic
             return allCopies.Where(c => c.BookId == itemId);
         }
 
-        public async virtual Task DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookCopyRepository repo = new BookCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookCopyRepository repo = this._repoProvider.Get(uow);
                 repo.DeleteById(id);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task Update(BookCopy copy)
+        public async Task Update(BookCopy copy)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookCopyRepository repo = new BookCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookCopyRepository repo = this._repoProvider.Get(uow);
                 repo.Update(copy);
                 uow.Dispose();
             });

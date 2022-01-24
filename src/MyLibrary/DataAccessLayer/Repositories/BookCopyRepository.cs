@@ -30,7 +30,7 @@ using Dapper;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
-    public class BookCopyRepository : Repository<BookCopy>
+    public class BookCopyRepository : Repository<BookCopy>, IBookCopyRepository
     {
         public BookCopyRepository(IUnitOfWork uow)
             : base(uow) { }
@@ -65,11 +65,11 @@ namespace MyLibrary.DataAccessLayer.Repositories
         {
             const string SQL = "UPDATE BookCopies SET description = @description, notes = @notes WHERE id = @id;";
 
-            this._uow.Connection.Execute(SQL, new 
-            { 
+            this._uow.Connection.Execute(SQL, new
+            {
                 id = toUpdate.Id,
                 description = toUpdate.Description,
-                notes = toUpdate.Notes 
+                notes = toUpdate.Notes
             });
         }
     }//class
