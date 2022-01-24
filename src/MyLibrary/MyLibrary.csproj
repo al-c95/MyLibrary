@@ -153,7 +153,9 @@
     <Compile Include="DataAccessLayer\ServiceProviders\IAuthorRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IBookCopyRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IBookRepositoryProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\IPublisherRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IUnitOfWorkProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\PublisherRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
     <Compile Include="ManageCopiesDialog.cs">

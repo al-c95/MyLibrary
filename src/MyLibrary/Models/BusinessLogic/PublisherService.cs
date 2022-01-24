@@ -28,20 +28,33 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class PublisherService : IPublisherService
     {
+        protected readonly IUnitOfWorkProvider _uowProvider;
+        protected readonly IPublisherRepositoryProvider _repoProvider;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public PublisherService() { }
+
+        public PublisherService(IUnitOfWorkProvider uowProvider, IPublisherRepositoryProvider repoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
+        }
 
         public async virtual Task<IEnumerable<Publisher>> GetAll()
         {
             IEnumerable<Publisher> allPublishers = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                PublisherRepository repo = new PublisherRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IPublisherRepository repo = this._repoProvider.Get(uow);
                 allPublishers = repo.ReadAll();
                 uow.Dispose();
             });
@@ -55,12 +68,12 @@ namespace MyLibrary.Models.BusinessLogic
             return allPublishers.Any(p => p.Name.Equals(name));
         }
 
-        public async virtual Task Create(Publisher publisher)
+        public async Task Create(Publisher publisher)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                PublisherRepository repo = new PublisherRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IPublisherRepository repo = this._repoProvider.Get(uow);
                 repo.Create(publisher);
                 uow.Dispose();
             });
