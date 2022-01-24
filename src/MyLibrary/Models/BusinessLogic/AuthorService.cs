@@ -28,20 +28,41 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class AuthorService : IAuthorService
     {
-        public AuthorService() { }
+        protected readonly IUnitOfWorkProvider _uowProvider;
+        protected readonly IAuthorRepositoryProvider _repoProvider;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public AuthorService() 
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new AuthorRepositoryProvider();
+        }
+
+        /// <summary>
+        /// Constructor with service providers dependency injection.
+        /// </summary>
+        /// <param name="uowProvider"></param>
+        public AuthorService(IUnitOfWorkProvider uowProvider, IAuthorRepositoryProvider repoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
+        }
 
         public async virtual Task<IEnumerable<Author>> GetAll()
         {
             IEnumerable<Author> allAuthors = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                AuthorRepository repo = new AuthorRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IAuthorRepository repo = this._repoProvider.Get(uow);
                 allAuthors = repo.ReadAll();
                 uow.Dispose();
             });
@@ -61,12 +82,12 @@ namespace MyLibrary.Models.BusinessLogic
             return allAuthors.Any(a => a.FirstName.Equals(firstName) && a.LastName.Equals(lastName));
         }
 
-        public async virtual Task Add(Author author)
+        public async Task Add(Author author)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                AuthorRepository repo = new AuthorRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IAuthorRepository repo = this._repoProvider.Get(uow);
                 repo.Create(author);
                 uow.Dispose();
             });

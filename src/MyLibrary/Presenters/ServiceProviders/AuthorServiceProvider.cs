@@ -25,15 +25,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.ApiService;
+using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary.Presenters
+namespace MyLibrary.Presenters.ServiceProviders
 {
-    public class ApiServiceProvider : IApiServiceProvider
+    public class AuthorServiceProvider : IAuthorServiceProvider
     {
-        public IBookApiService Get()
+        public IAuthorService Get()
         {
-            return new BookApiService();
+            return new AuthorService();
         }
     }//class
 }
