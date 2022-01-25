@@ -30,7 +30,7 @@ using Dapper;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
-    public class MediaItemCopyRepository : Repository<MediaItemCopy>
+    public class MediaItemCopyRepository : Repository<MediaItemCopy>, IMediaItemCopyRepository
     {
         public MediaItemCopyRepository(IUnitOfWork uow)
             : base(uow) { }
@@ -65,7 +65,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
         {
             const string SQL = "UPDATE MediaItemCopies SET description = @description, notes = @notes WHERE id = @id;";
 
-            this._uow.Connection.Execute(SQL, new 
+            this._uow.Connection.Execute(SQL, new
             {
                 id = toUpdate.Id,
                 description = toUpdate.Description,
