@@ -30,6 +30,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
         void Create(MediaItem entity);
         void DeleteById(int id);
         IEnumerable<MediaItem> ReadAll();
+        int GetIdByTitle(string title);
         void Update(MediaItem toUpdate);
     }
 }
