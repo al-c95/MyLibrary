@@ -28,20 +28,45 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class MediaItemService : IMediaItemService
     {
-        public MediaItemService() { }
+        protected IUnitOfWorkProvider _uowProvider;
+        protected IMediaItemRepositoryProvider _repoProvider;
+        protected ITagRepositoryServiceProvider _tagRepoProvider;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public MediaItemService() 
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new MediaItemRepositoryProvider();
+            this._tagRepoProvider = new TagRepositoryServiceProvider();
+        }
+
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="uowProvider"></param>
+        /// <param name="repoProvider"></param>
+        public MediaItemService(IUnitOfWorkProvider uowProvider, IMediaItemRepositoryProvider repoProvider, ITagRepositoryServiceProvider tagRepoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
+            this._tagRepoProvider = tagRepoProvider;
+        }
 
         public async virtual Task<IEnumerable<MediaItem>> GetAll()
         {
             IEnumerable<MediaItem> allItems = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemRepository repo = new MediaItemRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository repo = this._repoProvider.Get(uow);
                 allItems = repo.ReadAll();
                 uow.Dispose();
             });
@@ -83,14 +108,14 @@ namespace MyLibrary.Models.BusinessLogic
             return allItems.Any(i => i.Title.Equals(title));
         }
 
-        public async virtual Task Add(MediaItem item)
+        public async Task Add(MediaItem item)
         {
             await Task.Run(() =>
             {
                 // begin transaction
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemRepository itemRepo = new MediaItemRepository(uow);
-                TagRepository tagRepo = new TagRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository itemRepo = this._repoProvider.Get(uow);
+                ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
                 uow.Begin();
 
                 // insert Media table record
@@ -130,36 +155,36 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public async virtual Task DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemRepository repo = new MediaItemRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository repo = this._repoProvider.Get(uow);
                 repo.DeleteById(id);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task Update(MediaItem item)
+        public async Task Update(MediaItem item)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemRepository repo = new MediaItemRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository repo = this._repoProvider.Get(uow);
                 repo.Update(item);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task UpdateTags(ItemTagsDto dto)
+        public async Task UpdateTags(ItemTagsDto dto)
         {
             await Task.Run(() =>
             {
                 // begin transaction
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemRepository itemRepo = new MediaItemRepository(uow);
-                TagRepository tagRepo = new TagRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository itemRepo = this._repoProvider.Get(uow);
+                ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
                 uow.Begin();
 
                 // add tags

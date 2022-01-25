@@ -25,16 +25,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
+using MyLibrary.DataAccessLayer.Repositories;
 
-namespace MyLibrary.DataAccessLayer
+namespace MyLibrary.DataAccessLayer.ServiceProviders
 {
-    public interface IUnitOfWork : IDisposable
+    public class MediaItemRepositoryProvider : IMediaItemRepositoryProvider
     {
-        SQLiteConnection Connection { get; }
-
-        void Begin();
-        void Commit();
-        void Rollback();
-    }
+        public IMediaItemRepository Get(IUnitOfWork uow) => new MediaItemRepository(uow);
+    }//class
 }

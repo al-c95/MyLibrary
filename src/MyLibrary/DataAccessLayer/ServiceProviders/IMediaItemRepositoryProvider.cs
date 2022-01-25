@@ -20,21 +20,12 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SQLite;
+using MyLibrary.DataAccessLayer.Repositories;
 
-namespace MyLibrary.DataAccessLayer
+namespace MyLibrary.DataAccessLayer.ServiceProviders
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IMediaItemRepositoryProvider
     {
-        SQLiteConnection Connection { get; }
-
-        void Begin();
-        void Commit();
-        void Rollback();
+        IMediaItemRepository Get(IUnitOfWork uow);
     }
 }
