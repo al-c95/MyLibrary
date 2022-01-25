@@ -138,6 +138,7 @@
     <Compile Include="DataAccessLayer\Repositories\IAuthorRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IBookCopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IBookRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\IMediaItemCopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IMediaItemRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\IPublisherRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\ITagRepository.cs" />
@@ -153,9 +154,11 @@
     <Compile Include="DataAccessLayer\ServiceProviders\IAuthorRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IBookCopyRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IBookRepositoryProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\IMediaItemCopyRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IPublisherRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\ITagRepositoryServiceProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IUnitOfWorkProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\MediaItemCopyRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\PublisherRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\TagRepositoryServiceProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />

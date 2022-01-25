@@ -28,19 +28,36 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class MediaItemCopyService
     {
-        public MediaItemCopyService() { }
+        protected IUnitOfWorkProvider _uowProvider;
+        protected IMediaItemCopyRepositoryProvider _repoProvider;
+        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public MediaItemCopyService() 
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new MediaItemCopyRepositoryProvider();
+        }
 
-        public async virtual Task Create(MediaItemCopy copy)
+        public MediaItemCopyService(IUnitOfWorkProvider uowProvider, IMediaItemCopyRepositoryProvider repoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
+        }
+
+        public async Task Create(MediaItemCopy copy)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemCopyRepository repo = new MediaItemCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
                 repo.Create(copy);
                 uow.Dispose();
             });
@@ -51,8 +68,8 @@ namespace MyLibrary.Models.BusinessLogic
             IEnumerable<MediaItemCopy> allCopies = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemCopyRepository repo = new MediaItemCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
                 allCopies = repo.ReadAll();
                 uow.Dispose();
             });
@@ -67,23 +84,23 @@ namespace MyLibrary.Models.BusinessLogic
             return allCopies.Where(c => c.MediaItemId == itemId);
         }
 
-        public async virtual Task DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemCopyRepository repo = new MediaItemCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
                 repo.DeleteById(id);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task Update(MediaItemCopy copy)
+        public async Task Update(MediaItemCopy copy)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                MediaItemCopyRepository repo = new MediaItemCopyRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
                 repo.Update(copy);
                 uow.Dispose();
             });
