@@ -51,7 +51,10 @@ namespace MyLibrary_Test.Presenters_Tests
                 );
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             // presenter
-            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView,
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView,
                 allItems);
 
             // act
@@ -85,7 +88,10 @@ namespace MyLibrary_Test.Presenters_Tests
                 );
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             // presenter
-            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView,
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView,
                 allItems);
 
             // act
@@ -101,8 +107,11 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IItemView>();
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             presenter.SelectedItemModified(null, null);
@@ -118,9 +127,12 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
@@ -135,9 +147,12 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
@@ -152,10 +167,13 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
@@ -171,10 +189,13 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
             var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IItemView>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
             A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeView);
+            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             presenter.DeleteButtonClicked(null, null);
@@ -187,9 +208,10 @@ namespace MyLibrary_Test.Presenters_Tests
 
     public class MockItemPresenter : ItemPresenter
     {
-        public MockItemPresenter(IBookService bookRepository, IMediaItemService mediaItemService, IItemView view,
+        public MockItemPresenter(IBookService bookRepository, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
+            IItemView view,
             DataTable allItemsDt)
-            :base(bookRepository, mediaItemService, view)
+            :base(bookRepository, mediaItemService, tagService, authorService, publisherService, view)
         {
             this._allItems = allItemsDt;
         }

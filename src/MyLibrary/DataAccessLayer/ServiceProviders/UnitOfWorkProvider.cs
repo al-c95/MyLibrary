@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace MyLibrary.DataAccessLayer.ServiceProviders
 {
@@ -32,7 +33,7 @@ namespace MyLibrary.DataAccessLayer.ServiceProviders
     {
         public IUnitOfWork Get()
         {
-            return new UnitOfWork();
+            return new UnitOfWork(new SQLiteConnection(Configuration.CONNECTION_STRING));
         }
     }//class
 }

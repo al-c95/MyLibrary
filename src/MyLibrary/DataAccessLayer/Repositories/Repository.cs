@@ -33,11 +33,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
     {
         protected readonly IUnitOfWork _uow;
 
-        internal Repository()
-        {
-            this._uow = null;
-        }
-
         internal Repository(IUnitOfWork unitOfWork)
         {
             this._uow = unitOfWork;

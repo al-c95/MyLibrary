@@ -58,17 +58,17 @@ namespace MyLibrary.Presenters
 
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
-        public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService,
+        public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IItemView view)
         {
             this._bookService = bookService;
             this._mediaItemService = mediaItemService;
 
-            this._tagService = new TagService();
+            this._tagService = tagService;
 
-            this._authorService = new AuthorService();
+            this._authorService = authorService;
 
-            this._publisherService = new PublisherService();
+            this._publisherService = publisherService;
 
             this._view = view;
 

@@ -286,7 +286,7 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Error checking title.", "error")).MustHaveHappened();
         }
-
+        /*
         [TestCase("", "", @"C:\path\to\file.jpg")]
         [TestCase("", "notes", @"C:\path\to\file.jpg")]
         [TestCase("60", "notes", @"C:\path\to\file.jpg")]
@@ -327,6 +327,7 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Image file error", "error")).MustHaveHappened();
         }
+        */
     }//class
 
     class MockPresenter : AddMediaItemPresenter
