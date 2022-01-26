@@ -30,7 +30,7 @@ using System.Configuration;
 
 namespace MyLibrary
 {
-    static class Configuration
+    public static class Configuration
     {
         // database connection string
         public static readonly string CONNECTION_STRING;
