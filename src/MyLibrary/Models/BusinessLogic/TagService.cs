@@ -32,17 +32,16 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class TagService : ITagService
+    public class TagService : ServiceBase, ITagService
     {
-        protected readonly IUnitOfWorkProvider _uowProvider;
         protected readonly ITagRepositoryServiceProvider _repoProvider;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         public TagService()
+            :base()
         {
-            this._uowProvider = new UnitOfWorkProvider();
             this._repoProvider = new TagRepositoryServiceProvider();
         }
 
@@ -52,8 +51,8 @@ namespace MyLibrary.Models.BusinessLogic
         /// <param name="uowProvider"></param>
         /// <param name="repoProvider"></param>
         public TagService(IUnitOfWorkProvider uowProvider, ITagRepositoryServiceProvider repoProvider)
+            :base(uowProvider)
         {
-            this._uowProvider = uowProvider;
             this._repoProvider = repoProvider;
         }
 

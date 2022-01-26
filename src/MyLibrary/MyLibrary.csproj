@@ -182,6 +182,7 @@
     <Compile Include="Models\BusinessLogic\MediaItemCopyService.cs" />
     <Compile Include="Models\BusinessLogic\MediaItemService.cs" />
     <Compile Include="Models\BusinessLogic\PublisherService.cs" />
+    <Compile Include="Models\BusinessLogic\ServiceBase.cs" />
     <Compile Include="Models\BusinessLogic\TagService.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />

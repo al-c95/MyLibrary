@@ -32,17 +32,16 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class AuthorService : IAuthorService
+    public class AuthorService : ServiceBase, IAuthorService
     {
-        protected readonly IUnitOfWorkProvider _uowProvider;
         protected readonly IAuthorRepositoryProvider _repoProvider;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public AuthorService() 
+        public AuthorService()
+            :base()
         {
-            this._uowProvider = new UnitOfWorkProvider();
             this._repoProvider = new AuthorRepositoryProvider();
         }
 
@@ -51,8 +50,8 @@ namespace MyLibrary.Models.BusinessLogic
         /// </summary>
         /// <param name="uowProvider"></param>
         public AuthorService(IUnitOfWorkProvider uowProvider, IAuthorRepositoryProvider repoProvider)
+            :base(uowProvider)
         {
-            this._uowProvider = uowProvider;
             this._repoProvider = repoProvider;
         }
 

@@ -32,23 +32,22 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class PublisherService : IPublisherService
+    public class PublisherService : ServiceBase, IPublisherService
     {
-        protected readonly IUnitOfWorkProvider _uowProvider;
         protected readonly IPublisherRepositoryProvider _repoProvider;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public PublisherService() 
+        public PublisherService()
+            :base()
         {
-            this._uowProvider = new UnitOfWorkProvider();
             this._repoProvider = new PublisherRepositoryProvider();
         }
 
         public PublisherService(IUnitOfWorkProvider uowProvider, IPublisherRepositoryProvider repoProvider)
+            :base(uowProvider)
         {
-            this._uowProvider = uowProvider;
             this._repoProvider = repoProvider;
         }
 

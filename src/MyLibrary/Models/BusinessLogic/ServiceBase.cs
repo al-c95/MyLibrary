@@ -20,17 +20,34 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
+using MyLibrary.DataAccessLayer;
+using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary.DataAccessLayer.Repositories
+namespace MyLibrary.Models.BusinessLogic
 {
-    public interface IBookRepository
+    public abstract class ServiceBase
     {
-        void Create(Book entity);
-        void DeleteById(int id);
-        IEnumerable<Book> ReadAll();
-        int GetIdByTitle(string title);
-        void Update(Book toUpdate);
-    }
+        protected readonly IUnitOfWorkProvider _uowProvider;
+
+        public ServiceBase()
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+        }
+
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="uowProvider"></param>
+        public ServiceBase(IUnitOfWorkProvider uowProvider)
+        {
+            this._uowProvider = uowProvider;
+        }
+    }//class
 }
