@@ -332,6 +332,57 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
+        [Test]
+        public async Task DeleteById_Test()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
+
+            // act
+            await service.DeleteById(1);
+
+            // assert
+            A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
+            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+        }
+
+        [Test]
+        public async Task GetAll_Test()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
+            List<Book> books = new List<Book>
+            {
+                new Book{Id=1, Title="test_book"}
+            };
+            A.CallTo(() => fakeRepo.ReadAll()).Returns(books);
+
+            // act
+            var result = await service.GetAll();
+
+            // assert
+            Assert.IsTrue(result.ToList().Count == 1);
+            Assert.IsTrue(result.ToList()[0].Id == 1);
+        }
+
         class MockBookService : BookService
         {
             public async override Task<IEnumerable<Book>> GetAll()

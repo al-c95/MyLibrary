@@ -64,12 +64,11 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             MediaItem item = new MediaItem { Id = 1, Title = "item" };
 
             // act
-            await service.Add(item);
+            await service.Update(item);
 
             // assert
-            A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Update(item)).MustHaveHappened();
+            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
         [Test]
