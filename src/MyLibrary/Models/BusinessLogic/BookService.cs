@@ -28,12 +28,43 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
     public class BookService : IBookService
     {
-        public BookService() { }
+        protected IUnitOfWorkProvider _uowProvider;
+        protected IBookRepositoryProvider _repoProvider;
+        protected IPublisherRepositoryProvider _publisherRepoProvider;
+        protected IAuthorRepositoryProvider _authorRepoProvider;
+        protected ITagRepositoryServiceProvider _tagRepoProvider;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public BookService() 
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new BookRepositoryProvider();
+            this._publisherRepoProvider = new PublisherRepositoryProvider();
+            this._authorRepoProvider = new AuthorRepositoryProvider();
+            this._tagRepoProvider = new TagRepositoryServiceProvider();
+        }
+
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        public BookService(IUnitOfWorkProvider uowProvider,
+            IBookRepositoryProvider repoProvider, IPublisherRepositoryProvider publisherRepoProvider, 
+            IAuthorRepositoryProvider authorRepoProvider, ITagRepositoryServiceProvider tagRepoProvider)
+        {
+            this._uowProvider = uowProvider;
+            this._repoProvider = repoProvider;
+            this._publisherRepoProvider = publisherRepoProvider;
+            this._authorRepoProvider = authorRepoProvider;
+            this._tagRepoProvider = tagRepoProvider;
+        }
 
         /// <summary>
         /// Gets all books in the database.
@@ -44,8 +75,8 @@ namespace MyLibrary.Models.BusinessLogic
             IEnumerable<Book> allBooks = null;
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookRepository repo = new BookRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
                 allBooks = repo.ReadAll();
                 uow.Dispose();
             });
@@ -110,16 +141,16 @@ namespace MyLibrary.Models.BusinessLogic
             return false;
         }
 
-        public async virtual Task Add(Book book)
+        public async Task Add(Book book)
         {
             await Task.Run(() =>
             {
                 // begin transaction
-                UnitOfWork uow = new UnitOfWork();
-                BookRepository bookRepo = new BookRepository(uow);
-                PublisherRepository publisherRepo = new PublisherRepository(uow);
-                TagRepository tagRepo = new TagRepository(uow);
-                AuthorRepository authorRepo = new AuthorRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository bookRepo = this._repoProvider.Get(uow);
+                IPublisherRepository publisherRepo = this._publisherRepoProvider.Get(uow);
+                ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
+                IAuthorRepository authorRepo = this._authorRepoProvider.Get(uow);
                 uow.Begin();
 
                 // handle publisher
@@ -205,36 +236,36 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public async virtual Task Update(Book book)
+        public async Task Update(Book book)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookRepository repo = new BookRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
                 repo.Update(book);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             await Task.Run(() =>
             {
-                UnitOfWork uow = new UnitOfWork();
-                BookRepository repo = new BookRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
                 repo.DeleteById(id);
                 uow.Dispose();
             });
         }
 
-        public async virtual Task UpdateTags(ItemTagsDto dto)
+        public async Task UpdateTags(ItemTagsDto dto)
         {
             await Task.Run(() =>
             {
                 // begin transaction
-                UnitOfWork uow = new UnitOfWork();
-                BookRepository bookRepo = new BookRepository(uow);
-                TagRepository tagRepo = new TagRepository(uow);
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository bookRepo = this._repoProvider.Get(uow);
+                ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
                 uow.Begin();
 
                 // add tags

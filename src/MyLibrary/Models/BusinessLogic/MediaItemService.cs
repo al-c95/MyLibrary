@@ -32,18 +32,17 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class MediaItemService : IMediaItemService
+    public class MediaItemService : ServiceBase, IMediaItemService
     {
-        protected IUnitOfWorkProvider _uowProvider;
         protected IMediaItemRepositoryProvider _repoProvider;
         protected ITagRepositoryServiceProvider _tagRepoProvider;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public MediaItemService() 
+        public MediaItemService()
+            :base()
         {
-            this._uowProvider = new UnitOfWorkProvider();
             this._repoProvider = new MediaItemRepositoryProvider();
             this._tagRepoProvider = new TagRepositoryServiceProvider();
         }
@@ -54,8 +53,8 @@ namespace MyLibrary.Models.BusinessLogic
         /// <param name="uowProvider"></param>
         /// <param name="repoProvider"></param>
         public MediaItemService(IUnitOfWorkProvider uowProvider, IMediaItemRepositoryProvider repoProvider, ITagRepositoryServiceProvider tagRepoProvider)
+            :base(uowProvider)
         {
-            this._uowProvider = uowProvider;
             this._repoProvider = repoProvider;
             this._tagRepoProvider = tagRepoProvider;
         }
