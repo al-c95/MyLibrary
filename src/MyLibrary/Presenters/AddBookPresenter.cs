@@ -30,6 +30,7 @@ using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
+using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters
 {
@@ -42,8 +43,11 @@ namespace MyLibrary.Presenters
 
         private IAddBookForm _view;
 
+        private IImageFileReader _imageFileReader;
+
         public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
-            IAddBookForm view)
+            IAddBookForm view,
+            IImageFileReader imageFileReader)
         {
             this._bookService = bookService;
             this._tagService = tagService;
@@ -52,8 +56,13 @@ namespace MyLibrary.Presenters
 
             this._view = view;
 
+            this._imageFileReader = imageFileReader;
+
             // subscribe to the view's events
-            this._view.SaveButtonClicked += SaveButtonClicked;
+            this._view.SaveButtonClicked += (async (sender, args) => 
+            { 
+                await HandleSaveButtonClicked(sender, args); 
+            });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
         }
 
@@ -110,7 +119,7 @@ namespace MyLibrary.Presenters
         }
 
         #region View event handlers
-        public async void SaveButtonClicked(object sender, EventArgs e)
+        public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
             // disable buttons
             this._view.SaveButtonEnabled = false;
@@ -222,7 +231,8 @@ namespace MyLibrary.Presenters
             {
                 try
                 {
-                    byte[] imageBytes = System.IO.File.ReadAllBytes(this._view.ImageFilePathFieldText);
+                    this._imageFileReader.Path = this._view.ImageFilePathFieldText;
+                    byte[] imageBytes = this._imageFileReader.ReadBytes();
                     book.Image = imageBytes;
                 }
                 catch (System.IO.IOException ex)
