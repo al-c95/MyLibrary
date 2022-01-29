@@ -8,6 +8,7 @@ using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Presenters.ServiceProviders;
+using MyLibrary.ApiService;
 
 namespace MyLibrary_Test.Presenters_Tests.ServiceProviders_Tests
 {
@@ -24,7 +25,7 @@ namespace MyLibrary_Test.Presenters_Tests.ServiceProviders_Tests
             var result = provider.Get();
 
             // assert
-            Assert.AreEqual(typeof(ApiServiceProvider), result.GetType());
+            Assert.AreEqual(typeof(BookApiService), result.GetType());
         }
     }//class
 }

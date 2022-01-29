@@ -18,8 +18,37 @@ using MyLibrary.Utils;
 namespace MyLibrary_Test.Presenters_Tests
 {
     [TestFixture]
-    class AddMediaItemPresenter_Tests
+    public class AddMediaItemPresenter_Tests
     {
+        [Test]
+        public async Task PopulateTagsList_Test()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            var fakeTagService = A.Fake<ITagService>();
+            List<Tag> tags = new List<Tag>
+            {
+                new Tag{Id=1, Name="tag1"},
+                new Tag{Id=2, Name="tag2"}
+            };
+            A.CallTo(() => fakeTagService.GetAll()).Returns(tags);
+            AddMediaItemPresenter presenter = new AddMediaItemPresenter(null, fakeTagService, fakeView, null);
+            IEnumerable<string> tagNames = new List<string>
+            {
+                "tag1",
+                "tag2"
+            };
+
+            // act
+            await presenter.PopulateTagsList();
+
+            // assert
+            A.CallTo(() => fakeView.PopulateTagsList(A<List<String>>.That.Matches(l => 
+            l.Count == 2 && 
+            l.Contains("tag1") &&
+            l.Contains("tag2")))).MustHaveHappened();
+        }
+
         [TestCase("notes", "60", ".bmp")]
         [TestCase("notes", "", ".bmp")]
         [TestCase("notes", null, ".bmp")]
@@ -222,7 +251,7 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("60", "", @"C:\path\to\file.png")]
         [TestCase("60", "notes", "")]
         [TestCase("60", "", "")]
-        public async void SaveButtonClicked_Test_ItemAlreadyExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        public async Task SaveButtonClicked_Test_ItemAlreadyExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
@@ -239,10 +268,12 @@ namespace MyLibrary_Test.Presenters_Tests
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("title")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [TestCase("", "", "")]
@@ -264,7 +295,7 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("60", "", @"C:\path\to\file.png")]
         [TestCase("60", "notes", "")]
         [TestCase("60", "", "")]
-        public void SaveButtonClicked_Test_ErrorWhenCheckingIfExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        public async Task SaveButtonClicked_Test_ErrorWhenCheckingIfExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
@@ -281,12 +312,14 @@ namespace MyLibrary_Test.Presenters_Tests
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Error checking title.", "error")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
-        /*
+
         [TestCase("", "", @"C:\path\to\file.jpg")]
         [TestCase("", "notes", @"C:\path\to\file.jpg")]
         [TestCase("60", "notes", @"C:\path\to\file.jpg")]
@@ -303,7 +336,7 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("", "notes", @"C:\path\to\file.png")]
         [TestCase("60", "notes", @"C:\path\to\file.png")]
         [TestCase("60", "", @"C:\path\to\file.png")]
-        public void SaveButtonClicked_Test_ErrorWhenReadingImage(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        public async Task SaveButtonClicked_Test_ErrorWhenReadingImage(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
@@ -313,6 +346,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
@@ -322,12 +356,110 @@ namespace MyLibrary_Test.Presenters_Tests
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Image file error", "error")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
-        */
+
+        [TestCase("", "", "")]
+        [TestCase("", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "", @"C:\path\to\file.png")]
+        [TestCase("", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", "")]
+        [TestCase("60", "", "")]
+        public async Task SaveButtonClicked_Test_Success(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
+            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
+            A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+
+            // act
+            await presenter.HandleSaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeMediaItemService.Add(A<MediaItem>.That.Matches(i => 
+            i.Title == "title" &&
+            i.Number == 0123456789 &&
+            i.ReleaseYear == 2021 &&
+            i.Notes == notesFieldEntry &&
+            i.Type == ItemType.Dvd))).MustHaveHappened();
+            A.CallTo(() => fakeView.CloseDialog()).MustHaveHappened();
+        }
+
+        [TestCase("", "", "")]
+        [TestCase("", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpg")]
+        [TestCase("60", "", @"C:\path\to\file.jpg")]
+        [TestCase("", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "notes", @"C:\path\to\file.jpeg")]
+        [TestCase("60", "", @"C:\path\to\file.jpeg")]
+        [TestCase("", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "notes", @"C:\path\to\file.bmp")]
+        [TestCase("60", "", @"C:\path\to\file.bmp")]
+        [TestCase("", "", @"C:\path\to\file.png")]
+        [TestCase("", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", @"C:\path\to\file.png")]
+        [TestCase("60", "", @"C:\path\to\file.png")]
+        [TestCase("60", "notes", "")]
+        [TestCase("60", "", "")]
+        public async Task SaveButtonClicked_Test_ErrorAddingItem(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
+            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
+            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
+            A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            A.CallTo(() => fakeMediaItemService.Add(A<MediaItem>.That.Matches(i => i.Title=="title"))).Throws(new Exception("error"));
+
+            // act
+            await presenter.HandleSaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Error creating item", "error")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
+        }
     }//class
 
     class MockPresenter : AddMediaItemPresenter
