@@ -36,11 +36,175 @@ using MyLibrary.Models.Entities;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class ManageCopiesDialog : Form
+    public partial class ManageCopiesDialog : Form, IManageCopiesForm
     {
-        // TODO: factor logic out to presenter
+        private readonly Item _item;
 
-        private Item _item;
+        public event EventHandler CopySelected;
+        public event EventHandler SaveSelectedClicked;
+        public event EventHandler DiscardChangesClicked;
+        public event EventHandler DeleteClicked;
+        public event EventHandler SaveNewClicked;
+        public event EventHandler NewCopyFieldsUpdated;
+        public event EventHandler SelectedCopyFieldsUpdated;
+
+        public string ItemTitleText
+        {
+            get => this.itemTitleLabel.Text;
+            set => this.itemTitleLabel.Text = value;
+        }
+
+        public string SelectedDescription
+        {
+            get => this.selectedCopyDescriptionField.Text;
+            set => this.selectedCopyDescriptionField.Text = value;
+        }
+
+        public string SelectedNotes
+        {
+            get => this.selectedCopyNotesBox.Text;
+            set => this.selectedCopyNotesBox.Text = value; 
+        }
+
+        public string NewDescription 
+        {
+            get => this.newCopyDescriptionField.Text;
+            set => this.newCopyDescriptionField.Text = value; 
+        }
+
+        public string NewNotes
+        {
+            get => this.newCopyNotesBox.Text;
+            set => this.newCopyNotesBox.Text = value; 
+        }
+
+        public string StatusText
+        {
+            get => this.toolStripStatusLabel.Text;
+            set => this.toolStripStatusLabel.Text = value; 
+        }
+
+        public Copy SelectedCopy
+        {
+            get
+            {
+                if (dataGrid.SelectedRows.Count == 0)
+                    return null;
+
+                DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
+                if (this._item.GetType() == typeof(Book))
+                {
+                    return new BookCopy { 
+                        Id = int.Parse(selectedRow.Cells[0].Value.ToString()),
+                        BookId = this._item.Id,
+                        Description = selectedRow.Cells[1].Value.ToString(), 
+                        Notes = selectedRow.Cells[2].Value.ToString()
+                    };
+                }
+                else //if (this._item.GetType() == typeof(MediaItem))
+                {
+                    return new MediaItemCopy { 
+                        Id = int.Parse(selectedRow.Cells[0].Value.ToString()),
+                        MediaItemId = this._item.Id,
+                        Description = selectedRow.Cells[1].Value.ToString(),
+                        Notes = selectedRow.Cells[2].Value.ToString()
+                    };
+                }
+            }
+        }
+
+        public Copy ModifiedSelectedCopy
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.selectedCopyDescriptionField.Text))
+                    return null;
+
+                DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
+                if (this._item.GetType() == typeof(Book))
+                {
+                    return new BookCopy
+                    {
+                        Id = int.Parse(selectedRow.Cells[0].Value.ToString()),
+                        BookId = this._item.Id,
+                        Description = this.selectedCopyDescriptionField.Text,
+                        Notes = this.selectedCopyNotesBox.Text
+                    };
+                }
+                else //if (this._item.GetType() == typeof(MediaItem))
+                {
+                    return new MediaItemCopy
+                    {
+                        Id = int.Parse(selectedRow.Cells[0].Value.ToString()),
+                        MediaItemId = this._item.Id,
+                        Description = this.selectedCopyDescriptionField.Text,
+                        Notes = this.selectedCopyNotesBox.Text
+                    };
+                }
+            }
+        }
+
+        public Copy NewCopy 
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.newCopyDescriptionField.Text))
+                {
+                    return null;
+                }
+                else
+                {
+                    if (this._item.GetType() == typeof(Book))
+                    {
+                        return new BookCopy { 
+                            Description = this.newCopyDescriptionField.Text, 
+                            Notes = this.newCopyNotesBox.Text, 
+                            BookId=this._item.Id 
+                        };
+                    }
+                    else //if (this._item.GetType() == typeof(MediaItem))
+                    {
+                        return new MediaItemCopy { 
+                            Description = this.newCopyDescriptionField.Text, 
+                            Notes = this.newCopyNotesBox.Text, 
+                            MediaItemId=this._item.Id
+                        };
+                    }
+                }
+            }
+        }
+
+        public bool SaveSelectedButtonEnabled 
+        {
+            get => this.saveChangesButton.Enabled;
+            set => this.saveChangesButton.Enabled = value; 
+        }
+
+        public bool DeleteSelectedButtonEnabled
+        {
+            get => this.deleteButton.Enabled;
+            set => this.deleteButton.Enabled = value; 
+        }
+
+        public bool DiscardChangesButtonEnabled
+        {
+            get => this.discardChangesButton.Enabled;
+            set => this.discardChangesButton.Enabled = value; 
+        }
+
+        public bool SaveNewButtonEnabled
+        {
+            get => this.saveNewCopyChangesButton.Enabled;
+            set => this.saveNewCopyChangesButton.Enabled = value; 
+        }
+
+        public int NumberCopiesSelected
+        {
+            get
+            {
+                return this.dataGrid.SelectedRows.Count;
+            }
+        }
 
         public ManageCopiesDialog(Item item)
         {
@@ -49,151 +213,44 @@ namespace MyLibrary
             this.StartPosition = FormStartPosition.CenterParent;
 
             this._item = item;
-            this.itemTitleLabel.Text = this._item.Title;
-
-            this.saveChangesButton.Enabled = false;
-            this.discardChangesButton.Enabled = false;
-            this.saveNewCopyChangesButton.Enabled = false;
-            this.deleteButton.Enabled = false;
 
             // register event handlers
-            this.Load += (async (sender, args) =>
-            {
-                toolStripStatusLabel.Text = "Please Wait...";
-
-                await LoadData(item);
-
-                toolStripStatusLabel.Text = "Ready.";
+            this.saveChangesButton.Click += ((sender, args) => 
+            { 
+                this.SaveSelectedClicked?.Invoke(this, args); 
             });
-            this.dataGrid.SelectionChanged += ((sender, args) =>
-            {
-                if (dataGrid.SelectedRows.Count != 0)
-                {
-                    DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
-
-                    selectedCopyDescriptionField.Text = (string)selectedRow.Cells["Description"].Value;
-                    selectedCopyNotesBox.Text = (string)selectedRow.Cells["Notes"].Value;
-
-                    this.deleteButton.Enabled = true;
-                }
-                else
-                {
-                    selectedCopyDescriptionField.Clear();
-                    selectedCopyNotesBox.Clear();
-
-                    this.deleteButton.Enabled = false;
-                }
+            this.discardChangesButton.Click += ((sender, args) => 
+            { 
+                this.DiscardChangesClicked?.Invoke(this, args); 
             });
-            this.saveNewCopyChangesButton.Click += (async (sender, args) =>
-            {
-                toolStripStatusLabel.Text = "Please Wait...";
-
-                if (item.GetType() == typeof(Book))
-                {
-                    var copyService = new BookCopyService();
-
-                    BookCopy copy = new BookCopy
-                    {
-                        BookId = this._item.Id,
-                        Description = this.newCopyDescriptionField.Text,
-                        Notes = this.newCopyNotesBox.Text
-                    };
-
-                    await copyService.Create(copy);
-                }
-                else if (item.GetType() == typeof(MediaItem))
-                {
-                    var copyService = new MediaItemCopyService();
-
-                    MediaItemCopy copy = new MediaItemCopy
-                    {
-                        MediaItemId = this._item.Id,
-                        Description = this.newCopyDescriptionField.Text,
-                        Notes = this.newCopyNotesBox.Text
-                    };
-
-                    await copyService.Create(copy);
-                }
-
-                await LoadData(this._item);
-
-                this.newCopyDescriptionField.Clear();
-                this.newCopyNotesBox.Clear();
-
-                toolStripStatusLabel.Text = "Ready.";
+            this.deleteButton.Click += ((sender, args) => 
+            { 
+                this.DeleteClicked?.Invoke(this, args); 
             });
-            this.deleteButton.Click += (async (sender, args) =>
-            {
-                toolStripStatusLabel.Text = "Please Wait...";
-
-                DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
-                int selectedId = int.Parse(selectedRow.Cells["Id"].Value.ToString());
-                if (item.GetType() == typeof(Book))
-                {
-                    var copyService = new BookCopyService();
-                    await copyService.DeleteById(selectedId);
-                }
-                else if (item.GetType() == typeof(MediaItem))
-                {
-                    var copyService = new MediaItemCopyService();
-                    await copyService.DeleteById(selectedId);
-                }
-
-                await LoadData(this._item);
-
-                toolStripStatusLabel.Text = "Ready.";
+            this.saveNewCopyChangesButton.Click += ((sender, args) => 
+            { 
+                this.SaveNewClicked?.Invoke(this, args); 
             });
-            this.saveChangesButton.Click += (async (sender, args) => 
-            {
-                toolStripStatusLabel.Text = "Please Wait...";
-
-                DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
-                int selectedId = int.Parse(selectedRow.Cells["Id"].Value.ToString());
-                if (item.GetType() == typeof(Book))
-                {
-                    var copyService = new BookCopyService();
-
-                    BookCopy copy = new BookCopy
-                    {
-                        Id = selectedId,
-                        BookId = this._item.Id,
-                        Description = this.selectedCopyDescriptionField.Text,
-                        Notes = this.selectedCopyNotesBox.Text
-                    };
-
-                    await copyService.Update(copy);
-                }
-                else if (item.GetType() == typeof(MediaItem))
-                {
-                    var copyService = new MediaItemCopyService();
-
-                    MediaItemCopy copy = new MediaItemCopy
-                    {
-                        Id = selectedId,
-                        MediaItemId = this._item.Id,
-                        Description = this.selectedCopyDescriptionField.Text,
-                        Notes = this.selectedCopyNotesBox.Text
-                    };
-
-                    await copyService.Update(copy);
-                }
-
-                await LoadData(this._item);
-
-                toolStripStatusLabel.Text = "Ready.";
+            this.selectedCopyDescriptionField.TextChanged += ((sender, args) => 
+            { 
+                this.SelectedCopyFieldsUpdated?.Invoke(this, args); 
             });
-            this.discardChangesButton.Click += ((sender, args) =>
-            {
-                // TODO
-                DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
-                int selectedId = int.Parse(selectedRow.Cells["Id"].Value.ToString());
-                this.selectedCopyDescriptionField.Text = selectedRow.Cells["Description"].Value.ToString();
-                this.selectedCopyNotesBox.Text = selectedRow.Cells["Notes"].Value.ToString();
+            this.selectedCopyNotesBox.TextChanged += ((sender, args) => 
+            { 
+                this.SelectedCopyFieldsUpdated?.Invoke(this, args); 
             });
-            this.newCopyNotesBox.TextChanged += NewCopyFieldsUpdated;
-            this.newCopyDescriptionField.TextChanged += NewCopyFieldsUpdated;
-            this.selectedCopyNotesBox.TextChanged += SelectedCopyFieldsUpdated;
-            this.selectedCopyDescriptionField.TextChanged += SelectedCopyFieldsUpdated;
+            this.newCopyDescriptionField.TextChanged += ((sender, args) => 
+            { 
+                this.NewCopyFieldsUpdated?.Invoke(this, args); 
+            });
+            this.newCopyNotesBox.TextChanged += ((sender, args) => 
+            { 
+                this.NewCopyFieldsUpdated?.Invoke(this, args); 
+            });
+            this.dataGrid.SelectionChanged += ((sender, args) => 
+            { 
+                this.CopySelected?.Invoke(this, args); 
+            });
         }//ctor
 
         private void ResizeColumns()
@@ -201,71 +258,23 @@ namespace MyLibrary
             this.dataGrid.Columns[0].Width = dataGrid.Width / 40;
         }
 
-        private async Task LoadData(Item item)
+        public void DisplayCopies(IEnumerable<Copy> copies)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("Id");
             dt.Columns.Add("Description");
             dt.Columns.Add("Notes");
-            if (item.GetType() == typeof(Book))
+            foreach (var copy in copies)
             {
-                var copyService = new BookCopyService();
-                var allCopies = await copyService.GetByItemId(this._item.Id);
-
-                foreach (var copy in allCopies)
-                {
-                    dt.Rows.Add(
-                        copy.Id,
-                        copy.Description,
-                        copy.Notes
-                        );
-                }
-            }
-            else if (item.GetType() == typeof(MediaItem))
-            {
-                var copyService = new MediaItemCopyService();
-                var allCopies = await copyService.GetByItemId(this._item.Id);
-
-                foreach (var copy in allCopies)
-                {
-                    dt.Rows.Add(
-                        copy.Id,
-                        copy.Description,
-                        copy.Notes
-                        );
-                }
+                dt.Rows.Add(
+                    copy.Id,
+                    copy.Description,
+                    copy.Notes
+                    );
             }
             this.dataGrid.DataSource = dt;
             this.dataGrid.Columns["Notes"].Visible = false;
             //ResizeColumns();
         }
-
-        #region event handlers
-        private void NewCopyFieldsUpdated(object sender, EventArgs args)
-        {
-            if (!string.IsNullOrWhiteSpace(this.newCopyDescriptionField.Text))
-            {
-                this.saveNewCopyChangesButton.Enabled = true;
-            }
-            else
-            {
-                this.saveNewCopyChangesButton.Enabled = false;
-            }
-        }
-
-        private void SelectedCopyFieldsUpdated(object sender, EventArgs args)
-        {
-            if (dataGrid.SelectedRows.Count != 0)
-            {
-                this.saveChangesButton.Enabled = true;
-                this.discardChangesButton.Enabled = true;
-            }
-            else
-            {
-                this.saveChangesButton.Enabled = false;
-                this.discardChangesButton.Enabled = false;
-            }
-        }
-        #endregion
     }//class
 }

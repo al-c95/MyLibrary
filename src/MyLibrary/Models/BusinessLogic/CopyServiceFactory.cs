@@ -25,11 +25,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
+using MyLibrary.DataAccessLayer;
+using MyLibrary.DataAccessLayer.Repositories;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Models.BusinessLogic
 {
-    public sealed class MediaItemCopy : Copy
+    public class CopyServiceFactory : ICopyServiceFactory
     {
-        public int MediaItemId { get; set; }
+        public IBookCopyService GetBookCopyService()
+        {
+            return new BookCopyService();
+        }
+
+        public IMediaItemCopyService GetMediaItemCopyService()
+        {
+            return new MediaItemCopyService();
+        }
     }//class
 }

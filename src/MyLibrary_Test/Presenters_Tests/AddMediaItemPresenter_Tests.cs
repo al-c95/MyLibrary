@@ -222,7 +222,7 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase("60", "", @"C:\path\to\file.png")]
         [TestCase("60", "notes", "")]
         [TestCase("60", "", "")]
-        public void SaveButtonClicked_Test_ItemAlreadyExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
+        public async void SaveButtonClicked_Test_ItemAlreadyExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();

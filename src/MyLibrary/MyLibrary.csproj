@@ -179,8 +179,12 @@
     <Compile Include="Models\BusinessLogic\AuthorService.cs" />
     <Compile Include="Models\BusinessLogic\BookCopyService.cs" />
     <Compile Include="Models\BusinessLogic\BookService.cs" />
+    <Compile Include="Models\BusinessLogic\CopyServiceFactory.cs" />
     <Compile Include="Models\BusinessLogic\IAuthorService.cs" />
+    <Compile Include="Models\BusinessLogic\IBookCopyService.cs" />
     <Compile Include="Models\BusinessLogic\IBookService.cs" />
+    <Compile Include="Models\BusinessLogic\ICopyServiceFactory.cs" />
+    <Compile Include="Models\BusinessLogic\IMediaItemCopyService.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
     <Compile Include="Models\BusinessLogic\IPublisherService.cs" />
     <Compile Include="Models\BusinessLogic\ITagService.cs" />
@@ -193,6 +197,7 @@
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
     <Compile Include="Models\Entities\BookCopy.cs" />
+    <Compile Include="Models\Entities\Copy.cs" />
     <Compile Include="Models\Entities\Entity.cs" />
     <Compile Include="Models\Entities\Item.cs" />
     <Compile Include="Models\Entities\ItemMemento.cs" />
@@ -224,6 +229,7 @@
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
+    <Compile Include="Presenters\ManageCopiesPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
     <Compile Include="Presenters\ServiceProviders\ApiServiceProvider.cs" />
     <Compile Include="Presenters\ServiceProviders\AuthorServiceProvider.cs" />
@@ -244,6 +250,7 @@
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
     <Compile Include="Views\IItemView.cs" />
+    <Compile Include="Views\IManageCopiesForm.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />
     <Compile Include="Views\IShowStats.cs" />
     <EmbeddedResource Include="AboutBox.resx">
