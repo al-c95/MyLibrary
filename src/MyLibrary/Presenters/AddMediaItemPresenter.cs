@@ -42,7 +42,13 @@ namespace MyLibrary.Presenters
 
         private IImageFileReader _imageFileReader;
 
-        // ctor
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="mediaItemService"></param>
+        /// <param name="tagService"></param>
+        /// <param name="view"></param>
+        /// <param name="imageFileReader"></param>
         public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, 
             IAddMediaItemForm view,
             IImageFileReader imageFileReader)
@@ -55,7 +61,10 @@ namespace MyLibrary.Presenters
             this._imageFileReader = imageFileReader;
 
             // subscribe to the view's events
-            this._view.SaveButtonClicked += SaveButtonClicked;
+            this._view.SaveButtonClicked += (async (sender, args) => 
+            {
+                await HandleSaveButtonClicked(sender, args);
+            });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
         }
 
@@ -70,7 +79,7 @@ namespace MyLibrary.Presenters
         }
 
         #region View event handlers
-        public async void SaveButtonClicked(object sender, EventArgs e)
+        public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
             // disable save and cancel buttons
             this._view.SaveButtonEnabled = false;
@@ -162,11 +171,8 @@ namespace MyLibrary.Presenters
 
                 return;
             }
-            this._view.CloseDialog();
 
-            // re-enable save and cancel buttons
-            this._view.SaveButtonEnabled = true;
-            this._view.CancelButtonEnabled = true;
+            this._view.CloseDialog();
         }//SaveButtonClicked
 
         public void InputFieldsUpdated(object sender, EventArgs e)
