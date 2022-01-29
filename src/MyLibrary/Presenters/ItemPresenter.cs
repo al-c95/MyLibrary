@@ -276,7 +276,7 @@ namespace MyLibrary.Presenters
         {
             this._addBookView = new AddNewBookForm();
             var addBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
-                this._addBookView);
+                this._addBookView, new ImageFileReader());
             await addBookPresenter.PopulateTagsList();
             await addBookPresenter.PopulateAuthorList();
             await addBookPresenter.PopulatePublisherList();
@@ -291,7 +291,7 @@ namespace MyLibrary.Presenters
             this._addBookView = new AddNewBookForm();
             var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookService(), new ApiServiceProvider());
             searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
-                this._addBookView);
+                this._addBookView, new ImageFileReader());
             searchDialog.ShowDialog();
 
             ItemsAdded(null, null);

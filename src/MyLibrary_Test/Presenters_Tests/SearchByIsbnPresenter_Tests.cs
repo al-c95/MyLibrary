@@ -8,6 +8,7 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
+using MyLibrary.Utils;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
 using MyLibrary.ApiService;
@@ -29,7 +30,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeDialog = A.Fake<IAddBookForm>();
-            this._addBookPresenter = new MockAddBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService, fakeDialog);
+            this._addBookPresenter = new MockAddBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService, fakeDialog, null);
         }
 
         [TestCase("0123456789")]
@@ -171,8 +172,8 @@ namespace MyLibrary_Test.Presenters_Tests
         class MockAddBookPresenter : AddBookPresenter
         {
             public MockAddBookPresenter(IBookService bookRepository, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
-            IAddBookForm view)
-                :base(bookRepository, tagService, authorService, publisherService, view)
+            IAddBookForm view, IImageFileReader imageFileReader)
+                :base(bookRepository, tagService, authorService, publisherService, view, imageFileReader)
             {
 
             }

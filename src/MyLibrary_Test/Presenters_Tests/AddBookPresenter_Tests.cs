@@ -13,6 +13,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
+using MyLibrary.Utils;
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -102,7 +103,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, 
-                fakeView);
+                fakeView,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -145,7 +146,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -184,7 +185,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService, 
-                fakeView);
+                fakeView,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -240,7 +241,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -281,7 +282,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
             presenter.Prefill(book);
@@ -314,7 +315,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
             await presenter.PopulateTagsList();
@@ -335,7 +336,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeAuthorService.GetAll()).Returns(new List<Author> { author1 });
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
             await presenter.PopulateAuthorList();
@@ -356,7 +357,7 @@ namespace MyLibrary_Test.Presenters_Tests
             Publisher publisher1 = new Publisher("some_publisher");
             A.CallTo(() => fakePublisherService.GetAll()).Returns(new List<Publisher> { publisher1 });
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
             await presenter.PopulatePublisherList();
@@ -366,7 +367,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public void SaveButtonClicked_Test_ItemWithTitleAlreadyExists()
+        public async Task SaveButtonClicked_Test_ItemWithTitleAlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -377,17 +378,19 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [Test]
-        public void SaveButtonClicked_Test_ItemWithLongTitleAlreadyExists()
+        public async Task SaveButtonClicked_Test_ItemWithLongTitleAlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -398,17 +401,19 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [Test]
-        public void SaveButtonClicked_Test_ItemWithIsbn10AlreadyExists()
+        public async Task SaveButtonClicked_Test_ItemWithIsbn10AlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -420,17 +425,19 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowIsbnAlreadyExistsDialog("0123456789")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [Test]
-        public void SaveButtonClicked_Test_ItemWithIsbn13AlreadyExists()
+        public async Task SaveButtonClicked_Test_ItemWithIsbn13AlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -442,17 +449,19 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowIsbnAlreadyExistsDialog("0123456789012")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [Test]
-        public void SaveButtonClicked_Test_ErrorWhileCheckingIfTitleAlreadyExists()
+        public async Task SaveButtonClicked_Test_ErrorWhileCheckingIfTitleAlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -464,17 +473,19 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Error checking if title or ISBN exists.", "error"));
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [Test]
-        public void SaveButtonClicked_Test_ErrorWhileCheckingIfIsbnAlreadyExists()
+        public async Task SaveButtonClicked_Test_ErrorWhileCheckingIfIsbnAlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
@@ -487,20 +498,276 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView);
+                fakeView,null);
 
             // act
-            presenter.SaveButtonClicked(null, null);
+            await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeView.ShowErrorDialog("Error checking if title or ISBN exists.", "error"));
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
+        }
+
+        [Test]
+        public async Task SaveButtonClicked_Test_ErrorReadingImageFile()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("test_book");
+            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test_book");
+            A.CallTo(() => fakeView.IsbnFieldText).Returns("0123456789");
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\image.jpeg");
+            A.CallTo(() => fakeView.SelectedPublisher).Returns("some_publisher");
+            A.CallTo(() => fakeView.PagesFieldText).Returns("100");
+            A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            A.CallTo(() => fakeImageFileReader.ReadBytes()).Throws(new System.IO.IOException("error"));
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
+                fakeView, fakeImageFileReader);
+
+            // act
+            await presenter.HandleSaveButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Image file error", "error")).MustHaveHappened();
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
+        }
+
+        [TestCase("", "", "", "500.0", ".bmp")]
+        [TestCase("", "0123456789", "", "500.0", ".bmp")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".bmp")]
+        [TestCase("", "", "0123456789123", "500.0", ".bmp")]
+        [TestCase("", "", "", "", ".bmp")]
+        [TestCase("", "0123456789", "", "", ".bmp")]
+        [TestCase("", "0123456789", "0123456789123", "", ".bmp")]
+        [TestCase("", "", "0123456789123", "", ".bmp")]
+        [TestCase("long title", "", "", "500.0", ".bmp")]
+        [TestCase("long title", "0123456789", "", "500.0", ".bmp")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".bmp")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".bmp")]
+        [TestCase("long title", "", "", "", ".bmp")]
+        [TestCase("long title", "0123456789", "", "", ".bmp")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".bmp")]
+        [TestCase("long title", "", "0123456789123", "", ".bmp")]
+        [TestCase("", "", "", "500.0", ".jpg")]
+        [TestCase("", "0123456789", "", "500.0", ".jpg")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".jpg")]
+        [TestCase("", "", "0123456789123", "500.0", ".jpg")]
+        [TestCase("", "", "", "", ".jpg")]
+        [TestCase("", "0123456789", "", "", ".jpg")]
+        [TestCase("", "0123456789", "0123456789123", "", ".jpg")]
+        [TestCase("", "", "0123456789123", "", ".jpg")]
+        [TestCase("long title", "", "", "500.0", ".jpg")]
+        [TestCase("long title", "0123456789", "", "500.0", ".jpg")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".jpg")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".jpg")]
+        [TestCase("long title", "", "", "", ".jpg")]
+        [TestCase("long title", "0123456789", "", "", ".jpg")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".jpg")]
+        [TestCase("long title", "", "0123456789123", "", ".jpg")]
+        [TestCase("", "", "", "500.0", ".jpeg")]
+        [TestCase("", "0123456789", "", "500.0", ".jpeg")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("", "", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("", "", "", "", ".jpeg")]
+        [TestCase("", "0123456789", "", "", ".jpeg")]
+        [TestCase("", "0123456789", "0123456789123", "", ".jpeg")]
+        [TestCase("", "", "0123456789123", "", ".jpeg")]
+        [TestCase("long title", "", "", "500.0", ".jpeg")]
+        [TestCase("long title", "0123456789", "", "500.0", ".jpeg")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("long title", "", "", "", ".jpeg")]
+        [TestCase("long title", "0123456789", "", "", ".jpeg")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".jpeg")]
+        [TestCase("long title", "", "0123456789123", "", ".jpeg")]
+        [TestCase("", "", "", "500.0", ".png")]
+        [TestCase("", "0123456789", "", "500.0", ".png")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".png")]
+        [TestCase("", "", "0123456789123", "500.0", ".png")]
+        [TestCase("", "", "", "", ".png")]
+        [TestCase("", "0123456789", "", "", ".png")]
+        [TestCase("", "0123456789", "0123456789123", "", ".png")]
+        [TestCase("", "", "0123456789123", "", ".png")]
+        [TestCase("long title", "", "", "500.0", ".png")]
+        [TestCase("long title", "0123456789", "", "500.0", ".png")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".png")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".png")]
+        [TestCase("long title", "", "", "", ".png")]
+        [TestCase("long title", "0123456789", "", "", ".png")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".png")]
+        [TestCase("long title", "", "0123456789123", "", ".png")]
+        public async Task SaveButtonClicked_Test_Success(string longTitle, string isbnFieldText, string isbn13FieldText, string deweyDecimalFieldText,
+            string ext)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.LongTitleFieldText).Returns(longTitle);
+            A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
+            A.CallTo(() => fakeView.PagesFieldText).Returns("60");
+            A.CallTo(() => fakeView.SelectedPublisher).Returns("publisher");
+            A.CallTo(() => fakeView.Isbn13FieldText).Returns(isbn13FieldText);
+            A.CallTo(() => fakeView.IsbnFieldText).Returns(isbnFieldText);
+            A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
+                fakeView, fakeImageFileReader);
+
+            // act
+            await presenter.HandleSaveButtonClicked(null, null);
+
+            // assert
+            decimal? deweyDecimal;
+            if (System.Text.RegularExpressions.Regex.IsMatch(deweyDecimalFieldText, Book.DEWEY_DECIMAL_PATTERN))
+            {
+                deweyDecimal = decimal.Parse(deweyDecimalFieldText);
+            }
+            else
+            {
+                deweyDecimal = null;
+            }
+            A.CallTo(() => fakeBookService.Add(A<Book>.That.Matches(b =>
+            b.Title == "title" &&
+            b.TitleLong == longTitle &&
+            b.Language == "English" &&
+            b.Pages == 60 &&
+            b.Isbn == isbnFieldText &&
+            b.Isbn13 == isbn13FieldText &&
+            b.DeweyDecimal == deweyDecimal))).MustHaveHappened();
+            A.CallTo(() => fakeView.CloseDialog()).MustHaveHappened();
+        }
+
+        [TestCase("", "", "", "500.0", ".bmp")]
+        [TestCase("", "0123456789", "", "500.0", ".bmp")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".bmp")]
+        [TestCase("", "", "0123456789123", "500.0", ".bmp")]
+        [TestCase("", "", "", "", ".bmp")]
+        [TestCase("", "0123456789", "", "", ".bmp")]
+        [TestCase("", "0123456789", "0123456789123", "", ".bmp")]
+        [TestCase("", "", "0123456789123", "", ".bmp")]
+        [TestCase("long title", "", "", "500.0", ".bmp")]
+        [TestCase("long title", "0123456789", "", "500.0", ".bmp")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".bmp")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".bmp")]
+        [TestCase("long title", "", "", "", ".bmp")]
+        [TestCase("long title", "0123456789", "", "", ".bmp")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".bmp")]
+        [TestCase("long title", "", "0123456789123", "", ".bmp")]
+        [TestCase("", "", "", "500.0", ".jpg")]
+        [TestCase("", "0123456789", "", "500.0", ".jpg")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".jpg")]
+        [TestCase("", "", "0123456789123", "500.0", ".jpg")]
+        [TestCase("", "", "", "", ".jpg")]
+        [TestCase("", "0123456789", "", "", ".jpg")]
+        [TestCase("", "0123456789", "0123456789123", "", ".jpg")]
+        [TestCase("", "", "0123456789123", "", ".jpg")]
+        [TestCase("long title", "", "", "500.0", ".jpg")]
+        [TestCase("long title", "0123456789", "", "500.0", ".jpg")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".jpg")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".jpg")]
+        [TestCase("long title", "", "", "", ".jpg")]
+        [TestCase("long title", "0123456789", "", "", ".jpg")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".jpg")]
+        [TestCase("long title", "", "0123456789123", "", ".jpg")]
+        [TestCase("", "", "", "500.0", ".jpeg")]
+        [TestCase("", "0123456789", "", "500.0", ".jpeg")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("", "", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("", "", "", "", ".jpeg")]
+        [TestCase("", "0123456789", "", "", ".jpeg")]
+        [TestCase("", "0123456789", "0123456789123", "", ".jpeg")]
+        [TestCase("", "", "0123456789123", "", ".jpeg")]
+        [TestCase("long title", "", "", "500.0", ".jpeg")]
+        [TestCase("long title", "0123456789", "", "500.0", ".jpeg")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".jpeg")]
+        [TestCase("long title", "", "", "", ".jpeg")]
+        [TestCase("long title", "0123456789", "", "", ".jpeg")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".jpeg")]
+        [TestCase("long title", "", "0123456789123", "", ".jpeg")]
+        [TestCase("", "", "", "500.0", ".png")]
+        [TestCase("", "0123456789", "", "500.0", ".png")]
+        [TestCase("", "0123456789", "0123456789123", "500.0", ".png")]
+        [TestCase("", "", "0123456789123", "500.0", ".png")]
+        [TestCase("", "", "", "", ".png")]
+        [TestCase("", "0123456789", "", "", ".png")]
+        [TestCase("", "0123456789", "0123456789123", "", ".png")]
+        [TestCase("", "", "0123456789123", "", ".png")]
+        [TestCase("long title", "", "", "500.0", ".png")]
+        [TestCase("long title", "0123456789", "", "500.0", ".png")]
+        [TestCase("long title", "0123456789", "0123456789123", "500.0", ".png")]
+        [TestCase("long title", "", "0123456789123", "500.0", ".png")]
+        [TestCase("long title", "", "", "", ".png")]
+        [TestCase("long title", "0123456789", "", "", ".png")]
+        [TestCase("long title", "0123456789", "0123456789123", "", ".png")]
+        [TestCase("long title", "", "0123456789123", "", ".png")]
+        public async Task SaveButtonClicked_Test_ErrorSavingBook(string longTitle, string isbnFieldText, string isbn13FieldText, string deweyDecimalFieldText,
+            string ext)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.LongTitleFieldText).Returns(longTitle);
+            A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
+            A.CallTo(() => fakeView.PagesFieldText).Returns("60");
+            A.CallTo(() => fakeView.SelectedPublisher).Returns("publisher");
+            A.CallTo(() => fakeView.Isbn13FieldText).Returns(isbn13FieldText);
+            A.CallTo(() => fakeView.IsbnFieldText).Returns(isbnFieldText);
+            A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
+            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
+            var fakeBookService = A.Fake<IBookService>();
+            A.CallTo(() => fakeBookService.Add(A<Book>.That.Matches(b => b.Title == "title"))).Throws(new Exception("error"));
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
+                fakeView, fakeImageFileReader);
+
+            // act
+            await presenter.HandleSaveButtonClicked(null, null);
+
+            // assert
+            decimal? deweyDecimal;
+            if (System.Text.RegularExpressions.Regex.IsMatch(deweyDecimalFieldText, Book.DEWEY_DECIMAL_PATTERN))
+            {
+                deweyDecimal = decimal.Parse(deweyDecimalFieldText);
+            }
+            else
+            {
+                deweyDecimal = null;
+            }
+            A.CallTo(() => fakeBookService.Add(A<Book>.That.Matches(b => 
+            b.Title == "title" &&
+            b.TitleLong == longTitle &&
+            b.Language == "English" &&
+            b.Pages == 60 &&
+            b.Isbn == isbnFieldText &&
+            b.Isbn13 == isbn13FieldText &&
+            b.DeweyDecimal == deweyDecimal))).MustHaveHappened();
+            A.CallTo(() => fakeView.ShowErrorDialog("Error creating book", "error")).MustHaveHappened(); 
+            Assert.IsTrue(fakeView.SaveButtonEnabled);
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
     }//class
 
     public class MockBookPresenter : AddBookPresenter
     {
-        public MockBookPresenter(IBookService bookRepo, ITagService tagService, IAuthorService authorService, IPublisherService publisherService, IAddBookForm view)
-            :base(bookRepo, tagService, authorService, publisherService, view)
+        public MockBookPresenter(IBookService bookRepo, ITagService tagService, IAuthorService authorService, IPublisherService publisherService, IAddBookForm view,
+            IImageFileReader imageFileReader)
+            :base(bookRepo, tagService, authorService, publisherService, view, imageFileReader)
         {
 
         }
