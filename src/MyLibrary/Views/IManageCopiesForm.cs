@@ -25,11 +25,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Views
 {
-    public sealed class MediaItemCopy : Copy
+    public interface IManageCopiesForm
     {
-        public int MediaItemId { get; set; }
-    }//class
+        string ItemTitleText { get; set; }
+
+        string SelectedDescription { get; set; }
+        string SelectedNotes { get; set; }
+
+        string NewDescription { get; set; }
+        string NewNotes { get; set; }
+
+        string StatusText { get; set; }
+
+        void DisplayCopies(IEnumerable<Copy> copies);
+
+        Copy SelectedCopy { get; }
+        Copy ModifiedSelectedCopy { get; }
+        Copy NewCopy { get; }
+
+        bool SaveSelectedButtonEnabled { get; set; }
+        bool DeleteSelectedButtonEnabled { get; set; }
+        bool DiscardChangesButtonEnabled { get; set; }
+        bool SaveNewButtonEnabled { get; set; }
+
+        int NumberCopiesSelected { get; }
+     
+        event EventHandler CopySelected;
+        event EventHandler SaveSelectedClicked;
+        event EventHandler DiscardChangesClicked;
+        event EventHandler DeleteClicked;
+        event EventHandler SaveNewClicked;
+        event EventHandler NewCopyFieldsUpdated;
+        event EventHandler SelectedCopyFieldsUpdated;
+    }
 }

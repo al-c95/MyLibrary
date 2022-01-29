@@ -72,11 +72,11 @@ namespace MyLibrary
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox2);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1014, 524);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1014, 516);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer.Name = "toolStripContainer";
-            this.toolStripContainer.Size = new System.Drawing.Size(1014, 550);
+            this.toolStripContainer.Size = new System.Drawing.Size(1014, 567);
             this.toolStripContainer.TabIndex = 0;
             this.toolStripContainer.Text = "toolStripContainer1";
             // 
@@ -125,7 +125,7 @@ namespace MyLibrary
             this.groupBox2.Controls.Add(this.saveNewCopyChangesButton);
             this.groupBox2.Controls.Add(this.newCopyDescriptionField);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 310);
+            this.groupBox2.Location = new System.Drawing.Point(12, 302);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(460, 204);
             this.groupBox2.TabIndex = 25;
@@ -283,14 +283,14 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(522, 457);
+            this.dataGrid.Size = new System.Drawing.Size(522, 449);
             this.dataGrid.TabIndex = 8;
             // 
             // ManageCopiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1014, 550);
+            this.ClientSize = new System.Drawing.Size(1014, 567);
             this.Controls.Add(this.toolStripContainer);
             this.Name = "ManageCopiesDialog";
             this.Text = "Manage Copies For Item";

@@ -32,7 +32,7 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class BookCopyService : ServiceBase
+    public class BookCopyService : ServiceBase, IBookCopyService
     {
         protected readonly IBookCopyRepositoryProvider _repoProvider;
 
@@ -40,7 +40,7 @@ namespace MyLibrary.Models.BusinessLogic
         /// Default constructor.
         /// </summary>
         public BookCopyService()
-            :base()
+            : base()
         {
             this._repoProvider = new BookCopyRepositoryProvider();
         }
@@ -51,7 +51,7 @@ namespace MyLibrary.Models.BusinessLogic
         /// <param name="uowProvider"></param>
         /// <param name="repoProvider"></param>
         public BookCopyService(IUnitOfWorkProvider uowProvider, IBookCopyRepositoryProvider repoProvider)
-            :base(uowProvider)
+            : base(uowProvider)
         {
             this._repoProvider = repoProvider;
         }

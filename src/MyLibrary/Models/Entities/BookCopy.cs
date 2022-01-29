@@ -26,10 +26,12 @@ using System.Text;
 
 namespace MyLibrary.Models.Entities
 {
-    public sealed class BookCopy : Entity
+    public sealed class BookCopy : Copy
     {
         public int BookId { get; set; }
+        /*
         public string Description { get; set; }
         public string Notes { get; set; }
+        */
     }
 }

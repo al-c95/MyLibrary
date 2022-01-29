@@ -28,8 +28,21 @@ using System.Threading.Tasks;
 
 namespace MyLibrary.Models.Entities
 {
-    public sealed class MediaItemCopy : Copy
+    public abstract class Copy : Entity
     {
-        public int MediaItemId { get; set; }
+        protected string _description;
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("Item copy description");
+
+                this._description = value;
+            }
+        }
+
+        public string Notes { get; set; }
     }//class
 }

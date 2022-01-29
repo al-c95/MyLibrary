@@ -32,21 +32,21 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class MediaItemCopyService : ServiceBase
+    public class MediaItemCopyService : ServiceBase, IMediaItemCopyService
     {
         protected IMediaItemCopyRepositoryProvider _repoProvider;
-        
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public MediaItemCopyService()
-            :base()
+            : base()
         {
             this._repoProvider = new MediaItemCopyRepositoryProvider();
         }
 
         public MediaItemCopyService(IUnitOfWorkProvider uowProvider, IMediaItemCopyRepositoryProvider repoProvider)
-            :base(uowProvider)
+            : base(uowProvider)
         {
             this._repoProvider = repoProvider;
         }

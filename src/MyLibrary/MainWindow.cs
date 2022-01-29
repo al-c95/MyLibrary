@@ -34,6 +34,7 @@ using System.IO;
 using System.Windows.Forms;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views;
 
 namespace MyLibrary
@@ -198,9 +199,11 @@ namespace MyLibrary
                 });
                 form.ShowDialog();
             });
-            this.manageItemCopiesButton.Click += ((sender, args) =>
+            this.manageItemCopiesButton.Click += (async (sender, args) =>
             {
                 var form = new ManageCopiesDialog(this.SelectedItem);
+                ManageCopiesPresenter presenter = new ManageCopiesPresenter(form, this._selectedItem, new CopyServiceFactory());
+                await presenter.LoadData(sender, args);
                 form.ShowDialog();
             });
             this.tagsList.ItemCheck += (async (sender, args) =>
