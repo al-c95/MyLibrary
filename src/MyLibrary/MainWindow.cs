@@ -140,7 +140,7 @@ namespace MyLibrary
 
                 this.DeleteButtonClicked?.Invoke(this, args);
             });
-            this.clearFilterButton.Click += (async (sender, args) =>
+            this.clearFilterButton.Click += ((sender, args) =>
             {
                 // clear title filter field
                 this.TitleFilterText = null;
