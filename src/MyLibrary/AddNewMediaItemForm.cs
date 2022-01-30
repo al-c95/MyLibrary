@@ -89,6 +89,10 @@ namespace MyLibrary
             {
                 SaveButtonClicked?.Invoke(sender, args);
             });
+            this.newTagField.TextChanged += ((sender, args) =>
+            {
+                this.NewTagFieldUpdated?.Invoke(sender, args);
+            });
             // handle the event here
             this.addNewTagButton.Click += ((sender, args) =>
             {
@@ -114,10 +118,6 @@ namespace MyLibrary
                         this.imageFilePathField.Text = dialog.FileName;
                     }
                 }
-            });
-            this.newTagField.TextChanged += ((sender, args) =>
-            {
-                this.addNewTagButton.Enabled = !string.IsNullOrWhiteSpace(this.newTagField.Text);
             });
         }
 
@@ -166,6 +166,18 @@ namespace MyLibrary
         {
             get => this.notesField.Text;
             set => this.notesField.Text = value; 
+        }
+
+        public string NewTagFieldText
+        {
+            get => this.newTagField.Text;
+            set => this.newTagField.Text = value;
+        }
+
+        public bool AddNewTagButtonEnabled
+        {
+            get => this.addNewTagButton.Enabled;
+            set => this.addNewTagButton.Enabled = value;
         }
 
         public IEnumerable<string> SelectedTags
@@ -217,6 +229,7 @@ namespace MyLibrary
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
         public event EventHandler ItemAdded;
+        public event EventHandler NewTagFieldUpdated;
 
         private void cancelButton_Click(object sender, EventArgs e)
         {

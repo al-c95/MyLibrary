@@ -122,7 +122,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public void DeleteButtonClicked_Test_Book()
+        public async Task DeleteButtonClicked_Test_Book()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -135,14 +135,14 @@ namespace MyLibrary_Test.Presenters_Tests
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
-            presenter.DeleteButtonClicked(null, null);
+            await presenter.HandleDeleteButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
         }
 
         [Test]
-        public void DeleteButtonClicked_Test_MediaItem()
+        public async Task DeleteButtonClicked_Test_MediaItem()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -155,14 +155,14 @@ namespace MyLibrary_Test.Presenters_Tests
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
-            presenter.DeleteButtonClicked(null, null);
+            await presenter.HandleDeleteButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
         }
 
         [Test]
-        public void DeleteButtonClicked_Test_Book_Error()
+        public async Task DeleteButtonClicked_Test_Book_Error()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -176,7 +176,7 @@ namespace MyLibrary_Test.Presenters_Tests
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
-            presenter.DeleteButtonClicked(null, null);
+            await presenter.HandleDeleteButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
@@ -184,7 +184,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public void DeleteButtonClicked_Test_MediaItem_Error()
+        public async Task DeleteButtonClicked_Test_MediaItem_Error()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -198,7 +198,7 @@ namespace MyLibrary_Test.Presenters_Tests
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
-            presenter.DeleteButtonClicked(null, null);
+            await presenter.HandleDeleteButtonClicked(null, null);
 
             // assert
             A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();

@@ -153,6 +153,22 @@ namespace MyLibrary
             {
                 SaveButtonClicked?.Invoke(sender, args);
             });
+            this.newAuthorFirstNameField.TextChanged += ((sender, args) =>
+            {
+                this.NewAuthorFieldsUpdated?.Invoke(sender, args);
+            });
+            this.newAuthorLastNameField.TextChanged += ((sender, args) =>
+            {
+                this.NewAuthorFieldsUpdated?.Invoke(sender, args);
+            });
+            this.newPublisherField.TextChanged += ((sender, args) =>
+            {
+                this.NewPublisherFieldUpdated?.Invoke(sender, args);
+            });
+            this.newTagField.TextChanged += ((sender, args) =>
+            {
+                this.NewTagFieldUpdated?.Invoke(sender, args);
+            });
             // handle the event here
             this.addNewTagButton.Click += ((sender, args) =>
             {
@@ -183,22 +199,6 @@ namespace MyLibrary
                     this.newPublisherField.Clear();
                 }
             });
-            this.newAuthorFirstNameField.TextChanged += ((sender, args) =>
-            {
-                ValidateAuthorFields();
-            });
-            this.newAuthorLastNameField.TextChanged += ((sender, args) =>
-            {
-                ValidateAuthorFields();
-            });
-            this.newPublisherField.TextChanged += ((sender, args) =>
-            {
-                this.addNewPublisherButton.Enabled = !string.IsNullOrWhiteSpace(this.newPublisherField.Text);
-            });
-            this.newTagField.TextChanged += ((sender, ars) =>
-            {
-                this.addNewTagButton.Enabled = !string.IsNullOrWhiteSpace(this.newTagField.Text);
-            });
             this.addNewAuthorButton.Click += ((sender, args) =>
             {
                 if (!string.IsNullOrWhiteSpace(this.newAuthorFirstNameField.Text) &&
@@ -226,18 +226,6 @@ namespace MyLibrary
                     }
                 }
             });
-        }
-
-        private void ValidateAuthorFields()
-        {
-            string firstNameFieldEntry = newAuthorFirstNameField.Text;
-            string lastNameFieldEntry = newAuthorLastNameField.Text;
-
-            bool sane = true;
-            sane = sane && Regex.IsMatch(firstNameFieldEntry, Author.NAME_PATTERN) || Regex.IsMatch(firstNameFieldEntry, Author.WITH_MIDDLE_NAME_PATTERN);
-            sane = sane && Regex.IsMatch(lastNameFieldEntry, Author.NAME_PATTERN);
-
-            this.addNewAuthorButton.Enabled = sane;
         }
 
         public string ImageFilePathFieldText
@@ -394,9 +382,54 @@ namespace MyLibrary
             set => this.placeOfPublicationField.Text = value;
         }
 
+        public string NewAuthorFirstNameFieldText
+        {
+            get => this.newAuthorFirstNameField.Text;
+            set => this.newAuthorFirstNameField.Text=value;
+        }
+
+        public string NewAuthorLastNameFieldText
+        {
+            get => this.newAuthorLastNameField.Text;
+            set => this.newAuthorLastNameField.Text = value;
+        }
+
+        public bool AddNewAuthorButtonEnabled
+        {
+            get => this.addNewAuthorButton.Enabled;
+            set => this.addNewAuthorButton.Enabled = value;
+        }
+
+        public string NewPublisherFieldText 
+        {
+            get => this.newPublisherField.Text;
+            set => this.newPublisherField.Text = value;
+        }
+
+        public bool AddNewPublisherButtonEnabled
+        {
+            get => this.addNewPublisherButton.Enabled;
+            set => this.addNewPublisherButton.Enabled = value;
+        }
+
+        public string NewTagFieldText
+        {
+            get => this.newTagField.Text;
+            set => this.newTagField.Text = value;
+        }
+
+        public bool AddNewTagButtonEnabled
+        {
+            get => this.addNewTagButton.Enabled;
+            set => this.addNewTagButton.Enabled = value;
+        }
+
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
         public event EventHandler ItemAdded;
+        public event EventHandler NewAuthorFieldsUpdated;
+        public event EventHandler NewPublisherFieldUpdated;
+        public event EventHandler NewTagFieldUpdated;
 
         public void CloseDialog()
         {

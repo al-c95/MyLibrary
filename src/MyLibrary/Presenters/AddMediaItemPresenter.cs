@@ -66,6 +66,7 @@ namespace MyLibrary.Presenters
                 await HandleSaveButtonClicked(sender, args);
             });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
+            this._view.NewTagFieldUpdated += NewTagFieldUpdated;
         }
 
         public async Task PopulateTagsList()
@@ -211,6 +212,11 @@ namespace MyLibrary.Presenters
             sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
 
             this._view.SaveButtonEnabled = sane;
+        }
+
+        public void NewTagFieldUpdated(object sender, EventArgs args)
+        {
+            this._view.AddNewTagButtonEnabled = !string.IsNullOrWhiteSpace(this._view.NewTagFieldText);
         }
         #endregion
     }//class
