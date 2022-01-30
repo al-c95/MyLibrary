@@ -46,8 +46,12 @@ namespace MyLibrary.Views
 
         void ShowErrorDialog(string title, string message);
 
+        string NewTagFieldText { get; set; }
+        bool AddNewTagButtonEnabled { get; set; }
+
         event EventHandler InputFieldsUpdated;
         event EventHandler SaveButtonClicked;
         event EventHandler ItemAdded;
+        event EventHandler NewTagFieldUpdated;
     }
 }

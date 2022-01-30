@@ -47,6 +47,13 @@ namespace MyLibrary.Views
         string ExcerptFieldText { get; set; }
         string SynopsysFieldText { get; set; }
 
+        string NewAuthorFirstNameFieldText { get; set; }
+        string NewAuthorLastNameFieldText { get; set; }
+        bool AddNewAuthorButtonEnabled { get; set; }
+
+        string NewPublisherFieldText { get; set; }
+        bool AddNewPublisherButtonEnabled { get; set; }
+
         IEnumerable<string> SelectedAuthors { get; }
         string SelectedPublisher { get; }
 
@@ -59,5 +66,8 @@ namespace MyLibrary.Views
         void ShowIsbnAlreadyExistsDialog(string isbn);
 
         void ShowAsDialog();
+
+        event EventHandler NewAuthorFieldsUpdated;
+        event EventHandler NewPublisherFieldUpdated;
     }
 }

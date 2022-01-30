@@ -64,6 +64,9 @@ namespace MyLibrary.Presenters
                 await HandleSaveButtonClicked(sender, args); 
             });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
+            this._view.NewAuthorFieldsUpdated += NewAuthorFieldsUpdated;
+            this._view.NewPublisherFieldUpdated += NewPublisherFieldUpdated;
+            this._view.NewTagFieldUpdated += NewTagFieldUpdated;
         }
 
         public void Prefill(Book book)
@@ -295,6 +298,28 @@ namespace MyLibrary.Presenters
             // don't care about the other fields
 
             this._view.SaveButtonEnabled = sane;
+        }
+
+        public void NewAuthorFieldsUpdated(object sender, EventArgs args)
+        {
+            string firstNameFieldEntry = this._view.NewAuthorFirstNameFieldText;
+            string lastNameFieldEntry = this._view.NewAuthorLastNameFieldText;
+
+            bool sane = true;
+            sane = sane && Regex.IsMatch(firstNameFieldEntry, Author.NAME_PATTERN) || Regex.IsMatch(firstNameFieldEntry, Author.WITH_MIDDLE_NAME_PATTERN);
+            sane = sane && Regex.IsMatch(lastNameFieldEntry, Author.NAME_PATTERN);
+
+            this._view.AddNewAuthorButtonEnabled = sane;
+        }
+
+        public void NewPublisherFieldUpdated(object sender, EventArgs args)
+        {
+            this._view.AddNewPublisherButtonEnabled = !string.IsNullOrWhiteSpace(this._view.NewPublisherFieldText);
+        }
+
+        public void NewTagFieldUpdated(object sender, EventArgs args)
+        {
+            this._view.AddNewTagButtonEnabled = !string.IsNullOrWhiteSpace(this._view.NewTagFieldText);
         }
         #endregion
     }//class

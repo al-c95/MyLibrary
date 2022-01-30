@@ -36,6 +36,9 @@ using MyLibrary.Presenters.ServiceProviders;
 
 namespace MyLibrary.Presenters
 {
+    /// <summary>
+    /// Contains most of the logic which controls the main UI and interacts with the models.
+    /// </summary>
     public class ItemPresenter
     {
         private IBookService _bookService;
@@ -58,6 +61,15 @@ namespace MyLibrary.Presenters
 
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="bookService"></param>
+        /// <param name="mediaItemService"></param>
+        /// <param name="tagService"></param>
+        /// <param name="authorService"></param>
+        /// <param name="publisherService"></param>
+        /// <param name="view"></param>
         public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IItemView view)
         {
@@ -75,11 +87,14 @@ namespace MyLibrary.Presenters
             // subscribe to the view's events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
             this._view.ItemSelectionChanged += ItemSelectionChanged;
-            this._view.FiltersUpdated += PerformFilter; //FiltersUpdated; //
-            this._view.ApplyFilterButtonClicked += PerformFilter; //FiltersUpdated; //ApplyFilterButtonClicked; //
-            this._view.DeleteButtonClicked += DeleteButtonClicked;
+            this._view.FiltersUpdated += PerformFilter;
+            this._view.ApplyFilterButtonClicked += PerformFilter;
+            this._view.DeleteButtonClicked += (async (sender, args) => 
+            { 
+                await HandleDeleteButtonClicked(sender, args); 
+            });
             this._view.UpdateSelectedItemButtonClicked += UpdateSelectedItemButtonClicked;
-            this._view.SelectedItemModified += SelectedItemModified; //
+            this._view.SelectedItemModified += SelectedItemModified;
             this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
             this._view.TagsUpdated += TagsUpdated;
             this._view.AddNewMediaItemClicked += AddNewMediaItemClicked;
@@ -89,7 +104,7 @@ namespace MyLibrary.Presenters
         }
 
         #region View event handlers
-        public async void DeleteButtonClicked(object sender, EventArgs args)
+        public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
             // delete the item
             try

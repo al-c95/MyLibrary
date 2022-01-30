@@ -761,6 +761,65 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveButtonEnabled);
             Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
+
+        [TestCase("", "", false)]
+        [TestCase("John", "Smith", true)]
+        [TestCase("John", "", false)]
+        [TestCase("", "Smith", false)]
+        [TestCase("John", "Smith1", false)]
+        [TestCase("John", "Smith-Jones", true)]
+        public void AddNewAuthorFieldsUpdated_Test(string firstNameFieldEntry, string lastNameFieldEntry, bool expectedAddButtonEnabled)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.NewAuthorFirstNameFieldText).Returns(firstNameFieldEntry);
+            A.CallTo(() => fakeView.NewAuthorLastNameFieldText).Returns(lastNameFieldEntry);
+            MockBookPresenter presenter = new MockBookPresenter(null, null, null, null,
+                fakeView, null);
+
+            // act
+            presenter.NewAuthorFieldsUpdated(null, null);
+            bool actualAddButtonEnabled = fakeView.AddNewAuthorButtonEnabled;
+
+            // assert
+            Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
+        }
+
+        [TestCase("", false)]
+        [TestCase("some_publisher", true)]
+        public void AddNewPublisherFieldUpdated_Test(string publisherNameFieldEntry, bool expectedAddButtonEnabled)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.NewPublisherFieldText).Returns(publisherNameFieldEntry);
+            MockBookPresenter presenter = new MockBookPresenter(null, null, null, null,
+                fakeView, null);
+
+            // act
+            presenter.NewPublisherFieldUpdated(null, null);
+            bool actualAddButtonEnabled = fakeView.AddNewPublisherButtonEnabled;
+
+            // assert
+            Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
+        }
+
+        [TestCase("", false)]
+        [TestCase("tag", true)]
+        public void AddNewTagFieldUpdated_Test(string tagNameFieldEntry, bool expectedAddButtonEnabled)
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.NewTagFieldText).Returns(tagNameFieldEntry);
+            MockBookPresenter presenter = new MockBookPresenter(null, null, null, null,
+                fakeView, null);
+
+            // act
+            presenter.NewTagFieldUpdated(null, null);
+            bool actualAddButtonEnabled = fakeView.AddNewTagButtonEnabled;
+
+            // assert
+            Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
+        }
     }//class
 
     public class MockBookPresenter : AddBookPresenter
