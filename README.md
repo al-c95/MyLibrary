@@ -33,7 +33,9 @@ root
 All notable changes to this project are documented in `CHANGELOG.md`.
 
 ## Installation and Setup
-No installation process is required. Simply clone the repo: `git clone https://github.com/Alc2110/MyLibrary.git`.
+1. Clone the repo: `git clone https://github.com/Alc2110/MyLibrary.git`.
+2. Compile.
+3. Set the `dbPath` in `app.config` to the path of the database (`library.db`).
 
 ## Architecture
 WinForms application connected to a bundled Sqlite database.
@@ -42,6 +44,9 @@ WinForms application connected to a bundled Sqlite database.
 Some instructions or a manual may be provided as part of a future release.
 
 ## Attributions
+- Newtonsoft.Json 13.0.1 by James Newton-King
+- Dapper 2.0.123 by Sam Saffron, Marc Gravell and Nick Craver
+- Microsoft.Data.Sqlite.Core by Microsoft
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
