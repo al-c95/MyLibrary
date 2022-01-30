@@ -136,7 +136,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
             // delete record from link table
             this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId AND tagId=@tagId;", new
             {
-                bookId = mediaId,
+                mediaId = mediaId,
                 tagId = tagId
             });
         }
