@@ -83,12 +83,6 @@ namespace MyLibrary
             this.imageFilePathField = new System.Windows.Forms.TextBox();
             this.placeOfPublicationField = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tagsGroup.SuspendLayout();
@@ -97,7 +91,7 @@ namespace MyLibrary
             // titleField
             // 
             this.titleField.Location = new System.Drawing.Point(91, 10);
-            this.titleField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.titleField.Margin = new System.Windows.Forms.Padding(2);
             this.titleField.Name = "titleField";
             this.titleField.Size = new System.Drawing.Size(501, 20);
             this.titleField.TabIndex = 0;
@@ -125,7 +119,7 @@ namespace MyLibrary
             // longTitleField
             // 
             this.longTitleField.Location = new System.Drawing.Point(91, 35);
-            this.longTitleField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.longTitleField.Margin = new System.Windows.Forms.Padding(2);
             this.longTitleField.Name = "longTitleField";
             this.longTitleField.Size = new System.Drawing.Size(501, 20);
             this.longTitleField.TabIndex = 3;
@@ -133,7 +127,7 @@ namespace MyLibrary
             // IsbnField
             // 
             this.IsbnField.Location = new System.Drawing.Point(91, 66);
-            this.IsbnField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IsbnField.Margin = new System.Windows.Forms.Padding(2);
             this.IsbnField.Name = "IsbnField";
             this.IsbnField.Size = new System.Drawing.Size(501, 20);
             this.IsbnField.TabIndex = 4;
@@ -141,7 +135,7 @@ namespace MyLibrary
             // Isbn13Field
             // 
             this.Isbn13Field.Location = new System.Drawing.Point(91, 91);
-            this.Isbn13Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Isbn13Field.Margin = new System.Windows.Forms.Padding(2);
             this.Isbn13Field.Name = "Isbn13Field";
             this.Isbn13Field.Size = new System.Drawing.Size(501, 20);
             this.Isbn13Field.TabIndex = 5;
@@ -168,8 +162,6 @@ namespace MyLibrary
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label22);
-            this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.newAuthorLastNameField);
@@ -177,9 +169,9 @@ namespace MyLibrary
             this.groupBox1.Controls.Add(this.addNewAuthorButton);
             this.groupBox1.Controls.Add(this.authorsList);
             this.groupBox1.Location = new System.Drawing.Point(9, 119);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(290, 113);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
@@ -208,7 +200,7 @@ namespace MyLibrary
             // newAuthorLastNameField
             // 
             this.newAuthorLastNameField.Location = new System.Drawing.Point(184, 40);
-            this.newAuthorLastNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.newAuthorLastNameField.Margin = new System.Windows.Forms.Padding(2);
             this.newAuthorLastNameField.Name = "newAuthorLastNameField";
             this.newAuthorLastNameField.Size = new System.Drawing.Size(102, 20);
             this.newAuthorLastNameField.TabIndex = 39;
@@ -216,7 +208,7 @@ namespace MyLibrary
             // newAuthorFirstNameField
             // 
             this.newAuthorFirstNameField.Location = new System.Drawing.Point(184, 17);
-            this.newAuthorFirstNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.newAuthorFirstNameField.Margin = new System.Windows.Forms.Padding(2);
             this.newAuthorFirstNameField.Name = "newAuthorFirstNameField";
             this.newAuthorFirstNameField.Size = new System.Drawing.Size(102, 20);
             this.newAuthorFirstNameField.TabIndex = 38;
@@ -224,7 +216,7 @@ namespace MyLibrary
             // addNewAuthorButton
             // 
             this.addNewAuthorButton.Location = new System.Drawing.Point(226, 63);
-            this.addNewAuthorButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addNewAuthorButton.Margin = new System.Windows.Forms.Padding(2);
             this.addNewAuthorButton.Name = "addNewAuthorButton";
             this.addNewAuthorButton.Size = new System.Drawing.Size(58, 22);
             this.addNewAuthorButton.TabIndex = 11;
@@ -235,15 +227,15 @@ namespace MyLibrary
             // 
             this.authorsList.FormattingEnabled = true;
             this.authorsList.Location = new System.Drawing.Point(4, 17);
-            this.authorsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.authorsList.Margin = new System.Windows.Forms.Padding(2);
             this.authorsList.Name = "authorsList";
-            this.authorsList.Size = new System.Drawing.Size(144, 64);
+            this.authorsList.Size = new System.Drawing.Size(144, 79);
             this.authorsList.TabIndex = 0;
             // 
             // saveButton
             // 
             this.saveButton.Location = new System.Drawing.Point(11, 683);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(112, 22);
             this.saveButton.TabIndex = 9;
@@ -253,7 +245,7 @@ namespace MyLibrary
             // cancelButton
             // 
             this.cancelButton.Location = new System.Drawing.Point(478, 683);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(112, 22);
             this.cancelButton.TabIndex = 10;
@@ -263,15 +255,13 @@ namespace MyLibrary
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label21);
-            this.groupBox2.Controls.Add(this.textBox2);
             this.groupBox2.Controls.Add(this.newPublisherField);
             this.groupBox2.Controls.Add(this.addNewPublisherButton);
             this.groupBox2.Controls.Add(this.publishersList);
             this.groupBox2.Location = new System.Drawing.Point(303, 119);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(288, 113);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
@@ -280,7 +270,7 @@ namespace MyLibrary
             // newPublisherField
             // 
             this.newPublisherField.Location = new System.Drawing.Point(158, 21);
-            this.newPublisherField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.newPublisherField.Margin = new System.Windows.Forms.Padding(2);
             this.newPublisherField.Name = "newPublisherField";
             this.newPublisherField.Size = new System.Drawing.Size(126, 20);
             this.newPublisherField.TabIndex = 37;
@@ -288,7 +278,7 @@ namespace MyLibrary
             // addNewPublisherButton
             // 
             this.addNewPublisherButton.Location = new System.Drawing.Point(225, 44);
-            this.addNewPublisherButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addNewPublisherButton.Margin = new System.Windows.Forms.Padding(2);
             this.addNewPublisherButton.Name = "addNewPublisherButton";
             this.addNewPublisherButton.Size = new System.Drawing.Size(58, 22);
             this.addNewPublisherButton.TabIndex = 12;
@@ -299,15 +289,15 @@ namespace MyLibrary
             // 
             this.publishersList.FormattingEnabled = true;
             this.publishersList.Location = new System.Drawing.Point(4, 17);
-            this.publishersList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.publishersList.Margin = new System.Windows.Forms.Padding(2);
             this.publishersList.Name = "publishersList";
-            this.publishersList.Size = new System.Drawing.Size(150, 69);
+            this.publishersList.Size = new System.Drawing.Size(150, 82);
             this.publishersList.TabIndex = 0;
             // 
             // notesField
             // 
             this.notesField.Location = new System.Drawing.Point(11, 571);
-            this.notesField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.notesField.Margin = new System.Windows.Forms.Padding(2);
             this.notesField.Multiline = true;
             this.notesField.Name = "notesField";
             this.notesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -327,7 +317,7 @@ namespace MyLibrary
             // datePublishedField
             // 
             this.datePublishedField.Location = new System.Drawing.Point(420, 366);
-            this.datePublishedField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.datePublishedField.Margin = new System.Windows.Forms.Padding(2);
             this.datePublishedField.Name = "datePublishedField";
             this.datePublishedField.Size = new System.Drawing.Size(172, 20);
             this.datePublishedField.TabIndex = 14;
@@ -345,7 +335,7 @@ namespace MyLibrary
             // editionField
             // 
             this.editionField.Location = new System.Drawing.Point(420, 417);
-            this.editionField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editionField.Margin = new System.Windows.Forms.Padding(2);
             this.editionField.Name = "editionField";
             this.editionField.Size = new System.Drawing.Size(172, 20);
             this.editionField.TabIndex = 16;
@@ -363,7 +353,7 @@ namespace MyLibrary
             // deweyDecimalField
             // 
             this.deweyDecimalField.Location = new System.Drawing.Point(420, 441);
-            this.deweyDecimalField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deweyDecimalField.Margin = new System.Windows.Forms.Padding(2);
             this.deweyDecimalField.Name = "deweyDecimalField";
             this.deweyDecimalField.Size = new System.Drawing.Size(172, 20);
             this.deweyDecimalField.TabIndex = 18;
@@ -381,7 +371,7 @@ namespace MyLibrary
             // formatField
             // 
             this.formatField.Location = new System.Drawing.Point(420, 465);
-            this.formatField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.formatField.Margin = new System.Windows.Forms.Padding(2);
             this.formatField.Name = "formatField";
             this.formatField.Size = new System.Drawing.Size(172, 20);
             this.formatField.TabIndex = 20;
@@ -399,7 +389,7 @@ namespace MyLibrary
             // dimensionsField
             // 
             this.dimensionsField.Location = new System.Drawing.Point(420, 490);
-            this.dimensionsField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dimensionsField.Margin = new System.Windows.Forms.Padding(2);
             this.dimensionsField.Name = "dimensionsField";
             this.dimensionsField.Size = new System.Drawing.Size(172, 20);
             this.dimensionsField.TabIndex = 22;
@@ -417,7 +407,7 @@ namespace MyLibrary
             // overviewField
             // 
             this.overviewField.Location = new System.Drawing.Point(70, 366);
-            this.overviewField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.overviewField.Margin = new System.Windows.Forms.Padding(2);
             this.overviewField.Name = "overviewField";
             this.overviewField.Size = new System.Drawing.Size(229, 20);
             this.overviewField.TabIndex = 24;
@@ -425,7 +415,7 @@ namespace MyLibrary
             // MsrpField
             // 
             this.MsrpField.Location = new System.Drawing.Point(70, 391);
-            this.MsrpField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MsrpField.Margin = new System.Windows.Forms.Padding(2);
             this.MsrpField.Name = "MsrpField";
             this.MsrpField.Size = new System.Drawing.Size(229, 20);
             this.MsrpField.TabIndex = 25;
@@ -433,7 +423,7 @@ namespace MyLibrary
             // pagesField
             // 
             this.pagesField.Location = new System.Drawing.Point(70, 417);
-            this.pagesField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pagesField.Margin = new System.Windows.Forms.Padding(2);
             this.pagesField.Name = "pagesField";
             this.pagesField.Size = new System.Drawing.Size(229, 20);
             this.pagesField.TabIndex = 26;
@@ -441,7 +431,7 @@ namespace MyLibrary
             // synopsisField
             // 
             this.synopsisField.Location = new System.Drawing.Point(70, 441);
-            this.synopsisField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.synopsisField.Margin = new System.Windows.Forms.Padding(2);
             this.synopsisField.Name = "synopsisField";
             this.synopsisField.Size = new System.Drawing.Size(229, 20);
             this.synopsisField.TabIndex = 27;
@@ -449,7 +439,7 @@ namespace MyLibrary
             // excerptField
             // 
             this.excerptField.Location = new System.Drawing.Point(70, 466);
-            this.excerptField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.excerptField.Margin = new System.Windows.Forms.Padding(2);
             this.excerptField.Name = "excerptField";
             this.excerptField.Size = new System.Drawing.Size(229, 20);
             this.excerptField.TabIndex = 28;
@@ -506,15 +496,13 @@ namespace MyLibrary
             // 
             // tagsGroup
             // 
-            this.tagsGroup.Controls.Add(this.label20);
-            this.tagsGroup.Controls.Add(this.textBox1);
             this.tagsGroup.Controls.Add(this.newTagField);
             this.tagsGroup.Controls.Add(this.addNewTagButton);
             this.tagsGroup.Controls.Add(this.tagsList);
             this.tagsGroup.Location = new System.Drawing.Point(163, 236);
-            this.tagsGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tagsGroup.Margin = new System.Windows.Forms.Padding(2);
             this.tagsGroup.Name = "tagsGroup";
-            this.tagsGroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tagsGroup.Padding = new System.Windows.Forms.Padding(2);
             this.tagsGroup.Size = new System.Drawing.Size(290, 126);
             this.tagsGroup.TabIndex = 12;
             this.tagsGroup.TabStop = false;
@@ -523,7 +511,7 @@ namespace MyLibrary
             // newTagField
             // 
             this.newTagField.Location = new System.Drawing.Point(160, 17);
-            this.newTagField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.newTagField.Margin = new System.Windows.Forms.Padding(2);
             this.newTagField.Name = "newTagField";
             this.newTagField.Size = new System.Drawing.Size(126, 20);
             this.newTagField.TabIndex = 36;
@@ -531,7 +519,7 @@ namespace MyLibrary
             // addNewTagButton
             // 
             this.addNewTagButton.Location = new System.Drawing.Point(226, 40);
-            this.addNewTagButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addNewTagButton.Margin = new System.Windows.Forms.Padding(2);
             this.addNewTagButton.Name = "addNewTagButton";
             this.addNewTagButton.Size = new System.Drawing.Size(58, 22);
             this.addNewTagButton.TabIndex = 11;
@@ -542,15 +530,15 @@ namespace MyLibrary
             // 
             this.tagsList.FormattingEnabled = true;
             this.tagsList.Location = new System.Drawing.Point(4, 17);
-            this.tagsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tagsList.Margin = new System.Windows.Forms.Padding(2);
             this.tagsList.Name = "tagsList";
-            this.tagsList.Size = new System.Drawing.Size(152, 79);
+            this.tagsList.Size = new System.Drawing.Size(152, 94);
             this.tagsList.TabIndex = 0;
             // 
             // languageField
             // 
             this.languageField.Location = new System.Drawing.Point(70, 491);
-            this.languageField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.languageField.Margin = new System.Windows.Forms.Padding(2);
             this.languageField.Name = "languageField";
             this.languageField.Size = new System.Drawing.Size(229, 20);
             this.languageField.TabIndex = 34;
@@ -568,7 +556,7 @@ namespace MyLibrary
             // browseImageButton
             // 
             this.browseImageButton.Location = new System.Drawing.Point(520, 531);
-            this.browseImageButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.browseImageButton.Margin = new System.Windows.Forms.Padding(2);
             this.browseImageButton.Name = "browseImageButton";
             this.browseImageButton.Size = new System.Drawing.Size(71, 22);
             this.browseImageButton.TabIndex = 38;
@@ -588,7 +576,7 @@ namespace MyLibrary
             // imageFilePathField
             // 
             this.imageFilePathField.Location = new System.Drawing.Point(154, 533);
-            this.imageFilePathField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.imageFilePathField.Margin = new System.Windows.Forms.Padding(2);
             this.imageFilePathField.Name = "imageFilePathField";
             this.imageFilePathField.Size = new System.Drawing.Size(362, 20);
             this.imageFilePathField.TabIndex = 36;
@@ -596,7 +584,7 @@ namespace MyLibrary
             // placeOfPublicationField
             // 
             this.placeOfPublicationField.Location = new System.Drawing.Point(420, 391);
-            this.placeOfPublicationField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.placeOfPublicationField.Margin = new System.Windows.Forms.Padding(2);
             this.placeOfPublicationField.Name = "placeOfPublicationField";
             this.placeOfPublicationField.Size = new System.Drawing.Size(172, 20);
             this.placeOfPublicationField.TabIndex = 39;
@@ -610,57 +598,6 @@ namespace MyLibrary
             this.label19.Size = new System.Drawing.Size(118, 15);
             this.label19.TabIndex = 40;
             this.label19.Text = "Place of Publication:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(47, 100);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(237, 20);
-            this.textBox1.TabIndex = 37;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(5, 101);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(37, 15);
-            this.label20.TabIndex = 41;
-            this.label20.Text = "Filter:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(47, 89);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(236, 20);
-            this.textBox2.TabIndex = 41;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(47, 89);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(239, 20);
-            this.textBox3.TabIndex = 41;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(5, 92);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(37, 15);
-            this.label21.TabIndex = 42;
-            this.label21.Text = "Filter:";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(5, 92);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(37, 15);
-            this.label22.TabIndex = 42;
-            this.label22.Text = "Filter:";
             // 
             // AddNewBookForm
             // 
@@ -710,7 +647,7 @@ namespace MyLibrary
             this.Controls.Add(this.label1);
             this.Controls.Add(this.titleField);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddNewBookForm";
@@ -782,11 +719,5 @@ namespace MyLibrary
         private System.Windows.Forms.TextBox imageFilePathField;
         private System.Windows.Forms.TextBox placeOfPublicationField;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox textBox2;
     }
 }
