@@ -53,31 +53,6 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         }
 
         [Test]
-        public void Title_Setter_Test_Valid()
-        {
-            // arrange
-            MockItem item = new MockItem();
-            string title = "item";
-
-            // act
-            item.Title = title;
-
-            // assert
-            Assert.AreEqual(title, item.Title);
-        }
-
-        [TestCase("")]
-        [TestCase(null)]
-        public void Title_Setter_Test_Empty(string title)
-        {
-            // arrange
-            MockItem item = new MockItem();
-
-            // act/assert
-            Assert.Throws<ArgumentNullException>(() => item.Title = title);
-        }
-
-        [Test]
         public void GetMemento_Test()
         {
             // arrange
