@@ -253,6 +253,12 @@
     <Compile Include="Views\IManageCopiesForm.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />
     <Compile Include="Views\IShowStats.cs" />
+    <Compile Include="WishlistDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WishlistDialog.Designer.cs">
+      <DependentUpon>WishlistDialog.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,6 +294,9 @@
     </Compile>
     <EmbeddedResource Include="ShowStatsDialog.resx">
       <DependentUpon>ShowStatsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WishlistDialog.resx">
+      <DependentUpon>WishlistDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
