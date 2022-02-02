@@ -227,6 +227,7 @@
     <Compile Include="ManageTagsForm.Designer.cs">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\WishlistItem.cs" />
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Views\IManageCopiesForm.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />
     <Compile Include="Views\IShowStats.cs" />
+    <Compile Include="Views\IWishlistForm.cs" />
     <Compile Include="WishlistDialog.cs">
       <SubType>Form</SubType>
     </Compile>
