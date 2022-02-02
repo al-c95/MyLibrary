@@ -40,7 +40,6 @@ namespace MyLibrary.Models.Entities
         }
 
         public byte[] Image { get; set; } // conversion to and from images is handled by the presentation layer (view)
-        public string Notes { get; set; }
 
         public ICollection<Tag> Tags;
 

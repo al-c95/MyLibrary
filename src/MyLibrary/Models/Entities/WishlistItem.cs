@@ -28,27 +28,8 @@ using System.Threading.Tasks;
 
 namespace MyLibrary.Models.Entities
 {
-    public abstract class ItemBase : Entity
+    public class WishlistItem : ItemBase
     {
-        public abstract ItemType Type { get; set; }
-
-        private string _title;
-        public string Title
-        {
-            get => this._title;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentNullException("Can't have an empty title.");
-                }
-                else
-                {
-                    _title = value;
-                }
-            }
-        }
-
-        public string Notes { get; set; }
-    }//class
+        public override ItemType Type { get; set; }
+    }
 }

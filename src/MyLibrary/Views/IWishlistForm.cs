@@ -25,30 +25,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Views
 {
-    public abstract class ItemBase : Entity
+    public interface IWishlistForm
     {
-        public abstract ItemType Type { get; set; }
+        string SelectedNotes { get; set; }
+        string NewNotes { get; set; }
 
-        private string _title;
-        public string Title
-        {
-            get => this._title;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentNullException("Can't have an empty title.");
-                }
-                else
-                {
-                    _title = value;
-                }
-            }
-        }
+        string StatusText { get; set; }
 
-        public string Notes { get; set; }
-    }//class
+        void DisplayItems(IEnumerable<WishlistItem> items);
+
+        WishlistItem SelectedItem { get; }
+        WishlistItem ModifiedItemCopy { get; }
+        WishlistItem NewItem { get; }
+
+        bool SaveSelectedButtonEnabled { get; set; }
+        bool DeleteSelectedButtonEnabled { get; set; }
+        bool DiscardChangesButtonEnabled { get; set; }
+        bool SaveNewButtonEnabled { get; set; }
+
+        int NumberItemsSelected { get; }
+
+        ItemType NewItemType { get; }
+
+        event EventHandler ItemSelected;
+        event EventHandler SaveSelectedClicked;
+        event EventHandler DiscardChangesClicked;
+        event EventHandler DeleteClicked;
+        event EventHandler SaveNewClicked;
+        event EventHandler NewItemFieldsUpdated;
+        event EventHandler SelectedItemFieldsUpdated;
+    }
 }
