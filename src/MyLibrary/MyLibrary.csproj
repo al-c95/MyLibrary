@@ -148,11 +148,13 @@
     <Compile Include="DataAccessLayer\Repositories\IPublisherRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\ITagRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\ItemRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\IWishlistRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\MediaItemCopyRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\MediaItemRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\PublisherRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\Repository.cs" />
     <Compile Include="DataAccessLayer\Repositories\TagRepository.cs" />
+    <Compile Include="DataAccessLayer\Repositories\WishlistRepository.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\AuthorRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\BookCopyRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\BookRepositoryProvider.cs" />
@@ -164,11 +166,13 @@
     <Compile Include="DataAccessLayer\ServiceProviders\IPublisherRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\ITagRepositoryServiceProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\IUnitOfWorkProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\IWishlistRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\MediaItemCopyRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\MediaItemRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\PublisherRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\TagRepositoryServiceProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />
+    <Compile Include="DataAccessLayer\ServiceProviders\WishlistRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
     <Compile Include="ManageCopiesDialog.cs">
       <SubType>Form</SubType>
@@ -193,6 +197,7 @@
     <Compile Include="Models\BusinessLogic\PublisherService.cs" />
     <Compile Include="Models\BusinessLogic\ServiceBase.cs" />
     <Compile Include="Models\BusinessLogic\TagService.cs" />
+    <Compile Include="Models\BusinessLogic\WishlistService.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />

@@ -20,21 +20,16 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
+using System.Collections.Generic;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
-    public abstract class ItemRepository<T> : Repository<T> where T : ItemBase
+    public interface IWishlistRepository
     {
-        public ItemRepository(IUnitOfWork uow)
-            :base(uow) { }
-
-        public abstract void Update(T toUpdate);
-        public abstract void DeleteById(int id);
-    }//class
+        void Create(WishlistItem entity);
+        void DeleteById(int id);
+        IEnumerable<WishlistItem> ReadAll();
+        void Update(WishlistItem toUpdate);
+    }
 }
