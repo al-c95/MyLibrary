@@ -103,3 +103,10 @@ CREATE TABLE "MediaItemCopies" (
     "notes", TEXT,
     FOREIGN KEY("mediaItemId") REFERENCES "Media"("id") ON DELETE CASCADE ON UPDATE NO ACTION
 );
+
+CREATE TABLE "Wishlist" (
+    "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "title" TEXT NOT NULL UNIQUE,
+    "type"  INTEGER NOT NULL,
+    "notes" TEXT
+);
