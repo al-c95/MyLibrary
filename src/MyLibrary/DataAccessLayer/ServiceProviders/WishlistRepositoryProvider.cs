@@ -25,16 +25,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
+using MyLibrary.DataAccessLayer;
+using MyLibrary.DataAccessLayer.Repositories;
 
-namespace MyLibrary.DataAccessLayer.Repositories
+namespace MyLibrary.DataAccessLayer.ServiceProviders
 {
-    public abstract class ItemRepository<T> : Repository<T> where T : ItemBase
+    public class WishlistRepositoryProvider : IWishlistRepositoryProvider
     {
-        public ItemRepository(IUnitOfWork uow)
-            :base(uow) { }
-
-        public abstract void Update(T toUpdate);
-        public abstract void DeleteById(int id);
+        public IWishlistRepository Get(IUnitOfWork uow) => new WishlistRepository(uow);
     }//class
 }

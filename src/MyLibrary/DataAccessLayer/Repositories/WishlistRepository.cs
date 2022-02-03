@@ -25,16 +25,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
-    public abstract class ItemRepository<T> : Repository<T> where T : ItemBase
+    public class WishlistRepository : ItemRepository<WishlistItem>, IWishlistRepository
     {
-        public ItemRepository(IUnitOfWork uow)
-            :base(uow) { }
+        public WishlistRepository(IUnitOfWork uow) : base(uow)
+        {
 
-        public abstract void Update(T toUpdate);
-        public abstract void DeleteById(int id);
+        }
+
+        public override void Create(WishlistItem entity)
+        {
+            const string SQL = "INSERT INTO Wishlist (title,type,notes) VALUES(@title,@type,@notes);";
+
+            this._uow.Connection.Execute(SQL, new
+            {
+                title = entity.Title,
+                type = entity.Type,
+                notes = entity.Notes
+            });
+        }
+
+        public override IEnumerable<WishlistItem> ReadAll()
+        {
+            const string SQL = "SELECT * FROM Wishlist;";
+
+            return this._uow.Connection.Query<WishlistItem>(SQL);
+        }
+
+        public override void Update(WishlistItem toUpdate)
+        {
+            const string SQL = "UPDATE Wishlist SET notes = @notes WHERE id = @id;";
+
+            this._uow.Connection.Execute(SQL, new
+            {
+                notes = toUpdate.Notes,
+                id = toUpdate.Id
+            });
+        }
+
+        public override void DeleteById(int id)
+        {
+            const string SQL = "DELETE FROM Wishlist WHERE id = @id;";
+
+            this._uow.Connection.Execute(SQL, new { id });
+        }
     }//class
 }

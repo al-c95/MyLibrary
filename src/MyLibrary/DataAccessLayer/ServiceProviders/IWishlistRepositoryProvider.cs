@@ -20,21 +20,12 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
+using MyLibrary.DataAccessLayer.Repositories;
 
-namespace MyLibrary.DataAccessLayer.Repositories
+namespace MyLibrary.DataAccessLayer.ServiceProviders
 {
-    public abstract class ItemRepository<T> : Repository<T> where T : ItemBase
+    public interface IWishlistRepositoryProvider
     {
-        public ItemRepository(IUnitOfWork uow)
-            :base(uow) { }
-
-        public abstract void Update(T toUpdate);
-        public abstract void DeleteById(int id);
-    }//class
+        IWishlistRepository Get(IUnitOfWork uow);
+    }
 }
