@@ -41,6 +41,8 @@ namespace MyLibrary
         {
             InitializeComponent();
 
+            this.StartPosition = FormStartPosition.CenterParent;
+
             // populate "Types" combo box
             this.typesDropDown.Items.Add(ItemType.Book);
             this.typesDropDown.Items.Add(ItemType.Cd);
