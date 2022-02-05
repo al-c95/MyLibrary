@@ -77,7 +77,6 @@ namespace MyLibrary.Presenters
             this._view.SelectedCopyFieldsUpdated += SelectedCopyFieldsUpdated;
         }
 
-        #region view event handlers
         public async Task LoadData(object sender, EventArgs args)
         {
             this._view.StatusText = "Please Wait...";
@@ -96,6 +95,7 @@ namespace MyLibrary.Presenters
             this._view.StatusText = "Ready.";
         }
 
+        #region view event handlers
         public void CopySelected(object sender, EventArgs args)
         {
             if (this._view.SelectedCopy is null)

@@ -206,6 +206,13 @@ namespace MyLibrary
                 await presenter.LoadData(sender, args);
                 form.ShowDialog();
             });
+            this.wishlistButton.Click += (async (sender, args) =>
+            {
+                var form = new WishlistDialog();
+                WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
+                await presenter.LoadData();
+                form.ShowDialog();
+            });
             this.tagsList.ItemCheck += (async (sender, args) =>
             {
                 await Task.Delay(FILTER_DELAY);

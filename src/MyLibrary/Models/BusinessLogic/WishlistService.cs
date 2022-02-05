@@ -32,7 +32,7 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
-    public class WishlistService
+    public class WishlistService : IWishlistService
     {
         protected IUnitOfWorkProvider _uowProvider;
         protected IWishlistRepositoryProvider _repoProvider;
@@ -100,7 +100,7 @@ namespace MyLibrary.Models.BusinessLogic
         public async Task<bool> ExistsWithId(int id)
         {
             var allItems = await GetAll();
-            return allItems.Any(i => i.Id==id);
+            return allItems.Any(i => i.Id == id);
         }
 
         public async Task Update(WishlistItem item)
