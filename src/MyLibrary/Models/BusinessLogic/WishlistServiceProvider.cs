@@ -25,39 +25,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
+using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary.Views
+namespace MyLibrary.Models.BusinessLogic
 {
-    public interface IWishlistForm
+    public class WishlistServiceProvider : IWishlistServiceProvider
     {
-        string SelectedNotes { get; set; }
-        string NewNotes { get; set; }
-
-        string StatusText { get; set; }
-
-        void DisplayItems(IEnumerable<WishlistItem> items);
-
-        WishlistItem SelectedItem { get; }
-        WishlistItem ModifiedItem { get; }
-        WishlistItem NewItem { get; }
-        string NewItemTitle { get; set; }
-
-        bool SaveSelectedButtonEnabled { get; set; }
-        bool DeleteSelectedButtonEnabled { get; set; }
-        bool DiscardChangesButtonEnabled { get; set; }
-        bool SaveNewButtonEnabled { get; set; }
-
-        int NumberItemsSelected { get; }
-
-        ItemType NewItemType { get; }
-
-        event EventHandler ItemSelected;
-        event EventHandler SaveSelectedClicked;
-        event EventHandler DiscardChangesClicked;
-        event EventHandler DeleteClicked;
-        event EventHandler SaveNewClicked;
-        event EventHandler NewItemFieldsUpdated;
-        event EventHandler SelectedItemFieldsUpdated;
-    }
+        public IWishlistService Get() => new WishlistService();
+    }//class
 }

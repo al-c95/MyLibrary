@@ -49,6 +49,7 @@ namespace MyLibrary
             this.typesDropDown.Items.Add(ItemType.Vhs);
             this.typesDropDown.Items.Add(ItemType.Vinyl);
             this.typesDropDown.Items.Add(ItemType.Other);
+            this.typesDropDown.SelectedIndex = 0;
 
             // register event handlers
             this.saveChangesButton.Click += ((sender, args) =>
@@ -112,7 +113,7 @@ namespace MyLibrary
             get => GetItemInList(false);
         }
 
-        public WishlistItem ModifiedItemCopy
+        public WishlistItem ModifiedItem
         {
             get => GetItemInList(true);
         }
@@ -152,6 +153,12 @@ namespace MyLibrary
 
                 return item;
             }
+        }
+
+        public string NewItemTitle
+        {
+            get => this.newItemTitleField.Text;
+            set => this.newItemTitleField.Text = value;
         }
 
         public bool SaveSelectedButtonEnabled
@@ -214,7 +221,8 @@ namespace MyLibrary
                 dt.Rows.Add(
                     item.Id,
                     item.Type,
-                    item.Title
+                    item.Title,
+                    item.Notes
                     );
             }
             this.dataGrid.DataSource = dt;

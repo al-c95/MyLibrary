@@ -29,10 +29,16 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.deleteButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.typesDropDown = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.newItemTitleField = new System.Windows.Forms.TextBox();
             this.newItemNotesBox = new System.Windows.Forms.TextBox();
             this.saveNewItemChangesButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,19 +48,13 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.notesLabel = new System.Windows.Forms.Label();
             this.dataGrid = new System.Windows.Forms.DataGridView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.newItemTitleField = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.typesDropDown = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer
@@ -70,13 +70,30 @@ namespace MyLibrary
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox2);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(884, 437);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(884, 428);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer.Name = "toolStripContainer";
-            this.toolStripContainer.Size = new System.Drawing.Size(884, 463);
+            this.toolStripContainer.Size = new System.Drawing.Size(884, 479);
             this.toolStripContainer.TabIndex = 0;
             this.toolStripContainer.Text = "toolStripContainer1";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(884, 26);
+            this.statusStrip1.TabIndex = 0;
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(53, 20);
+            this.toolStripStatusLabel.Text = "Ready.";
             // 
             // deleteButton
             // 
@@ -99,7 +116,7 @@ namespace MyLibrary
             this.groupBox2.Controls.Add(this.newItemNotesBox);
             this.groupBox2.Controls.Add(this.saveNewItemChangesButton);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(11, 210);
+            this.groupBox2.Location = new System.Drawing.Point(11, 201);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -107,6 +124,40 @@ namespace MyLibrary
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "New Item";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 171);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 15);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Type:";
+            // 
+            // typesDropDown
+            // 
+            this.typesDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.typesDropDown.FormattingEnabled = true;
+            this.typesDropDown.Location = new System.Drawing.Point(56, 168);
+            this.typesDropDown.Name = "typesDropDown";
+            this.typesDropDown.Size = new System.Drawing.Size(284, 21);
+            this.typesDropDown.TabIndex = 30;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 15);
+            this.label1.TabIndex = 30;
+            this.label1.Text = "Title:";
+            // 
+            // newItemTitleField
+            // 
+            this.newItemTitleField.Location = new System.Drawing.Point(43, 18);
+            this.newItemTitleField.Name = "newItemTitleField";
+            this.newItemTitleField.Size = new System.Drawing.Size(296, 20);
+            this.newItemTitleField.TabIndex = 30;
             // 
             // newItemNotesBox
             // 
@@ -213,14 +264,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(360, 11);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.dataGrid.MultiSelect = false;
@@ -229,65 +280,14 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(513, 420);
+            this.dataGrid.Size = new System.Drawing.Size(513, 411);
             this.dataGrid.TabIndex = 26;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(884, 26);
-            this.statusStrip1.TabIndex = 0;
-            // 
-            // toolStripStatusLabel
-            // 
-            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(53, 20);
-            this.toolStripStatusLabel.Text = "Ready.";
-            // 
-            // newItemTitleField
-            // 
-            this.newItemTitleField.Location = new System.Drawing.Point(43, 18);
-            this.newItemTitleField.Name = "newItemTitleField";
-            this.newItemTitleField.Size = new System.Drawing.Size(296, 20);
-            this.newItemTitleField.TabIndex = 30;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 15);
-            this.label1.TabIndex = 30;
-            this.label1.Text = "Title:";
-            // 
-            // typesDropDown
-            // 
-            this.typesDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.typesDropDown.FormattingEnabled = true;
-            this.typesDropDown.Location = new System.Drawing.Point(56, 168);
-            this.typesDropDown.Name = "typesDropDown";
-            this.typesDropDown.Size = new System.Drawing.Size(284, 21);
-            this.typesDropDown.TabIndex = 30;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 171);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 19);
-            this.label2.TabIndex = 30;
-            this.label2.Text = "Type:";
             // 
             // WishlistDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 463);
+            this.ClientSize = new System.Drawing.Size(884, 479);
             this.Controls.Add(this.toolStripContainer);
             this.Name = "WishlistDialog";
             this.Text = "Wishlist";
@@ -296,13 +296,13 @@ namespace MyLibrary
             this.toolStripContainer.ContentPanel.ResumeLayout(false);
             this.toolStripContainer.ResumeLayout(false);
             this.toolStripContainer.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
