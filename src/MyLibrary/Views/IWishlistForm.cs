@@ -38,6 +38,8 @@ namespace MyLibrary.Views
 
         void DisplayItems(IEnumerable<WishlistItem> items);
 
+        void ShowItemAlreadyExistsDialog(string title);
+
         WishlistItem SelectedItem { get; }
         WishlistItem ModifiedItem { get; }
         WishlistItem NewItem { get; }

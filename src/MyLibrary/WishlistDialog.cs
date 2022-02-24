@@ -230,5 +230,10 @@ namespace MyLibrary
             this.dataGrid.DataSource = dt;
             this.dataGrid.Columns["Notes"].Visible = false;
         }
+
+        public void ShowItemAlreadyExistsDialog(string title)
+        {
+            MessageBox.Show("Item already exists", "Wishlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }//class
 }
