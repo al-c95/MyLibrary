@@ -127,6 +127,17 @@ namespace MyLibrary.Presenters
             this._view.StatusText = "Please Wait...";
 
             var service = this._serviceProvider.Get();
+
+            string newItemTitle = this._view.NewItemTitle;
+            bool preExisting = await service.ExistsWithTitle(newItemTitle);
+            if (preExisting)
+            {
+                this._view.ShowItemAlreadyExistsDialog(newItemTitle);
+                this._view.StatusText = "Ready.";
+
+                return;
+            }
+
             await service.Add(this._view.NewItem);
 
             this._view.DisplayItems(await service.GetAll());

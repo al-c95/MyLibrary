@@ -161,7 +161,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task SaveNewClicked_Test()
+        public async Task SaveNewClicked_Test_DoesNotYetExist()
         {
             // arrange
             var fakeView = A.Fake<IWishlistForm>();
@@ -186,6 +186,36 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             A.CallTo(() => fakeService.Add(newItem)).MustHaveHappened();
             A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task SaveNewClicked_Test_AlreadyExists()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            WishlistItem newItem = new WishlistItem
+            {
+                Id = 1,
+                Title = "item",
+                Notes = "test",
+                Type = ItemType.Book
+            };
+            A.CallTo(() => fakeView.NewItem).Returns(newItem);
+            A.CallTo(() => fakeView.NewItemTitle).Returns("item");
+            var fakeServiceProvider = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            A.CallTo(() => fakeService.ExistsWithTitle("item")).Returns(true);
+            List<WishlistItem> items = new List<WishlistItem>();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceProvider.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceProvider);
+
+            // act
+            await presenter.SaveNewClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("item")).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
 
