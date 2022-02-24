@@ -93,6 +93,14 @@ This document describes some of the detail of the data, architecture and user in
 |tagId    |INTEGER      |No          |Foreign key, references (Tags)id. Unique constraint on (mediaId, tagId).               |
 &nbsp;
 
+#### Wishlist
+|**Field**|**Data Type**|**Nullable**|**Comments/Description**|
+|---------|-------------|------------|---------------|
+|id       |INTEGER      |No          |Primary key, autoincremented|
+|title    |TEXT         |No          |               |
+|type     |INTEGER      |No          |               |
+|notes    |TEXT         |Yes         |               |
+
 ### Entity model
 - The entities used in the client application are based on the structure of the database.
 - A UML diagram of the entity model follows:
