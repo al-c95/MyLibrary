@@ -36,7 +36,7 @@ namespace MyLibrary
         public static readonly string CONNECTION_STRING;
 
         public const string APP_NAME = "MyLibrary";
-        public const string APP_VERSION = "1.0.1";
+        public const string APP_VERSION = "1.1.0";
 
         public static string APP_DESCRIPTION
         {
