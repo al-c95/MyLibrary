@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.1.0] - 24-2-2022
+### Added
+- wishlist feature
+
 ## [1.0.1] - 30-1-2022
 ### Fixed
 - "insufficient parameters supplied to the command" error when attempting to remove tag from media item
