@@ -67,7 +67,7 @@ namespace MyLibrary.Presenters
             });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
             this._view.NewTagFieldUpdated += NewTagFieldUpdated;
-        }
+        }//ctor
 
         public async Task PopulateTagsList()
         {
@@ -126,12 +126,15 @@ namespace MyLibrary.Presenters
                 ReleaseYear = int.Parse(this._view.YearFieldEntry),
                 Notes = this._view.NotesFieldText
             };
+            // running time
             if (!string.IsNullOrWhiteSpace(enteredRunningTime))
             {
                 item.RunningTime = int.Parse(enteredRunningTime);
             }
+            // tags
             foreach (var tagName in this._view.SelectedTags)
                 item.Tags.Add(new Tag { Name = tagName });
+            // image
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
                 try
