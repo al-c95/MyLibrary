@@ -22,27 +22,36 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace MyLibrary.Views
+namespace MyLibrary
 {
-    public interface IAddMediaItemForm : IAddItemForm
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    public partial class NewTagInputBox : Form
     {
-        string SelectedCategory { get; }
-        int SelectedCategoryIndex { get; set; }
-        string NumberFieldText { get; set; }
-        string RunningTimeFieldEntry { get; set; }
-        string YearFieldEntry { get; set; }
+        private string _entry;
+        public string TagName { get => this._entry; }
 
-        string FilterTagsFieldEntry { get; set; }
-        IEnumerable<string> UnselectedTags { get; }
-        event EventHandler FilterTagsFieldUpdated;
-        event EventHandler AddNewTagButtonClicked;
-        event EventHandler TagCheckedChanged;
-        void AddTags(Dictionary<string, bool> tags);
-        string ShowNewTagDialog();
-        void ShowTagAlreadyExistsDialog(string tag);
-    }
+        public NewTagInputBox()
+        {
+            InitializeComponent();
+
+            // register event handlers
+            this.okButton.Click += ((sender, args) =>
+            {
+                this._entry = this.textBox1.Text;
+                this.DialogResult = DialogResult.OK;
+            });
+            this.cancelButton.Click += ((sender, args) =>
+            {
+                this.DialogResult = DialogResult.Cancel;
+            });
+        }//ctor
+    }//class
 }
