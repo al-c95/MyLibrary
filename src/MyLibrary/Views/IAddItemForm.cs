@@ -35,6 +35,8 @@ namespace MyLibrary.Views
         string ImageFilePathFieldText { get; set; }
 
         IEnumerable<string> SelectedTags { get; }
+        string FilterTagsFieldEntry { get; set; }
+        IEnumerable<string> UnselectedTags { get; }
 
         bool SaveButtonEnabled { get; set; }
         bool CancelButtonEnabled { get; set; }
@@ -43,7 +45,9 @@ namespace MyLibrary.Views
         void CloseDialog();
         void ShowItemAlreadyExistsDialog(string title);
         void ItemAddedFinished();
-
+        void AddTags(Dictionary<string, bool> tags);
+        string ShowNewTagDialog();
+        void ShowTagAlreadyExistsDialog(string tag);
         void ShowErrorDialog(string title, string message);
 
         string NewTagFieldText { get; set; }
@@ -52,6 +56,8 @@ namespace MyLibrary.Views
         event EventHandler InputFieldsUpdated;
         event EventHandler SaveButtonClicked;
         event EventHandler ItemAdded;
-        event EventHandler NewTagFieldUpdated;
+        event EventHandler FilterTagsFieldUpdated;
+        event EventHandler AddNewTagButtonClicked;
+        event EventHandler TagCheckedChanged;
     }
 }

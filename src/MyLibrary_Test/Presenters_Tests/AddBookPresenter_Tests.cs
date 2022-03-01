@@ -306,22 +306,21 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            var fakeBookRepo = A.Fake<IBookService>();
+            List<Tag> tags = new List<Tag> { new Tag { Name = "tag" } };
             var fakeTagService = A.Fake<ITagService>();
-            Tag tag1 = new Tag { Name = "tag1" };
-            Tag tag2 = new Tag { Name = "tag2" };
-            List<Tag> tags = new List<Tag> { tag1, tag2 };
             A.CallTo(() => fakeTagService.GetAll()).Returns(tags);
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            var fakeBookRepo = A.Fake<IBookService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView, null);
 
             // act
             await presenter.PopulateTagsList();
 
             // assert
-            A.CallTo(() => fakeView.PopulateTagsList(A<List<string>>.That.Matches(l => l.Contains("tag1")&&l.Contains("tag2"))));
+            Assert.IsFalse(presenter.GetAllTagsValueByKey("tag"));
         }
 
         [Test]
@@ -803,22 +802,98 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
         }
 
-        [TestCase("", false)]
-        [TestCase("tag", true)]
-        public void AddNewTagFieldUpdated_Test(string tagNameFieldEntry, bool expectedAddButtonEnabled)
+        [Test]
+        public void HandleAddNewTagClicked_Test_NoEntry()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.NewTagFieldText).Returns(tagNameFieldEntry);
-            MockBookPresenter presenter = new MockBookPresenter(null, null, null, null,
-                fakeView, null);
+            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("");
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
 
             // act
-            presenter.NewTagFieldUpdated(null, null);
-            bool actualAddButtonEnabled = fakeView.AddNewTagButtonEnabled;
+            presenter.HandleAddNewTagClicked(null, null);
 
             // assert
-            Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
+            A.CallTo(() => fakeView.ShowTagAlreadyExistsDialog("")).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void HandleAddNewTagClicked_Test_TagAlreadyExists()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag1");
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            Dictionary<string, bool> allTags = new Dictionary<string, bool>();
+            allTags.Add("tag1", true);
+            presenter.SetAllTags(allTags);
+
+            // act
+            presenter.HandleAddNewTagClicked(null, null);
+
+            // assert
+            Assert.IsTrue(presenter.GetAllTagsValueByKey("tag1"));
+        }
+
+        [Test]
+        public void HandleAddNewTagClicked_Test_TagDoesNotYetExist()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag2");
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            Dictionary<string, bool> allTags = new Dictionary<string, bool>();
+            allTags.Add("tag1", true);
+            presenter.SetAllTags(allTags);
+
+            // act
+            presenter.HandleAddNewTagClicked(null, null);
+
+            // assert
+            Assert.IsTrue(presenter.GetAllTagsValueByKey("tag2"));
+        }
+
+        [Test]
+        public void HandleTagCheckedChanged_Test()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddBookForm>();
+            List<string> selectedTags = new List<string> { "tag1" };
+            List<string> unselectedTags = new List<string> { "tag2" };
+            A.CallTo(() => fakeView.SelectedTags).Returns(selectedTags);
+            A.CallTo(() => fakeView.UnselectedTags).Returns(unselectedTags);
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            Dictionary<string, bool> allTags = new Dictionary<string, bool>();
+            allTags.Add("tag1", false);
+            allTags.Add("tag2", true);
+            presenter.SetAllTags(allTags);
+
+            // act
+            presenter.HandleTagCheckedChanged(null, null);
+
+            // assert
+            Assert.IsTrue(presenter.GetAllTagsValueByKey("tag1"));
+            Assert.IsFalse(presenter.GetAllTagsValueByKey("tag2"));
         }
     }//class
 
@@ -829,6 +904,16 @@ namespace MyLibrary_Test.Presenters_Tests
             :base(bookRepo, tagService, authorService, publisherService, view, imageFileReader)
         {
 
+        }
+
+        public void SetAllTags(Dictionary<string, bool> allTags)
+        {
+            this._allTags = allTags;
+        }
+
+        public bool GetAllTagsValueByKey(string key)
+        {
+            return this._allTags[key];
         }
     }//class
 }

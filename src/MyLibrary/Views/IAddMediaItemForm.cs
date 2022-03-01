@@ -35,14 +35,5 @@ namespace MyLibrary.Views
         string NumberFieldText { get; set; }
         string RunningTimeFieldEntry { get; set; }
         string YearFieldEntry { get; set; }
-
-        string FilterTagsFieldEntry { get; set; }
-        IEnumerable<string> UnselectedTags { get; }
-        event EventHandler FilterTagsFieldUpdated;
-        event EventHandler AddNewTagButtonClicked;
-        event EventHandler TagCheckedChanged;
-        void AddTags(Dictionary<string, bool> tags);
-        string ShowNewTagDialog();
-        void ShowTagAlreadyExistsDialog(string tag);
     }
 }
