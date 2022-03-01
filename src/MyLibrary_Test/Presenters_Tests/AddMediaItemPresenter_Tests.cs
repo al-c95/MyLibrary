@@ -25,28 +25,18 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
-            List<Tag> tags = new List<Tag>
-            {
-                new Tag{Id=1, Name="tag1"},
-                new Tag{Id=2, Name="tag2"}
-            };
+            List<Tag> tags = new List<Tag> { new Tag { Name = "tag" } };
             A.CallTo(() => fakeTagService.GetAll()).Returns(tags);
-            AddMediaItemPresenter presenter = new AddMediaItemPresenter(null, fakeTagService, fakeView, null);
-            IEnumerable<string> tagNames = new List<string>
-            {
-                "tag1",
-                "tag2"
-            };
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
 
             // act
             await presenter.PopulateTagsList();
 
             // assert
-            A.CallTo(() => fakeView.PopulateTagsList(A<List<String>>.That.Matches(l => 
-            l.Count == 2 && 
-            l.Contains("tag1") &&
-            l.Contains("tag2")))).MustHaveHappened();
+            Assert.IsFalse(presenter.GetAllTagsValueByKey("tag"));
         }
 
         [TestCase("notes", "60", ".bmp")]
@@ -460,6 +450,92 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveButtonEnabled);
             Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
+
+        [Test]
+        public void HandleAddNewTagClicked_Test_NoEntry()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("");
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+
+            // act
+            presenter.HandleAddNewTagClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowTagAlreadyExistsDialog("")).MustNotHaveHappened();
+        }
+
+        [Test]
+        public void HandleAddNewTagClicked_Test_TagAlreadyExists()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag1");
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            Dictionary<string, bool> allTags = new Dictionary<string, bool>();
+            allTags.Add("tag1", true);
+            presenter.SetAllTags(allTags);
+
+            // act
+            presenter.HandleAddNewTagClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeView.ShowTagAlreadyExistsDialog("tag1")).MustHaveHappened();
+        }
+
+        [Test]
+        public void HandleAddNewTagClicked_Test_TagDoesNotYetExist()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag2");
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            Dictionary<string, bool> allTags = new Dictionary<string, bool>();
+            allTags.Add("tag1", true);
+            presenter.SetAllTags(allTags);
+
+            // act
+            presenter.HandleAddNewTagClicked(null, null);
+
+            // assert
+            Assert.IsTrue(presenter.GetAllTagsValueByKey("tag2"));
+        }
+
+        [Test]
+        public void HandleTagCheckedChanged_Test()
+        {
+            // arrange
+            var fakeView = A.Fake<IAddMediaItemForm>();
+            List<string> selectedTags = new List<string> { "tag1" };
+            List<string> unselectedTags = new List<string> { "tag2" };
+            A.CallTo(() => fakeView.SelectedTags).Returns(selectedTags);
+            A.CallTo(() => fakeView.UnselectedTags).Returns(unselectedTags);
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeImageFileReader = A.Fake<IImageFileReader>();
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            Dictionary<string, bool> allTags = new Dictionary<string, bool>();
+            allTags.Add("tag1", false);
+            allTags.Add("tag2", true);
+            presenter.SetAllTags(allTags);
+
+            // act
+            presenter.HandleTagCheckedChanged(null, null);
+
+            // assert
+            Assert.IsTrue(presenter.GetAllTagsValueByKey("tag1"));
+            Assert.IsFalse(presenter.GetAllTagsValueByKey("tag2"));
+        }
     }//class
 
     class MockPresenter : AddMediaItemPresenter
@@ -468,6 +544,16 @@ namespace MyLibrary_Test.Presenters_Tests
             :base(mediaItemService, tagService, view, imageFileReader)
         {
 
+        }
+
+        public void SetAllTags(Dictionary<string,bool> allTags)
+        {
+            this._allTags = allTags;
+        }
+
+        public bool GetAllTagsValueByKey(string key)
+        {
+            return this._allTags[key];
         }
     }//class
 }

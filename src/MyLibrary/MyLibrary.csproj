@@ -236,6 +236,12 @@
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\WishlistItem.cs" />
+    <Compile Include="NewTagInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewTagInputBox.Designer.cs">
+      <DependentUpon>NewTagInputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
@@ -294,6 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ManageTagsForm.resx">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewTagInputBox.resx">
+      <DependentUpon>NewTagInputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

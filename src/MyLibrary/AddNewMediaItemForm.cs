@@ -42,6 +42,7 @@ namespace MyLibrary
         {
             InitializeComponent();
 
+            // populate item types drop-down
             this.mediaTypesOptions.Items.Add(ItemType.Cd);
             this.mediaTypesOptions.Items.Add(ItemType.Dvd);
             this.mediaTypesOptions.Items.Add(ItemType.BluRay);
@@ -61,7 +62,7 @@ namespace MyLibrary
             this.yearField.TabIndex = 3;
             this.notesField.TabIndex = 4;
 
-            this.addNewTagButton.Enabled = false;
+            this.addNewTagButton.Enabled = true;
 
             // register event handlers
             // fire the public event so the subscribed presenter can react
@@ -89,22 +90,27 @@ namespace MyLibrary
             {
                 SaveButtonClicked?.Invoke(sender, args);
             });
-            this.newTagField.TextChanged += ((sender, args) =>
+            this.filterTagField.TextChanged += (async (sender, args) =>
             {
-                this.NewTagFieldUpdated?.Invoke(sender, args);
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                this.FilterTagsFieldUpdated?.Invoke(sender, args);
             });
-            // handle the event here
             this.addNewTagButton.Click += ((sender, args) =>
             {
-                if (!string.IsNullOrWhiteSpace(this.newTagField.Text))
-                {
-                    if (this.tagsList.Items.Cast<Object>().Any(t => t.ToString() == this.newTagField.Text))
-                        return;
-
-                    this.tagsList.Items.Add(this.newTagField.Text, true);
-
-                    this.newTagField.Clear();
-                }
+                this.AddNewTagButtonClicked?.Invoke(sender, args);
+            });
+            this.tagsList.MouseUp += ((sender, args) =>
+            {
+                this.TagCheckedChanged?.Invoke(sender, args);
+            });
+            // handle the event here
+            this.applyFilterButton.Click += ((sender, args) =>
+            {
+                this.FilterTagsFieldUpdated?.Invoke(sender, args);
+            });
+            this.clearFilterButton.Click += ((sender, args) =>
+            {
+                this.filterTagField.Text = string.Empty;
             });
             this.browseImageButton.Click += ((sender, args) =>
             {
@@ -170,8 +176,8 @@ namespace MyLibrary
 
         public string NewTagFieldText
         {
-            get => this.newTagField.Text;
-            set => this.newTagField.Text = value;
+            get => this.filterTagField.Text;
+            set => this.filterTagField.Text = value;
         }
 
         public bool AddNewTagButtonEnabled
@@ -184,8 +190,23 @@ namespace MyLibrary
         {
             get
             {
-                foreach (var tag in this.tagsList.CheckedItems)
-                    yield return tag.ToString();              
+                for (int i = 0; i <= this.tagsList.Items.Count - 1; i++)
+                {
+                    if (this.tagsList.GetItemChecked(i))
+                        yield return this.tagsList.Items[i].ToString();
+                }
+            }
+        }
+
+        public IEnumerable<string> UnselectedTags
+        {
+            get
+            {
+                for (int i = 0; i <= this.tagsList.Items.Count-1; i++)
+                {
+                    if (!this.tagsList.GetItemChecked(i))
+                        yield return this.tagsList.Items[i].ToString();
+                }
             }
         }
 
@@ -199,6 +220,12 @@ namespace MyLibrary
         {
             get => this.cancelButton.Enabled;
             set => this.cancelButton.Enabled = value; 
+        }
+
+        public string FilterTagsFieldEntry
+        {
+            get => this.filterTagField.Text;
+            set => this.filterTagField.Text = value;
         }
 
         public void PopulateTagsList(IEnumerable<string> tagNames)
@@ -229,7 +256,11 @@ namespace MyLibrary
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
         public event EventHandler ItemAdded;
-        public event EventHandler NewTagFieldUpdated;
+        public event EventHandler FilterTagsFieldUpdated;
+        public event EventHandler AddNewTagButtonClicked;
+        public event EventHandler TagCheckedChanged;
+
+        public event EventHandler NewTagFieldUpdated; // TODO: remove
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
@@ -239,6 +270,34 @@ namespace MyLibrary
         public void ShowErrorDialog(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public void AddTags(Dictionary<string, bool> tags)
+        {
+            this.tagsList.Items.Clear();
+
+            foreach (var kvp in tags)
+            {
+                this.tagsList.Items.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        public string ShowNewTagDialog()
+        {
+            NewTagInputBox dialog = new NewTagInputBox();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.TagName;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void ShowTagAlreadyExistsDialog(string tag)
+        {
+            MessageBox.Show("Tag: " + tag + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }//class
 }

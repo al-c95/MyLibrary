@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
@@ -42,6 +43,8 @@ namespace MyLibrary.Presenters
 
         private IImageFileReader _imageFileReader;
 
+        protected Dictionary<string, bool> _allTags;
+
         /// <summary>
         /// Constructor with dependency injection.
         /// </summary>
@@ -57,8 +60,10 @@ namespace MyLibrary.Presenters
             this._tagService = tagService;
 
             this._view = view;
-
+            
             this._imageFileReader = imageFileReader;
+
+            this._allTags = new Dictionary<string, bool>();
 
             // subscribe to the view's events
             this._view.SaveButtonClicked += (async (sender, args) => 
@@ -66,20 +71,58 @@ namespace MyLibrary.Presenters
                 await HandleSaveButtonClicked(sender, args);
             });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
-            this._view.NewTagFieldUpdated += NewTagFieldUpdated;
+            this._view.FilterTagsFieldUpdated += FilterTags;
+            this._view.AddNewTagButtonClicked += HandleAddNewTagClicked;
+            this._view.TagCheckedChanged += HandleTagCheckedChanged;
         }//ctor
 
         public async Task PopulateTagsList()
         {
+            // load all tags
             var allTags = await this._tagService.GetAll();
-            List<string> tagNames = new List<string>();
             foreach (var tag in allTags)
-                tagNames.Add(tag.Name);
+            {
+                this._allTags.Add(tag.Name, false);
+            }
 
-            this._view.PopulateTagsList(tagNames);
-        }
+            // perform filtering and update the view
+            FilterTags(null,null);
+        }//PopulateTagsList
+
+        public void FilterTags(object sender, EventArgs args)
+        {
+            // grab the filter
+            const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
+            Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
+
+            // perform filtering
+            Dictionary<string, bool> filteredTags = new Dictionary<string, bool>();
+            foreach (var kvp in this._allTags)
+            {
+                if (filterPattern.IsMatch(kvp.Key))
+                {
+                    filteredTags.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            // update the view
+            this._view.AddTags(filteredTags);
+        }//FilterTags
 
         #region View event handlers
+        public void HandleTagCheckedChanged(object sender, EventArgs args)
+        {
+            foreach (var selectedTag in this._view.SelectedTags)
+            {
+                this._allTags[selectedTag] = true;
+            }
+
+            foreach (var unselectedTag in this._view.UnselectedTags)
+            {
+                this._allTags[unselectedTag] = false;
+            }
+        }
+
         public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
             // disable save and cancel buttons
@@ -115,7 +158,7 @@ namespace MyLibrary.Presenters
                 return;
             }
 
-            // create item
+            // create item object
             string selectedCategory = this._view.SelectedCategory;
             string enteredRunningTime = this._view.RunningTimeFieldEntry;
             MediaItem item = new MediaItem
@@ -132,8 +175,13 @@ namespace MyLibrary.Presenters
                 item.RunningTime = int.Parse(enteredRunningTime);
             }
             // tags
-            foreach (var tagName in this._view.SelectedTags)
-                item.Tags.Add(new Tag { Name = tagName });
+            foreach (var kvp in this._allTags)
+            {
+                if (this._allTags[kvp.Key] == true)
+                {
+                    item.Tags.Add(new Tag { Name = kvp.Key });
+                }
+            }
             // image
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
@@ -217,10 +265,27 @@ namespace MyLibrary.Presenters
             this._view.SaveButtonEnabled = sane;
         }
 
-        public void NewTagFieldUpdated(object sender, EventArgs args)
+        public void HandleAddNewTagClicked(object sender, EventArgs args)
         {
-            this._view.AddNewTagButtonEnabled = !string.IsNullOrWhiteSpace(this._view.NewTagFieldText);
-        }
+            string newTag = this._view.ShowNewTagDialog();
+            if (!string.IsNullOrWhiteSpace(newTag))
+            {
+                if (!this._allTags.ContainsKey(newTag))
+                {
+                    this._allTags.Add(newTag, true);
+
+                    FilterTags(null, null);
+                }
+                else
+                {
+                    this._view.ShowTagAlreadyExistsDialog(newTag);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }//HandleAddNewTagClicked
         #endregion
     }//class
 }
