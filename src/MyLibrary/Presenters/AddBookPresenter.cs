@@ -45,6 +45,8 @@ namespace MyLibrary.Presenters
 
         private IImageFileReader _imageFileReader;
 
+        protected Dictionary<string, bool> _allTags;
+
         public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IAddBookForm view,
             IImageFileReader imageFileReader)
@@ -58,6 +60,8 @@ namespace MyLibrary.Presenters
 
             this._imageFileReader = imageFileReader;
 
+            this._allTags = new Dictionary<string, bool>();
+
             // subscribe to the view's events
             this._view.SaveButtonClicked += (async (sender, args) => 
             { 
@@ -66,7 +70,9 @@ namespace MyLibrary.Presenters
             this._view.InputFieldsUpdated += InputFieldsUpdated;
             this._view.NewAuthorFieldsUpdated += NewAuthorFieldsUpdated;
             this._view.NewPublisherFieldUpdated += NewPublisherFieldUpdated;
-            this._view.NewTagFieldUpdated += NewTagFieldUpdated;
+            this._view.FilterTagsFieldUpdated += FilterTags;
+            this._view.AddNewTagButtonClicked += HandleAddNewTagClicked;
+            this._view.TagCheckedChanged += HandleTagCheckedChanged;
         }
 
         public void Prefill(Book book)
@@ -91,15 +97,38 @@ namespace MyLibrary.Presenters
             }
         }
 
+        public void FilterTags(object sender, EventArgs args)
+        {
+            // grab the filter
+            const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
+            Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
+
+            // perform filtering
+            Dictionary<string, bool> filteredTags = new Dictionary<string, bool>();
+            foreach (var kvp in this._allTags)
+            {
+                if (filterPattern.IsMatch(kvp.Key))
+                {
+                    filteredTags.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            // update the view
+            this._view.AddTags(filteredTags);
+        }//FilterTags
+
         public async Task PopulateTagsList()
         {
+            // load all tags
             var allTags = await this._tagService.GetAll();
-            List<string> tagNames = new List<string>();
             foreach (var tag in allTags)
-                tagNames.Add(tag.Name);
+            {
+                this._allTags.Add(tag.Name, false);
+            }
 
-            this._view.PopulateTagsList(tagNames);
-        }
+            // perform filtering and update the view
+            FilterTags(null, null);
+        }//PopulateTagsList
 
         public async Task PopulateAuthorList()
         {
@@ -149,15 +178,23 @@ namespace MyLibrary.Presenters
                     }          
                 }
 
-                if (await this._bookService.ExistsWithIsbn(this._view.IsbnFieldText))
+                string isbnEntry = this._view.IsbnFieldText;
+                if (await this._bookService.ExistsWithIsbn(isbnEntry))
                 {
-                    isbnExists = true;
-                    existingIsbn = this._view.IsbnFieldText;
+                    if (!string.IsNullOrWhiteSpace(isbnEntry))
+                    {
+                        isbnExists = true;
+                        existingIsbn = this._view.IsbnFieldText;
+                    }
                 }
-                if (await this._bookService.ExistsWithIsbn(this._view.Isbn13FieldText))
+                string isbn13Entry = this._view.Isbn13FieldText;
+                if (await this._bookService.ExistsWithIsbn(isbn13Entry))
                 {
-                    isbnExists = true;
-                    existingIsbn = this._view.Isbn13FieldText;
+                    if (!string.IsNullOrWhiteSpace(isbn13Entry))
+                    {
+                        isbnExists = true;
+                        existingIsbn = this._view.Isbn13FieldText;
+                    }
                 }
 
                 if (titleExists)
@@ -202,9 +239,7 @@ namespace MyLibrary.Presenters
             }
 
             // create item
-            List<Tag> tags = new List<Tag>();
-            foreach (var tagName in this._view.SelectedTags)
-                tags.Add(new Tag { Name = tagName });
+            // authors
             List<Author> authors = new List<Author>();
             foreach (var authorName in this._view.SelectedAuthors)
             {
@@ -214,7 +249,7 @@ namespace MyLibrary.Presenters
             }
             Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText, 
                 new Publisher { Name = this._view.SelectedPublisher }, this._view.LanguageFieldText, int.Parse(this._view.PagesFieldText))
-                .WithTags(tags)
+                //.WithTags(tags)
                 .WithAuthors(authors)
                 .WithIsbn(this._view.IsbnFieldText)
                 .WithIsbn13(this._view.Isbn13FieldText)
@@ -230,6 +265,15 @@ namespace MyLibrary.Presenters
                     .Get();
             book.Notes = this._view.NotesFieldText;
             book.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
+            // tags
+            foreach (var kvp in this._allTags)
+            {
+                if (this._allTags[kvp.Key] == true)
+                {
+                    book.Tags.Add(new Tag { Name = kvp.Key });
+                }
+            }
+            // image
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
                 try
@@ -320,6 +364,41 @@ namespace MyLibrary.Presenters
         public void NewTagFieldUpdated(object sender, EventArgs args)
         {
             this._view.AddNewTagButtonEnabled = !string.IsNullOrWhiteSpace(this._view.NewTagFieldText);
+        }
+
+        public void HandleAddNewTagClicked(object sender, EventArgs args)
+        {
+            string newTag = this._view.ShowNewTagDialog();
+            if (!string.IsNullOrWhiteSpace(newTag))
+            {
+                if (!this._allTags.ContainsKey(newTag))
+                {
+                    this._allTags.Add(newTag, true);
+
+                    FilterTags(null, null);
+                }
+                else
+                {
+                    this._view.ShowTagAlreadyExistsDialog(newTag);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }//HandleAddNewTagClicked
+
+        public void HandleTagCheckedChanged(object sender, EventArgs args)
+        {
+            foreach (var selectedTag in this._view.SelectedTags)
+            {
+                this._allTags[selectedTag] = true;
+            }
+
+            foreach (var unselectedTag in this._view.UnselectedTags)
+            {
+                this._allTags[unselectedTag] = false;
+            }
         }
         #endregion
     }//class

@@ -53,6 +53,8 @@ namespace MyLibrary
 
             this.CenterToParent();
 
+            this.addNewTagButton.Enabled = true;
+
             // set tab order of controls
             this.titleField.TabIndex = 0;
             this.longTitleField.TabIndex = 1;
@@ -165,22 +167,27 @@ namespace MyLibrary
             {
                 this.NewPublisherFieldUpdated?.Invoke(sender, args);
             });
-            this.newTagField.TextChanged += ((sender, args) =>
+            this.filterTagField.TextChanged += (async (sender, args) =>
             {
-                this.NewTagFieldUpdated?.Invoke(sender, args);
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                this.FilterTagsFieldUpdated?.Invoke(sender, args);
             });
-            // handle the event here
             this.addNewTagButton.Click += ((sender, args) =>
             {
-                if (!string.IsNullOrWhiteSpace(this.newTagField.Text))
-                {
-                    if (this.tagsList.Items.Cast<Object>().Any(t => t.ToString() == this.newTagField.Text))
-                        return;
-
-                    this.tagsList.Items.Add(this.newTagField.Text, true);
-
-                    this.newTagField.Clear();
-                }
+                this.AddNewTagButtonClicked?.Invoke(sender, args);
+            });
+            this.tagsList.MouseUp += ((sender, args) =>
+            {
+                this.TagCheckedChanged?.Invoke(sender, args);
+            });
+            // handle the event here
+            this.applyFilterButton.Click += ((sender, args) =>
+            {
+                this.FilterTagsFieldUpdated?.Invoke(sender, args);
+            });
+            this.clearFilterButton.Click += ((sender, args) =>
+            {
+                this.filterTagField.Text = string.Empty;
             });
             this.addNewPublisherButton.Click += ((sender, args) =>
             {
@@ -237,21 +244,36 @@ namespace MyLibrary
         public string TitleFieldText
         {
             get => this.titleField.Text;
-            set => this.titleField.Text = value; 
+            set => this.titleField.Text = value;
         }
 
         public string NotesFieldText
         {
             get => this.notesField.Text;
-            set => this.notesField.Text = value; 
+            set => this.notesField.Text = value;
         }
 
         public IEnumerable<string> SelectedTags
         {
             get
             {
-                foreach (var tag in this.tagsList.CheckedItems)
-                    yield return tag.ToString();
+                for (int i = 0; i <= this.tagsList.Items.Count - 1; i++)
+                {
+                    if (this.tagsList.GetItemChecked(i))
+                        yield return this.tagsList.Items[i].ToString();
+                }
+            }
+        }
+
+        public IEnumerable<string> UnselectedTags
+        {
+            get
+            {
+                for (int i = 0; i <= this.tagsList.Items.Count - 1; i++)
+                {
+                    if (!this.tagsList.GetItemChecked(i))
+                        yield return this.tagsList.Items[i].ToString();
+                }
             }
         }
 
@@ -414,8 +436,8 @@ namespace MyLibrary
 
         public string NewTagFieldText
         {
-            get => this.newTagField.Text;
-            set => this.newTagField.Text = value;
+            get => this.filterTagField.Text;
+            set => this.filterTagField.Text = value;
         }
 
         public bool AddNewTagButtonEnabled
@@ -424,12 +446,20 @@ namespace MyLibrary
             set => this.addNewTagButton.Enabled = value;
         }
 
+        public string FilterTagsFieldEntry 
+        {
+            get => this.filterTagField.Text;
+            set => this.filterTagField.Text = value; 
+        }
+
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
         public event EventHandler ItemAdded;
         public event EventHandler NewAuthorFieldsUpdated;
         public event EventHandler NewPublisherFieldUpdated;
-        public event EventHandler NewTagFieldUpdated;
+        public event EventHandler FilterTagsFieldUpdated;
+        public event EventHandler AddNewTagButtonClicked;
+        public event EventHandler TagCheckedChanged;
 
         public void CloseDialog()
         {
@@ -518,6 +548,34 @@ namespace MyLibrary
             }
             // select this publisher
             this.publishersList.SetSelected(this.publishersList.FindString(publisher.Name), true);
+        }
+
+        public void AddTags(Dictionary<string, bool> tags)
+        {
+            this.tagsList.Items.Clear();
+
+            foreach (var kvp in tags)
+            {
+                this.tagsList.Items.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        public string ShowNewTagDialog()
+        {
+            NewTagInputBox dialog = new NewTagInputBox();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.TagName;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void ShowTagAlreadyExistsDialog(string tag)
+        {
+            MessageBox.Show("Tag: " + tag + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }//class
 }

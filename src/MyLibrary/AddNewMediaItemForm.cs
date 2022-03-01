@@ -260,8 +260,6 @@ namespace MyLibrary
         public event EventHandler AddNewTagButtonClicked;
         public event EventHandler TagCheckedChanged;
 
-        public event EventHandler NewTagFieldUpdated; // TODO: remove
-
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
