@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.1.1] - 1-3-2022
+### Fixed
+- bug with checking if ISBN already exists when adding new book
+### Added
+- filtering for tags when adding new item
+
 ## [1.1.0] - 24-2-2022
 ### Added
 - wishlist feature
