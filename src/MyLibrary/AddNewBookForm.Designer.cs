@@ -85,6 +85,10 @@ namespace MyLibrary
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tagsGroup.SuspendLayout();
@@ -443,8 +447,12 @@ namespace MyLibrary
             // 
             // tagsGroup
             // 
+            this.tagsGroup.Controls.Add(this.button3);
             this.tagsGroup.Controls.Add(this.addNewTagButton);
+            this.tagsGroup.Controls.Add(this.button4);
             this.tagsGroup.Controls.Add(this.tagsList);
+            this.tagsGroup.Controls.Add(this.textBox2);
+            this.tagsGroup.Controls.Add(this.label16);
             this.tagsGroup.Location = new System.Drawing.Point(403, 69);
             this.tagsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tagsGroup.Name = "tagsGroup";
@@ -542,7 +550,7 @@ namespace MyLibrary
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(78, 486);
+            this.label18.Location = new System.Drawing.Point(13, 486);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(72, 17);
             this.label18.TabIndex = 37;
@@ -550,10 +558,10 @@ namespace MyLibrary
             // 
             // imageFilePathField
             // 
-            this.imageFilePathField.Location = new System.Drawing.Point(156, 483);
+            this.imageFilePathField.Location = new System.Drawing.Point(91, 483);
             this.imageFilePathField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.imageFilePathField.Name = "imageFilePathField";
-            this.imageFilePathField.Size = new System.Drawing.Size(196, 22);
+            this.imageFilePathField.Size = new System.Drawing.Size(257, 22);
             this.imageFilePathField.TabIndex = 36;
             // 
             // placeOfPublicationField
@@ -610,6 +618,44 @@ namespace MyLibrary
             this.button2.TabIndex = 43;
             this.button2.Text = "Clear";
             this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Location = new System.Drawing.Point(373, 151);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 28);
+            this.button3.TabIndex = 47;
+            this.button3.Text = "Clear";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.Location = new System.Drawing.Point(292, 151);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 28);
+            this.button4.TabIndex = 46;
+            this.button4.Text = "Apply";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(59, 154);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(227, 22);
+            this.textBox2.TabIndex = 44;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(10, 154);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 17);
+            this.label16.TabIndex = 45;
+            this.label16.Text = "Filter:";
             // 
             // AddNewBookForm
             // 
@@ -669,6 +715,7 @@ namespace MyLibrary
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tagsGroup.ResumeLayout(false);
+            this.tagsGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -732,5 +779,9 @@ namespace MyLibrary
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label16;
     }
 }
