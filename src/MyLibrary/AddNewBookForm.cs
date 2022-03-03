@@ -27,7 +27,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
@@ -54,6 +53,8 @@ namespace MyLibrary
             this.CenterToParent();
 
             this.addNewTagButton.Enabled = true;
+            this.addNewPublisherButton.Enabled = true;
+            this.addNewAuthorButton.Enabled = true;
 
             // set tab order of controls
             this.titleField.TabIndex = 0;
@@ -139,38 +140,9 @@ namespace MyLibrary
             {
                 InputFieldsUpdated?.Invoke(sender, args);
             });
-            this.authorsList.ItemCheck += ((sender, args) =>
-            {
-                InputFieldsUpdated?.Invoke(sender, args);
-            });
-            this.publishersList.SelectedIndexChanged += ((sender, args) =>
-            {
-                InputFieldsUpdated?.Invoke(sender, args);
-            });
-            this.tagsList.ItemCheck += ((sender, args) =>
-            {
-                InputFieldsUpdated?.Invoke(sender, args);
-            });
             this.saveButton.Click += ((sender, args) =>
             {
                 SaveButtonClicked?.Invoke(sender, args);
-            });
-            this.newAuthorFirstNameField.TextChanged += ((sender, args) =>
-            {
-                this.NewAuthorFieldsUpdated?.Invoke(sender, args);
-            });
-            this.newAuthorLastNameField.TextChanged += ((sender, args) =>
-            {
-                this.NewAuthorFieldsUpdated?.Invoke(sender, args);
-            });
-            this.newPublisherField.TextChanged += ((sender, args) =>
-            {
-                this.NewPublisherFieldUpdated?.Invoke(sender, args);
-            });
-            this.filterTagField.TextChanged += (async (sender, args) =>
-            {
-                await Task.Delay(MainWindow.FILTER_DELAY);
-                this.FilterTagsFieldUpdated?.Invoke(sender, args);
             });
             this.addNewTagButton.Click += ((sender, args) =>
             {
@@ -180,45 +152,61 @@ namespace MyLibrary
             {
                 this.TagCheckedChanged?.Invoke(sender, args);
             });
-            // handle the event here
-            this.applyFilterButton.Click += ((sender, args) =>
+            this.authorsList.MouseUp += ((sender, args) =>
+            {
+                this.AuthorCheckedChanged?.Invoke(sender, args);
+            });
+            this.publishersList.SelectedIndexChanged += ((sender, args) =>
+            {
+                this.InputFieldsUpdated?.Invoke(sender, args);
+            });
+            this.filterPublishersField.TextChanged += (async (sender, args) =>
+            {
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                this.FilterPublishersFieldUpdated?.Invoke(sender, args);
+            });
+            this.applyPublisherFilterButton.Click += ((sender, args) =>
+            {
+                this.FilterPublishersFieldUpdated?.Invoke(sender, args);
+            });
+            this.filterAuthorsField.TextChanged += (async (sender, args) =>
+            {
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                this.FilterAuthorsFieldUpdated?.Invoke(sender, args);
+            });
+            this.applyAuthorFilterButton.Click += ((sender, args) =>
+            {
+                this.FilterAuthorsFieldUpdated?.Invoke(sender, args);
+            });
+            this.filterTagField.TextChanged += (async (sender, args) =>
+            {
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                this.FilterTagsFieldUpdated?.Invoke(sender, args);
+            });
+            this.applyTagFilterButton.Click += ((sender, args) =>
             {
                 this.FilterTagsFieldUpdated?.Invoke(sender, args);
             });
-            this.clearFilterButton.Click += ((sender, args) =>
-            {
-                this.filterTagField.Text = string.Empty;
-            });
             this.addNewPublisherButton.Click += ((sender, args) =>
             {
-                if (!string.IsNullOrWhiteSpace(this.newPublisherField.Text))
-                {
-                    if (this.publishersList.Items.Cast<Object>().Any(p => p.ToString() == this.newPublisherField.Text))
-                        return;
-
-                    this.publishersList.Items.Add(this.newPublisherField.Text);
-
-                    this.publishersList.SelectedItem = this.publishersList.Items.IndexOf(this.newPublisherField.Text);
-
-                    int newPublisherIndex = this.publishersList.Items.IndexOf(this.newPublisherField.Text);
-                    this.publishersList.SelectedIndex = newPublisherIndex;
-
-                    this.newPublisherField.Clear();
-                }
+                this.AddNewPublisherButtonClicked?.Invoke(sender, args);
             });
             this.addNewAuthorButton.Click += ((sender, args) =>
             {
-                if (!string.IsNullOrWhiteSpace(this.newAuthorFirstNameField.Text) &&
-                    !string.IsNullOrWhiteSpace(this.newAuthorLastNameField.Text))
-                {
-                    if (this.authorsList.Items.Cast<Object>().Any(a => a.ToString() == this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text))
-                        return;
-
-                    this.authorsList.Items.Add(this.newAuthorLastNameField.Text + ", " + this.newAuthorFirstNameField.Text, true);
-
-                    this.newAuthorFirstNameField.Clear();
-                    this.newAuthorLastNameField.Clear();
-                }
+                this.AddNewAuthorButtonClicked?.Invoke(sender, args);
+            });
+            // handle the event here
+            this.clearPublisherFilterButton.Click += ((sender, args) =>
+            {
+                this.filterPublishersField.Text = string.Empty;
+            });
+            this.clearAuthorFilterButton.Click += ((sender, args) =>
+            {
+                this.filterAuthorsField.Text = string.Empty;
+            });
+            this.clearTagFilterButton.Click += ((sender, args) =>
+            {
+                this.filterTagField.Text = string.Empty;
             });
             this.browseImageButton.Click += ((sender, args) =>
             {
@@ -281,8 +269,23 @@ namespace MyLibrary
         {
             get
             {
-                foreach (var author in this.authorsList.CheckedItems)
-                    yield return author.ToString();
+                for (int i = 0; i <= this.authorsList.Items.Count - 1; i++)
+                {
+                    if (this.authorsList.GetItemChecked(i))
+                        yield return this.authorsList.Items[i].ToString();
+                }
+            }
+        }
+
+        public IEnumerable<string> UnselectedAuthors
+        {
+            get
+            {
+                for (int i = 0; i <= this.authorsList.Items.Count-1; i++)
+                {
+                    if (!this.authorsList.GetItemChecked(i))
+                        yield return this.authorsList.Items[i].ToString();
+                }
             }
         }
 
@@ -374,6 +377,7 @@ namespace MyLibrary
             get => this.dimensionsField.Text;
             set => this.dimensionsField.Text = value;
         }
+
         public string OverviewFieldText
         {
             get => this.overviewField.Text;
@@ -404,42 +408,6 @@ namespace MyLibrary
             set => this.placeOfPublicationField.Text = value;
         }
 
-        public string NewAuthorFirstNameFieldText
-        {
-            get => this.newAuthorFirstNameField.Text;
-            set => this.newAuthorFirstNameField.Text=value;
-        }
-
-        public string NewAuthorLastNameFieldText
-        {
-            get => this.newAuthorLastNameField.Text;
-            set => this.newAuthorLastNameField.Text = value;
-        }
-
-        public bool AddNewAuthorButtonEnabled
-        {
-            get => this.addNewAuthorButton.Enabled;
-            set => this.addNewAuthorButton.Enabled = value;
-        }
-
-        public string NewPublisherFieldText 
-        {
-            get => this.newPublisherField.Text;
-            set => this.newPublisherField.Text = value;
-        }
-
-        public bool AddNewPublisherButtonEnabled
-        {
-            get => this.addNewPublisherButton.Enabled;
-            set => this.addNewPublisherButton.Enabled = value;
-        }
-
-        public string NewTagFieldText
-        {
-            get => this.filterTagField.Text;
-            set => this.filterTagField.Text = value;
-        }
-
         public bool AddNewTagButtonEnabled
         {
             get => this.addNewTagButton.Enabled;
@@ -452,14 +420,29 @@ namespace MyLibrary
             set => this.filterTagField.Text = value; 
         }
 
+        public string FilterAuthorsFieldEntry 
+        {
+            get => this.filterAuthorsField.Text;
+            set => this.filterAuthorsField.Text = value;
+        }
+
+        public string FilterPublishersFieldEntry 
+        {
+            get => this.filterPublishersField.Text;
+            set => this.filterPublishersField.Text = value; 
+        }
+
         public event EventHandler InputFieldsUpdated;
         public event EventHandler SaveButtonClicked;
         public event EventHandler ItemAdded;
-        public event EventHandler NewAuthorFieldsUpdated;
-        public event EventHandler NewPublisherFieldUpdated;
         public event EventHandler FilterTagsFieldUpdated;
         public event EventHandler AddNewTagButtonClicked;
         public event EventHandler TagCheckedChanged;
+        public event EventHandler FilterPublishersFieldUpdated;
+        public event EventHandler AddNewPublisherButtonClicked;
+        public event EventHandler FilterAuthorsFieldUpdated;
+        public event EventHandler AuthorCheckedChanged;
+        public event EventHandler AddNewAuthorButtonClicked;
 
         public void CloseDialog()
         {
@@ -493,12 +476,14 @@ namespace MyLibrary
 
         public void PopulatePublisherList(IEnumerable<string> publisherNames)
         {
+            this.publishersList.BeginUpdate();
             this.publishersList.Items.Clear();
 
             foreach (var publisherName in publisherNames)
             {
                 this.publishersList.Items.Add(publisherName);
             }
+            this.publishersList.EndUpdate();
         }
 
         public void ShowItemAlreadyExistsDialog(string title)
@@ -560,12 +545,61 @@ namespace MyLibrary
             }
         }
 
+        public void AddAuthors(Dictionary<string, bool> authors)
+        {
+            this.authorsList.Items.Clear();
+
+            foreach (var kvp in authors)
+            {
+                this.authorsList.Items.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        public void AddPublishers(List<string> publishers)
+        {
+            this.publishersList.BeginUpdate();
+            this.publishersList.ClearSelected();
+            this.publishersList.Items.Clear();
+
+            foreach (var publisher in publishers)
+            {
+                this.publishersList.Items.Add(publisher);
+            }
+            this.publishersList.EndUpdate();
+        }
+
         public string ShowNewTagDialog()
         {
-            NewTagInputBox dialog = new NewTagInputBox();
+            NewTagOrPublisherInputBox dialog = new NewTagOrPublisherInputBox(NewTagOrPublisherInputBox.InputBoxMode.Tag);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                return dialog.TagName;
+                return dialog.Entry;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string ShowNewPublisherDialog()
+        {
+            NewTagOrPublisherInputBox dialog = new NewTagOrPublisherInputBox(NewTagOrPublisherInputBox.InputBoxMode.Publisher);
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.Entry;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string ShowNewAuthorDialog()
+        {
+            NewAuthorInputBox dialog = new NewAuthorInputBox();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.AuthorName;
             }
             else
             {
@@ -576,6 +610,16 @@ namespace MyLibrary
         public void ShowTagAlreadyExistsDialog(string tag)
         {
             MessageBox.Show("Tag: " + tag + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public void ShowPublisherAlreadyExistsDialog(string newPublisher)
+        {
+            MessageBox.Show("Publisher: " + newPublisher + " already exists.", "Add Publisher", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public void ShowAuthorAlreadyExistsDialog(string author)
+        {
+            MessageBox.Show("Author: " + author + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }//class
 }

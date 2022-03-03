@@ -338,7 +338,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 fakeView,null);
 
             // act
-            await presenter.PopulateAuthorList();
+            await presenter.PopulateAuthorsList();
 
             // assert
             A.CallTo(() => fakeView.PopulateAuthorList(A<List<string>>.That.Matches(l => l.Count() == 1 && l.Contains("Smith, John"))));
@@ -359,7 +359,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 fakeView,null);
 
             // act
-            await presenter.PopulatePublisherList();
+            await presenter.PopulatePublishersList();
 
             // assert
             A.CallTo(() => fakeView.PopulatePublisherList(A<List<string>>.That.Matches(l => l.Count() == 1 && l.Contains("some_publisher"))));
@@ -759,47 +759,6 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.ShowErrorDialog("Error creating book", "error")).MustHaveHappened(); 
             Assert.IsTrue(fakeView.SaveButtonEnabled);
             Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [TestCase("", "", false)]
-        [TestCase("John", "Smith", true)]
-        [TestCase("John", "", false)]
-        [TestCase("", "Smith", false)]
-        [TestCase("John", "Smith1", false)]
-        [TestCase("John", "Smith-Jones", true)]
-        public void AddNewAuthorFieldsUpdated_Test(string firstNameFieldEntry, string lastNameFieldEntry, bool expectedAddButtonEnabled)
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.NewAuthorFirstNameFieldText).Returns(firstNameFieldEntry);
-            A.CallTo(() => fakeView.NewAuthorLastNameFieldText).Returns(lastNameFieldEntry);
-            MockBookPresenter presenter = new MockBookPresenter(null, null, null, null,
-                fakeView, null);
-
-            // act
-            presenter.NewAuthorFieldsUpdated(null, null);
-            bool actualAddButtonEnabled = fakeView.AddNewAuthorButtonEnabled;
-
-            // assert
-            Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
-        }
-
-        [TestCase("", false)]
-        [TestCase("some_publisher", true)]
-        public void AddNewPublisherFieldUpdated_Test(string publisherNameFieldEntry, bool expectedAddButtonEnabled)
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.NewPublisherFieldText).Returns(publisherNameFieldEntry);
-            MockBookPresenter presenter = new MockBookPresenter(null, null, null, null,
-                fakeView, null);
-
-            // act
-            presenter.NewPublisherFieldUpdated(null, null);
-            bool actualAddButtonEnabled = fakeView.AddNewPublisherButtonEnabled;
-
-            // assert
-            Assert.AreEqual(expectedAddButtonEnabled, actualAddButtonEnabled);
         }
 
         [Test]
