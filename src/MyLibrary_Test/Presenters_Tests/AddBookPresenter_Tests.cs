@@ -297,8 +297,6 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.AreEqual("100", fakeView.PagesFieldText);
             Assert.AreEqual("English", fakeView.LanguageFieldText);
             A.CallTo(() => fakeView.SetPublisher(publisher, true)).MustHaveHappened();
-            A.CallTo(() => fakeView.SetAuthor(author1, true)).MustHaveHappened();
-            A.CallTo(() => fakeView.SetAuthor(author2, true)).MustHaveHappened();
         }
 
         [Test]

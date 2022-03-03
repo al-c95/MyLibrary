@@ -95,13 +95,26 @@ namespace MyLibrary.Presenters
             this._view.LanguageFieldText = book.Language;
 
             // publisher
+            if (!this._allPublishers.Contains(book.Publisher.Name))
+            {
+                this._allPublishers.Add(book.Publisher.Name);
+            }
+            FilterPublishers(null, null);
             this._view.SetPublisher(book.Publisher, true);
 
             // authors
             foreach (var author in book.Authors)
             {
-                this._view.SetAuthor(author, true);
+                if (!this._allAuthors.ContainsKey(author.GetFullNameLastNameCommaFirstName()))
+                {
+                    this._allAuthors.Add(author.GetFullNameLastNameCommaFirstName(), true);
+                }
+                else
+                {
+                    this._allAuthors[author.GetFullNameLastNameCommaFirstName()] = true;
+                }
             }
+            FilterAuthors(null, null);
         }
 
         public void FilterTags(object sender, EventArgs args)
