@@ -50,7 +50,6 @@ namespace MyLibrary.Views
         void ShowTagAlreadyExistsDialog(string tag);
         void ShowErrorDialog(string title, string message);
 
-        string NewTagFieldText { get; set; }
         bool AddNewTagButtonEnabled { get; set; }
 
         event EventHandler InputFieldsUpdated;

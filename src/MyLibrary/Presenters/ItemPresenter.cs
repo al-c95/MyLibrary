@@ -293,8 +293,8 @@ namespace MyLibrary.Presenters
             var addBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
                 this._addBookView, new ImageFileReader());
             await addBookPresenter.PopulateTagsList();
-            await addBookPresenter.PopulateAuthorList();
-            await addBookPresenter.PopulatePublisherList();
+            await addBookPresenter.PopulateAuthorsList();
+            await addBookPresenter.PopulatePublishersList();
 
             this._addBookView.ItemAdded += ItemsAdded;
             ((AddNewBookForm)this._addBookView).ShowDialog();

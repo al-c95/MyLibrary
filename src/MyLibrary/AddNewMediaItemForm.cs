@@ -174,12 +174,6 @@ namespace MyLibrary
             set => this.notesField.Text = value; 
         }
 
-        public string NewTagFieldText
-        {
-            get => this.filterTagField.Text;
-            set => this.filterTagField.Text = value;
-        }
-
         public bool AddNewTagButtonEnabled
         {
             get => this.addNewTagButton.Enabled;
@@ -282,10 +276,10 @@ namespace MyLibrary
 
         public string ShowNewTagDialog()
         {
-            NewTagInputBox dialog = new NewTagInputBox();
+            NewTagOrPublisherInputBox dialog = new NewTagOrPublisherInputBox(NewTagOrPublisherInputBox.InputBoxMode.Tag);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                return dialog.TagName;
+                return dialog.Entry;
             }
             else
             {

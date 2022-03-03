@@ -33,14 +33,26 @@ using System.Windows.Forms;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class NewTagInputBox : Form
+    public partial class NewTagOrPublisherInputBox : Form
     {
         private string _entry;
-        public string TagName { get => this._entry; }
+        public string Entry { get => this._entry; }
 
-        public NewTagInputBox()
+        public NewTagOrPublisherInputBox(InputBoxMode mode)
         {
             InitializeComponent();
+
+            switch (mode)
+            {
+                case InputBoxMode.Tag:
+                    this.label.Text = "New Tag:";
+                    this.Text = "New Tag";
+                    break;
+                case InputBoxMode.Publisher:
+                    this.label.Text = "New Publisher:";
+                    this.Text = "New Publisher";
+                    break;
+            }
 
             // register event handlers
             this.okButton.Click += ((sender, args) =>
@@ -53,5 +65,11 @@ namespace MyLibrary
                 this.DialogResult = DialogResult.Cancel;
             });
         }//ctor
+
+        public enum InputBoxMode
+        {
+            Tag,
+            Publisher
+        }
     }//class
 }

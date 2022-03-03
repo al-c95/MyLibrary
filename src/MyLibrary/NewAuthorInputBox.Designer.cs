@@ -1,7 +1,7 @@
 ﻿
 namespace MyLibrary
 {
-    partial class NewTagInputBox
+    partial class NewAuthorInputBox
     {
         /// <summary>
         /// Required designer variable.
@@ -29,61 +29,80 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.firstNameField = new System.Windows.Forms.TextBox();
+            this.lastNameField = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(99, 29);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(320, 22);
-            this.textBox1.TabIndex = 0;
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(12, 71);
+            this.okButton.Location = new System.Drawing.Point(12, 117);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(97, 27);
-            this.okButton.TabIndex = 1;
+            this.okButton.TabIndex = 2;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(322, 71);
+            this.cancelButton.Location = new System.Drawing.Point(325, 117);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(97, 27);
-            this.cancelButton.TabIndex = 2;
+            this.cancelButton.TabIndex = 3;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 32);
+            this.label1.Location = new System.Drawing.Point(25, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 17);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "New tag:";
+            this.label1.Size = new System.Drawing.Size(78, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "First name:";
             // 
-            // NewTagInputBox
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 72);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 17);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Last name:";
+            // 
+            // firstNameField
+            // 
+            this.firstNameField.Location = new System.Drawing.Point(129, 31);
+            this.firstNameField.Name = "firstNameField";
+            this.firstNameField.Size = new System.Drawing.Size(293, 22);
+            this.firstNameField.TabIndex = 6;
+            // 
+            // lastNameField
+            // 
+            this.lastNameField.Location = new System.Drawing.Point(129, 69);
+            this.lastNameField.Name = "lastNameField";
+            this.lastNameField.Size = new System.Drawing.Size(293, 22);
+            this.lastNameField.TabIndex = 7;
+            // 
+            // NewAuthorInputBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(431, 110);
+            this.ClientSize = new System.Drawing.Size(434, 158);
+            this.Controls.Add(this.lastNameField);
+            this.Controls.Add(this.firstNameField);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.textBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "NewTagInputBox";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "New Tag";
+            this.Name = "NewAuthorInputBox";
+            this.Text = "New Author";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -91,9 +110,11 @@ namespace MyLibrary
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox firstNameField;
+        private System.Windows.Forms.TextBox lastNameField;
     }
 }

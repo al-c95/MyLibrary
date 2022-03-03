@@ -236,11 +236,17 @@
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\WishlistItem.cs" />
-    <Compile Include="NewTagInputBox.cs">
+    <Compile Include="NewAuthorInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewTagInputBox.Designer.cs">
-      <DependentUpon>NewTagInputBox.cs</DependentUpon>
+    <Compile Include="NewAuthorInputBox.Designer.cs">
+      <DependentUpon>NewAuthorInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewTagOrPublisherInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewTagOrPublisherInputBox.Designer.cs">
+      <DependentUpon>NewTagOrPublisherInputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
@@ -301,8 +307,11 @@
     <EmbeddedResource Include="ManageTagsForm.resx">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewTagInputBox.resx">
-      <DependentUpon>NewTagInputBox.cs</DependentUpon>
+    <EmbeddedResource Include="NewAuthorInputBox.resx">
+      <DependentUpon>NewAuthorInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewTagOrPublisherInputBox.resx">
+      <DependentUpon>NewTagOrPublisherInputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
