@@ -187,6 +187,8 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeService.Add(newItem)).MustHaveHappened();
             A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
+            Assert.AreEqual("", fakeView.NewNotes);
+            Assert.AreEqual("", fakeView.NewItemTitle);
         }
 
         [Test]

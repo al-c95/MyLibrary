@@ -142,6 +142,9 @@ namespace MyLibrary.Presenters
 
             this._view.DisplayItems(await service.GetAll());
 
+            this._view.NewItemTitle = string.Empty;
+            this._view.NewNotes = string.Empty;
+
             this._view.StatusText = "Ready.";
         }
 
