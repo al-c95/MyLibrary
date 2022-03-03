@@ -56,7 +56,6 @@ namespace MyLibrary.Views
 
         void AddAuthors(Dictionary<string, bool> authors);
 
-        void SetAuthor(Author author, bool selected);
         void SetPublisher(Publisher publisher, bool selected);
 
         void PopulateAuthorList(IEnumerable<string> names);

@@ -511,18 +511,6 @@ namespace MyLibrary
             this.ShowDialog();
         }
 
-        public void SetAuthor(Author author, bool selected)
-        {
-            if (!(this.authorsList.Items.Cast<Object>().Any(a => a.ToString() == author.LastName + ", " + author.FirstName)))
-            {
-                // author does not exist
-                // add it to the list
-                this.authorsList.Items.Add(author.LastName + ", " + author.FirstName, selected);
-            }
-            // select this author
-            this.authorsList.SetItemChecked(this.authorsList.Items.IndexOf(author.LastName + ", " + author.FirstName), true);
-        }
-
         public void SetPublisher(Publisher publisher, bool selected)
         {
             if (!(this.publishersList.Items.Cast<Object>().Any(p => p.ToString() == publisher.Name)))

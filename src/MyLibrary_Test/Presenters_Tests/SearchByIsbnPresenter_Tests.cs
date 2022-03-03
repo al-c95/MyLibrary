@@ -146,7 +146,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
             A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);
-            A.CallTo(() => fakeApiService.GetBookByIsbnAsync("0123456789")).Returns(new Book { Title = "book" });
+            A.CallTo(() => fakeApiService.GetBookByIsbnAsync("0123456789")).Returns(new Book { Title = "book", Publisher = new Publisher { Name = "publisher" } });
             var fakeAddBookDialog = A.Fake<IAddBookForm>();
             var presenter = new MockPresenter(fakeSearchByIsbnDialog, null, fakeAddBookDialog, fakeRepo, fakeApiServiceProvider);
             presenter.AddBookPresenter = this._addBookPresenter;
