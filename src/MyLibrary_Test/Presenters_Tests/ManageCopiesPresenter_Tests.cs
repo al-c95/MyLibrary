@@ -86,6 +86,8 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.AreEqual("test copy", fakeView.SelectedDescription);
             Assert.AreEqual("test copy", fakeView.SelectedNotes);
             Assert.IsTrue(fakeView.DeleteSelectedButtonEnabled);
+            Assert.IsTrue(fakeView.SelectedDescriptionFieldEnabled);
+            Assert.IsTrue(fakeView.SelectedNotesFieldEnabled);
         }
 
         [Test]
@@ -106,6 +108,8 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.AreEqual("", fakeView.SelectedDescription);
             Assert.AreEqual("", fakeView.SelectedNotes);
             Assert.IsFalse(fakeView.DeleteSelectedButtonEnabled);
+            Assert.IsFalse(fakeView.SelectedDescriptionFieldEnabled);
+            Assert.IsFalse(fakeView.SelectedNotesFieldEnabled);
         }
 
         [Test]

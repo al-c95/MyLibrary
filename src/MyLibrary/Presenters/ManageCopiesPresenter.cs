@@ -57,6 +57,8 @@ namespace MyLibrary.Presenters
             this._view.SaveNewButtonEnabled = false;
             this._view.DiscardChangesButtonEnabled = false;
             this._view.DeleteSelectedButtonEnabled = false;
+            this._view.SelectedDescriptionFieldEnabled = false;
+            this._view.SelectedNotesFieldEnabled = false;
 
             // register event handlers
             this._view.CopySelected += CopySelected;
@@ -101,7 +103,9 @@ namespace MyLibrary.Presenters
             if (this._view.SelectedCopy is null)
             {
                 // nothing selected
-                // clear selected copy fields
+                // clear and disable selected copy fields
+                this._view.SelectedDescriptionFieldEnabled = false;
+                this._view.SelectedNotesFieldEnabled = false;
                 this._view.SelectedDescription = "";
                 this._view.SelectedNotes = "";
                 // disable delete button
@@ -112,6 +116,9 @@ namespace MyLibrary.Presenters
             else
             {
                 // copy selected
+                // enable selected copy fields
+                this._view.SelectedDescriptionFieldEnabled = true;
+                this._view.SelectedNotesFieldEnabled = true;
                 // display selected copy description and notes
                 this._view.SelectedDescription = this._view.SelectedCopy.Description;
                 this._view.SelectedNotes = this._view.SelectedCopy.Notes;
