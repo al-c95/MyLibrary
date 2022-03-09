@@ -37,7 +37,7 @@ namespace MyLibrary
             this.Isbn13Field = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.authorsGroup = new System.Windows.Forms.GroupBox();
             this.clearAuthorFilterButton = new System.Windows.Forms.Button();
             this.applyAuthorFilterButton = new System.Windows.Forms.Button();
             this.filterAuthorsField = new System.Windows.Forms.TextBox();
@@ -46,7 +46,7 @@ namespace MyLibrary
             this.authorsList = new System.Windows.Forms.CheckedListBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.publishersGroup = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
             this.addNewPublisherButton = new System.Windows.Forms.Button();
             this.clearPublisherFilterButton = new System.Windows.Forms.Button();
@@ -89,8 +89,8 @@ namespace MyLibrary
             this.imageFilePathField = new System.Windows.Forms.TextBox();
             this.placeOfPublicationField = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.authorsGroup.SuspendLayout();
+            this.publishersGroup.SuspendLayout();
             this.tagsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,22 +162,22 @@ namespace MyLibrary
             this.label4.TabIndex = 7;
             this.label4.Text = "ISBN13:";
             // 
-            // groupBox1
+            // authorsGroup
             // 
-            this.groupBox1.Controls.Add(this.clearAuthorFilterButton);
-            this.groupBox1.Controls.Add(this.applyAuthorFilterButton);
-            this.groupBox1.Controls.Add(this.filterAuthorsField);
-            this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.addNewAuthorButton);
-            this.groupBox1.Controls.Add(this.authorsList);
-            this.groupBox1.Location = new System.Drawing.Point(15, 69);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(380, 217);
-            this.groupBox1.TabIndex = 8;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Authors";
+            this.authorsGroup.Controls.Add(this.clearAuthorFilterButton);
+            this.authorsGroup.Controls.Add(this.applyAuthorFilterButton);
+            this.authorsGroup.Controls.Add(this.filterAuthorsField);
+            this.authorsGroup.Controls.Add(this.label21);
+            this.authorsGroup.Controls.Add(this.addNewAuthorButton);
+            this.authorsGroup.Controls.Add(this.authorsList);
+            this.authorsGroup.Location = new System.Drawing.Point(15, 69);
+            this.authorsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.authorsGroup.Name = "authorsGroup";
+            this.authorsGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.authorsGroup.Size = new System.Drawing.Size(380, 217);
+            this.authorsGroup.TabIndex = 8;
+            this.authorsGroup.TabStop = false;
+            this.authorsGroup.Text = "Authors";
             // 
             // clearAuthorFilterButton
             // 
@@ -257,22 +257,22 @@ namespace MyLibrary
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // groupBox2
+            // publishersGroup
             // 
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Controls.Add(this.addNewPublisherButton);
-            this.groupBox2.Controls.Add(this.clearPublisherFilterButton);
-            this.groupBox2.Controls.Add(this.publishersList);
-            this.groupBox2.Controls.Add(this.applyPublisherFilterButton);
-            this.groupBox2.Controls.Add(this.filterPublishersField);
-            this.groupBox2.Location = new System.Drawing.Point(473, 481);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(384, 150);
-            this.groupBox2.TabIndex = 11;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Publisher";
+            this.publishersGroup.Controls.Add(this.label20);
+            this.publishersGroup.Controls.Add(this.addNewPublisherButton);
+            this.publishersGroup.Controls.Add(this.clearPublisherFilterButton);
+            this.publishersGroup.Controls.Add(this.publishersList);
+            this.publishersGroup.Controls.Add(this.applyPublisherFilterButton);
+            this.publishersGroup.Controls.Add(this.filterPublishersField);
+            this.publishersGroup.Location = new System.Drawing.Point(473, 481);
+            this.publishersGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.publishersGroup.Name = "publishersGroup";
+            this.publishersGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.publishersGroup.Size = new System.Drawing.Size(384, 150);
+            this.publishersGroup.TabIndex = 11;
+            this.publishersGroup.TabStop = false;
+            this.publishersGroup.Text = "Publisher";
             // 
             // label20
             // 
@@ -692,10 +692,10 @@ namespace MyLibrary
             this.Controls.Add(this.datePublishedField);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.notesField);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.publishersGroup);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.authorsGroup);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Isbn13Field);
@@ -710,10 +710,10 @@ namespace MyLibrary
             this.MinimizeBox = false;
             this.Name = "AddNewBookForm";
             this.Text = "Add New Book";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.authorsGroup.ResumeLayout(false);
+            this.authorsGroup.PerformLayout();
+            this.publishersGroup.ResumeLayout(false);
+            this.publishersGroup.PerformLayout();
             this.tagsGroup.ResumeLayout(false);
             this.tagsGroup.PerformLayout();
             this.ResumeLayout(false);
@@ -731,12 +731,12 @@ namespace MyLibrary
         private System.Windows.Forms.TextBox Isbn13Field;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox authorsGroup;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.CheckedListBox authorsList;
         private System.Windows.Forms.Button addNewAuthorButton;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox publishersGroup;
         private System.Windows.Forms.Button addNewPublisherButton;
         private System.Windows.Forms.ListBox publishersList;
         private System.Windows.Forms.TextBox notesField;
