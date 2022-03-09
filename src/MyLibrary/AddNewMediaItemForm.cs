@@ -61,6 +61,16 @@ namespace MyLibrary
             this.runningTimeField.TabIndex = 2;
             this.yearField.TabIndex = 3;
             this.notesField.TabIndex = 4;
+            this.browseImageButton.TabIndex = 5;
+            this.saveButton.TabIndex = 6;
+            this.cancelButton.TabIndex = 7;
+            this.tagsGroup.TabStop = false;
+            this.tagsList.TabStop = false;
+            this.filterTagField.TabStop = false;
+            this.applyFilterButton.TabStop = false;
+            this.clearFilterButton.TabStop = false;
+            this.addNewTagButton.TabStop = false;
+            this.imageFilePathField.TabStop = false;
 
             this.addNewTagButton.Enabled = true;
 
