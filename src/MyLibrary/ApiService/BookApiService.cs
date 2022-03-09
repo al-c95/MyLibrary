@@ -108,7 +108,7 @@ namespace MyLibrary.ApiService
             string _isbn;
             if (JsonPropertyExists(bookJsonObj, "isbn_10"))
             {
-                _isbn = (string)bookJsonObj["isbn_10"][0];
+                _isbn = RemoveDashes((string)bookJsonObj["isbn_10"][0]);
             }
             else
             {
@@ -117,7 +117,7 @@ namespace MyLibrary.ApiService
             string _isbn13;
             if (JsonPropertyExists(bookJsonObj, "isbn_13"))
             {
-                _isbn13 = (string)bookJsonObj["isbn_13"][0];
+                _isbn13 = RemoveDashes((string)bookJsonObj["isbn_13"][0]);
             }
             else
             {
@@ -201,6 +201,11 @@ namespace MyLibrary.ApiService
             {
                 return true;
             }
+        }
+
+        private string RemoveDashes(string isbn)
+        {
+            return isbn.Replace("-", string.Empty);
         }
 
         public void Dispose()

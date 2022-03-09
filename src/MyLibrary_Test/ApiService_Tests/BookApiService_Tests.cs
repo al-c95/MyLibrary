@@ -54,7 +54,7 @@ namespace MyLibrary_Test.ApiService_Tests
     "   \"0123456789012\"" + "\r\n" +
     "],\r\n" +
     "\"isbn_10\": [" + "\r\n" +
-    "   \"0123456789\"" + "\r\n" +
+    "   \"0-123-45678-9\"" + "\r\n" +
     "],\r\n" +
     "\"publish_date\": \"Oct 28, 2017\"," + "\r\n" +
     "\"key\": \"/books/OL00000000M\"," + "\r\n" +
