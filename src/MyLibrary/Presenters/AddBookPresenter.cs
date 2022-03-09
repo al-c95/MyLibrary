@@ -181,7 +181,9 @@ namespace MyLibrary.Presenters
             var allAuthors = await this._authorService.GetAll();
             foreach (var author in allAuthors)
             {
-                this._allAuthors.Add(author.GetFullNameLastNameCommaFirstName(), false);
+                string authorName = author.GetFullNameLastNameCommaFirstName();
+                if (!this._allAuthors.ContainsKey(authorName))
+                    this._allAuthors.Add(authorName, false);
             }
 
             // perform filtering and update the view
@@ -194,7 +196,9 @@ namespace MyLibrary.Presenters
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
-                this._allTags.Add(tag.Name, false);
+                string tagName = tag.Name;
+                if (!this._allTags.ContainsKey(tagName))
+                    this._allTags.Add(tag.Name, false);
             }
 
             // perform filtering and update the view
@@ -207,7 +211,9 @@ namespace MyLibrary.Presenters
             var allPublishers = await this._publisherService.GetAll();
             foreach (var publisher in allPublishers)
             {
-                this._allPublishers.Add(publisher.Name);
+                string publisherName = publisher.Name;
+                if (!this._allPublishers.Contains(publisherName))
+                    this._allPublishers.Add(publisher.Name);
             }
 
             // perform filtering and update the view
