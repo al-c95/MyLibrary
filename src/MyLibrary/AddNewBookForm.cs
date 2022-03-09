@@ -66,13 +66,36 @@ namespace MyLibrary
             this.pagesField.TabIndex = 6;
             this.synopsisField.TabIndex = 7;
             this.excerptField.TabIndex = 8;
-            this.datePublishedField.TabIndex = 9;
-            this.editionField.TabIndex = 10;
-            this.deweyDecimalField.TabIndex = 11;
-            this.formatField.TabIndex = 12;
-            this.dimensionsField.TabIndex = 13;
-            this.languageField.TabIndex = 14;
-            this.notesField.TabIndex = 15;
+            this.languageField.TabIndex = 9;
+            this.datePublishedField.TabIndex = 10;
+            this.placeOfPublicationField.TabIndex = 11;
+            this.editionField.TabIndex = 12;
+            this.deweyDecimalField.TabIndex = 13;
+            this.formatField.TabIndex = 14;
+            this.dimensionsField.TabIndex = 15;
+            this.notesField.TabIndex = 16;
+            this.browseImageButton.TabIndex = 17;
+            this.imageFilePathField.TabStop = false;
+            this.saveButton.TabIndex = 18;
+            this.cancelButton.TabIndex = 19;
+            this.authorsGroup.TabStop = false;
+            this.authorsList.TabStop = false;
+            this.filterAuthorsField.TabStop = false;
+            this.applyAuthorFilterButton.TabStop = false;
+            this.clearAuthorFilterButton.TabStop = false;
+            this.addNewAuthorButton.TabStop = false;
+            this.tagsGroup.TabStop = false;
+            this.tagsList.TabStop = false;
+            this.filterTagField.TabStop = false;
+            this.applyTagFilterButton.TabStop = false;
+            this.clearTagFilterButton.TabStop = false;
+            this.addNewTagButton.TabStop = false;
+            this.publishersGroup.TabStop = false;
+            this.publishersList.TabStop = false;
+            this.filterPublishersField.TabStop = false;
+            this.applyPublisherFilterButton.TabStop = false;
+            this.clearPublisherFilterButton.TabStop = false;
+            this.addNewPublisherButton.TabStop = false;
 
             // register event handlers
             // fire the public event so the subscribed presenter can react
