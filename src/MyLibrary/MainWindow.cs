@@ -308,6 +308,7 @@ namespace MyLibrary
                 this.discardChangesButton.Enabled = !(value is null);
                 this.notesLabel.Enabled = !(value is null);
                 this.textBoxNotes.Enabled = !(value is null);
+                this.manageItemCopiesButton.Enabled = !(value is null);
 
                 if (value is null)
                 {
