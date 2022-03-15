@@ -207,6 +207,8 @@ namespace MyLibrary.Presenters
             this._view.DiscardSelectedItemChangesButtonEnabled = false;
 
             this._view.SelectedItemDetailsBoxEntry = this._view.SelectedItem.ToString();
+
+            GC.Collect();
         }
 
         public async void CategorySelectionChanged(object sender, EventArgs e)

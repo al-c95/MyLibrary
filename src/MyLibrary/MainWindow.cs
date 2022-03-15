@@ -295,7 +295,7 @@ namespace MyLibrary
                 {
                     temp.Image = null;
                 }
-
+                
                 return temp;
             }
 
