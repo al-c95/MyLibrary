@@ -350,7 +350,7 @@ namespace MyLibrary.Presenters
                     book.GetCommaDelimitedTags()
                     );
             }
-            this._view.DisplayedItems = dt;
+            //this._view.DisplayedItems = dt;
             this._allItems = dt;
 
             PerformFilter(null,null);
@@ -382,7 +382,7 @@ namespace MyLibrary.Presenters
                     item.GetCommaDelimitedTags()
                     );
             }
-            this._view.DisplayedItems = dt;
+            //this._view.DisplayedItems = dt;
             this._allItems = dt;
 
             PerformFilter(null,null);
