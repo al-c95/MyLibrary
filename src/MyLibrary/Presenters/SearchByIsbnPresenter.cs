@@ -137,6 +137,11 @@ namespace MyLibrary.Presenters
                 if (ex.InnerException.Message.Equals("The remote name could not be resolved: 'openlibrary.org'"))
                     this._view.ShowConnectionErrorDialog();
             }
+            catch (Exception ex)
+            {
+                // some other error
+                this._view.ShowErrorDialog(ex.Message);
+            }
             finally
             {
                 Reset();

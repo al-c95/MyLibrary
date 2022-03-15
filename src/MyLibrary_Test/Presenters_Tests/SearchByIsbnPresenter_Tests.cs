@@ -135,6 +135,29 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
+        public void SearchButtonClicked_Test_OtherError()
+        {
+            // arrange
+            string isbn = "0123456789";
+            var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
+            A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
+            var fakeRepo = A.Fake<IBookService>();
+            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
+            var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
+            var fakeApiService = A.Fake<IBookApiService>();
+            A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);
+            A.CallTo(() => fakeApiService.GetBookByIsbnAsync("0123456789")).Throws(new Exception("error"));
+            var presenter = new MockPresenter(fakeSearchByIsbnDialog, null, null, fakeRepo, fakeApiServiceProvider);
+            presenter.AddBookPresenter = this._addBookPresenter;
+
+            // act
+            presenter.SearchButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeSearchByIsbnDialog.ShowErrorDialog("error")).MustHaveHappened();
+        }
+
+        [Test]
         public void SearchButtonClicked_Test_Success()
         {
             // arrange
