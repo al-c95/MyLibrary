@@ -343,7 +343,12 @@ namespace MyLibrary
             get => (DataTable)this.dataGrid.DataSource;
             set
             {
+                this.dataGrid.DataSource = null;
+                this.dataGrid.Rows.Clear();
+                GC.Collect();
+
                 this.dataGrid.DataSource = value;
+
                 ResizeColumns();
             }
         }
