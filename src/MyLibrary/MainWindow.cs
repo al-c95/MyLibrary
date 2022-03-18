@@ -243,8 +243,6 @@ namespace MyLibrary
             {
                 // media items displayed
             }
-
-            this.WindowState = FormWindowState.Maximized;
         }
 
         public void LoadWindow()
