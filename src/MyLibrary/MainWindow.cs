@@ -44,11 +44,15 @@ namespace MyLibrary
     {
         public static readonly int FILTER_DELAY = 2000; // millis
 
+        private bool Image;
+
         public MainWindow()
         {
             InitializeComponent();
 
             this.Text = Configuration.APP_NAME + " " + Configuration.APP_VERSION;
+
+            Image = false;
 
             // populate "Category" combo box
             this.categoryDropDown.Items.Add(ItemType.Book);
@@ -94,15 +98,13 @@ namespace MyLibrary
             });
             this.addButton.Click += ((sender, args) =>
             {
-                switch (this.categoryDropDown.SelectedIndex)
+                if (this.categoryDropDown.SelectedIndex == 0)
                 {
-                    
-                    case 0:
-                        AddNewBookClicked?.Invoke(sender, args);
-                        break;
-                    default:
-                        AddNewMediaItemClicked?.Invoke(sender, args);
-                        break;
+                    AddNewBookClicked?.Invoke(sender, args);
+                }
+                else
+                {
+                    AddNewMediaItemClicked?.Invoke(sender, args);
                 }
             });
             this.categoryDropDown.SelectedIndexChanged += ((sender, args) =>
@@ -170,6 +172,7 @@ namespace MyLibrary
                     {
                         byte[] bytes = File.ReadAllBytes(dialog.FileName);
                         this.pictureBox.Image = ReadImage(bytes);
+                        Image = true;
 
                         SelectedItemModified?.Invoke(sender, args);
                     }
@@ -241,7 +244,7 @@ namespace MyLibrary
         public void LoadWindow()
         {
             // select viewing books by default
-            this.CategoryDropDownSelectedIndex = 0;
+            this.CategoryDropDownSelectedIndex = 1;
             CategorySelectionChanged?.Invoke(this, null);
         }
 
@@ -281,15 +284,20 @@ namespace MyLibrary
         private Item _selectedItem;
         public Item SelectedItem
         {
-            // TODO: factor this logic out to the presenter
-
             get
             {
                 Item temp = _selectedItem;
                 temp.Notes = this.textBoxNotes.Text;
                 if (this.pictureBox.Image != null)
                 {
-                    temp.Image = WriteImage(this.pictureBox.Image, this.pictureBox.Image.RawFormat);
+                    if (Image)
+                    {
+                        temp.Image = WriteImage(this.pictureBox.Image, this.pictureBox.Image.RawFormat);
+                    }
+                    else
+                    {
+                        temp.Image = null;
+                    }
                 }
                 else
                 {
@@ -315,6 +323,7 @@ namespace MyLibrary
                     this.textBoxNotes.Clear();
                     this.detailsBox.Clear();
                     this.pictureBox.Image = null;
+                    Image = false;
 
                     return;
                 }
@@ -329,13 +338,15 @@ namespace MyLibrary
                 else
                 {
                     this.pictureBox.Image = ReadImage(this._selectedItem.Image);
+                    Image = true;
                 }
             } 
         }
 
         private void SetNoItemImage()
         {
-            this.pictureBox.Image = ReadImage(System.IO.File.ReadAllBytes("no_image.png"));
+            this.pictureBox.Image = ReadImage(File.ReadAllBytes("no_image.png"));
+            Image = false;
         }
 
         public DataTable DisplayedItems
@@ -343,6 +354,7 @@ namespace MyLibrary
             get => (DataTable)this.dataGrid.DataSource;
             set
             {
+                // handle DataGridView memory leak
                 this.dataGrid.DataSource = null;
                 this.dataGrid.Rows.Clear();
                 GC.Collect();

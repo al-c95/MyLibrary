@@ -30,7 +30,12 @@ namespace MyLibrary.DataAccessLayer.Repositories
         void Create(Book entity);
         void DeleteById(int id);
         IEnumerable<Book> ReadAll();
+        Book GetById(int id);
         int GetIdByTitle(string title);
+        IEnumerable<string> GetTitles();
+        IEnumerable<string> GetLongTitles();
+        IEnumerable<string> GetIsbns();
+        IEnumerable<string> GetIsbn13s();
         void Update(Book toUpdate);
     }
 }

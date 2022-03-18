@@ -38,30 +38,65 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public override void Create(MediaItem entity)
         {
             // insert Media table record
-            const string INSERT_MEDIA_SQL = "INSERT INTO Media (title,type,number,image,runningTime,releaseYear,notes) " +
-                "VALUES(@title,@type,@number,@image,@runningTime,@releaseYear,@notes);";
+            const string INSERT_MEDIA_SQL = "INSERT INTO Media (title,type,number,runningTime,releaseYear,notes) " +
+                "VALUES(@title,@type,@number,@runningTime,@releaseYear,@notes);";
             this._uow.Connection.Execute(INSERT_MEDIA_SQL, new
             {
                 title = entity.Title,
                 type = entity.Type,
                 number = entity.Number,
-                image = entity.Image,
                 runningTime = entity.RunningTime,
                 releaseYear = entity.ReleaseYear,
                 notes = entity.Notes
             });
+            int itemId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+
+            // insert Images table record, if any
+            if (entity.Image != null)
+            {
+                // insert record
+                this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new
+                {
+                    image = entity.Image
+                });
+
+                // update foreign key
+                int imageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+                const string SET_IMAGE_ID_SQL = "UPDATE Media SET imageId=@imageId WHERE id=@itemId;";
+                this._uow.Connection.Execute(SET_IMAGE_ID_SQL, new
+                {
+                    imageId = imageId,
+                    itemId = itemId
+                });
+            }
         }
 
         public override void DeleteById(int id)
         {
-            const string SQL = "DELETE FROM Media WHERE id = @id;";
+            // delete Images table record, if any
+            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
+            {
+                id = id
+            });
+            if (imageId != null)
+            {
+                const string DELETE_IMAGE_SQL = "DELETE FROM Images WHERE id = @id;";
+                this._uow.Connection.ExecuteAsync(DELETE_IMAGE_SQL, new { id = imageId });
+            }
 
-            this._uow.Connection.Execute(SQL, new { id });
+            // delete Media table record
+            const string DELETE_ITEM_SQL = "DELETE FROM Media WHERE id = @id;";
+            this._uow.Connection.Execute(DELETE_ITEM_SQL, new { id });
         }
 
+        /// <summary>
+        /// Retrieves all media items from the database, including linked tags.
+        /// Does not include images.
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerable<MediaItem> ReadAll()
         {
-            const string SQL = "SELECT M.id, title, type, number, image, runningTime, releaseYear, notes, T.id, name " +
+            const string SQL = "SELECT M.id, title, type, number, runningTime, releaseYear, notes, T.id, name " +
                 "FROM Media M " +
                 "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
                 "INNER JOIN Tags T ON T.id = MT.tagId;";
@@ -97,6 +132,56 @@ namespace MyLibrary.DataAccessLayer.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a single media item. Includes image.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public override MediaItem GetById(int id)
+        {
+            // read Media table record
+            var item = this._uow.Connection.QuerySingle<MediaItem>("SELECT * FROM Media WHERE id=@id", new
+            {
+                id = id
+            });
+            if (item is null)
+                return null;
+
+            // read Image table record, if any
+            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
+            {
+                id = id
+            });
+            if (imageId != null)
+            {
+                var image = this._uow.Connection.QuerySingle<byte[]>("SELECT image FROM Images WHERE id=@id", new
+                {
+                    id = (int)imageId
+                });
+                item.Image = image;
+            }
+            else
+            {
+                item.Image = null;
+            }
+            
+            // check for tags
+            IEnumerable<int> tagIds = this._uow.Connection.Query<int>("SELECT tagId FROM Media_Tag WHERE mediaId=@mediaId;", new
+            {
+                mediaId=id
+            });
+            foreach (var tagId in tagIds)
+            {
+                var tag = this._uow.Connection.QuerySingle<Tag>("SELECT * FROM Tags WHERE id=@id", new
+                {
+                    id = tagId
+                });
+                item.Tags.Add(tag);
+            }
+
+            return item;
+        }
+
         public int GetIdByTitle(string title)
         {
             const string SQL = "SELECT id FROM Media WHERE title=@title;";
@@ -110,17 +195,57 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// <param name="toUpdate"></param>
         public override void Update(MediaItem toUpdate)
         {
-            const string SQL = "UPDATE Media " +
-                "SET image = @image, notes = @notes " +
-                "WHERE id = @id;";
-
-            this._uow.Connection.Execute(SQL, new
+            // update image
+            // delete old Images table record, if it exists
+            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
             {
-                toUpdate.Id,
+                id = toUpdate.Id
+            });
+            if (imageId != null)
+            {
+                const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
+                this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
+                {
+                    oldImageId = imageId
+                });
+            }
+            if (toUpdate.Image != null)
+            {
+                // item has new image
+                // insert new Images table record
+                this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
+                int newImageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+                // update foreign key
+                this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
+                {
+                    id = toUpdate.Id,
+                    imageId = newImageId
+                });
+            }
+            else
+            {
+                // item has removed image
+                // set the foreign key to null
+                int? nullInt = null;
+                this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new 
+                {
+                    id = toUpdate.Id,
+                    imageId = nullInt
+                });
+            }
 
-                toUpdate.Image,
-                toUpdate.Notes
+            // update notes field in Media table record
+            const string UPDATE_ITEM_SQL = "UPDATE Media SET notes = @notes WHERE id = @id;";
+            this._uow.Connection.Execute(UPDATE_ITEM_SQL, new
+            {
+                id = toUpdate.Id,
+                notes = toUpdate.Notes
             });
         }//Update
+
+        public override IEnumerable<string> GetTitles()
+        {
+            return this._uow.Connection.Query<string>("SELECT title FROM Media;");
+        }
     }//class
 }
