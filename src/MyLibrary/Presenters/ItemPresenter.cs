@@ -109,15 +109,14 @@ namespace MyLibrary.Presenters
             // delete the item
             try
             {
+                int selectedItemId = this._view.SelectedItemId;
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
-                    // book
-                    await this._bookService.DeleteById(this._view.SelectedItemId);
+                    await this._bookService.DeleteById(selectedItemId);
                 }
                 else
                 {
-                    // media item
-                    await this._mediaItemService.DeleteById(this._view.SelectedItemId);
+                    await this._mediaItemService.DeleteById(selectedItemId);
                 }
             }
             catch (Exception ex)
@@ -151,7 +150,6 @@ namespace MyLibrary.Presenters
 
             // update the view
             this._view.DisplayedItems = filteredTable;
-
             UpdateStatusBarAndSelectedItemDetails();
         }
 
@@ -163,7 +161,9 @@ namespace MyLibrary.Presenters
             var rows = originalTable.AsEnumerable()
                 .Where(row => filterPattern.IsMatch(row.Field<string>("Title")));
             foreach (var row in rows)
+            {
                 filteredTable.ImportRow(row);
+            }
 
             return filteredTable;
         }
@@ -186,22 +186,24 @@ namespace MyLibrary.Presenters
 
         public async void ItemSelectionChanged(object sender, EventArgs e)
         {
+            // delete item button enabled if item is selected
             this._view.DeleteItemButtonEnabled = this._view.IsItemSelected;
 
-            if (this._view.SelectedItemId == 0)
+            int selectedItemId = this._view.SelectedItemId;
+            if (selectedItemId == 0)
             {
+                // nothing is selected
+                // nothing to do
                 return;
             }
 
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
-                // book
-                this._view.SelectedItem = await this._bookService.GetById(this._view.SelectedItemId);
+                this._view.SelectedItem = await this._bookService.GetById(selectedItemId);
             }
             else
             {
-                // media item
-                this._view.SelectedItem = await this._mediaItemService.GetById(this._view.SelectedItemId);
+                this._view.SelectedItem = await this._mediaItemService.GetById(selectedItemId);
             }
             this._selectedItemMemento = this._view.SelectedItem.GetMemento();
             this._view.DiscardSelectedItemChangesButtonEnabled = false;
@@ -209,7 +211,7 @@ namespace MyLibrary.Presenters
             this._view.SelectedItemDetailsBoxEntry = this._view.SelectedItem.ToString();
 
             GC.Collect();
-        }
+        }//ItemSelectionChanged
 
         public async void CategorySelectionChanged(object sender, EventArgs e)
         {
@@ -222,12 +224,10 @@ namespace MyLibrary.Presenters
             {
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
-                    // book
                     await this._bookService.Update((Book)this._view.SelectedItem);
                 }
                 else
                 {
-                    // media item
                     await this._mediaItemService.Update((MediaItem)this._view.SelectedItem);
                 }
             }
@@ -358,40 +358,20 @@ namespace MyLibrary.Presenters
 
         private async Task DisplayMediaItems()
         {
-            // fetch the data
-            var allItems = await this._mediaItemService.GetAll();
-
-            // create DataTable to display and assign to the view
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Id");
-            dt.Columns.Add("Title");
-            dt.Columns.Add("Type");
-            dt.Columns.Add("Number");
-            dt.Columns.Add("Run Time");
-            dt.Columns.Add("Release Year");
-            dt.Columns.Add("Tags");
-            foreach (var item in allItems)
-            {
-                dt.Rows.Add(
-                    item.Id,
-                    item.Title,
-                    item.Type,
-                    item.Number,
-                    item.RunningTime,
-                    item.ReleaseYear,
-                    item.GetCommaDelimitedTags()
-                    );
-            }
-            
-            this._allItems = dt;
+            CreateMediaItemsTable(await this._mediaItemService.GetAll());
         }
 
         private async Task DisplayMediaItems(ItemType type)
         {
-            // fetch the data
-            var items = await this._mediaItemService.GetByType(type);
+            CreateMediaItemsTable(await this._mediaItemService.GetByType(type));
+        }
 
-            // create DataTable to display and assign to the view
+        /// <summary>
+        /// Creates DataTable to display. Assigns it to the view.
+        /// </summary>
+        /// <param name="items"></param>
+        private void CreateMediaItemsTable(IEnumerable<MediaItem> items)
+        {
             DataTable dt = new DataTable();
             dt.Columns.Add("Id");
             dt.Columns.Add("Title");
@@ -412,7 +392,7 @@ namespace MyLibrary.Presenters
                     item.GetCommaDelimitedTags()
                     );
             }
-            
+
             this._allItems = dt;
         }
 
@@ -424,18 +404,22 @@ namespace MyLibrary.Presenters
             IEnumerable<string> checkedTags = this._view.SelectedFilterTags;
             foreach (var tagName in checkedTags)
             {
-                if (allTags.Any(t => t.Name==tagName))
+                if (allTags.Any(t => t.Name == tagName))
+                {
                     tagsAndCheckedStatuses.Add(tagName, true);
+                }
             }
             foreach (var tag in await this._tagService.GetAll())
             {
                 string tagName = tag.Name;
                 if (!tagsAndCheckedStatuses.ContainsKey(tagName))
+                {
                     tagsAndCheckedStatuses.Add(tagName, false);
+                }
             }
 
             this._view.PopulateFilterTags(tagsAndCheckedStatuses);
-        }
+        }//DisplayTags
 
         private async Task DisplayItems()
         {
@@ -444,24 +428,27 @@ namespace MyLibrary.Presenters
             this._view.ItemsDisplayedText = null;
 
             // update the view
+            // tags
             await DisplayTags();
-            switch (this._view.CategoryDropDownSelectedIndex)
+            // items
+            int categorySelectionIndex = this._view.CategoryDropDownSelectedIndex;
+            if (categorySelectionIndex == 0)
             {
-                case 0:
-                    await DisplayBooks();
-                    break;
-                case 1:
-                    await DisplayMediaItems();
-                    break;
-                default:
-                    await DisplayMediaItems((ItemType)this._view.CategoryDropDownSelectedIndex-1);
-                    break;
+                await DisplayBooks();
             }
-
+            else if (categorySelectionIndex == 1)
+            {
+                await DisplayMediaItems();
+            }
+            else
+            {
+                await DisplayMediaItems((ItemType)categorySelectionIndex - 1);
+            }
+            // filter items
             PerformFilter(null,null);
 
             UpdateStatusBarAndSelectedItemDetails();
-        }
+        }//DisplayItems
 
         private void UpdateStatusBarAndSelectedItemDetails()
         {
