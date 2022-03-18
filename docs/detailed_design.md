@@ -28,7 +28,7 @@ This document describes some of the detail of the data, architecture and user in
 |pages    |INTEGER      |No          |               |
 |dimensions|TEXT        |Yes         |               |
 |overview |TEXT         |Yes         |               |
-|image    |BLOB         |Yes         |               |
+|imageId    |INTEGER         |Yes         |Foreign key, references (Images)id.               |
 |msrp     |TEXT         |Yes         |               |
 |excerpt  |TEXT         |Yes         |               |
 |synopsys |TEXT         |Yes         |               |
@@ -56,10 +56,17 @@ This document describes some of the detail of the data, architecture and user in
 |id       |INTEGER      |No          |Primary key, autoincremented|
 |title    |TEXT         |No          |               |
 |type     |INTEGER      |No          |               |
-|image    |BLOB         |Yes         |               |
+|imageId    |INTEGER         |Yes         |Foreign key, references (Images)id.               |
 |runningTime|INTEGER    |No          |               |
 |releaseYear|INTEGER    |No          |               |
 |notes    |TEXT         |Yes         |Free text field to write anything you like.|
+&nbsp;
+
+#### Images
+|**Field**|**Data Type**|**Nullable**|**Comments/Description**|
+|---------|-------------|------------|---------------|
+|id       |INTEGER      |No          |Primary key, autoincremented|
+|image    |BLOB         |Yes            |Image          |
 &nbsp;
 
 #### Tags
