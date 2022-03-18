@@ -59,7 +59,7 @@ namespace MyLibrary
 
         static Configuration()
         {
-            CONNECTION_STRING = @"Data Source=" + ConfigurationManager.AppSettings.Get("dbPath") + "; foreign keys=True";
+            CONNECTION_STRING = @"Data Source=" + ConfigurationManager.AppSettings.Get("dbPath") + "; foreign keys=True;";
         }
     }//class
 }

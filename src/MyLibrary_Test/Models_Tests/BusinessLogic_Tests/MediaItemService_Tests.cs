@@ -68,7 +68,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeRepo.Update(item)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
         [Test]
@@ -91,23 +91,36 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
         [Test]
         public async Task GetById_Test()
         {
             // arrange
-            string expectedTitle = "item1";
-            int id = 1;
-            MockMediaItemService service = new MockMediaItemService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<IMediaItemRepository>();
+            MediaItem item = new MediaItem
+            {
+                Id = 1,
+                Title = "item"
+            };
+            A.CallTo(() => fakeRepo.GetById(1)).Returns(item);
+            var fakeTagRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
+            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
 
             // act
-            MediaItem result = await service.GetById(id);
-            string actualTitle = result.Title;
+            var result = await service.GetById(1);
 
             // assert
-            Assert.AreEqual(expectedTitle, actualTitle);
+            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual("item", result.Title);
         }
 
         [Test]
@@ -158,12 +171,27 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
         public async Task ExistsWithTitle_Test(string title, bool expectedResult)
         {
             // arrange
-            MockMediaItemService service = new MockMediaItemService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<IMediaItemRepository>();
+            List<string> titles = new List<string>
+            {
+                "item1",
+                "item2"
+            };
+            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            var fakeTagRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
+            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
+
+            // arrange
+            var actualResult = await service.ExistsWithTitle(title);
 
             // act
-            bool actualResult = await service.ExistsWithTitle(title);
-
-            // assert
             Assert.AreEqual(expectedResult, actualResult);
         }
 

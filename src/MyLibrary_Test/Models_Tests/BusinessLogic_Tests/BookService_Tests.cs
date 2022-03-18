@@ -22,31 +22,48 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         public async Task GetById_Test()
         {
             // arrange
-            string expectedTitle = "Test book";
-            int id = 1;
-            MockBookService service = new MockBookService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            Book book = new Book { Id = 1, Title = "test_book" };
+            A.CallTo(() => fakeRepo.GetById(1)).Returns(book);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            Book result = await service.GetById(id);
-            string actualTitle = result.Title;
+            var result = await service.GetById(1);
 
             // assert
-            Assert.AreEqual(expectedTitle, actualTitle);
+            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual("test_book", result.Title);
         }
 
         [Test]
         public async Task GetIdByTitle_Test()
         {
             // arrange
-            string title = "Test book";
-            int expectedId = 1;
-            MockBookService service = new MockBookService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            A.CallTo(() => fakeRepo.GetIdByTitle("test")).Returns(1);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            int actualId = await service.GetIdByTitle(title);
+            var result = await service.GetIdByTitle("test");
 
             // assert
-            Assert.AreEqual(expectedId, actualId);
+            Assert.AreEqual(1, result);
         }
 
         [TestCase(1,true)]
@@ -68,7 +85,22 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         public async Task ExistsWithTitle_Test(string title, bool expectedResult)
         {
             // arrange
-            MockBookService service = new MockBookService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> titles = new List<string>
+            {
+                "Test book",
+                "Test book 2"
+            };
+            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
             bool actualResult = await service.ExistsWithTitle(title);
@@ -82,7 +114,22 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         public async Task ExistsWithLongTitle_Test(string title, bool expectedResult)
         {
             // arrange
-            MockBookService service = new MockBookService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> titles = new List<string>
+            {
+                "Test book: this book is a test",
+                "Test book 2"
+            };
+            A.CallTo(() => fakeRepo.GetLongTitles()).Returns(titles);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
             bool actualResult = await service.ExistsWithLongTitle(title);
@@ -95,11 +142,24 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         public async Task ExistsWithIsbn_Test_Isbn10Exists()
         {
             // arrange
-            MockBookService service = new MockBookService();
-            string isbn = "0123456789";
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> isbns = new List<string>
+            {
+                "0123456789"
+            };
+            A.CallTo(() => fakeRepo.GetIsbns()).Returns(isbns);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbn(isbn);
+            bool exists = await service.ExistsWithIsbn("0123456789");
 
             // assert
             Assert.IsTrue(exists);
@@ -109,11 +169,24 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         public async Task ExistsWithIsbn_Test_Isbn13Exists()
         {
             // arrange
-            MockBookService service = new MockBookService();
-            string isbn = "2109876543210";
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> isbns = new List<string>
+            {
+                "0123456789012"
+            };
+            A.CallTo(() => fakeRepo.GetIsbn13s()).Returns(isbns);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbn(isbn);
+            bool exists = await service.ExistsWithIsbn("0123456789012");
 
             // assert
             Assert.IsTrue(exists);
@@ -124,13 +197,32 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         public async Task ExistsWithIsbn_Test_DoesNotExist(string isbn)
         {
             // arrange
-            MockBookService service = new MockBookService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> isbns = new List<string>
+            {
+                "0123456789"
+            };
+            List<string> isbn13s = new List<string>
+            {
+                "0123456789012"
+            };
+            A.CallTo(() => fakeRepo.GetIsbns()).Returns(isbns);
+            A.CallTo(() => fakeRepo.GetIsbn13s()).Returns(isbn13s);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbn(isbn);
+            bool exists = await service.ExistsWithIsbn("0123456789012");
 
             // assert
-            Assert.IsFalse(exists);
+            Assert.IsTrue(exists);
         }
 
         [Test]
@@ -154,7 +246,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeRepo.Update(book)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
         [Test]
@@ -352,7 +444,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
         [Test]

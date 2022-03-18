@@ -1,4 +1,4 @@
-﻿DROP TABLE IF EXISTS Books;
+DROP TABLE IF EXISTS Books;
 DROP TABLE IF EXISTS Authors;
 DROP TABLE IF EXISTS Tags;
 DROP TABLE IF EXISTS Publishers;
@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS Media;
 DROP TABLE IF EXISTS Book_Tag;
 DROP TABLE IF EXISTS Book_Author;
 DROP TABLE IF EXISTS Media_Tag;
+DROP TABLE IF EXISTS Images;
 
 CREATE TABLE "Books" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -24,13 +25,14 @@ CREATE TABLE "Books" (
     "pages" INTEGER NOT NULL,
     "dimensions"    TEXT,
     "overview"  TEXT,
-    "image" BLOB,
+    "imageId" INTEGER,
     "msrp"  TEXT,
     "excerpt"   TEXT,
     "synopsys"  TEXT,
     "notes" TEXT,
     UNIQUE("title", "titleLong"),
     FOREIGN KEY("publisherId") REFERENCES "Publishers"("id") ON DELETE SET NULL ON UPDATE NO ACTION
+    FOREIGN KEY("imageId") REFERENCES "Images"("id") ON DELETE SET NULL ON UPDATE NO ACTION
 );
 
 CREATE TABLE "Authors" (
@@ -45,15 +47,21 @@ CREATE TABLE "Publishers" (
     "name"  TEXT NOT NULL UNIQUE
 );
 
+CREATE TABLE "Images" (
+    "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "image" BLOB
+);
+
 CREATE TABLE "Media" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL UNIQUE,
     "type"  INTEGER NOT NULL,
     "number"    INTEGER NOT NULL,
-    "image" BLOB,
+    "imageId" INTEGER,
     "runningTime"   INTEGER,
     "releaseYear"   INTEGER NOT NULL,
-    "notes" TEXT
+    "notes" TEXT,
+    FOREIGN KEY("imageId") REFERENCES "Images"("id") ON DELETE SET NULL ON UPDATE NO ACTION
 );
 
 CREATE TABLE "Tags" (

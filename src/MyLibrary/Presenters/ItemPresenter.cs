@@ -352,10 +352,8 @@ namespace MyLibrary.Presenters
                     book.GetCommaDelimitedTags()
                     );
             }
-            //this._view.DisplayedItems = dt;
+            
             this._allItems = dt;
-
-            PerformFilter(null,null);
         }
 
         private async Task DisplayMediaItems()
@@ -384,10 +382,8 @@ namespace MyLibrary.Presenters
                     item.GetCommaDelimitedTags()
                     );
             }
-            //this._view.DisplayedItems = dt;
+            
             this._allItems = dt;
-
-            PerformFilter(null,null);
         }
 
         private async Task DisplayMediaItems(ItemType type)
@@ -416,10 +412,8 @@ namespace MyLibrary.Presenters
                     item.GetCommaDelimitedTags()
                     );
             }
-            this._view.DisplayedItems = dt;
+            
             this._allItems = dt;
-
-            PerformFilter(null,null);
         }
 
         private async Task DisplayTags()
