@@ -232,12 +232,16 @@ namespace MyLibrary
         private void ResizeColumns()
         {
             // resize DataGridView columns nicely
-            this.dataGrid.Columns[0].Width = this.dataGrid.Width / 20;
+            this.dataGrid.Columns[0].Width = this.dataGrid.Width / 20; // Id
+            this.dataGrid.Columns[1].Width = this.dataGrid.Width / 4; // title
             if (this.categoryDropDown.SelectedIndex == 0)
             {
                 // books displayed
-                this.dataGrid.Columns[1].Width = this.dataGrid.Width / 5;
-                this.dataGrid.Columns[2].Width = this.dataGrid.Width / 10;
+                this.dataGrid.Columns[2].Width = this.dataGrid.Width / 9; // ISBN
+            }
+            else
+            {
+                // media items displayed
             }
         }
 
