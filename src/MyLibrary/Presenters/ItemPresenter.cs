@@ -186,6 +186,10 @@ namespace MyLibrary.Presenters
 
         public async void ItemSelectionChanged(object sender, EventArgs e)
         {
+            // update status bar
+            this._view.StatusText = "Please Wait...";
+            this._view.ItemsDisplayedText = string.Empty;
+
             // delete item button enabled if item is selected
             this._view.DeleteItemButtonEnabled = this._view.IsItemSelected;
 
@@ -211,6 +215,10 @@ namespace MyLibrary.Presenters
             this._view.SelectedItemDetailsBoxEntry = this._view.SelectedItem.ToString();
 
             GC.Collect();
+
+            // update status bar
+            this._view.StatusText = "Ready.";
+            this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(this._view.NumberOfItemsSelected, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
         }//ItemSelectionChanged
 
         public async void CategorySelectionChanged(object sender, EventArgs e)
