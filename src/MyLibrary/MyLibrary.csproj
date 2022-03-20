@@ -242,6 +242,7 @@
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\WishlistItem.cs" />
+    <Compile Include="Models\ValueObjects\AppVersion.cs" />
     <Compile Include="NewAuthorInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
