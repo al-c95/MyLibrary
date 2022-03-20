@@ -201,24 +201,48 @@ namespace MyLibrary.Presenters
                 return;
             }
 
+            // show spinner
+            // and disable things the user shouldn't play with at this point
+            this._view.ItemDetailsSpinner = true;
+            this._view.FilterGroupEnabled = false;
+            this._view.CategoryGroupEnabled = false;
+            this._view.AddItemEnabled = false;
+            this._view.SearchBooksButtonEnabled = false;
+            this._view.ViewStatisticsEnabled = false;
+            this._view.TagsButtonEnabled = false;
+            this._view.WishlistButtonEnabled = false;
+            this._view.DeleteItemButtonEnabled = false;
+
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
+
                 this._view.SelectedItem = await this._bookService.GetById(selectedItemId);
             }
             else
             {
                 this._view.SelectedItem = await this._mediaItemService.GetById(selectedItemId);
             }
+
             this._selectedItemMemento = this._view.SelectedItem.GetMemento();
             this._view.DiscardSelectedItemChangesButtonEnabled = false;
 
             this._view.SelectedItemDetailsBoxEntry = this._view.SelectedItem.ToString();
 
-            GC.Collect();
-
             // update status bar
             this._view.StatusText = "Ready.";
             this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(this._view.NumberOfItemsSelected, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
+
+            // hide spinner
+            // and re-enable controls
+            this._view.ItemDetailsSpinner = false;
+            this._view.FilterGroupEnabled = true;
+            this._view.CategoryGroupEnabled = true;
+            this._view.AddItemEnabled = true;
+            this._view.SearchBooksButtonEnabled = true;
+            this._view.ViewStatisticsEnabled = true;
+            this._view.TagsButtonEnabled = true;
+            this._view.WishlistButtonEnabled = true;
+            this._view.DeleteItemButtonEnabled = true;
         }//ItemSelectionChanged
 
         public async void CategorySelectionChanged(object sender, EventArgs e)

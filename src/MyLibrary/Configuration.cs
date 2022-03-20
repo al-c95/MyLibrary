@@ -49,7 +49,10 @@ namespace MyLibrary
                 descriptionBuilder.AppendLine("Thanks To: ");
                 descriptionBuilder.AppendLine("Newtonsoft.Json 13.0.1 by James Newton-King");
                 descriptionBuilder.AppendLine("Dapper 2.0.123 by Sam Saffron, Marc Gravell and Nick Craver");
+                descriptionBuilder.AppendLine("CircularProgressBar 2.8.0.16 by Soroush Falahati");
+                descriptionBuilder.AppendLine("WinFormAnimation 1.6.0.4 by Soroush Falahati");
                 descriptionBuilder.AppendLine("Microsoft.Data.Sqlite.Core by Microsoft");
+                descriptionBuilder.AppendLine("EntityFramework 6.4.4 by Microsoft");
 
                 return descriptionBuilder.ToString();
             }

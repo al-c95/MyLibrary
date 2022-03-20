@@ -46,11 +46,105 @@ namespace MyLibrary
 
         private bool Image;
 
+        public bool ItemDetailsSpinner
+        {
+            get => this.itemDetailsSpinner.Visible;
+            set
+            {
+                this.itemDetailsSpinner.Visible = value;
+
+                this.manageItemTagsButton.Visible = !value;
+                this.manageItemCopiesButton.Visible = !value;
+                this.pictureBox.Visible = !value;
+                this.selectImageButton.Visible = !value;
+                this.removeImageButton.Visible = !value;
+                this.notesLabel.Visible = !value;
+                this.textBoxNotes.Visible = !value;
+                this.saveChangesButton.Visible = !value;
+                this.discardChangesButton.Visible = !value;
+                this.detailsBox.Visible = !value;
+            }
+        }
+
+        public bool FilterGroupEnabled
+        {
+            get => this.filterGroup.Enabled;
+            set => this.filterGroup.Enabled = value;
+        }
+
+        public bool CategoryGroupEnabled
+        {
+            get => this.categoryDropDown.Enabled && this.categoryLabel.Enabled;
+            set
+            {
+                this.categoryDropDown.Enabled = value;
+                this.categoryLabel.Enabled = value;
+            }
+        }
+
+        public bool AddItemEnabled 
+        {
+            get => this.addButton.Enabled && this.newBookToolStripMenuItem.Enabled && this.newMediaItemToolStripMenuItem.Enabled;
+            set 
+            {
+                this.addButton.Enabled = value;
+                this.newBookToolStripMenuItem.Enabled = value;
+                this.newMediaItemToolStripMenuItem.Enabled = value;
+            }
+        }
+
+        public bool SearchBooksButtonEnabled 
+        {
+            get => this.searchBooksButton.Enabled;
+            set => this.searchBooksButton.Enabled = value;
+        }
+
+        public bool TagsButtonEnabled 
+        {
+            get => this.tagsButton.Enabled;
+            set => this.tagsButton.Enabled = value;
+        }
+
+        public bool WishlistButtonEnabled 
+        {
+            get => this.wishlistButton.Enabled;
+            set => this.wishlistButton.Enabled = value;
+        }
+
+        public bool ViewStatisticsEnabled 
+        {
+            get => this.databaseStatisticsToolStripMenuItem.Enabled;
+            set => this.databaseStatisticsToolStripMenuItem.Enabled = value;
+        }
+
+        public bool ShowAboutBoxEnabled 
+        {
+            get => this.aboutToolStripMenuItem.Enabled;
+            set => this.aboutToolStripMenuItem.Enabled = value;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
 
             this.Text = Configuration.APP_NAME + " " + Configuration.APP_VERSION;
+            
+            // show the spinner
+            // but the other controls are visible while loading the form, so hide them for now
+            this.ItemDetailsSpinner = false;
+            this.manageItemTagsButton.Visible = false;
+            this.manageItemCopiesButton.Visible = false;
+            this.pictureBox.Visible = false;
+            this.selectImageButton.Visible = false;
+            this.removeImageButton.Visible = false;
+            this.notesLabel.Visible = false;
+            this.textBoxNotes.Visible = false;
+            this.saveChangesButton.Visible = false;
+            this.discardChangesButton.Visible = false;
+            this.detailsBox.Visible = false;
 
             Image = false;
 
@@ -171,8 +265,7 @@ namespace MyLibrary
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         byte[] bytes = File.ReadAllBytes(dialog.FileName);
-                        this.pictureBox.Image = ReadImage(bytes);
-                        Image = true;
+                        SetItemImage(ReadImage(bytes));
 
                         SelectedItemModified?.Invoke(sender, args);
                     }
@@ -223,7 +316,15 @@ namespace MyLibrary
                 FiltersUpdated?.Invoke(sender, args);
             });
 
-            LoadWindow();
+            // select viewing books by default
+            this.categoryDropDown.SelectedIndex = 0;
+
+            SetItemDetailsSpinnerPos();
+            this.itemDetailsSpinner.OuterMargin = 0;
+            this.itemDetailsSpinner.OuterWidth = 6;
+            this.itemDetailsSpinner.ProgressWidth = 10;
+            this.itemDetailsSpinner.InnerWidth = 0;
+            this.itemDetailsSpinner.InnerMargin = 2;
         }//ctor
 
         public static readonly string LOAD_IMAGE_DIALOG_TITLE = "Load Image";
@@ -247,8 +348,6 @@ namespace MyLibrary
 
         public void LoadWindow()
         {
-            // select viewing books by default
-            this.CategoryDropDownSelectedIndex = 1;
             CategorySelectionChanged?.Invoke(this, null);
         }
 
@@ -313,6 +412,8 @@ namespace MyLibrary
 
             set
             {
+                this.dataGrid.Enabled = false;
+
                 this.manageItemTagsButton.Enabled = !(value is null);
                 this.selectImageButton.Enabled = !(value is null);
                 this.removeImageButton.Enabled = !(value is null);
@@ -327,11 +428,13 @@ namespace MyLibrary
                     this.textBoxNotes.Clear();
                     this.detailsBox.Clear();
                     this.pictureBox.Image = null;
+                    Application.DoEvents();
+
                     Image = false;
 
                     return;
                 }
-
+                
                 this._selectedItem = value;
                 this.textBoxNotes.Text = this._selectedItem.Notes;
                 Image itemImage = ReadImage(this._selectedItem.Image);
@@ -341,16 +444,31 @@ namespace MyLibrary
                 }
                 else
                 {
-                    this.pictureBox.Image = ReadImage(this._selectedItem.Image);
-                    Image = true;
+                    SetItemImage(ReadImage(this._selectedItem.Image));
                 }
+
+                this.dataGrid.Enabled = true;
             } 
         }
 
         private void SetNoItemImage()
         {
             this.pictureBox.Image = ReadImage(File.ReadAllBytes("no_image.png"));
+            Application.DoEvents();
+
             Image = false;
+        }
+
+        private void SetItemImage(Image image)
+        {
+            if (this.pictureBox.Image != null)
+            {
+                this.pictureBox.Image.Dispose();
+            }
+            this.pictureBox.Image = image;
+            Application.DoEvents();
+
+            Image = true;
         }
 
         public DataTable DisplayedItems
@@ -362,10 +480,16 @@ namespace MyLibrary
                 this.dataGrid.DataSource = null;
                 this.dataGrid.Rows.Clear();
                 GC.Collect();
-
+                // assign the new data
                 this.dataGrid.DataSource = value;
 
                 ResizeColumns();
+
+                // item details spinner inner width not set correctly at startup
+                // set correctly after vertical window resizing
+                // workaround - TODO: find a better solution
+                this.Height++;
+                this.Height--;
             }
         }
 
@@ -466,6 +590,7 @@ namespace MyLibrary
                             this.detailsBox.Select(start, pattern.Length);
                             this.detailsBox.SelectionFont = new Font(this.detailsBox.Font, FontStyle.Bold);
                         }
+                        Application.DoEvents();
                     }//foreach
                 }//foreach
             }//set
@@ -499,7 +624,9 @@ namespace MyLibrary
 
             MemoryStream stream = new MemoryStream(bytes, 0, bytes.Length);
             stream.Write(bytes, 0, bytes.Length);
+            Application.DoEvents();
             Image image = new Bitmap(stream);
+            Application.DoEvents();
 
             return image;
         }
@@ -514,5 +641,17 @@ namespace MyLibrary
                 return bytes;
             }
         }//WriteImage
+
+        private void SetItemDetailsSpinnerPos()
+        {
+            this.itemDetailsSpinner.Location = new Point((this.pictureBox.Location.X + this.detailsGroup.Width / 4) + 15, this.pictureBox.Location.Y+10);
+        }
+
+        #region UI event handlers
+        private void MainWindow_Resize(object sender, EventArgs e)
+        {
+            SetItemDetailsSpinnerPos();
+        }
+        #endregion
     }//class
 }
