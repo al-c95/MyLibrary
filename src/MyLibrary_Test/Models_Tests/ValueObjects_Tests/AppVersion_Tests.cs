@@ -39,6 +39,7 @@ namespace MyLibrary_Test.Models_Tests.ValueObjects_Tests
         [TestCase(1,1,1,1,2,2,false)]
         [TestCase(1,1,1,1,2,1,false)]
         [TestCase(1,1,1,2,1,2,false)]
+        [TestCase(1,1,1,2,2,2,false)]
         public void Equals_Test(int majorA, int minorA, int revisionA,
                                 int majorB, int minorB, int revisionB,
             bool expectedResult)
@@ -118,6 +119,20 @@ namespace MyLibrary_Test.Models_Tests.ValueObjects_Tests
 
             // act/assert
             Assert.IsTrue(a != b);
+        }
+
+        [Test]
+        public void GetHashCode_Test()
+        {
+            // arrange
+            AppVersion version = new AppVersion(1, 2, 3);
+            int expectedResult = Tuple.Create(1, 2, 3).GetHashCode();
+
+            // act
+            int actualResult = version.GetHashCode();
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
         }
     }
 }
