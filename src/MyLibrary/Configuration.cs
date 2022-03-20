@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using MyLibrary.Models.ValueObjects;
 
 namespace MyLibrary
 {
@@ -36,7 +37,7 @@ namespace MyLibrary
         public static readonly string CONNECTION_STRING;
 
         public const string APP_NAME = "MyLibrary";
-        public const string APP_VERSION = "1.1.0";
+        public static readonly AppVersion APP_VERSION = new AppVersion(1, 1, 0);
 
         public static string APP_DESCRIPTION
         {
