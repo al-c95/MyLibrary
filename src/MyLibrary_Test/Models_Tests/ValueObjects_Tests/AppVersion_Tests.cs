@@ -114,11 +114,98 @@ namespace MyLibrary_Test.Models_Tests.ValueObjects_Tests
         public void NotEqualsOperator_Test_NotEqual()
         {
             // arrange
-            AppVersion a = new AppVersion(1, 2, 3);
-            AppVersion b = new AppVersion(4, 5, 6);
+            AppVersion lhs = new AppVersion(1, 2, 3);
+            AppVersion rhs = new AppVersion(4, 5, 6);
 
             // act/assert
-            Assert.IsTrue(a != b);
+            Assert.IsTrue(lhs != rhs);
+        }
+
+        [TestCase("1.1.0","1.1.1")]
+        [TestCase("1.0.0", "1.1.1")]
+        [TestCase("0.0.0", "1.1.1")]
+        [TestCase("0.0.1", "1.1.1")]
+        [TestCase("0.1.0", "1.1.1")]
+        [TestCase("1.0.1", "1.1.1")]
+        public void LessThanOperator_Test_IsLessThan(string lhs, string rhs)
+        {
+            Assert.IsTrue(AppVersion.Parse(lhs) < AppVersion.Parse(rhs));
+        }
+
+        [TestCase("1.1.1", "1.1.1")]
+        [TestCase("2.1.1", "1.1.1")]
+        [TestCase("2.2.1", "1.1.1")]
+        [TestCase("2.2.2", "1.1.1")]
+        [TestCase("1.1.2", "1.1.1")]
+        [TestCase("1.2.2", "1.1.1")]
+        public void LessThanOperator_Test_NotLessThan(string lhs, string rhs)
+        {
+            Assert.IsFalse(AppVersion.Parse(lhs) < AppVersion.Parse(rhs));
+        }
+
+        [TestCase("1.1.1", "1.1.1")]
+        [TestCase("1.0.0", "1.1.1")]
+        [TestCase("0.0.0", "1.1.1")]
+        [TestCase("0.0.1", "1.1.1")]
+        [TestCase("0.1.0", "1.1.1")]
+        [TestCase("1.0.1", "1.1.1")]
+        public void LessThanOrEqualToOperator_Test_True(string lhs, string rhs)
+        {
+            Assert.IsTrue(AppVersion.Parse(lhs) <= AppVersion.Parse(rhs));
+        }
+
+        [TestCase("2.1.1", "1.1.1")]
+        [TestCase("2.2.1", "1.1.1")]
+        [TestCase("2.2.2", "1.1.1")]
+        [TestCase("1.1.2", "1.1.1")]
+        [TestCase("1.2.2", "1.1.1")]
+        public void LessThanOrEqualToOperator_Test_False(string lhs, string rhs)
+        {
+            Assert.IsFalse(AppVersion.Parse(lhs) <= AppVersion.Parse(rhs));
+        }
+
+        [TestCase("2.2.2", "1.1.1")]
+        [TestCase("2.2.1", "1.1.1")]
+        [TestCase("2.1.1", "1.1.1")]
+        [TestCase("2.1.2", "1.1.1")]
+        [TestCase("1.2.1", "1.1.1")]
+        [TestCase("1.1.2", "1.1.1")]
+        public void GreaterThan_Test_True(string lhs, string rhs)
+        {
+            Assert.IsTrue(AppVersion.Parse(lhs) > AppVersion.Parse(rhs));
+        }
+
+        [TestCase("2.2.2", "2.2.2")]
+        [TestCase("1.2.2", "2.2.2")]
+        [TestCase("1.1.2", "2.2.2")]
+        [TestCase("1.1.1", "2.2.2")]
+        [TestCase("2.1.1", "2.2.2")]
+        [TestCase("2.2.1", "2.2.2")]
+        public void GreaterThan_Test_False(string lhs, string rhs)
+        {
+            Assert.IsFalse(AppVersion.Parse(lhs) > AppVersion.Parse(rhs));
+        }
+
+        [TestCase("2.2.2", "1.1.1")]
+        [TestCase("2.2.1", "1.1.1")]
+        [TestCase("2.1.1", "1.1.1")]
+        [TestCase("2.1.2", "1.1.1")]
+        [TestCase("1.2.1", "1.1.1")]
+        [TestCase("1.1.2", "1.1.1")]
+        [TestCase("1.1.1", "1.1.1")]
+        public void GreaterThanOrEqualTo_Test_True(string lhs, string rhs)
+        {
+            Assert.IsTrue(AppVersion.Parse(lhs) >= AppVersion.Parse(rhs));
+        }
+
+        [TestCase("1.0.0", "1.1.1")]
+        [TestCase("0.0.0", "1.1.1")]
+        [TestCase("0.0.1", "1.1.1")]
+        [TestCase("0.1.0", "1.1.1")]
+        [TestCase("1.0.1", "1.1.1")]
+        public void GreaterThanOrEqualTo_Test_False(string lhs, string rhs)
+        {
+            Assert.IsFalse(AppVersion.Parse(lhs) >= AppVersion.Parse(rhs));
         }
 
         [Test]
@@ -133,6 +220,30 @@ namespace MyLibrary_Test.Models_Tests.ValueObjects_Tests
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase("bogus version")]
+        [TestCase("1.2.f")]
+        [TestCase("1.2.3f")]
+        [TestCase("1.2.3 test")]
+        public void Parse_Test_InvalidFormat(string version)
+        {
+            Assert.Throws<FormatException>(() => AppVersion.Parse(version));
+        }
+
+        [Test]
+        public void Parse_Test_Successful()
+        {
+            // arrange
+            string version = "1.2.3";
+
+            // act
+            AppVersion result = AppVersion.Parse(version);
+
+            // assert
+            Assert.IsTrue(result.Major == 1);
+            Assert.IsTrue(result.Minor == 2);
+            Assert.IsTrue(result.Revision == 3);
         }
     }
 }
