@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MyLibrary.Models.ValueObjects
@@ -41,6 +42,16 @@ namespace MyLibrary.Models.ValueObjects
             this.Revision = revision;
         }
 
+        public static AppVersion Parse(string version)
+        {
+            const string VERSION_PATTERN = @"^(\d)+\.(\d)+\.(\d)+$";
+            if (!Regex.IsMatch(version, VERSION_PATTERN))
+                throw new FormatException("App version " + version + " has invalid format.");
+
+            string[] parts = version.Split('.');
+            return new AppVersion(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]));
+        }
+
         public override int GetHashCode()
         {
             return Tuple.Create(this.Major, this.Minor, this.Revision).GetHashCode();
@@ -49,21 +60,6 @@ namespace MyLibrary.Models.ValueObjects
         public override string ToString()
         {
             return (this.Major + "." + this.Minor + "." + this.Revision);
-        }
-
-        public static bool operator == (AppVersion a, AppVersion b)
-        {
-            if (Object.ReferenceEquals(a,null))
-            {
-                return Object.ReferenceEquals(b, null);
-            }
-
-            return a.Equals(b);
-        }
-
-        public static bool operator != (AppVersion a, AppVersion b)
-        {
-            return !(a == b);
         }
 
         public override bool Equals(object obj)
@@ -76,5 +72,128 @@ namespace MyLibrary.Models.ValueObjects
 
             return equal;
         }
-    }
+
+        public static bool operator == (AppVersion lhs, AppVersion rhs)
+        {
+            if (Object.ReferenceEquals(lhs,null))
+            {
+                return Object.ReferenceEquals(rhs, null);
+            }
+
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator != (AppVersion lhs, AppVersion rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        public static bool operator < (AppVersion lhs, AppVersion rhs)
+        {
+            if (lhs.Major < rhs.Major)
+            {
+                return true;
+            }
+            else if (lhs.Major > rhs.Major)
+            {
+                return false;
+            }
+            else
+            {
+                if (lhs.Minor < rhs.Minor)
+                {
+                    return true;
+                }
+                else if (lhs.Minor > rhs.Minor)
+                {
+                    return false;
+                }
+                else
+                {
+                    return lhs.Revision < rhs.Revision;
+                }
+            }
+        }//<
+
+        public static bool operator > (AppVersion lhs, AppVersion rhs)
+        {
+            if (lhs.Major < rhs.Major)
+            {
+                return false;
+            }
+            else if (lhs.Major > rhs.Major)
+            {
+                return true;
+            }
+            else
+            {
+                if (lhs.Minor < rhs.Minor)
+                {
+                    return false;
+                }
+                else if (lhs.Minor > rhs.Minor)
+                {
+                    return true;
+                }
+                else
+                {
+                    return lhs.Revision > rhs.Revision;
+                }
+            }
+        }//>
+
+        public static bool operator <= (AppVersion lhs, AppVersion rhs)
+        {
+            if (lhs.Major < rhs.Major)
+            {
+                return true;
+            }
+            else if (lhs.Major > rhs.Major)
+            {
+                return false;
+            }
+            else
+            {
+                if (lhs.Minor < rhs.Minor)
+                {
+                    return true;
+                }
+                else if (lhs.Minor > rhs.Minor)
+                {
+                    return false;
+                }
+                else
+                {
+                    return lhs.Revision <= rhs.Revision;
+                }
+            }
+        }//<=
+
+        public static bool operator >= (AppVersion lhs, AppVersion rhs)
+        {
+            if (lhs.Major > rhs.Major)
+            {
+                return true;
+            }
+            else if (lhs.Major < rhs.Major)
+            {
+                return false;
+            }
+            else
+            {
+                if (lhs.Minor > rhs.Minor)
+                {
+                    return true;
+                }
+                else if (lhs.Minor < rhs.Minor)
+                {
+                    return false;
+                }
+                else
+                {
+                    return lhs.Revision >= rhs.Revision;
+                }
+            }
+        }//>=
+    }//class
 }
