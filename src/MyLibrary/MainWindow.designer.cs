@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +72,15 @@ namespace MyLibrary
             this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.wishlistButton = new System.Windows.Forms.Button();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.booksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaItemsAllCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dvdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bluRaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vhssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vinylsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -95,7 +104,7 @@ namespace MyLibrary
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(2108, 38);
+            this.menuStrip.Size = new System.Drawing.Size(1349, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -107,44 +116,53 @@ namespace MyLibrary
             this.toolStripSeparator1,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
-            this.fileMenu.Size = new System.Drawing.Size(46, 34);
+            this.fileMenu.Size = new System.Drawing.Size(46, 24);
             this.fileMenu.Text = "File";
             // 
             // newBookToolStripMenuItem
             // 
             this.newBookToolStripMenuItem.Name = "newBookToolStripMenuItem";
-            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.newBookToolStripMenuItem.Text = "New Book";
             // 
             // newMediaItemToolStripMenuItem
             // 
             this.newMediaItemToolStripMenuItem.Name = "newMediaItemToolStripMenuItem";
-            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.newMediaItemToolStripMenuItem.Text = "New Media Item";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.exitMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitMenuItem.Text = "Exit";
             // 
             // viewMenu
             // 
             this.viewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.databaseStatisticsToolStripMenuItem});
+            this.databaseStatisticsToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.booksToolStripMenuItem,
+            this.mediaItemsAllCategoriesToolStripMenuItem,
+            this.cdsToolStripMenuItem,
+            this.dvdsToolStripMenuItem,
+            this.bluRaysToolStripMenuItem,
+            this.vhssToolStripMenuItem,
+            this.vinylsToolStripMenuItem,
+            this.otherToolStripMenuItem});
             this.viewMenu.Name = "viewMenu";
-            this.viewMenu.Size = new System.Drawing.Size(55, 34);
+            this.viewMenu.Size = new System.Drawing.Size(55, 24);
             this.viewMenu.Text = "View";
             // 
             // databaseStatisticsToolStripMenuItem
             // 
             this.databaseStatisticsToolStripMenuItem.Name = "databaseStatisticsToolStripMenuItem";
-            this.databaseStatisticsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            this.databaseStatisticsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.databaseStatisticsToolStripMenuItem.Text = "Database statistics";
             // 
             // helpMenu
@@ -152,7 +170,7 @@ namespace MyLibrary
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(55, 34);
+            this.helpMenu.Size = new System.Drawing.Size(55, 24);
             this.helpMenu.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -186,7 +204,7 @@ namespace MyLibrary
             // 
             this.tagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tagsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.tagsButton.Location = new System.Drawing.Point(1476, 2);
+            this.tagsButton.Location = new System.Drawing.Point(1139, 2);
             this.tagsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tagsButton.Name = "tagsButton";
             this.tagsButton.Size = new System.Drawing.Size(95, 34);
@@ -204,14 +222,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(485, 42);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -220,7 +238,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(1186, 922);
+            this.dataGrid.Size = new System.Drawing.Size(849, 738);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -356,7 +374,7 @@ namespace MyLibrary
             this.detailsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsGroup.Name = "detailsGroup";
             this.detailsGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.detailsGroup.Size = new System.Drawing.Size(468, 676);
+            this.detailsGroup.Size = new System.Drawing.Size(468, 492);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -408,7 +426,7 @@ namespace MyLibrary
             // 
             this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.detailsBox.Location = new System.Drawing.Point(9, 327);
+            this.detailsBox.Location = new System.Drawing.Point(9, 143);
             this.detailsBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsBox.Name = "detailsBox";
             this.detailsBox.ReadOnly = true;
@@ -430,7 +448,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeImageButton.Location = new System.Drawing.Point(308, 294);
+            this.removeImageButton.Location = new System.Drawing.Point(308, 110);
             this.removeImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(155, 28);
@@ -441,7 +459,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(9, 294);
+            this.selectImageButton.Location = new System.Drawing.Point(9, 110);
             this.selectImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(155, 28);
@@ -453,7 +471,7 @@ namespace MyLibrary
             // 
             this.notesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notesLabel.AutoSize = true;
-            this.notesLabel.Location = new System.Drawing.Point(12, 527);
+            this.notesLabel.Location = new System.Drawing.Point(12, 343);
             this.notesLabel.Name = "notesLabel";
             this.notesLabel.Size = new System.Drawing.Size(45, 17);
             this.notesLabel.TabIndex = 17;
@@ -463,7 +481,7 @@ namespace MyLibrary
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 545);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 361);
             this.textBoxNotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
@@ -475,7 +493,7 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(308, 640);
+            this.discardChangesButton.Location = new System.Drawing.Point(308, 456);
             this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -487,7 +505,7 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 640);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 456);
             this.saveChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -504,7 +522,7 @@ namespace MyLibrary
             this.pictureBox.Location = new System.Drawing.Point(9, 50);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(453, 236);
+            this.pictureBox.Size = new System.Drawing.Size(453, 52);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -550,7 +568,7 @@ namespace MyLibrary
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tagsButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGrid);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1686, 971);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1349, 787);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4);
@@ -567,13 +585,66 @@ namespace MyLibrary
             // 
             this.wishlistButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.wishlistButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.wishlistButton.Location = new System.Drawing.Point(1576, 2);
+            this.wishlistButton.Location = new System.Drawing.Point(1239, 2);
             this.wishlistButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.wishlistButton.Name = "wishlistButton";
             this.wishlistButton.Size = new System.Drawing.Size(95, 34);
             this.wishlistButton.TabIndex = 17;
             this.wishlistButton.Text = "Wishlist";
             this.wishlistButton.UseVisualStyleBackColor = true;
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(276, 6);
+            // 
+            // booksToolStripMenuItem
+            // 
+            this.booksToolStripMenuItem.Name = "booksToolStripMenuItem";
+            this.booksToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.booksToolStripMenuItem.Text = "Books";
+            // 
+            // mediaItemsAllCategoriesToolStripMenuItem
+            // 
+            this.mediaItemsAllCategoriesToolStripMenuItem.Name = "mediaItemsAllCategoriesToolStripMenuItem";
+            this.mediaItemsAllCategoriesToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.mediaItemsAllCategoriesToolStripMenuItem.Text = "Media Items (All categories)";
+            // 
+            // cdsToolStripMenuItem
+            // 
+            this.cdsToolStripMenuItem.Name = "cdsToolStripMenuItem";
+            this.cdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.cdsToolStripMenuItem.Text = "Cds";
+            // 
+            // dvdsToolStripMenuItem
+            // 
+            this.dvdsToolStripMenuItem.Name = "dvdsToolStripMenuItem";
+            this.dvdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.dvdsToolStripMenuItem.Text = "Dvds";
+            // 
+            // bluRaysToolStripMenuItem
+            // 
+            this.bluRaysToolStripMenuItem.Name = "bluRaysToolStripMenuItem";
+            this.bluRaysToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.bluRaysToolStripMenuItem.Text = "BluRays";
+            // 
+            // vhssToolStripMenuItem
+            // 
+            this.vhssToolStripMenuItem.Name = "vhssToolStripMenuItem";
+            this.vhssToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.vhssToolStripMenuItem.Text = "Vhss";
+            // 
+            // vinylsToolStripMenuItem
+            // 
+            this.vinylsToolStripMenuItem.Name = "vinylsToolStripMenuItem";
+            this.vinylsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.vinylsToolStripMenuItem.Text = "Vinyls";
+            // 
+            // otherToolStripMenuItem
+            // 
+            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.otherToolStripMenuItem.Text = "Other";
             // 
             // MainWindow
             // 
@@ -651,6 +722,15 @@ namespace MyLibrary
         private System.Windows.Forms.Button manageItemCopiesButton;
         private System.Windows.Forms.Button wishlistButton;
         private CircularProgressBar.CircularProgressBar itemDetailsSpinner;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mediaItemsAllCategoriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cdsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dvdsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bluRaysToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vhssToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vinylsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
     }
 }
 
