@@ -177,6 +177,14 @@ namespace MyLibrary
             {
                 new AboutBox().ShowDialog();
             });
+            this.booksToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 0);
+            this.mediaItemsAllCategoriesToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 1);
+            this.cdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 2);
+            this.dvdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 3);
+            this.bluRaysToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 4);
+            this.vhssToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 5);
+            this.vinylsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 6);
+            this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
