@@ -44,11 +44,109 @@ namespace MyLibrary
     {
         public static readonly int FILTER_DELAY = 2000; // millis
 
+        private bool Image;
+
+        public bool ItemDetailsSpinner
+        {
+            get => this.itemDetailsSpinner.Visible;
+            set
+            {
+                this.itemDetailsSpinner.Visible = value;
+
+                this.manageItemTagsButton.Visible = !value;
+                this.manageItemCopiesButton.Visible = !value;
+                this.pictureBox.Visible = !value;
+                this.selectImageButton.Visible = !value;
+                this.removeImageButton.Visible = !value;
+                this.notesLabel.Visible = !value;
+                this.textBoxNotes.Visible = !value;
+                this.saveChangesButton.Visible = !value;
+                this.discardChangesButton.Visible = !value;
+                this.detailsBox.Visible = !value;
+            }
+        }
+
+        public bool FilterGroupEnabled
+        {
+            get => this.filterGroup.Enabled;
+            set => this.filterGroup.Enabled = value;
+        }
+
+        public bool CategoryGroupEnabled
+        {
+            get => this.categoryDropDown.Enabled && this.categoryLabel.Enabled;
+            set
+            {
+                this.categoryDropDown.Enabled = value;
+                this.categoryLabel.Enabled = value;
+            }
+        }
+
+        public bool AddItemEnabled 
+        {
+            get => this.addButton.Enabled && this.newBookToolStripMenuItem.Enabled && this.newMediaItemToolStripMenuItem.Enabled;
+            set 
+            {
+                this.addButton.Enabled = value;
+                this.newBookToolStripMenuItem.Enabled = value;
+                this.newMediaItemToolStripMenuItem.Enabled = value;
+            }
+        }
+
+        public bool SearchBooksButtonEnabled 
+        {
+            get => this.searchBooksButton.Enabled;
+            set => this.searchBooksButton.Enabled = value;
+        }
+
+        public bool TagsButtonEnabled 
+        {
+            get => this.tagsButton.Enabled;
+            set => this.tagsButton.Enabled = value;
+        }
+
+        public bool WishlistButtonEnabled 
+        {
+            get => this.wishlistButton.Enabled;
+            set => this.wishlistButton.Enabled = value;
+        }
+
+        public bool ViewStatisticsEnabled 
+        {
+            get => this.databaseStatisticsToolStripMenuItem.Enabled;
+            set => this.databaseStatisticsToolStripMenuItem.Enabled = value;
+        }
+
+        public bool ShowAboutBoxEnabled 
+        {
+            get => this.aboutToolStripMenuItem.Enabled;
+            set => this.aboutToolStripMenuItem.Enabled = value;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
 
             this.Text = Configuration.APP_NAME + " " + Configuration.APP_VERSION;
+            
+            // show the spinner
+            // but the other controls are visible while loading the form, so hide them for now
+            this.ItemDetailsSpinner = false;
+            this.manageItemTagsButton.Visible = false;
+            this.manageItemCopiesButton.Visible = false;
+            this.pictureBox.Visible = false;
+            this.selectImageButton.Visible = false;
+            this.removeImageButton.Visible = false;
+            this.notesLabel.Visible = false;
+            this.textBoxNotes.Visible = false;
+            this.saveChangesButton.Visible = false;
+            this.discardChangesButton.Visible = false;
+            this.detailsBox.Visible = false;
+
+            Image = false;
 
             // populate "Category" combo box
             this.categoryDropDown.Items.Add(ItemType.Book);
@@ -79,6 +177,14 @@ namespace MyLibrary
             {
                 new AboutBox().ShowDialog();
             });
+            this.booksToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 0);
+            this.mediaItemsAllCategoriesToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 1);
+            this.cdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 2);
+            this.dvdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 3);
+            this.bluRaysToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 4);
+            this.vhssToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 5);
+            this.vinylsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 6);
+            this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
@@ -94,15 +200,13 @@ namespace MyLibrary
             });
             this.addButton.Click += ((sender, args) =>
             {
-                switch (this.categoryDropDown.SelectedIndex)
+                if (this.categoryDropDown.SelectedIndex == 0)
                 {
-                    
-                    case 0:
-                        AddNewBookClicked?.Invoke(sender, args);
-                        break;
-                    default:
-                        AddNewMediaItemClicked?.Invoke(sender, args);
-                        break;
+                    AddNewBookClicked?.Invoke(sender, args);
+                }
+                else
+                {
+                    AddNewMediaItemClicked?.Invoke(sender, args);
                 }
             });
             this.categoryDropDown.SelectedIndexChanged += ((sender, args) =>
@@ -169,7 +273,7 @@ namespace MyLibrary
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         byte[] bytes = File.ReadAllBytes(dialog.FileName);
-                        this.pictureBox.Image = ReadImage(bytes);
+                        SetItemImage(ReadImage(bytes));
 
                         SelectedItemModified?.Invoke(sender, args);
                     }
@@ -220,7 +324,15 @@ namespace MyLibrary
                 FiltersUpdated?.Invoke(sender, args);
             });
 
-            LoadWindow();
+            // select viewing books by default
+            this.categoryDropDown.SelectedIndex = 0;
+
+            SetItemDetailsSpinnerPos();
+            this.itemDetailsSpinner.OuterMargin = 0;
+            this.itemDetailsSpinner.OuterWidth = 6;
+            this.itemDetailsSpinner.ProgressWidth = 10;
+            this.itemDetailsSpinner.InnerWidth = 0;
+            this.itemDetailsSpinner.InnerMargin = 2;
         }//ctor
 
         public static readonly string LOAD_IMAGE_DIALOG_TITLE = "Load Image";
@@ -229,19 +341,21 @@ namespace MyLibrary
         private void ResizeColumns()
         {
             // resize DataGridView columns nicely
-            this.dataGrid.Columns[0].Width = this.dataGrid.Width / 20;
+            this.dataGrid.Columns[0].Width = this.dataGrid.Width / 20; // Id
+            this.dataGrid.Columns[1].Width = this.dataGrid.Width / 4; // title
             if (this.categoryDropDown.SelectedIndex == 0)
             {
                 // books displayed
-                this.dataGrid.Columns[1].Width = this.dataGrid.Width / 5;
-                this.dataGrid.Columns[2].Width = this.dataGrid.Width / 10;
+                this.dataGrid.Columns[2].Width = this.dataGrid.Width / 9; // ISBN
+            }
+            else
+            {
+                // media items displayed
             }
         }
 
         public void LoadWindow()
         {
-            // select viewing books by default
-            this.CategoryDropDownSelectedIndex = 0;
             CategorySelectionChanged?.Invoke(this, null);
         }
 
@@ -281,26 +395,33 @@ namespace MyLibrary
         private Item _selectedItem;
         public Item SelectedItem
         {
-            // TODO: factor this logic out to the presenter
-
             get
             {
                 Item temp = _selectedItem;
                 temp.Notes = this.textBoxNotes.Text;
                 if (this.pictureBox.Image != null)
                 {
-                    temp.Image = WriteImage(this.pictureBox.Image, this.pictureBox.Image.RawFormat);
+                    if (Image)
+                    {
+                        temp.Image = WriteImage(this.pictureBox.Image, this.pictureBox.Image.RawFormat);
+                    }
+                    else
+                    {
+                        temp.Image = null;
+                    }
                 }
                 else
                 {
                     temp.Image = null;
                 }
-
+                
                 return temp;
             }
 
             set
             {
+                this.dataGrid.Enabled = false;
+
                 this.manageItemTagsButton.Enabled = !(value is null);
                 this.selectImageButton.Enabled = !(value is null);
                 this.removeImageButton.Enabled = !(value is null);
@@ -308,16 +429,20 @@ namespace MyLibrary
                 this.discardChangesButton.Enabled = !(value is null);
                 this.notesLabel.Enabled = !(value is null);
                 this.textBoxNotes.Enabled = !(value is null);
+                this.manageItemCopiesButton.Enabled = !(value is null);
 
                 if (value is null)
                 {
                     this.textBoxNotes.Clear();
                     this.detailsBox.Clear();
                     this.pictureBox.Image = null;
+                    Application.DoEvents();
+
+                    Image = false;
 
                     return;
                 }
-
+                
                 this._selectedItem = value;
                 this.textBoxNotes.Text = this._selectedItem.Notes;
                 Image itemImage = ReadImage(this._selectedItem.Image);
@@ -327,14 +452,31 @@ namespace MyLibrary
                 }
                 else
                 {
-                    this.pictureBox.Image = ReadImage(this._selectedItem.Image);
+                    SetItemImage(ReadImage(this._selectedItem.Image));
                 }
+
+                this.dataGrid.Enabled = true;
             } 
         }
 
         private void SetNoItemImage()
         {
-            this.pictureBox.Image = ReadImage(System.IO.File.ReadAllBytes("no_image.png"));
+            this.pictureBox.Image = ReadImage(File.ReadAllBytes("no_image.png"));
+            Application.DoEvents();
+
+            Image = false;
+        }
+
+        private void SetItemImage(Image image)
+        {
+            if (this.pictureBox.Image != null)
+            {
+                this.pictureBox.Image.Dispose();
+            }
+            this.pictureBox.Image = image;
+            Application.DoEvents();
+
+            Image = true;
         }
 
         public DataTable DisplayedItems
@@ -342,8 +484,20 @@ namespace MyLibrary
             get => (DataTable)this.dataGrid.DataSource;
             set
             {
+                // handle DataGridView memory leak
+                this.dataGrid.DataSource = null;
+                this.dataGrid.Rows.Clear();
+                GC.Collect();
+                // assign the new data
                 this.dataGrid.DataSource = value;
+
                 ResizeColumns();
+
+                // item details spinner inner width not set correctly at startup
+                // set correctly after vertical window resizing
+                // workaround - TODO: find a better solution
+                this.Height++;
+                this.Height--;
             }
         }
 
@@ -444,6 +598,7 @@ namespace MyLibrary
                             this.detailsBox.Select(start, pattern.Length);
                             this.detailsBox.SelectionFont = new Font(this.detailsBox.Font, FontStyle.Bold);
                         }
+                        Application.DoEvents();
                     }//foreach
                 }//foreach
             }//set
@@ -477,7 +632,9 @@ namespace MyLibrary
 
             MemoryStream stream = new MemoryStream(bytes, 0, bytes.Length);
             stream.Write(bytes, 0, bytes.Length);
+            Application.DoEvents();
             Image image = new Bitmap(stream);
+            Application.DoEvents();
 
             return image;
         }
@@ -492,5 +649,17 @@ namespace MyLibrary
                 return bytes;
             }
         }//WriteImage
+
+        private void SetItemDetailsSpinnerPos()
+        {
+            this.itemDetailsSpinner.Location = new Point((this.pictureBox.Location.X + this.detailsGroup.Width / 4) + 15, this.pictureBox.Location.Y+10);
+        }
+
+        #region UI event handlers
+        private void MainWindow_Resize(object sender, EventArgs e)
+        {
+            SetItemDetailsSpinnerPos();
+        }
+        #endregion
     }//class
 }

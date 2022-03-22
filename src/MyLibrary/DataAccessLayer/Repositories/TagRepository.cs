@@ -54,7 +54,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// <returns></returns>
         public override IEnumerable<Tag> ReadAll()
         {
-            // TODO: include associated items
             const string SQL = "SELECT * FROM Tags;";
             return this._uow.Connection.Query<Tag>(SQL);
         }

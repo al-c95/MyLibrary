@@ -47,6 +47,8 @@ namespace MyLibrary.Views
         Copy ModifiedSelectedCopy { get; }
         Copy NewCopy { get; }
 
+        bool SelectedDescriptionFieldEnabled { get; set; }
+        bool SelectedNotesFieldEnabled { get; set; }
         bool SaveSelectedButtonEnabled { get; set; }
         bool DeleteSelectedButtonEnabled { get; set; }
         bool DiscardChangesButtonEnabled { get; set; }

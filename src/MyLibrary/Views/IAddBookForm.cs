@@ -47,27 +47,33 @@ namespace MyLibrary.Views
         string ExcerptFieldText { get; set; }
         string SynopsysFieldText { get; set; }
 
-        string NewAuthorFirstNameFieldText { get; set; }
-        string NewAuthorLastNameFieldText { get; set; }
-        bool AddNewAuthorButtonEnabled { get; set; }
-
-        string NewPublisherFieldText { get; set; }
-        bool AddNewPublisherButtonEnabled { get; set; }
-
         IEnumerable<string> SelectedAuthors { get; }
-        string SelectedPublisher { get; }
+        string FilterAuthorsFieldEntry { get; set; }
+        IEnumerable<string> UnselectedAuthors { get; }
 
-        void SetAuthor(Author author, bool selected);
+        string SelectedPublisher { get; }
+        string FilterPublishersFieldEntry { get; set; }
+
+        void AddAuthors(Dictionary<string, bool> authors);
+
         void SetPublisher(Publisher publisher, bool selected);
 
         void PopulateAuthorList(IEnumerable<string> names);
         void PopulatePublisherList(IEnumerable<string> publisherNames);
+        void AddPublishers(List<string> publishers);
 
         void ShowIsbnAlreadyExistsDialog(string isbn);
+        string ShowNewPublisherDialog();
+        void ShowPublisherAlreadyExistsDialog(string newPublisher);
+        string ShowNewAuthorDialog();
+        void ShowAuthorAlreadyExistsDialog(string author);
 
         void ShowAsDialog();
 
-        event EventHandler NewAuthorFieldsUpdated;
-        event EventHandler NewPublisherFieldUpdated;
+        event EventHandler FilterPublishersFieldUpdated;
+        event EventHandler AddNewPublisherButtonClicked;
+        event EventHandler FilterAuthorsFieldUpdated;
+        event EventHandler AddNewAuthorButtonClicked;
+        event EventHandler AuthorCheckedChanged;
     }
 }

@@ -61,6 +61,16 @@ namespace MyLibrary
             this.runningTimeField.TabIndex = 2;
             this.yearField.TabIndex = 3;
             this.notesField.TabIndex = 4;
+            this.browseImageButton.TabIndex = 5;
+            this.saveButton.TabIndex = 6;
+            this.cancelButton.TabIndex = 7;
+            this.tagsGroup.TabStop = false;
+            this.tagsList.TabStop = false;
+            this.filterTagField.TabStop = false;
+            this.applyFilterButton.TabStop = false;
+            this.clearFilterButton.TabStop = false;
+            this.addNewTagButton.TabStop = false;
+            this.imageFilePathField.TabStop = false;
 
             this.addNewTagButton.Enabled = true;
 
@@ -174,12 +184,6 @@ namespace MyLibrary
             set => this.notesField.Text = value; 
         }
 
-        public string NewTagFieldText
-        {
-            get => this.filterTagField.Text;
-            set => this.filterTagField.Text = value;
-        }
-
         public bool AddNewTagButtonEnabled
         {
             get => this.addNewTagButton.Enabled;
@@ -282,10 +286,10 @@ namespace MyLibrary
 
         public string ShowNewTagDialog()
         {
-            NewTagInputBox dialog = new NewTagInputBox();
+            NewTagOrPublisherInputBox dialog = new NewTagOrPublisherInputBox(NewTagOrPublisherInputBox.InputBoxMode.Tag);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                return dialog.TagName;
+                return dialog.Entry;
             }
             else
             {

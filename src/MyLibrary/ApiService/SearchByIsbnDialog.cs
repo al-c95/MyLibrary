@@ -120,5 +120,10 @@ namespace MyLibrary.ApiService
         {
             SearchButtonClicked?.Invoke(sender, e);
         }//searchButton_Click
+
+        public void ShowErrorDialog(string message)
+        {
+            MessageBox.Show(message, "Error getting book", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }//class
 }

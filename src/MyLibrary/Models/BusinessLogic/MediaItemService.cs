@@ -1,4 +1,5 @@
-﻿//MIT License
+﻿
+//MIT License
 
 //Copyright (c) 2021
 
@@ -85,8 +86,16 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<MediaItem> GetById(int id)
         {
-            var allItems = await GetAll();
-            return allItems.FirstOrDefault(i => i.Id == id);
+            MediaItem item = null;
+            await Task.Run(() =>
+            {
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository repo = this._repoProvider.Get(uow);
+                item = repo.GetById(id);
+                uow.Dispose();
+            });
+
+            return item;
         }
 
         public async Task<int> GetIdByTitle(string title)
@@ -103,8 +112,17 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<bool> ExistsWithTitle(string title)
         {
-            var allItems = await GetAll();
-            return allItems.Any(i => i.Title.Equals(title));
+            bool exists = false;
+            await Task.Run(() =>
+            {
+                IUnitOfWork uow = this._uowProvider.Get();
+                IMediaItemRepository repo = this._repoProvider.Get(uow);
+
+                exists = repo.GetTitles().Any(t => t.Equals(title));
+                uow.Dispose();
+            });
+
+            return exists;
         }
 
         public async Task Add(MediaItem item)
@@ -158,10 +176,16 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
+                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemRepository repo = this._repoProvider.Get(uow);
+                uow.Begin();
+                
+                // do the work
                 repo.DeleteById(id);
-                uow.Dispose();
+
+                // commit transaction
+                uow.Commit();
             });
         }
 
@@ -169,10 +193,16 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
+                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemRepository repo = this._repoProvider.Get(uow);
+                uow.Begin();
+
+                // do the work
                 repo.Update(item);
-                uow.Dispose();
+
+                // commit transaction
+                uow.Commit();
             });
         }
 

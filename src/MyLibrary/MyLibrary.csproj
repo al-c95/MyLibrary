@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\CircularProgressBar.2.8.0.16\lib\net40\CircularProgressBar.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.2.0.123\lib\net461\Dapper.dll</HintPath>
     </Reference>
@@ -100,6 +103,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -236,11 +242,18 @@
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\WishlistItem.cs" />
-    <Compile Include="NewTagInputBox.cs">
+    <Compile Include="Models\ValueObjects\AppVersion.cs" />
+    <Compile Include="NewAuthorInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewTagInputBox.Designer.cs">
-      <DependentUpon>NewTagInputBox.cs</DependentUpon>
+    <Compile Include="NewAuthorInputBox.Designer.cs">
+      <DependentUpon>NewAuthorInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewTagOrPublisherInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewTagOrPublisherInputBox.Designer.cs">
+      <DependentUpon>NewTagOrPublisherInputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
@@ -301,8 +314,11 @@
     <EmbeddedResource Include="ManageTagsForm.resx">
       <DependentUpon>ManageTagsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewTagInputBox.resx">
-      <DependentUpon>NewTagInputBox.cs</DependentUpon>
+    <EmbeddedResource Include="NewAuthorInputBox.resx">
+      <DependentUpon>NewAuthorInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewTagOrPublisherInputBox.resx">
+      <DependentUpon>NewTagOrPublisherInputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

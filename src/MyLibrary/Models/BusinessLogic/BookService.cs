@@ -67,7 +67,7 @@ namespace MyLibrary.Models.BusinessLogic
         }
 
         /// <summary>
-        /// Gets all books in the database.
+        /// Gets all books in the database. Does not include images.
         /// </summary>
         /// <returns></returns>
         public async virtual Task<IEnumerable<Book>> GetAll()
@@ -91,14 +91,30 @@ namespace MyLibrary.Models.BusinessLogic
         /// <returns></returns>
         public async Task<Book> GetById(int id)
         {
-            var allBooks = await GetAll();
-            return allBooks.FirstOrDefault(b => b.Id == id);
+            Book book = null;
+            await Task.Run(() =>
+            {
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
+                book = repo.GetById(id);
+                uow.Dispose();
+            });
+
+            return book;
         }
 
         public async Task<int> GetIdByTitle(string title)
         {
-            var allBooks = await GetAll();
-            return allBooks.FirstOrDefault(b => b.Title.Equals(title)).Id;
+            int id = 0;
+            await Task.Run(() =>
+            {
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
+                id = repo.GetIdByTitle(title);
+                uow.Dispose();
+            });
+
+            return id;
         }
 
         public async Task<Boolean> ExistsWithId(int id)
@@ -109,36 +125,46 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<Boolean> ExistsWithTitle(string title)
         {
-            var allBooks = await GetAll();
-            return allBooks.Any(b => b.Title.Equals(title));
+            bool exists = false;
+            await Task.Run(() =>
+            {
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
+
+                exists = (repo.GetTitles().Any(t => t.Equals(title)));
+                uow.Dispose();
+            });
+
+            return exists;
         }
 
         public async Task<Boolean> ExistsWithLongTitle(string longTitle)
         {
-            var allBooks = await GetAll();
-            return allBooks.Any(b => b.TitleLong.Equals(longTitle));
+            bool exists = false;
+            await Task.Run(() =>
+            {
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
+
+                exists = (repo.GetLongTitles().Any(t => t.Equals(longTitle)));
+                uow.Dispose();
+            });
+
+            return exists;
         }
 
         public async Task<Boolean> ExistsWithIsbn(string isbn)
         {
-            var allBooks = await GetAll();
-
-            foreach (var book in allBooks)
+            bool exists = false;
+            await Task.Run(() =>
             {
-                if (book.Isbn != null)
-                {
-                    if (book.Isbn.Equals(isbn))
-                        return true;
-                }
+                IUnitOfWork uow = this._uowProvider.Get();
+                IBookRepository repo = this._repoProvider.Get(uow);
+                exists = (repo.GetIsbns().Any(i => i.Equals(isbn)) || (repo.GetIsbn13s().Any(i => i.Equals(isbn))));
+                uow.Dispose();
+            });
 
-                if (book.Isbn13 != null)
-                {
-                    if (book.Isbn13.Equals(isbn))
-                        return true;
-                }
-            }//foreach
-
-            return false;
+            return exists;
         }
 
         public async Task Add(Book book)
@@ -240,10 +266,16 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
+                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
+                uow.Begin();
+
+                // do the work
                 repo.Update(book);
-                uow.Dispose();
+
+                // commit transaction
+                uow.Commit();
             });
         }
 
@@ -251,10 +283,16 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
+                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
+                uow.Begin();
+
+                // do the work
                 repo.DeleteById(id);
-                uow.Dispose();
+
+                // commit transaction
+                uow.Commit();
             });
         }
 

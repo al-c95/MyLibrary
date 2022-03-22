@@ -36,5 +36,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         public abstract void Update(T toUpdate);
         public abstract void DeleteById(int id);
+        public abstract T GetById(int id);
+        public abstract IEnumerable<string> GetTitles();
     }//class
 }
