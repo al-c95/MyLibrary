@@ -45,11 +45,8 @@ namespace MyLibrary.Models.Entities
             set => this._titleLong = value;
         }
 
-        // ensure 10 or 13 digits for now
-        // TODO: allow dashes (hence it is a string)
         public static readonly string ISBN_10_PATTERN = @"^(\d|X){10}$";
         public static readonly string ISBN_13_PATTERN = @"^(\d|X){13}$";
-        // TODO: ensure at least one of the isbn fields is populated
         private string _isbn;
         public string Isbn
         {
