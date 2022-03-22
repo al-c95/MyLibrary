@@ -33,11 +33,15 @@ namespace MyLibrary
 {
     public static class Configuration
     {
-        // database connection string
         public static readonly string CONNECTION_STRING;
 
         public const string APP_NAME = "MyLibrary";
         public static readonly AppVersion APP_VERSION = new AppVersion(1, 1, 0);
+
+        static Configuration()
+        {
+            CONNECTION_STRING = @"Data Source=" + ConfigurationManager.AppSettings.Get("dbPath") + "; foreign keys=True;";
+        }
 
         public static string APP_DESCRIPTION
         {
@@ -60,10 +64,5 @@ namespace MyLibrary
         }
 
         public const string APP_COPYRIGHT = "License: MIT";
-
-        static Configuration()
-        {
-            CONNECTION_STRING = @"Data Source=" + ConfigurationManager.AppSettings.Get("dbPath") + "; foreign keys=True;";
-        }
     }//class
 }
