@@ -2,5 +2,7 @@ src/MyLibrary/bin
 src/MyLibrary/obj
 src/MyLibrary_Test/bin
 src/MyLibrary_Test/obj
+src/DBTool/bin
+src/DBTool/obj
 src/.vs
 src/packages
