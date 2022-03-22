@@ -37,19 +37,22 @@ namespace MyLibrary
             this.Isbn13Field = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.newAuthorLastNameField = new System.Windows.Forms.TextBox();
-            this.newAuthorFirstNameField = new System.Windows.Forms.TextBox();
+            this.authorsGroup = new System.Windows.Forms.GroupBox();
+            this.clearAuthorFilterButton = new System.Windows.Forms.Button();
+            this.applyAuthorFilterButton = new System.Windows.Forms.Button();
+            this.filterAuthorsField = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.addNewAuthorButton = new System.Windows.Forms.Button();
             this.authorsList = new System.Windows.Forms.CheckedListBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.newPublisherField = new System.Windows.Forms.TextBox();
+            this.publishersGroup = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.addNewPublisherButton = new System.Windows.Forms.Button();
+            this.clearPublisherFilterButton = new System.Windows.Forms.Button();
             this.publishersList = new System.Windows.Forms.ListBox();
+            this.applyPublisherFilterButton = new System.Windows.Forms.Button();
+            this.filterPublishersField = new System.Windows.Forms.TextBox();
             this.notesField = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.datePublishedField = new System.Windows.Forms.TextBox();
@@ -73,9 +76,12 @@ namespace MyLibrary
             this.label14 = new System.Windows.Forms.Label();
             this.v = new System.Windows.Forms.Label();
             this.tagsGroup = new System.Windows.Forms.GroupBox();
-            this.filterTagField = new System.Windows.Forms.TextBox();
+            this.clearTagFilterButton = new System.Windows.Forms.Button();
             this.addNewTagButton = new System.Windows.Forms.Button();
+            this.applyTagFilterButton = new System.Windows.Forms.Button();
             this.tagsList = new System.Windows.Forms.CheckedListBox();
+            this.filterTagField = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.languageField = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.browseImageButton = new System.Windows.Forms.Button();
@@ -83,20 +89,17 @@ namespace MyLibrary
             this.imageFilePathField = new System.Windows.Forms.TextBox();
             this.placeOfPublicationField = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.applyFilterButton = new System.Windows.Forms.Button();
-            this.clearFilterButton = new System.Windows.Forms.Button();
-            this.label20 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.authorsGroup.SuspendLayout();
+            this.publishersGroup.SuspendLayout();
             this.tagsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // titleField
             // 
-            this.titleField.Location = new System.Drawing.Point(121, 12);
+            this.titleField.Location = new System.Drawing.Point(87, 12);
             this.titleField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.titleField.Name = "titleField";
-            this.titleField.Size = new System.Drawing.Size(667, 22);
+            this.titleField.Size = new System.Drawing.Size(304, 22);
             this.titleField.TabIndex = 0;
             // 
             // label1
@@ -119,32 +122,32 @@ namespace MyLibrary
             // 
             // longTitleField
             // 
-            this.longTitleField.Location = new System.Drawing.Point(121, 43);
+            this.longTitleField.Location = new System.Drawing.Point(87, 43);
             this.longTitleField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.longTitleField.Name = "longTitleField";
-            this.longTitleField.Size = new System.Drawing.Size(667, 22);
+            this.longTitleField.Size = new System.Drawing.Size(304, 22);
             this.longTitleField.TabIndex = 3;
             // 
             // IsbnField
             // 
-            this.IsbnField.Location = new System.Drawing.Point(121, 81);
+            this.IsbnField.Location = new System.Drawing.Point(554, 12);
             this.IsbnField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.IsbnField.Name = "IsbnField";
-            this.IsbnField.Size = new System.Drawing.Size(667, 22);
+            this.IsbnField.Size = new System.Drawing.Size(302, 22);
             this.IsbnField.TabIndex = 4;
             // 
             // Isbn13Field
             // 
-            this.Isbn13Field.Location = new System.Drawing.Point(121, 112);
+            this.Isbn13Field.Location = new System.Drawing.Point(554, 43);
             this.Isbn13Field.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Isbn13Field.Name = "Isbn13Field";
-            this.Isbn13Field.Size = new System.Drawing.Size(667, 22);
+            this.Isbn13Field.Size = new System.Drawing.Size(302, 22);
             this.Isbn13Field.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 84);
+            this.label3.Location = new System.Drawing.Point(413, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 17);
             this.label3.TabIndex = 6;
@@ -153,69 +156,73 @@ namespace MyLibrary
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 112);
+            this.label4.Location = new System.Drawing.Point(413, 46);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "ISBN13:";
             // 
-            // groupBox1
+            // authorsGroup
             // 
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.newAuthorLastNameField);
-            this.groupBox1.Controls.Add(this.newAuthorFirstNameField);
-            this.groupBox1.Controls.Add(this.addNewAuthorButton);
-            this.groupBox1.Controls.Add(this.authorsList);
-            this.groupBox1.Location = new System.Drawing.Point(12, 146);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(387, 139);
-            this.groupBox1.TabIndex = 8;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Authors";
+            this.authorsGroup.Controls.Add(this.clearAuthorFilterButton);
+            this.authorsGroup.Controls.Add(this.applyAuthorFilterButton);
+            this.authorsGroup.Controls.Add(this.filterAuthorsField);
+            this.authorsGroup.Controls.Add(this.label21);
+            this.authorsGroup.Controls.Add(this.addNewAuthorButton);
+            this.authorsGroup.Controls.Add(this.authorsList);
+            this.authorsGroup.Location = new System.Drawing.Point(15, 69);
+            this.authorsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.authorsGroup.Name = "authorsGroup";
+            this.authorsGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.authorsGroup.Size = new System.Drawing.Size(380, 217);
+            this.authorsGroup.TabIndex = 8;
+            this.authorsGroup.TabStop = false;
+            this.authorsGroup.Text = "Authors";
             // 
-            // label17
+            // clearAuthorFilterButton
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(203, 52);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(39, 17);
-            this.label17.TabIndex = 37;
-            this.label17.Text = "Last:";
+            this.clearAuthorFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearAuthorFilterButton.Location = new System.Drawing.Point(299, 148);
+            this.clearAuthorFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clearAuthorFilterButton.Name = "clearAuthorFilterButton";
+            this.clearAuthorFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.clearAuthorFilterButton.TabIndex = 43;
+            this.clearAuthorFilterButton.Text = "Clear";
+            this.clearAuthorFilterButton.UseVisualStyleBackColor = true;
             // 
-            // label16
+            // applyAuthorFilterButton
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(201, 21);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(39, 17);
-            this.label16.TabIndex = 36;
-            this.label16.Text = "First:";
+            this.applyAuthorFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.applyAuthorFilterButton.Location = new System.Drawing.Point(218, 148);
+            this.applyAuthorFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.applyAuthorFilterButton.Name = "applyAuthorFilterButton";
+            this.applyAuthorFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.applyAuthorFilterButton.TabIndex = 42;
+            this.applyAuthorFilterButton.Text = "Apply";
+            this.applyAuthorFilterButton.UseVisualStyleBackColor = true;
             // 
-            // newAuthorLastNameField
+            // filterAuthorsField
             // 
-            this.newAuthorLastNameField.Location = new System.Drawing.Point(245, 49);
-            this.newAuthorLastNameField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.newAuthorLastNameField.Name = "newAuthorLastNameField";
-            this.newAuthorLastNameField.Size = new System.Drawing.Size(135, 22);
-            this.newAuthorLastNameField.TabIndex = 39;
+            this.filterAuthorsField.Location = new System.Drawing.Point(57, 151);
+            this.filterAuthorsField.Name = "filterAuthorsField";
+            this.filterAuthorsField.Size = new System.Drawing.Size(155, 22);
+            this.filterAuthorsField.TabIndex = 41;
             // 
-            // newAuthorFirstNameField
+            // label21
             // 
-            this.newAuthorFirstNameField.Location = new System.Drawing.Point(245, 21);
-            this.newAuthorFirstNameField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.newAuthorFirstNameField.Name = "newAuthorFirstNameField";
-            this.newAuthorFirstNameField.Size = new System.Drawing.Size(135, 22);
-            this.newAuthorFirstNameField.TabIndex = 38;
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(8, 154);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(43, 17);
+            this.label21.TabIndex = 41;
+            this.label21.Text = "Filter:";
             // 
             // addNewAuthorButton
             // 
-            this.addNewAuthorButton.Location = new System.Drawing.Point(301, 78);
+            this.addNewAuthorButton.Location = new System.Drawing.Point(278, 186);
             this.addNewAuthorButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.addNewAuthorButton.Name = "addNewAuthorButton";
-            this.addNewAuthorButton.Size = new System.Drawing.Size(77, 27);
+            this.addNewAuthorButton.Size = new System.Drawing.Size(96, 27);
             this.addNewAuthorButton.TabIndex = 11;
             this.addNewAuthorButton.Text = "Add New";
             this.addNewAuthorButton.UseVisualStyleBackColor = true;
@@ -226,12 +233,12 @@ namespace MyLibrary
             this.authorsList.Location = new System.Drawing.Point(5, 21);
             this.authorsList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.authorsList.Name = "authorsList";
-            this.authorsList.Size = new System.Drawing.Size(191, 89);
+            this.authorsList.Size = new System.Drawing.Size(369, 123);
             this.authorsList.TabIndex = 0;
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(15, 853);
+            this.saveButton.Location = new System.Drawing.Point(12, 645);
             this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(149, 27);
@@ -241,7 +248,7 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(639, 853);
+            this.cancelButton.Location = new System.Drawing.Point(708, 645);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(149, 27);
@@ -250,37 +257,52 @@ namespace MyLibrary
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // groupBox2
+            // publishersGroup
             // 
-            this.groupBox2.Controls.Add(this.newPublisherField);
-            this.groupBox2.Controls.Add(this.addNewPublisherButton);
-            this.groupBox2.Controls.Add(this.publishersList);
-            this.groupBox2.Location = new System.Drawing.Point(404, 146);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(384, 139);
-            this.groupBox2.TabIndex = 11;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Publisher";
+            this.publishersGroup.Controls.Add(this.label20);
+            this.publishersGroup.Controls.Add(this.addNewPublisherButton);
+            this.publishersGroup.Controls.Add(this.clearPublisherFilterButton);
+            this.publishersGroup.Controls.Add(this.publishersList);
+            this.publishersGroup.Controls.Add(this.applyPublisherFilterButton);
+            this.publishersGroup.Controls.Add(this.filterPublishersField);
+            this.publishersGroup.Location = new System.Drawing.Point(473, 481);
+            this.publishersGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.publishersGroup.Name = "publishersGroup";
+            this.publishersGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.publishersGroup.Size = new System.Drawing.Size(384, 150);
+            this.publishersGroup.TabIndex = 11;
+            this.publishersGroup.TabStop = false;
+            this.publishersGroup.Text = "Publisher";
             // 
-            // newPublisherField
+            // label20
             // 
-            this.newPublisherField.Location = new System.Drawing.Point(211, 26);
-            this.newPublisherField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.newPublisherField.Name = "newPublisherField";
-            this.newPublisherField.Size = new System.Drawing.Size(167, 22);
-            this.newPublisherField.TabIndex = 37;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(8, 124);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(43, 17);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "Filter:";
             // 
             // addNewPublisherButton
             // 
-            this.addNewPublisherButton.Location = new System.Drawing.Point(300, 54);
+            this.addNewPublisherButton.Location = new System.Drawing.Point(282, 21);
             this.addNewPublisherButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.addNewPublisherButton.Name = "addNewPublisherButton";
-            this.addNewPublisherButton.Size = new System.Drawing.Size(77, 27);
+            this.addNewPublisherButton.Size = new System.Drawing.Size(96, 27);
             this.addNewPublisherButton.TabIndex = 12;
             this.addNewPublisherButton.Text = "Add New";
             this.addNewPublisherButton.UseVisualStyleBackColor = true;
+            // 
+            // clearPublisherFilterButton
+            // 
+            this.clearPublisherFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearPublisherFilterButton.Location = new System.Drawing.Point(303, 118);
+            this.clearPublisherFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clearPublisherFilterButton.Name = "clearPublisherFilterButton";
+            this.clearPublisherFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.clearPublisherFilterButton.TabIndex = 38;
+            this.clearPublisherFilterButton.Text = "Clear";
+            this.clearPublisherFilterButton.UseVisualStyleBackColor = true;
             // 
             // publishersList
             // 
@@ -289,23 +311,42 @@ namespace MyLibrary
             this.publishersList.Location = new System.Drawing.Point(5, 21);
             this.publishersList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.publishersList.Name = "publishersList";
-            this.publishersList.Size = new System.Drawing.Size(199, 100);
+            this.publishersList.Size = new System.Drawing.Size(271, 84);
             this.publishersList.TabIndex = 0;
+            // 
+            // applyPublisherFilterButton
+            // 
+            this.applyPublisherFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.applyPublisherFilterButton.Location = new System.Drawing.Point(222, 118);
+            this.applyPublisherFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.applyPublisherFilterButton.Name = "applyPublisherFilterButton";
+            this.applyPublisherFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.applyPublisherFilterButton.TabIndex = 37;
+            this.applyPublisherFilterButton.Text = "Apply";
+            this.applyPublisherFilterButton.UseVisualStyleBackColor = true;
+            // 
+            // filterPublishersField
+            // 
+            this.filterPublishersField.Location = new System.Drawing.Point(57, 121);
+            this.filterPublishersField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.filterPublishersField.Name = "filterPublishersField";
+            this.filterPublishersField.Size = new System.Drawing.Size(159, 22);
+            this.filterPublishersField.TabIndex = 36;
             // 
             // notesField
             // 
-            this.notesField.Location = new System.Drawing.Point(15, 741);
+            this.notesField.Location = new System.Drawing.Point(12, 537);
             this.notesField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.notesField.Multiline = true;
             this.notesField.Name = "notesField";
             this.notesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notesField.Size = new System.Drawing.Size(773, 94);
+            this.notesField.Size = new System.Drawing.Size(437, 94);
             this.notesField.TabIndex = 12;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(23, 722);
+            this.label5.Location = new System.Drawing.Point(17, 518);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 17);
             this.label5.TabIndex = 13;
@@ -313,16 +354,16 @@ namespace MyLibrary
             // 
             // datePublishedField
             // 
-            this.datePublishedField.Location = new System.Drawing.Point(555, 511);
+            this.datePublishedField.Location = new System.Drawing.Point(555, 292);
             this.datePublishedField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.datePublishedField.Name = "datePublishedField";
-            this.datePublishedField.Size = new System.Drawing.Size(228, 22);
+            this.datePublishedField.Size = new System.Drawing.Size(302, 22);
             this.datePublishedField.TabIndex = 14;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(414, 515);
+            this.label6.Location = new System.Drawing.Point(414, 296);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(108, 17);
             this.label6.TabIndex = 15;
@@ -330,16 +371,16 @@ namespace MyLibrary
             // 
             // editionField
             // 
-            this.editionField.Location = new System.Drawing.Point(555, 574);
+            this.editionField.Location = new System.Drawing.Point(555, 355);
             this.editionField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.editionField.Name = "editionField";
-            this.editionField.Size = new System.Drawing.Size(228, 22);
+            this.editionField.Size = new System.Drawing.Size(302, 22);
             this.editionField.TabIndex = 16;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(414, 573);
+            this.label7.Location = new System.Drawing.Point(414, 358);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 17);
             this.label7.TabIndex = 17;
@@ -347,16 +388,16 @@ namespace MyLibrary
             // 
             // deweyDecimalField
             // 
-            this.deweyDecimalField.Location = new System.Drawing.Point(555, 604);
+            this.deweyDecimalField.Location = new System.Drawing.Point(555, 385);
             this.deweyDecimalField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deweyDecimalField.Name = "deweyDecimalField";
-            this.deweyDecimalField.Size = new System.Drawing.Size(228, 22);
+            this.deweyDecimalField.Size = new System.Drawing.Size(302, 22);
             this.deweyDecimalField.TabIndex = 18;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(414, 605);
+            this.label8.Location = new System.Drawing.Point(414, 386);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(108, 17);
             this.label8.TabIndex = 19;
@@ -364,16 +405,16 @@ namespace MyLibrary
             // 
             // formatField
             // 
-            this.formatField.Location = new System.Drawing.Point(555, 633);
+            this.formatField.Location = new System.Drawing.Point(555, 414);
             this.formatField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.formatField.Name = "formatField";
-            this.formatField.Size = new System.Drawing.Size(228, 22);
+            this.formatField.Size = new System.Drawing.Size(302, 22);
             this.formatField.TabIndex = 20;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(414, 636);
+            this.label9.Location = new System.Drawing.Point(414, 417);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(56, 17);
             this.label9.TabIndex = 21;
@@ -381,16 +422,16 @@ namespace MyLibrary
             // 
             // dimensionsField
             // 
-            this.dimensionsField.Location = new System.Drawing.Point(555, 664);
+            this.dimensionsField.Location = new System.Drawing.Point(555, 445);
             this.dimensionsField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dimensionsField.Name = "dimensionsField";
-            this.dimensionsField.Size = new System.Drawing.Size(228, 22);
+            this.dimensionsField.Size = new System.Drawing.Size(302, 22);
             this.dimensionsField.TabIndex = 22;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(414, 667);
+            this.label10.Location = new System.Drawing.Point(414, 448);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(85, 17);
             this.label10.TabIndex = 23;
@@ -398,7 +439,7 @@ namespace MyLibrary
             // 
             // overviewField
             // 
-            this.overviewField.Location = new System.Drawing.Point(88, 511);
+            this.overviewField.Location = new System.Drawing.Point(91, 292);
             this.overviewField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.overviewField.Name = "overviewField";
             this.overviewField.Size = new System.Drawing.Size(304, 22);
@@ -406,7 +447,7 @@ namespace MyLibrary
             // 
             // MsrpField
             // 
-            this.MsrpField.Location = new System.Drawing.Point(88, 542);
+            this.MsrpField.Location = new System.Drawing.Point(91, 323);
             this.MsrpField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MsrpField.Name = "MsrpField";
             this.MsrpField.Size = new System.Drawing.Size(304, 22);
@@ -414,7 +455,7 @@ namespace MyLibrary
             // 
             // pagesField
             // 
-            this.pagesField.Location = new System.Drawing.Point(88, 574);
+            this.pagesField.Location = new System.Drawing.Point(91, 355);
             this.pagesField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pagesField.Name = "pagesField";
             this.pagesField.Size = new System.Drawing.Size(304, 22);
@@ -422,7 +463,7 @@ namespace MyLibrary
             // 
             // synopsisField
             // 
-            this.synopsisField.Location = new System.Drawing.Point(88, 604);
+            this.synopsisField.Location = new System.Drawing.Point(91, 385);
             this.synopsisField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.synopsisField.Name = "synopsisField";
             this.synopsisField.Size = new System.Drawing.Size(304, 22);
@@ -430,7 +471,7 @@ namespace MyLibrary
             // 
             // excerptField
             // 
-            this.excerptField.Location = new System.Drawing.Point(88, 635);
+            this.excerptField.Location = new System.Drawing.Point(91, 416);
             this.excerptField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.excerptField.Name = "excerptField";
             this.excerptField.Size = new System.Drawing.Size(304, 22);
@@ -439,7 +480,7 @@ namespace MyLibrary
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 514);
+            this.label11.Location = new System.Drawing.Point(12, 295);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(70, 17);
             this.label11.TabIndex = 29;
@@ -448,7 +489,7 @@ namespace MyLibrary
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 545);
+            this.label12.Location = new System.Drawing.Point(13, 326);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(51, 17);
             this.label12.TabIndex = 30;
@@ -457,7 +498,7 @@ namespace MyLibrary
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 577);
+            this.label13.Location = new System.Drawing.Point(12, 358);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(52, 17);
             this.label13.TabIndex = 31;
@@ -466,7 +507,7 @@ namespace MyLibrary
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(9, 607);
+            this.label14.Location = new System.Drawing.Point(12, 388);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(69, 17);
             this.label14.TabIndex = 32;
@@ -475,7 +516,7 @@ namespace MyLibrary
             // v
             // 
             this.v.AutoSize = true;
-            this.v.Location = new System.Drawing.Point(9, 638);
+            this.v.Location = new System.Drawing.Point(12, 419);
             this.v.Name = "v";
             this.v.Size = new System.Drawing.Size(59, 17);
             this.v.TabIndex = 33;
@@ -483,32 +524,35 @@ namespace MyLibrary
             // 
             // tagsGroup
             // 
-            this.tagsGroup.Controls.Add(this.label20);
-            this.tagsGroup.Controls.Add(this.clearFilterButton);
-            this.tagsGroup.Controls.Add(this.applyFilterButton);
-            this.tagsGroup.Controls.Add(this.filterTagField);
+            this.tagsGroup.Controls.Add(this.clearTagFilterButton);
             this.tagsGroup.Controls.Add(this.addNewTagButton);
+            this.tagsGroup.Controls.Add(this.applyTagFilterButton);
             this.tagsGroup.Controls.Add(this.tagsList);
-            this.tagsGroup.Location = new System.Drawing.Point(241, 289);
+            this.tagsGroup.Controls.Add(this.filterTagField);
+            this.tagsGroup.Controls.Add(this.label16);
+            this.tagsGroup.Location = new System.Drawing.Point(403, 69);
             this.tagsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tagsGroup.Name = "tagsGroup";
             this.tagsGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tagsGroup.Size = new System.Drawing.Size(387, 217);
+            this.tagsGroup.Size = new System.Drawing.Size(454, 217);
             this.tagsGroup.TabIndex = 12;
             this.tagsGroup.TabStop = false;
             this.tagsGroup.Text = "Tags";
             // 
-            // filterTagField
+            // clearTagFilterButton
             // 
-            this.filterTagField.Location = new System.Drawing.Point(55, 151);
-            this.filterTagField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.filterTagField.Name = "filterTagField";
-            this.filterTagField.Size = new System.Drawing.Size(165, 22);
-            this.filterTagField.TabIndex = 36;
+            this.clearTagFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearTagFilterButton.Location = new System.Drawing.Point(373, 145);
+            this.clearTagFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clearTagFilterButton.Name = "clearTagFilterButton";
+            this.clearTagFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.clearTagFilterButton.TabIndex = 47;
+            this.clearTagFilterButton.Text = "Clear";
+            this.clearTagFilterButton.UseVisualStyleBackColor = true;
             // 
             // addNewTagButton
             // 
-            this.addNewTagButton.Location = new System.Drawing.Point(285, 186);
+            this.addNewTagButton.Location = new System.Drawing.Point(352, 186);
             this.addNewTagButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.addNewTagButton.Name = "addNewTagButton";
             this.addNewTagButton.Size = new System.Drawing.Size(96, 27);
@@ -516,18 +560,45 @@ namespace MyLibrary
             this.addNewTagButton.Text = "Add New";
             this.addNewTagButton.UseVisualStyleBackColor = true;
             // 
+            // applyTagFilterButton
+            // 
+            this.applyTagFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.applyTagFilterButton.Location = new System.Drawing.Point(292, 145);
+            this.applyTagFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.applyTagFilterButton.Name = "applyTagFilterButton";
+            this.applyTagFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.applyTagFilterButton.TabIndex = 46;
+            this.applyTagFilterButton.Text = "Apply";
+            this.applyTagFilterButton.UseVisualStyleBackColor = true;
+            // 
             // tagsList
             // 
             this.tagsList.FormattingEnabled = true;
             this.tagsList.Location = new System.Drawing.Point(5, 21);
             this.tagsList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tagsList.Name = "tagsList";
-            this.tagsList.Size = new System.Drawing.Size(376, 123);
+            this.tagsList.Size = new System.Drawing.Size(443, 123);
             this.tagsList.TabIndex = 0;
+            // 
+            // filterTagField
+            // 
+            this.filterTagField.Location = new System.Drawing.Point(59, 149);
+            this.filterTagField.Name = "filterTagField";
+            this.filterTagField.Size = new System.Drawing.Size(227, 22);
+            this.filterTagField.TabIndex = 44;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(11, 151);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 17);
+            this.label16.TabIndex = 45;
+            this.label16.Text = "Filter:";
             // 
             // languageField
             // 
-            this.languageField.Location = new System.Drawing.Point(88, 665);
+            this.languageField.Location = new System.Drawing.Point(91, 446);
             this.languageField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.languageField.Name = "languageField";
             this.languageField.Size = new System.Drawing.Size(304, 22);
@@ -536,7 +607,7 @@ namespace MyLibrary
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(9, 667);
+            this.label15.Location = new System.Drawing.Point(12, 448);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(76, 17);
             this.label15.TabIndex = 35;
@@ -544,7 +615,7 @@ namespace MyLibrary
             // 
             // browseImageButton
             // 
-            this.browseImageButton.Location = new System.Drawing.Point(693, 698);
+            this.browseImageButton.Location = new System.Drawing.Point(354, 481);
             this.browseImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.browseImageButton.Name = "browseImageButton";
             this.browseImageButton.Size = new System.Drawing.Size(95, 27);
@@ -555,7 +626,7 @@ namespace MyLibrary
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(118, 703);
+            this.label18.Location = new System.Drawing.Point(13, 486);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(72, 17);
             this.label18.TabIndex = 37;
@@ -563,65 +634,34 @@ namespace MyLibrary
             // 
             // imageFilePathField
             // 
-            this.imageFilePathField.Location = new System.Drawing.Point(196, 700);
+            this.imageFilePathField.Location = new System.Drawing.Point(91, 483);
             this.imageFilePathField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.imageFilePathField.Name = "imageFilePathField";
-            this.imageFilePathField.Size = new System.Drawing.Size(481, 22);
+            this.imageFilePathField.Size = new System.Drawing.Size(257, 22);
             this.imageFilePathField.TabIndex = 36;
             // 
             // placeOfPublicationField
             // 
-            this.placeOfPublicationField.Location = new System.Drawing.Point(555, 542);
+            this.placeOfPublicationField.Location = new System.Drawing.Point(555, 323);
             this.placeOfPublicationField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.placeOfPublicationField.Name = "placeOfPublicationField";
-            this.placeOfPublicationField.Size = new System.Drawing.Size(228, 22);
+            this.placeOfPublicationField.Size = new System.Drawing.Size(302, 22);
             this.placeOfPublicationField.TabIndex = 39;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(414, 546);
+            this.label19.Location = new System.Drawing.Point(414, 327);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(136, 17);
             this.label19.TabIndex = 40;
             this.label19.Text = "Place of Publication:";
             // 
-            // applyFilterButton
-            // 
-            this.applyFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.applyFilterButton.Location = new System.Drawing.Point(226, 148);
-            this.applyFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.applyFilterButton.Name = "applyFilterButton";
-            this.applyFilterButton.Size = new System.Drawing.Size(75, 28);
-            this.applyFilterButton.TabIndex = 37;
-            this.applyFilterButton.Text = "Apply";
-            this.applyFilterButton.UseVisualStyleBackColor = true;
-            // 
-            // clearFilterButton
-            // 
-            this.clearFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearFilterButton.Location = new System.Drawing.Point(306, 148);
-            this.clearFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.clearFilterButton.Name = "clearFilterButton";
-            this.clearFilterButton.Size = new System.Drawing.Size(75, 28);
-            this.clearFilterButton.TabIndex = 38;
-            this.clearFilterButton.Text = "Clear";
-            this.clearFilterButton.UseVisualStyleBackColor = true;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 154);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(43, 17);
-            this.label20.TabIndex = 39;
-            this.label20.Text = "Filter:";
-            // 
             // AddNewBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(801, 892);
+            this.ClientSize = new System.Drawing.Size(869, 683);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.placeOfPublicationField);
             this.Controls.Add(this.browseImageButton);
@@ -652,10 +692,10 @@ namespace MyLibrary
             this.Controls.Add(this.datePublishedField);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.notesField);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.publishersGroup);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.authorsGroup);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Isbn13Field);
@@ -670,10 +710,10 @@ namespace MyLibrary
             this.MinimizeBox = false;
             this.Name = "AddNewBookForm";
             this.Text = "Add New Book";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.authorsGroup.ResumeLayout(false);
+            this.authorsGroup.PerformLayout();
+            this.publishersGroup.ResumeLayout(false);
+            this.publishersGroup.PerformLayout();
             this.tagsGroup.ResumeLayout(false);
             this.tagsGroup.PerformLayout();
             this.ResumeLayout(false);
@@ -691,12 +731,12 @@ namespace MyLibrary
         private System.Windows.Forms.TextBox Isbn13Field;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox authorsGroup;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.CheckedListBox authorsList;
         private System.Windows.Forms.Button addNewAuthorButton;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox publishersGroup;
         private System.Windows.Forms.Button addNewPublisherButton;
         private System.Windows.Forms.ListBox publishersList;
         private System.Windows.Forms.TextBox notesField;
@@ -726,19 +766,22 @@ namespace MyLibrary
         private System.Windows.Forms.CheckedListBox tagsList;
         private System.Windows.Forms.TextBox languageField;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox filterTagField;
-        private System.Windows.Forms.TextBox newPublisherField;
-        private System.Windows.Forms.TextBox newAuthorLastNameField;
-        private System.Windows.Forms.TextBox newAuthorFirstNameField;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox filterPublishersField;
         private System.Windows.Forms.Button browseImageButton;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox imageFilePathField;
         private System.Windows.Forms.TextBox placeOfPublicationField;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button applyFilterButton;
-        private System.Windows.Forms.Button clearFilterButton;
+        private System.Windows.Forms.Button applyPublisherFilterButton;
+        private System.Windows.Forms.Button clearPublisherFilterButton;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button clearAuthorFilterButton;
+        private System.Windows.Forms.Button applyAuthorFilterButton;
+        private System.Windows.Forms.TextBox filterAuthorsField;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Button clearTagFilterButton;
+        private System.Windows.Forms.Button applyTagFilterButton;
+        private System.Windows.Forms.TextBox filterTagField;
+        private System.Windows.Forms.Label label16;
     }
 }

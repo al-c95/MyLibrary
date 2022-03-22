@@ -137,6 +137,11 @@ namespace MyLibrary.Presenters
                 if (ex.InnerException.Message.Equals("The remote name could not be resolved: 'openlibrary.org'"))
                     this._view.ShowConnectionErrorDialog();
             }
+            catch (Exception ex)
+            {
+                // some other error
+                this._view.ShowErrorDialog(ex.Message);
+            }
             finally
             {
                 Reset();
@@ -146,8 +151,8 @@ namespace MyLibrary.Presenters
             {
                 // show add new book dialog and prefill with data
                 await this.AddBookPresenter.PopulateTagsList();
-                await this.AddBookPresenter.PopulateAuthorList();
-                await this.AddBookPresenter.PopulatePublisherList();
+                await this.AddBookPresenter.PopulateAuthorsList();
+                await this.AddBookPresenter.PopulatePublishersList();
                 this.AddBookPresenter.Prefill(book);
                 this._addBookView.ShowAsDialog();
             }

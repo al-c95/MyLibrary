@@ -206,6 +206,18 @@ namespace MyLibrary
             }
         }
 
+        public bool SelectedDescriptionFieldEnabled
+        {
+            get => this.selectedCopyDescriptionField.Enabled;
+            set => this.selectedCopyDescriptionField.Enabled = value; 
+        }
+
+        public bool SelectedNotesFieldEnabled
+        {
+            get => this.selectedCopyNotesBox.Enabled;
+            set => this.selectedCopyNotesBox.Enabled = value; 
+        }
+
         public ManageCopiesDialog(Item item)
         {
             InitializeComponent();

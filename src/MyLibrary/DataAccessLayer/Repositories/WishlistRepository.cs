@@ -73,5 +73,15 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
             this._uow.Connection.Execute(SQL, new { id });
         }
+
+        public override IEnumerable<string> GetTitles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override WishlistItem GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }//class
 }
