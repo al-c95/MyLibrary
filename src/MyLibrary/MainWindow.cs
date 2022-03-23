@@ -386,7 +386,7 @@ namespace MyLibrary
             {
                 if (this.dataGrid.SelectedRows.Count == 0)
                     return 0;
-
+                
                 // this is always an integer in the first col
                 return int.Parse(this.dataGrid.SelectedRows[0].Cells[0].Value.ToString());
             }
@@ -455,6 +455,7 @@ namespace MyLibrary
                     SetItemImage(ReadImage(this._selectedItem.Image));
                 }
 
+                Task.Delay(100);
                 this.dataGrid.Enabled = true;
             } 
         }
