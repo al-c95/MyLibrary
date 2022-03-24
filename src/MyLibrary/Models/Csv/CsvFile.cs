@@ -26,37 +26,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Models.Csv
 {
-    public sealed class Tag : Entity
+    public class CsvFile : ICsvFile
     {
-        private string _name;
-        public string Name
-        {
-            get => this._name;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Tag can't be empty.");
-                else
-                {
-                    if (!Validate(value))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
-                }
-            }//set
-        }//Name
+        public string Path { get; private set; }
 
-        public static bool Validate(string name)
+        public CsvFile(string path)
         {
-            return !(name.Contains(", ") || name.Contains(","));
+            // TODO: validation
+            this.Path = path;
         }
 
-        public ICollection<Item> Items { get; set; }
-    }//class
+        public async Task<string[]> ReadLinesAsync()
+        {
+            using (var reader = System.IO.File.OpenText(this.Path))
+            {
+                var text = await reader.ReadToEndAsync();
+                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            }
+        }
+    }
 }

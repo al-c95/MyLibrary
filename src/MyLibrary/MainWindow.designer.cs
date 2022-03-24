@@ -29,16 +29,28 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newMediaItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.booksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaItemsAllCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dvdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bluRaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vhssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vinylsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addButton = new System.Windows.Forms.Button();
@@ -72,15 +84,7 @@ namespace MyLibrary
             this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.wishlistButton = new System.Windows.Forms.Button();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.booksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediaItemsAllCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dvdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bluRaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vhssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vinylsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importTagsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -114,6 +118,8 @@ namespace MyLibrary
             this.newBookToolStripMenuItem,
             this.newMediaItemToolStripMenuItem,
             this.toolStripSeparator1,
+            this.importToolStripMenuItem,
+            this.toolStripSeparator3,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(46, 24);
@@ -135,6 +141,27 @@ namespace MyLibrary
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cSVToolStripMenuItem});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // cSVToolStripMenuItem
+            // 
+            this.cSVToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importTagsCsvToolStripMenuItem});
+            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cSVToolStripMenuItem.Text = "CSV";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
             // 
             // exitMenuItem
             // 
@@ -164,6 +191,59 @@ namespace MyLibrary
             this.databaseStatisticsToolStripMenuItem.Name = "databaseStatisticsToolStripMenuItem";
             this.databaseStatisticsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.databaseStatisticsToolStripMenuItem.Text = "Database statistics";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(276, 6);
+            // 
+            // booksToolStripMenuItem
+            // 
+            this.booksToolStripMenuItem.Name = "booksToolStripMenuItem";
+            this.booksToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.booksToolStripMenuItem.Text = "Books";
+            // 
+            // mediaItemsAllCategoriesToolStripMenuItem
+            // 
+            this.mediaItemsAllCategoriesToolStripMenuItem.Name = "mediaItemsAllCategoriesToolStripMenuItem";
+            this.mediaItemsAllCategoriesToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.mediaItemsAllCategoriesToolStripMenuItem.Text = "Media Items (All categories)";
+            // 
+            // cdsToolStripMenuItem
+            // 
+            this.cdsToolStripMenuItem.Name = "cdsToolStripMenuItem";
+            this.cdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.cdsToolStripMenuItem.Text = "Cds";
+            // 
+            // dvdsToolStripMenuItem
+            // 
+            this.dvdsToolStripMenuItem.Name = "dvdsToolStripMenuItem";
+            this.dvdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.dvdsToolStripMenuItem.Text = "Dvds";
+            // 
+            // bluRaysToolStripMenuItem
+            // 
+            this.bluRaysToolStripMenuItem.Name = "bluRaysToolStripMenuItem";
+            this.bluRaysToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.bluRaysToolStripMenuItem.Text = "BluRays";
+            // 
+            // vhssToolStripMenuItem
+            // 
+            this.vhssToolStripMenuItem.Name = "vhssToolStripMenuItem";
+            this.vhssToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.vhssToolStripMenuItem.Text = "Vhss";
+            // 
+            // vinylsToolStripMenuItem
+            // 
+            this.vinylsToolStripMenuItem.Name = "vinylsToolStripMenuItem";
+            this.vinylsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.vinylsToolStripMenuItem.Text = "Vinyls";
+            // 
+            // otherToolStripMenuItem
+            // 
+            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.otherToolStripMenuItem.Text = "Other";
             // 
             // helpMenu
             // 
@@ -222,14 +302,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(485, 42);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -593,58 +673,11 @@ namespace MyLibrary
             this.wishlistButton.Text = "Wishlist";
             this.wishlistButton.UseVisualStyleBackColor = true;
             // 
-            // toolStripSeparator2
+            // importTagsCsvToolStripMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(276, 6);
-            // 
-            // booksToolStripMenuItem
-            // 
-            this.booksToolStripMenuItem.Name = "booksToolStripMenuItem";
-            this.booksToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.booksToolStripMenuItem.Text = "Books";
-            // 
-            // mediaItemsAllCategoriesToolStripMenuItem
-            // 
-            this.mediaItemsAllCategoriesToolStripMenuItem.Name = "mediaItemsAllCategoriesToolStripMenuItem";
-            this.mediaItemsAllCategoriesToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.mediaItemsAllCategoriesToolStripMenuItem.Text = "Media Items (All categories)";
-            // 
-            // cdsToolStripMenuItem
-            // 
-            this.cdsToolStripMenuItem.Name = "cdsToolStripMenuItem";
-            this.cdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.cdsToolStripMenuItem.Text = "Cds";
-            // 
-            // dvdsToolStripMenuItem
-            // 
-            this.dvdsToolStripMenuItem.Name = "dvdsToolStripMenuItem";
-            this.dvdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.dvdsToolStripMenuItem.Text = "Dvds";
-            // 
-            // bluRaysToolStripMenuItem
-            // 
-            this.bluRaysToolStripMenuItem.Name = "bluRaysToolStripMenuItem";
-            this.bluRaysToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.bluRaysToolStripMenuItem.Text = "BluRays";
-            // 
-            // vhssToolStripMenuItem
-            // 
-            this.vhssToolStripMenuItem.Name = "vhssToolStripMenuItem";
-            this.vhssToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.vhssToolStripMenuItem.Text = "Vhss";
-            // 
-            // vinylsToolStripMenuItem
-            // 
-            this.vinylsToolStripMenuItem.Name = "vinylsToolStripMenuItem";
-            this.vinylsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.vinylsToolStripMenuItem.Text = "Vinyls";
-            // 
-            // otherToolStripMenuItem
-            // 
-            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.otherToolStripMenuItem.Text = "Other";
+            this.importTagsCsvToolStripMenuItem.Name = "importTagsCsvToolStripMenuItem";
+            this.importTagsCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importTagsCsvToolStripMenuItem.Text = "Tags";
             // 
             // MainWindow
             // 
@@ -731,6 +764,10 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem vhssToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vinylsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cSVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem importTagsCsvToolStripMenuItem;
     }
 }
 
