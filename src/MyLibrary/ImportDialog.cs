@@ -49,6 +49,12 @@ namespace MyLibrary
             this.label1.Text = "";
             this.label2.Text = "";
 
+            // prepare list column
+            ColumnHeader columnHeader1 = new ColumnHeader();
+            columnHeader1.Text = "Item";
+            columnHeader1.Width = 435;
+            this.listView.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+
             // register event handlers
             this.startButton.Click += (async (sender, args) =>
             {
@@ -58,6 +64,9 @@ namespace MyLibrary
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     filePath = dialog.FileName;
+
+                    this.startButton.Enabled = false;
+                    this.listView.Items.Clear();
                 }
                 else
                 {
@@ -91,12 +100,6 @@ namespace MyLibrary
             this.label1.Text = "Importing...";
             this.label2.Text = filePath;
 
-            // prepare list column
-            ColumnHeader columnHeader1 = new ColumnHeader();
-            columnHeader1.Text = "Item";
-            columnHeader1.Width = 435;
-            this.listView.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
-
             int warnCount = 0;
             int errorCount = 0;
             int successCount = 0;
@@ -110,13 +113,13 @@ namespace MyLibrary
                     {
                         if (await import.AddIfNotExists(row))
                         {
-                            RegisterWarning(currRow, import.GetTypeName);
-
-                            warnCount++;
+                            successCount++;
                         }
                         else
                         {
-                            successCount++;
+                            RegisterWarning(currRow, row.EntityName, import.GetTypeName);
+
+                            warnCount++;
                         }
                     }
                     catch
@@ -139,14 +142,16 @@ namespace MyLibrary
                 }
             }
 
+            // finished
+            this.startButton.Enabled = true;
             // display summary
             this.label1.Text = "Task Complete.";
             this.label2.Text = errorCount + " errors, " + warnCount + " warnings. " + successCount + " tags added.";
         }
 
-        private void RegisterWarning(int row, string name)
+        private void RegisterWarning(int row, string name, string type)
         {
-            string message = "WARNING: \"" + name + "\" in row " + row + " already exists.";
+            string message = "WARNING: " + type + "\"" + name + "\" in row " + row + " already exists.";
             AddListViewRow(message);
         }
 

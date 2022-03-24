@@ -33,16 +33,19 @@ namespace MyLibrary.Models.Csv
     {
         public int Row { get; private set; }
         public Entity Entity { get; private set; }
+        public string EntityName { get; private set; }
         public Status RowStatus { get; private set; }
 
-        public CsvRowResult(int row, Status status, Entity entity)
+        public CsvRowResult(int row, Status status, Entity entity, string entityName)
         {
             this.Row = row;
             this.Entity = entity;
+            this.EntityName = entityName;
             this.RowStatus = status;
             if (this.RowStatus == Status.ERROR)
             {
                 this.Entity = null;
+                this.EntityName = null;
             }
         }
 
