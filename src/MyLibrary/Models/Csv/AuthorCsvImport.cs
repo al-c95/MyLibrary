@@ -44,13 +44,22 @@ namespace MyLibrary.Models.Csv
             }
         }
 
+        public override string GetTypeName => "Author";
+
         async public static Task<AuthorCsvImport> BuildAsync(ICsvFile file)
         {
             return new AuthorCsvImport(await file.ReadLinesAsync());
         }
 
+        public override Task<bool> AddIfNotExists(CsvRowResult row)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IEnumerator<CsvRowResult> GetEnumerator()
         {
+            throw new NotImplementedException();
+            /*
             int index = 0;
             foreach (var line in this._lines)
             {
@@ -60,7 +69,7 @@ namespace MyLibrary.Models.Csv
                     index++;
                     continue;
                 }
-                throw new NotImplementedException();
+                
                 // read data row and get result
                 if (Tag.Validate(line))
                 {
@@ -73,6 +82,7 @@ namespace MyLibrary.Models.Csv
                 
                 index++;
             }
+            */
         }//GetEnumerator
     }
 }

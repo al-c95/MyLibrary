@@ -34,8 +34,10 @@ namespace MyLibrary.Models.Csv
 
         public CsvFile(string path)
         {
-            // TODO: validation
-            this.Path = path;
+            if (System.IO.Path.GetExtension(path).Equals(".csv"))
+                this.Path = path;
+            else
+                throw new Exception("Import must be a CSV file");
         }
 
         public async Task<string[]> ReadLinesAsync()

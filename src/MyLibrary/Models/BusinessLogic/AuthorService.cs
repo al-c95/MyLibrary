@@ -81,13 +81,13 @@ namespace MyLibrary.Models.BusinessLogic
             return allAuthors.Any(a => a.FirstName.Equals(firstName) && a.LastName.Equals(lastName));
         }
 
-        public async Task Add(Author author)
+        public async Task Add(Author entity)
         {
             await Task.Run(() =>
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IAuthorRepository repo = this._repoProvider.Get(uow);
-                repo.Create(author);
+                repo.Create(entity);
                 uow.Dispose();
             });
         }

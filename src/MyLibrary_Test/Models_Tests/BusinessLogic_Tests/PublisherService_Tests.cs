@@ -32,7 +32,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             Publisher publisher = new Publisher("some_publisher");
 
             // act
-            await service.Create(publisher);
+            await service.Add(publisher);
 
             // assert
             A.CallTo(() => fakeRepo.Create(publisher)).MustHaveHappened();
@@ -47,7 +47,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             MockPublisherService service = new MockPublisherService();
 
             // act
-            bool actualResult = await service.Exists(name);
+            bool actualResult = await service.ExistsWithName(name);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);

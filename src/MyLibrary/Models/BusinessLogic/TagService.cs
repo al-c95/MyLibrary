@@ -76,13 +76,13 @@ namespace MyLibrary.Models.BusinessLogic
             return allTags.Any(t => t.Name.Equals(name));
         }
 
-        public async Task Add(Tag tag)
+        public async Task Add(Tag entity)
         {
             await Task.Run(() =>
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 ITagRepository repo = this._repoProvider.Get(uow);
-                repo.Create(tag);
+                repo.Create(entity);
                 uow.Dispose();
             });
         }

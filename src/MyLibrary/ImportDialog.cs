@@ -38,9 +38,13 @@ namespace MyLibrary
 {
     public partial class ImportDialog : Form
     {
-        public ImportDialog()
+        public ImportDialog(string type)
         {
             InitializeComponent();
+
+            this.CenterToParent();
+
+            this.Text = "Import " + type;
 
             this.label1.Text = "";
             this.label2.Text = "";
@@ -70,10 +74,8 @@ namespace MyLibrary
 
         public async Task Process(string filePath)
         {
-            // TODO: error handling
-
             // read file
-            TagCsvImport import = null;
+            CsvImport import = null;
             try
             {
                 import = await TagCsvImport.BuildAsync(new CsvFile(filePath));
@@ -95,8 +97,6 @@ namespace MyLibrary
             columnHeader1.Width = 435;
             this.listView.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
 
-            var tagService = new TagService();
-
             int warnCount = 0;
             int errorCount = 0;
             int successCount = 0;
@@ -106,23 +106,27 @@ namespace MyLibrary
                 int currRow = row.Row;
                 if (row.RowStatus == CsvRowResult.Status.SUCCESS)
                 {
-                    Tag tag = row.Entity as Tag;
-
-                    if (await tagService.ExistsWithName(tag.Name))
+                    try
                     {
-                        // already exists
-                        // register it in the list
-                        RegisterWarning(currRow, tag.Name);
+                        if (await import.AddIfNotExists(row))
+                        {
+                            RegisterWarning(currRow, import.GetTypeName);
 
-                        warnCount++;
+                            warnCount++;
+                        }
+                        else
+                        {
+                            successCount++;
+                        }
                     }
-                    else
+                    catch
                     {
-                        // does not exist
-                        // add it
-                        await tagService.Add(tag);
+                        // something bad happened while accessing the database
+                        // register it as an error
+                        // TODO: provide error message?
+                        RegisterError(currRow);
 
-                        successCount++;
+                        errorCount++;
                     }
                 }
                 else if (row.RowStatus == CsvRowResult.Status.ERROR)
@@ -140,15 +144,15 @@ namespace MyLibrary
             this.label2.Text = errorCount + " errors, " + warnCount + " warnings. " + successCount + " tags added.";
         }
 
-        private void RegisterWarning(int row, string tag)
+        private void RegisterWarning(int row, string name)
         {
-            string message = "WARNING: Tag '" + tag + "' in row " + row + " already exists.";
+            string message = "WARNING: \"" + name + "\" in row " + row + " already exists.";
             AddListViewRow(message);
         }
 
         private void RegisterError(int row)
         {
-            string message = "ERROR: Could not import tag in row " + row;
+            string message = "ERROR: Could not import row " + row;
             AddListViewRow(message);
         }
 
