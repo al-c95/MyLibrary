@@ -325,7 +325,7 @@ namespace MyLibrary
             });
             this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog();
+                ImportDialog dialog = new ImportDialog("tag");
                 dialog.ShowDialog();
 
                 this.TagsUpdated?.Invoke(sender, args);

@@ -26,11 +26,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.BusinessLogic;
 
 namespace MyLibrary.Models.Csv
 {
     public class TagCsvImport : CsvImport
     {
+        public override string GetTypeName => "Tag";
+
         public TagCsvImport(string[] allLines)
         {
             // validate headers
@@ -74,5 +77,21 @@ namespace MyLibrary.Models.Csv
                 index++;
             }
         }//GetEnumerator
+
+        public override async Task<bool> AddIfNotExists(CsvRowResult row)
+        {
+            TagService service = new TagService();
+            Tag tag = row.Entity as Tag;
+            if (await service.ExistsWithName(tag.Name))
+            {
+                return false;
+            }
+            else
+            {
+                await service.Add(tag);
+
+                return true;
+            }
+        }
     }//class
 }

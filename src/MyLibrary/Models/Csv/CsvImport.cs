@@ -35,6 +35,7 @@ namespace MyLibrary.Models.Csv
         protected string[] _lines;
 
         public int LinesCount => this._lines.Count();
+        public abstract string GetTypeName { get; }
 
         public abstract IEnumerator<CsvRowResult> GetEnumerator();
 
@@ -42,5 +43,7 @@ namespace MyLibrary.Models.Csv
         {
             return this.GetEnumerator();
         }
+
+        public abstract Task<bool> AddIfNotExists(CsvRowResult row);
     }
 }
