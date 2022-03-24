@@ -21,42 +21,26 @@
 //SOFTWARE
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Models.Csv
 {
-    public sealed class Tag : Entity
+    public abstract class CsvImport : IEnumerable<CsvRowResult>
     {
-        private string _name;
-        public string Name
-        {
-            get => this._name;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Tag can't be empty.");
-                else
-                {
-                    if (!Validate(value))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
-                }
-            }//set
-        }//Name
+        protected string[] _lines;
 
-        public static bool Validate(string name)
+        public int LinesCount => this._lines.Count();
+
+        public abstract IEnumerator<CsvRowResult> GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return !(name.Contains(", ") || name.Contains(","));
+            return this.GetEnumerator();
         }
-
-        public ICollection<Item> Items { get; set; }
-    }//class
+    }
 }

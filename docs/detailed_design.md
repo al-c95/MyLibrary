@@ -145,3 +145,27 @@ The data used to pre-fill an add new book dialog are the following:
 - The `isbn_10`
 - The `publish_date`
 - In addition, the authors are retrieved using all objects from the `authors` array, using the endpoint `https://openlibrary.org/authors/{author_key}.json`. The resulting `name` field is used.
+
+### Exports
+Exporting and importing data in XLSX and CSV format is supported.
+
+#### Excel
+Each export has a metadata section indicating the date and time it was created and the application version that created it. It has a row for each record, comprised of the Id and other fields. Images are not included.
+![Excel format](img/excel_format.jpg)
+
+Selected fields are modifiable for the different export types. They are the following:
+- Books: Overview, MSRP, Synopsis, Excerpt, Dewey Decimal, Dimensions, Notes, Tags (must be in comma-and-space-separated format. Any unidentified tags will be interpreted as new tags). Images are not updateable in this fashion.
+- Media Items: Notes, Tags (must be in comma-and-space-separated format. Any unidentified tags will be interpreted as new tags). Images are not updateable in this fashion.
+When an export file is used as an import, the modified data will be updated in the database.
+
+- Metadata and header colour: background ARGB 255,0,0,170 / text ARGB 255,255,255,255
+- Even row colour: background ARGB 255,239,239,255
+- Odd row colour: background ARGB 255,207,207,255
+
+#### CSV
+The following types can be imported as bulk imports:
+- Tags
+- Authors
+- Publishers
+
+These types are uniquely identifiable by their name or title fields, so if there are any already in the database, they will be skipped.

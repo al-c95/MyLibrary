@@ -323,6 +323,13 @@ namespace MyLibrary
 
                 FiltersUpdated?.Invoke(sender, args);
             });
+            this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog();
+                dialog.ShowDialog();
+
+                this.TagsUpdated?.Invoke(sender, args);
+            });
 
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
