@@ -67,11 +67,11 @@ namespace MyLibrary.Models.Csv
                 // read data row and get result
                 if (Tag.Validate(line))
                 {
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Tag { Name = line });
+                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Tag { Name = line }, line);
                 }
                 else
                 { 
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.ERROR, null);
+                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.ERROR, null, null);
                 }
 
                 index++;
@@ -92,6 +92,6 @@ namespace MyLibrary.Models.Csv
 
                 return true;
             }
-        }
+        }//AddIfNotExists
     }//class
 }
