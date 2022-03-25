@@ -36,6 +36,7 @@ using MyLibrary.Models.ValueObjects;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ImportDialog : Form
     {
         private string _type;
@@ -46,7 +47,7 @@ namespace MyLibrary
 
             this.CenterToParent();
 
-            this.Text = "Import " + type;
+            this.Text = "Import " + type + "s";
             this._type = type;
 
             this.label1.Text = "";

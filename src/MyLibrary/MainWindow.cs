@@ -335,6 +335,11 @@ namespace MyLibrary
                 ImportDialog dialog = new ImportDialog("author");
                 dialog.ShowDialog();
             });
+            this.importPublishersCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("publisher");
+                dialog.ShowDialog();
+            });
 
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
