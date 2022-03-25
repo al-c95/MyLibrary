@@ -24,8 +24,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.BusinessLogic;
 
 namespace MyLibrary.Models.Csv
 {
@@ -34,7 +36,7 @@ namespace MyLibrary.Models.Csv
         public AuthorCsvImport(string[] allLines)
         {
             // validate headers
-            if (allLines[0].Equals("First Name, Last Name"))
+            if (allLines[0].Equals("First Name,Last Name"))
             {
                 this._lines = allLines;
             }
@@ -51,15 +53,24 @@ namespace MyLibrary.Models.Csv
             return new AuthorCsvImport(await file.ReadLinesAsync());
         }
 
-        public override Task<bool> AddIfNotExists(CsvRowResult row)
+        public async override Task<bool> AddIfNotExists(CsvRowResult row)
         {
-            throw new NotImplementedException();
+            AuthorService service = new AuthorService();
+            Author author = row.Entity as Author;
+            if (await service.ExistsWithName(author.FirstName, author.LastName))
+            {
+                return false;
+            }
+            else
+            {
+                await service.Add(author);
+
+                return true;
+            }
         }
 
         public override IEnumerator<CsvRowResult> GetEnumerator()
         {
-            throw new NotImplementedException();
-            /*
             int index = 0;
             foreach (var line in this._lines)
             {
@@ -69,20 +80,26 @@ namespace MyLibrary.Models.Csv
                     index++;
                     continue;
                 }
-                
+
                 // read data row and get result
-                if (Tag.Validate(line))
+                // TODO: refactor validation
+                const string NAME_ENTRY_PATTERN = "^[a-zA-Z-]+,[a-zA-Z-]+$";
+                const string NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME = "^[a-zA-Z-]+ [a-zA-Z].,[a-zA-Z-]+$";
+                if (Regex.IsMatch(line, NAME_ENTRY_PATTERN) ||
+                    Regex.IsMatch(line, NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME))
                 {
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Tag { Name = line });
+                    string[] parts = line.Split(',');
+                    string processedName = parts[0] + " " + parts[1];
+
+                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Author { FirstName = parts[0], LastName = parts[1] }, processedName);
                 }
                 else
                 {
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.ERROR, null);
+                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.ERROR, null, null);
                 }
-                
+
                 index++;
             }
-            */
         }//GetEnumerator
     }
 }

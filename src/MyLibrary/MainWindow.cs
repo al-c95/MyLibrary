@@ -330,6 +330,11 @@ namespace MyLibrary
 
                 this.TagsUpdated?.Invoke(sender, args);
             });
+            this.importAuthorsCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("author");
+                dialog.ShowDialog();
+            });
 
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
