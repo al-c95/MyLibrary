@@ -38,6 +38,8 @@ namespace MyLibrary
 {
     public partial class ImportDialog : Form
     {
+        private string _type;
+
         public ImportDialog(string type)
         {
             InitializeComponent();
@@ -45,6 +47,7 @@ namespace MyLibrary
             this.CenterToParent();
 
             this.Text = "Import " + type;
+            this._type = type;
 
             this.label1.Text = "";
             this.label2.Text = "";
@@ -73,7 +76,7 @@ namespace MyLibrary
                     return;
                 }
 
-                await Process(filePath);
+                await Process(filePath, type);
             });
             this.cancelButton.Click += ((sender, args) =>
             {
@@ -81,13 +84,13 @@ namespace MyLibrary
             });
         }
 
-        public async Task Process(string filePath)
+        public async Task Process(string filePath, string type)
         {
             // read file
             CsvImport import = null;
             try
             {
-                import = await TagCsvImport.BuildAsync(new CsvFile(filePath));
+                import = await CsvImport.ImportFactory(type, filePath);
             }
             catch (Exception e)
             {
@@ -134,7 +137,7 @@ namespace MyLibrary
                 }
                 else if (row.RowStatus == CsvRowResult.Status.ERROR)
                 {
-                    // failed to parse row
+                    // failed to parse row as the proper entity
                     // register it in the list
                     RegisterError(currRow);
 
@@ -146,12 +149,12 @@ namespace MyLibrary
             this.startButton.Enabled = true;
             // display summary
             this.label1.Text = "Task Complete.";
-            this.label2.Text = errorCount + " errors, " + warnCount + " warnings. " + successCount + " tags added.";
+            this.label2.Text = errorCount + " errors, " + warnCount + " warnings. " + successCount + " " + type + "s added.";
         }
 
         private void RegisterWarning(int row, string name, string type)
         {
-            string message = "WARNING: " + type + "\"" + name + "\" in row " + row + " already exists.";
+            string message = "WARNING: " + type + " \"" + name + "\" in row " + row + " already exists.";
             AddListViewRow(message);
         }
 

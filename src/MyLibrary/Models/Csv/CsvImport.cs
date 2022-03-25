@@ -45,5 +45,25 @@ namespace MyLibrary.Models.Csv
         }
 
         public abstract Task<bool> AddIfNotExists(CsvRowResult row);
-    }
+
+        /// <summary>
+        /// Factory method for generating appropriate CSV import object based on type.
+        /// Register new ones here.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        internal static async Task<CsvImport> ImportFactory(string type, string filePath)
+        {
+            switch (type)
+            {
+                case "tag":
+                    return await TagCsvImport.BuildAsync(new CsvFile(filePath));
+                case "author":
+                    return await AuthorCsvImport.BuildAsync(new CsvFile(filePath));
+                default:
+                    throw new Exception("Unknown CSV import type: " + type);
+            }
+        }
+    }//class
 }

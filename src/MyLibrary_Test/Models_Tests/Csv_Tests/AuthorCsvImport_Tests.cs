@@ -18,9 +18,9 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
         {
             string[] lines = new string[]
             {
-                "First Name, Last Name",
-                "John, Smith",
-                "Jane, Doe"
+                "First Name,Last Name",
+                "John,Smith",
+                "Jane,Doe"
             };
 
             Assert.DoesNotThrow(() => new AuthorCsvImport(lines));
@@ -32,8 +32,8 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
             string[] lines = new string[]
             {
                 "bogus header",
-                "John, Smith",
-                "Jane, Doe"
+                "John,Smith",
+                "Jane,Doe"
             };
 
             Assert.Throws<FormatException>(() => new AuthorCsvImport(lines));
@@ -44,9 +44,10 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
         {
             string[] lines = new string[]
             {
-                "First Name, Last Name",
-                "John, Smith",
-                "Jane, Doe"
+                "First Name,Last Name",
+                "John,Smith",
+                "Jane H.,Doe",
+                "bogus author"
             };
 
             var import = new AuthorCsvImport(lines);
@@ -56,9 +57,10 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
                 results.Add(result);
             }
 
-            throw new NotImplementedException();
-            Assert.IsTrue(results.Count == 2);
+            Assert.IsTrue(results.Count == 3);
             Assert.IsTrue(results.Any(r => r.Row == 2 && r.RowStatus == CsvRowResult.Status.SUCCESS && ((Author)r.Entity).FirstName.Equals("John") && ((Author)r.Entity).LastName.Equals("Smith")));
+            Assert.IsTrue(results.Any(r => r.Row == 3 && r.RowStatus == CsvRowResult.Status.SUCCESS && ((Author)r.Entity).FirstName.Equals("Jane H.") && ((Author)r.Entity).LastName.Equals("Doe")));
+            Assert.IsTrue(results.Any(r => r.Row == 4 && r.RowStatus == CsvRowResult.Status.ERROR));
         }
     }
 }
