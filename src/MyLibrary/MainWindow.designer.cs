@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +39,8 @@ namespace MyLibrary
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importTagsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importAuthorsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPublishersCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +87,6 @@ namespace MyLibrary
             this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.wishlistButton = new System.Windows.Forms.Button();
-            this.importAuthorsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -155,7 +156,8 @@ namespace MyLibrary
             // 
             this.cSVToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importTagsCsvToolStripMenuItem,
-            this.importAuthorsCsvToolStripMenuItem});
+            this.importAuthorsCsvToolStripMenuItem,
+            this.importPublishersCsvToolStripMenuItem});
             this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
             this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cSVToolStripMenuItem.Text = "CSV";
@@ -165,6 +167,18 @@ namespace MyLibrary
             this.importTagsCsvToolStripMenuItem.Name = "importTagsCsvToolStripMenuItem";
             this.importTagsCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.importTagsCsvToolStripMenuItem.Text = "Tags";
+            // 
+            // importAuthorsCsvToolStripMenuItem
+            // 
+            this.importAuthorsCsvToolStripMenuItem.Name = "importAuthorsCsvToolStripMenuItem";
+            this.importAuthorsCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importAuthorsCsvToolStripMenuItem.Text = "Authors";
+            //
+            // importPublishersCsvToolStripMenuItem
+            //
+            this.importPublishersCsvToolStripMenuItem.Name = "importPublishersCsvToolStripMenuItem";
+            this.importPublishersCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importPublishersCsvToolStripMenuItem.Text = "Publishers";
             // 
             // toolStripSeparator3
             // 
@@ -310,14 +324,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(485, 42);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -681,12 +695,6 @@ namespace MyLibrary
             this.wishlistButton.Text = "Wishlist";
             this.wishlistButton.UseVisualStyleBackColor = true;
             // 
-            // importAuthorsCsvToolStripMenuItem
-            // 
-            this.importAuthorsCsvToolStripMenuItem.Name = "importAuthorsCsvToolStripMenuItem";
-            this.importAuthorsCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.importAuthorsCsvToolStripMenuItem.Text = "Authors";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -777,6 +785,7 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem importTagsCsvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importAuthorsCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importPublishersCsvToolStripMenuItem;
     }
 }
 

@@ -218,6 +218,7 @@
     <Compile Include="Models\Csv\CsvImport.cs" />
     <Compile Include="Models\Csv\CsvRowResult.cs" />
     <Compile Include="Models\Csv\ICsvFile.cs" />
+    <Compile Include="Models\Csv\PublisherCsvImport.cs" />
     <Compile Include="Models\Csv\TagCsvImport.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />

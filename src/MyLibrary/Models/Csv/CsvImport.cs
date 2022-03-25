@@ -61,6 +61,8 @@ namespace MyLibrary.Models.Csv
                     return await TagCsvImport.BuildAsync(new CsvFile(filePath));
                 case "author":
                     return await AuthorCsvImport.BuildAsync(new CsvFile(filePath));
+                case "publisher":
+                    return await PublisherCsvImport.BuildAsync(new CsvFile(filePath));
                 default:
                     throw new Exception("Unknown CSV import type: " + type);
             }
