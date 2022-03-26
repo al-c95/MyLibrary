@@ -34,14 +34,19 @@ namespace MyLibrary.Views.Excel
         public PublishersExcel(IExcelFile file)
             :base("Publishers", file)
         {
-            // write header
-            this._ws.Cells["B6"].Value = "Publisher";
+            WriteHeaderCell("Publisher", "B");
         }
 
         public override void WriteEntity(Publisher entity)
         {
-            this._ws.Cells[this._currRow, 1].Value = entity.Id;
-            this._ws.Cells[this._currRow, 2].Value = entity.Name;
+            if (this._currRow % 2 == 0)
+            {
+                WriteEvenRow(this._currRow, new object[] { entity.Id, entity.Name });
+            }
+            else
+            {
+                WriteOddRow(this._currRow, new object[] { entity.Id, entity.Name });
+            }
 
             this._currRow++;
         }

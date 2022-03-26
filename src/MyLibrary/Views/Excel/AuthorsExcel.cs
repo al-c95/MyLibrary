@@ -34,16 +34,20 @@ namespace MyLibrary.Views.Excel
         public AuthorsExcel(IExcelFile file)
             :base("Authors", file)
         {
-            // write headers
-            this._ws.Cells["B6"].Value = "First Name";
-            this._ws.Cells["C6"].Value = "Last Name";
+            WriteHeaderCell("First Name", "B");
+            WriteHeaderCell("Last Name", "C");
         }
 
         public override void WriteEntity(Author entity)
         {
-            this._ws.Cells[this._currRow, 1].Value = entity.Id;
-            this._ws.Cells[this._currRow, 2].Value = entity.FirstName;
-            this._ws.Cells[this._currRow, 3].Value = entity.LastName;
+            if (this._currRow % 2 == 0)
+            {
+                WriteEvenRow(this._currRow, new object[] { entity.Id, entity.FirstName, entity.LastName });
+            }
+            else
+            {
+                WriteOddRow(this._currRow, new object[] { entity.Id, entity.FirstName, entity.LastName });
+            }
 
             this._currRow++;
         }

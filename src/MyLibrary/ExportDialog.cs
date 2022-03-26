@@ -147,7 +147,6 @@ namespace MyLibrary
                     foreach (var book in allBooks)
                     {
                         excel.WriteEntity(book);
-                        Task.Delay(1000);
                         if (numberExported != null)
                             numberExported.Report(++count);
                     }
