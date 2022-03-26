@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using OfficeOpenXml;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
@@ -35,14 +36,19 @@ namespace MyLibrary.Views.Excel
     {
         protected ExcelPackage _pck;
         protected ExcelWorksheet _ws;
+        protected readonly int HEADER_ROW = 6;
         protected int _currRow;
 
         protected readonly IExcelFile _file;
 
+        protected readonly string HEADER_AND_META_STYLE = "Header";
+        protected readonly string EVEN_ROW_STYLE = "Even";
+        protected readonly string ODD_ROW_STYLE = "Odd";
+
         public int CurrentRow => this._currRow;
 
         /// <summary>
-        /// Constructor. Writes metadata.
+        /// Writes metadata and Id column header and prepares styles.
         /// </summary>
         public ExcelBase(string type, IExcelFile file)
         {
@@ -53,6 +59,23 @@ namespace MyLibrary.Views.Excel
             this._pck = new ExcelPackage();
             this._ws = this._pck.Workbook.Worksheets.Add(type);
 
+            // create styles
+            // headers and metadata
+            var namedStyle = this._pck.Workbook.Styles.CreateNamedStyle(HEADER_AND_META_STYLE);
+            namedStyle.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            namedStyle.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 0, 0, 170));
+            namedStyle.Style.Font.Bold = true;
+            namedStyle.Style.Font.Color.SetColor(Color.FromArgb(255, 255, 255, 255));
+            namedStyle.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+            // even data row
+            namedStyle = this._pck.Workbook.Styles.CreateNamedStyle(EVEN_ROW_STYLE);
+            namedStyle.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            namedStyle.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 239, 239, 255));
+            // odd data row
+            namedStyle = this._pck.Workbook.Styles.CreateNamedStyle(ODD_ROW_STYLE);
+            namedStyle.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            namedStyle.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 207, 207, 255));
+
             // write metadata
             this._ws.Cells["A1"].Value = "MyLibrary";
             this._ws.Cells[1, 1, 1, 2].Merge = true;
@@ -62,11 +85,14 @@ namespace MyLibrary.Views.Excel
             this._ws.Cells["B3"].Value = Configuration.APP_VERSION.ToString();
             this._ws.Cells["A4"].Value = "Extracted At:";
             this._ws.Cells["B4"].Value = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+            this._ws.Cells["A1:B4"].StyleName = HEADER_AND_META_STYLE;
+            this._ws.Cells["A1:B4"].AutoFitColumns();
             // write Id col header
-            this._ws.Cells["A6"].Value = "Id";
+            WriteHeaderCell("Id", "A");
 
-            this._currRow = 7;
-        }
+            // set current row to the first data row
+            this._currRow = HEADER_ROW + 1;
+        }//ctor
 
         /// <summary>
         /// Writes a single entity as a new row in the worksheet.
@@ -74,11 +100,37 @@ namespace MyLibrary.Views.Excel
         /// <param name="entity"></param>
         public abstract void WriteEntity(T entity);
 
+        protected void WriteHeaderCell(string text, string colLetter)
+        {
+            this._ws.Cells[colLetter + HEADER_ROW].Value = text;
+            this._ws.Cells[colLetter + HEADER_ROW].StyleName = HEADER_AND_META_STYLE;
+        }
+
+        protected void WriteEvenRow(int row, object[] values)
+        {
+            for (int i = 1; i <= values.Length; i++)
+            {
+                this._ws.Cells[row, i].Value = values[i-1];
+                this._ws.Cells[row, i].StyleName = EVEN_ROW_STYLE;
+            }
+        }
+
+        protected void WriteOddRow(int row, object[] values)
+        {
+            for (int i = 1; i <= values.Length; i++)
+            {
+                this._ws.Cells[row, i].Value = values[i-1];
+                this._ws.Cells[row, i].StyleName = ODD_ROW_STYLE;
+            }
+        }
+
         /// <summary>
-        /// Performs final formatting and saves the file.
+        /// Performs final housekeeping and saves the file, then disposes the object.
         /// </summary>
         public async Task SaveAsync()
         {
+            // TODO: protect sheet
+            
             await this._file.SaveAsAsync(this._pck);
             this.Dispose();
         }

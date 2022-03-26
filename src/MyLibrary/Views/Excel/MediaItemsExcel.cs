@@ -34,26 +34,36 @@ namespace MyLibrary.Views.Excel
         public MediaItemsExcel(IExcelFile file)
             :base("Media Items", file)
         {
-            // write headers
-            this._ws.Cells["B6"].Value = "Title";
-            this._ws.Cells["C6"].Value = "Type";
-            this._ws.Cells["D6"].Value = "Number";
-            this._ws.Cells["E6"].Value = "Running Time";
-            this._ws.Cells["F6"].Value = "Release Year";
-            this._ws.Cells["G6"].Value = "Tags";
-            this._ws.Cells["H6"].Value = "Notes";
+            WriteHeaderCell("Title", "B");
+            WriteHeaderCell("Type", "C");
+            WriteHeaderCell("Number", "D");
+            WriteHeaderCell("Running Time", "E");
+            WriteHeaderCell("Release Year", "F");
+            WriteHeaderCell("Tags", "G");
+            WriteHeaderCell("Notes", "H");
         }
 
         public override void WriteEntity(MediaItem entity)
         {
-            this._ws.Cells[this._currRow, 1].Value = entity.Id;
-            this._ws.Cells[this._currRow, 2].Value = entity.Title;
-            this._ws.Cells[this._currRow, 3].Value = entity.Type.ToString();
-            this._ws.Cells[this._currRow, 4].Value = entity.Number;
-            this._ws.Cells[this._currRow, 5].Value = entity.RunningTime;
-            this._ws.Cells[this._currRow, 6].Value = entity.ReleaseYear;
-            this._ws.Cells[this._currRow, 7].Value = entity.GetCommaDelimitedTags();
-            this._ws.Cells[this._currRow, 8].Value = entity.Notes;
+            object[] values = new object[]
+            {
+                entity.Id,
+                entity.Title,
+                entity.Type.ToString(),
+                entity.Number,
+                entity.RunningTime,
+                entity.ReleaseYear,
+                entity.GetCommaDelimitedTags(),
+                entity.Notes
+            };
+            if (this._currRow % 2 == 0)
+            {
+                WriteEvenRow(this._currRow, values);
+            }
+            else
+            {
+                WriteOddRow(this._currRow, values);
+            }
 
             this._currRow++;
         }

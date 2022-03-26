@@ -34,48 +34,58 @@ namespace MyLibrary.Views.Excel
         public BooksExcel(IExcelFile file)
             :base("Books", file)
         {
-            // write headers
-            this._ws.Cells["B6"].Value = "Title";
-            this._ws.Cells["C6"].Value = "Long Title";
-            this._ws.Cells["D6"].Value = "ISBN";
-            this._ws.Cells["E6"].Value = "ISBN13";
-            this._ws.Cells["F6"].Value = "Authors";
-            this._ws.Cells["G6"].Value = "Language";
-            this._ws.Cells["H6"].Value = "Tags";
-            this._ws.Cells["I6"].Value = "Publisher";
-            this._ws.Cells["J6"].Value = "Format";
-            this._ws.Cells["K6"].Value = "Date Published";
-            this._ws.Cells["L6"].Value = "Place of Publication";
-            this._ws.Cells["M6"].Value = "Edition";
-            this._ws.Cells["N6"].Value = "Pages";
-            this._ws.Cells["O6"].Value = "Dimensions";
-            this._ws.Cells["P6"].Value = "Overview";
-            this._ws.Cells["Q6"].Value = "Excerpt";
-            this._ws.Cells["R6"].Value = "Synopsys";
-            this._ws.Cells["S6"].Value = "Notes";
+            WriteHeaderCell("Title", "B");
+            WriteHeaderCell("Long Title", "C");
+            WriteHeaderCell("ISBN", "D");
+            WriteHeaderCell("ISBN13", "E");
+            WriteHeaderCell("Authors", "F");
+            WriteHeaderCell("Language", "G");
+            WriteHeaderCell("Tags", "H");
+            WriteHeaderCell("Publisher", "I");
+            WriteHeaderCell("Format", "J");
+            WriteHeaderCell("Date Published", "K");
+            WriteHeaderCell("Place of Publication", "L");
+            WriteHeaderCell("Edition", "M");
+            WriteHeaderCell("Pages", "N");
+            WriteHeaderCell("Dimensions", "O");
+            WriteHeaderCell("Overview", "P");
+            WriteHeaderCell("Excerpt", "Q");
+            WriteHeaderCell("Synopsys", "R");
+            WriteHeaderCell("Notes", "S");
         }
 
         public override void WriteEntity(Book entity)
         {
-            this._ws.Cells[this._currRow, 1].Value = entity.Id;
-            this._ws.Cells[this._currRow, 2].Value = entity.Title;
-            this._ws.Cells[this._currRow, 3].Value = entity.TitleLong;
-            this._ws.Cells[this._currRow, 4].Value = entity.Isbn;
-            this._ws.Cells[this._currRow, 5].Value = entity.Isbn13;
-            this._ws.Cells[this._currRow, 6].Value = entity.GetAuthorList();
-            this._ws.Cells[this._currRow, 7].Value = entity.Language;
-            this._ws.Cells[this._currRow, 8].Value = entity.GetCommaDelimitedTags();
-            this._ws.Cells[this._currRow, 9].Value = entity.Publisher.Name;
-            this._ws.Cells[this._currRow, 10].Value = entity.Format;
-            this._ws.Cells[this._currRow, 11].Value = entity.DatePublished;
-            this._ws.Cells[this._currRow, 12].Value = entity.PlaceOfPublication;
-            this._ws.Cells[this._currRow, 13].Value = entity.Edition;
-            this._ws.Cells[this._currRow, 14].Value = entity.Pages;
-            this._ws.Cells[this._currRow, 15].Value = entity.Dimensions;
-            this._ws.Cells[this._currRow, 16].Value = entity.Overview;
-            this._ws.Cells[this._currRow, 17].Value = entity.Excerpt;
-            this._ws.Cells[this._currRow, 18].Value = entity.Synopsys;
-            this._ws.Cells[this._currRow, 19].Value = entity.Notes;
+            object[] values = new object[]
+            {
+                entity.Id,
+                entity.Title,
+                entity.TitleLong,
+                entity.Isbn,
+                entity.Isbn13,
+                entity.GetAuthorList(),
+                entity.Language,
+                entity.GetCommaDelimitedTags(),
+                entity.Publisher.Name,
+                entity.Format,
+                entity.DatePublished,
+                entity.PlaceOfPublication,
+                entity.Edition,
+                entity.Pages,
+                entity.Dimensions,
+                entity.Overview,
+                entity.Excerpt,
+                entity.Synopsys,
+                entity.Notes
+            };
+            if (this._currRow % 2 == 0)
+            {
+                WriteEvenRow(this._currRow, values);
+            }
+            else
+            {
+                WriteOddRow(this._currRow, values);
+            }
 
             this._currRow++;
         }
