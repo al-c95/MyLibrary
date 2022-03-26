@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,6 +87,12 @@ namespace MyLibrary
             this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.wishlistButton = new System.Windows.Forms.Button();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.publishersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.authorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.booksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -121,6 +127,7 @@ namespace MyLibrary
             this.newMediaItemToolStripMenuItem,
             this.toolStripSeparator1,
             this.importToolStripMenuItem,
+            this.exportToolStripMenuItem,
             this.toolStripSeparator3,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
@@ -159,25 +166,25 @@ namespace MyLibrary
             this.importAuthorsCsvToolStripMenuItem,
             this.importPublishersCsvToolStripMenuItem});
             this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(118, 26);
             this.cSVToolStripMenuItem.Text = "CSV";
             // 
             // importTagsCsvToolStripMenuItem
             // 
             this.importTagsCsvToolStripMenuItem.Name = "importTagsCsvToolStripMenuItem";
-            this.importTagsCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importTagsCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.importTagsCsvToolStripMenuItem.Text = "Tags";
             // 
             // importAuthorsCsvToolStripMenuItem
             // 
             this.importAuthorsCsvToolStripMenuItem.Name = "importAuthorsCsvToolStripMenuItem";
-            this.importAuthorsCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importAuthorsCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.importAuthorsCsvToolStripMenuItem.Text = "Authors";
-            //
+            // 
             // importPublishersCsvToolStripMenuItem
-            //
+            // 
             this.importPublishersCsvToolStripMenuItem.Name = "importPublishersCsvToolStripMenuItem";
-            this.importPublishersCsvToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importPublishersCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.importPublishersCsvToolStripMenuItem.Text = "Publishers";
             // 
             // toolStripSeparator3
@@ -324,14 +331,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(485, 42);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -695,6 +702,48 @@ namespace MyLibrary
             this.wishlistButton.Text = "Wishlist";
             this.wishlistButton.UseVisualStyleBackColor = true;
             // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tagsToolStripMenuItem,
+            this.publishersToolStripMenuItem,
+            this.authorsToolStripMenuItem,
+            this.booksToolStripMenuItem1,
+            this.mediaItemsToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // tagsToolStripMenuItem
+            // 
+            this.tagsToolStripMenuItem.Name = "tagsToolStripMenuItem";
+            this.tagsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.tagsToolStripMenuItem.Text = "Tags";
+            // 
+            // publishersToolStripMenuItem
+            // 
+            this.publishersToolStripMenuItem.Name = "publishersToolStripMenuItem";
+            this.publishersToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.publishersToolStripMenuItem.Text = "Publishers";
+            // 
+            // authorsToolStripMenuItem
+            // 
+            this.authorsToolStripMenuItem.Name = "authorsToolStripMenuItem";
+            this.authorsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.authorsToolStripMenuItem.Text = "Authors";
+            // 
+            // booksToolStripMenuItem1
+            // 
+            this.booksToolStripMenuItem1.Name = "booksToolStripMenuItem1";
+            this.booksToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.booksToolStripMenuItem1.Text = "Books";
+            // 
+            // mediaItemsToolStripMenuItem
+            // 
+            this.mediaItemsToolStripMenuItem.Name = "mediaItemsToolStripMenuItem";
+            this.mediaItemsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.mediaItemsToolStripMenuItem.Text = "Media items";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -786,6 +835,12 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem importTagsCsvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importAuthorsCsvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importPublishersCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tagsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem publishersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem authorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mediaItemsToolStripMenuItem;
     }
 }
 

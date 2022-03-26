@@ -49,6 +49,7 @@ namespace MyLibrary.Views.Excel
             this._file = file;
 
             // create worksheet
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             this._pck = new ExcelPackage();
             this._ws = this._pck.Workbook.Worksheets.Add(type);
 

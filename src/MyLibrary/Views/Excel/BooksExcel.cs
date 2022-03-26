@@ -65,7 +65,7 @@ namespace MyLibrary.Views.Excel
             this._ws.Cells[this._currRow, 6].Value = entity.GetAuthorList();
             this._ws.Cells[this._currRow, 7].Value = entity.Language;
             this._ws.Cells[this._currRow, 8].Value = entity.GetCommaDelimitedTags();
-            this._ws.Cells[this._currRow, 9].Value = entity.Publisher;
+            this._ws.Cells[this._currRow, 9].Value = entity.Publisher.Name;
             this._ws.Cells[this._currRow, 10].Value = entity.Format;
             this._ws.Cells[this._currRow, 11].Value = entity.DatePublished;
             this._ws.Cells[this._currRow, 12].Value = entity.PlaceOfPublication;
