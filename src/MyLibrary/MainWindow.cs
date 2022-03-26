@@ -323,6 +323,7 @@ namespace MyLibrary
 
                 FiltersUpdated?.Invoke(sender, args);
             });
+            // import CSV
             this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
             {
                 ImportDialog dialog = new ImportDialog("tag");
@@ -340,7 +341,32 @@ namespace MyLibrary
                 ImportDialog dialog = new ImportDialog("publisher");
                 dialog.ShowDialog();
             });
-
+            // export XLSX
+            this.tagsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog("tag");
+                dialog.ShowDialog();
+            });
+            this.booksToolStripMenuItem1.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog("book");
+                dialog.ShowDialog();
+            });
+            this.authorsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog("author");
+                dialog.ShowDialog();
+            });
+            this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog("media item");
+                dialog.ShowDialog();
+            });
+            this.publishersToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog("publisher");
+                dialog.ShowDialog();
+            });
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
 
