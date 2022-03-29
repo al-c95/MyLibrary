@@ -123,7 +123,16 @@ namespace MyLibrary
                 try
                 {
                     // check for existing tag
-                    if (await this._tagService.ExistsWithName(newTagName))
+                    bool tagAlreadyInList = false;
+                    foreach (var tagInList in this.tagsList.Items)
+                    {
+                        if (tagInList.ToString().Equals(newTagName))
+                        {
+                            tagAlreadyInList = true;
+                        }
+                    }
+                    if (await this._tagService.ExistsWithName(newTagName) ||
+                        tagAlreadyInList)
                     {
                         MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Manage tags", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
