@@ -127,6 +127,23 @@ namespace MyLibrary.Views.Excel
             this._currRow++;
         }
 
+        public void AutofitColumn(int col)
+        {
+            ExcelRange range = this._ws.Cells[1, col, this._currRow, col];
+            range.AutoFitColumns();
+        }
+
+        public void WrapText(int col)
+        {
+            ExcelRange range = this._ws.Cells[1, col, this._currRow, col];
+            range.Style.WrapText = true;
+        }
+
+        public void SetColumnWidth(int col, int width)
+        {
+            this._ws.Column(col).Width = width;
+        }
+
         /// <summary>
         /// Performs final housekeeping and saves the file, then disposes the object.
         /// </summary>

@@ -95,7 +95,7 @@ namespace MyLibrary
             // do the work and save the file
             ExcelFile file = new ExcelFile(path);
             MyLibrary.Presenters.Excel.ExcelPresenterBase excelPresenter = MyLibrary.Presenters.Excel.ExcelPresenterBase.Factory(this._type, file);
-            await excelPresenter.WriteEntities(numberExported);
+            await excelPresenter.RenderExcel(numberExported);
 
             // finished
             this.label1.Text = "Task complete.";

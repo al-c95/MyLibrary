@@ -26,7 +26,7 @@ namespace MyLibrary.Presenters.Excel
             this._view = new AuthorsExcel(file);
         }
 
-        public async override Task WriteEntities(IProgress<int> numberExported)
+        public async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allAuthors = await this._authorService.GetAll();
 
@@ -40,6 +40,9 @@ namespace MyLibrary.Presenters.Excel
                         numberExported.Report(++count);
                 }
             });
+
+            this._view.AutofitColumn(2);
+            this._view.AutofitColumn(3);
 
             await this._view.SaveAsync();
         }
