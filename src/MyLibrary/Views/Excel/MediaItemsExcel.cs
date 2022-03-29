@@ -64,8 +64,6 @@ namespace MyLibrary.Views.Excel
             {
                 WriteOddRow(this._currRow, values);
             }
-
-            this._currRow++;
         }
     }
 }
