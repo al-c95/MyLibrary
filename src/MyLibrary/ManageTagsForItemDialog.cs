@@ -136,6 +136,11 @@ namespace MyLibrary
                     {
                         MessageBox.Show("Tag: \"" + newTagName + "\" already exists.", "Manage tags", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                        // re-enable buttons
+                        this.addNewTagButton.Enabled = true;
+                        this.buttonSave.Enabled = true;
+                        this.buttonCancel.Enabled = true;
+
                         return;
                     }
                 }
