@@ -26,10 +26,10 @@ namespace MyLibrary.Presenters.Excel
             this._view = new MediaItemsExcel(file);
         }
 
-        public async override Task WriteEntities(IProgress<int> numberExported)
+        public async override Task RenderExcel(IProgress<int> numberExported)
         {
+            // write data
             var allItems = await this._mediaItemService.GetAll();
-
             await Task.Run(() =>
             {
                 int count = 0;
@@ -40,6 +40,17 @@ namespace MyLibrary.Presenters.Excel
                         numberExported.Report(++count);
                 }
             });
+
+            // autofit some columns
+            this._view.AutofitColumn(2);
+            this._view.AutofitColumn(4);
+            this._view.AutofitColumn(5);
+            this._view.AutofitColumn(6);
+            this._view.AutofitColumn(7);
+
+            // wrap text and set width for Notes column
+            this._view.WrapText(8);
+            this._view.SetColumnWidth(8, 30);
 
             await this._view.SaveAsync();
         }

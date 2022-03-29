@@ -26,10 +26,10 @@ namespace MyLibrary.Presenters.Excel
             this._view = new BooksExcel(file);
         }
 
-        public async override Task WriteEntities(IProgress<int> numberExported)
+        public async override Task RenderExcel(IProgress<int> numberExported)
         {
+            // write data
             var allItems = await this._bookService.GetAll();
-
             await Task.Run(() =>
             {
                 int count = 0;
@@ -40,6 +40,26 @@ namespace MyLibrary.Presenters.Excel
                         numberExported.Report(++count);
                 }
             });
+
+            // autofit some columns
+            int col = 2;
+            this._view.AutofitColumn(col);
+            while (col <= 15)
+            {
+                this._view.AutofitColumn(col);
+                col++;
+            }
+
+            // wrap text and set column width for some columns
+            // Dimensions, Overview, Excerpt, Synopsys, Notes
+            col = 16;
+            while (col <= 19)
+            {
+                this._view.WrapText(col);
+                this._view.SetColumnWidth(col, 30);
+
+                col++;
+            }
 
             await this._view.SaveAsync();
         }

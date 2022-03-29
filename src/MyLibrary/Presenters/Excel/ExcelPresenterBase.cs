@@ -16,7 +16,7 @@ namespace MyLibrary.Presenters.Excel
         /// </summary>
         /// <param name="numberExported"></param>
         /// <returns></returns>
-        public abstract Task WriteEntities(IProgress<int> numberExported);
+        public abstract Task RenderExcel(IProgress<int> numberExported);
 
         internal static ExcelPresenterBase Factory(string type, IExcelFile file)
         {
