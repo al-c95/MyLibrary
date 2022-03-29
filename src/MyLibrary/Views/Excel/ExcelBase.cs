@@ -84,7 +84,7 @@ namespace MyLibrary.Views.Excel
             this._ws.Cells["A3"].Value = "App Version:";
             this._ws.Cells["B3"].Value = Configuration.APP_VERSION.ToString();
             this._ws.Cells["A4"].Value = "Extracted At:";
-            this._ws.Cells["B4"].Value = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+            this._ws.Cells["B4"].Value = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss");
             this._ws.Cells["A1:B4"].StyleName = HEADER_AND_META_STYLE;
             this._ws.Cells["A1:B4"].AutoFitColumns();
             // write Id col header
