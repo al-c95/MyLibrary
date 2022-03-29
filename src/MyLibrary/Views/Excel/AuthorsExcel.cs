@@ -48,8 +48,6 @@ namespace MyLibrary.Views.Excel
             {
                 WriteOddRow(this._currRow, new object[] { entity.Id, entity.FirstName, entity.LastName });
             }
-
-            this._currRow++;
         }
     }
 }

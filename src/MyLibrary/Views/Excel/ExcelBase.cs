@@ -108,20 +108,23 @@ namespace MyLibrary.Views.Excel
 
         protected void WriteEvenRow(int row, object[] values)
         {
-            for (int i = 1; i <= values.Length; i++)
-            {
-                this._ws.Cells[row, i].Value = values[i-1];
-                this._ws.Cells[row, i].StyleName = EVEN_ROW_STYLE;
-            }
+            WriteRow(row, values, EVEN_ROW_STYLE);
         }
 
         protected void WriteOddRow(int row, object[] values)
         {
+            WriteRow(row, values, ODD_ROW_STYLE);
+        }
+
+        private void WriteRow(int row, object[] values, string styleName)
+        {
             for (int i = 1; i <= values.Length; i++)
             {
-                this._ws.Cells[row, i].Value = values[i-1];
-                this._ws.Cells[row, i].StyleName = ODD_ROW_STYLE;
+                this._ws.Cells[row, i].Value = values[i - 1];
+                this._ws.Cells[row, i].StyleName = styleName;
             }
+
+            this._currRow++;
         }
 
         /// <summary>

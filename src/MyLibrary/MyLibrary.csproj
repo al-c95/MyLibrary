@@ -288,6 +288,12 @@
     </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
+    <Compile Include="Presenters\Excel\AuthorExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\BooksExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\ExcelPresenterBase.cs" />
+    <Compile Include="Presenters\Excel\MediaItemExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\PublisherExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\TagExcelPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Presenters\ManageCopiesPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
