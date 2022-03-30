@@ -9,40 +9,41 @@ using MyLibrary.Views.Excel;
 
 namespace MyLibrary.Presenters.Excel
 {
-    public class AuthorExcelPresenter : ExcelPresenterBase
+    public class WishlistExcelPresenter : ExcelPresenterBase
     {
-        protected readonly IAuthorService _authorService;
-        protected readonly AuthorsExcel _excel;
+        protected readonly IWishlistService _wishlistService;
+        protected readonly WishlistExcel _excel;
 
-        public AuthorExcelPresenter(IAuthorService authorService, AuthorsExcel excel)
+        public WishlistExcelPresenter(IWishlistService wishlistService, WishlistExcel excel)
         {
-            this._authorService = authorService;
+            this._wishlistService = wishlistService;
             this._excel = excel;
         }
 
-        public AuthorExcelPresenter(IExcelFile file)
+        public WishlistExcelPresenter(IExcelFile file)
         {
-            this._authorService = new AuthorService();
-            this._excel = new AuthorsExcel(file);
+            this._wishlistService = new WishlistService();
+            this._excel = new WishlistExcel(file);
         }
 
         public async override Task RenderExcel(IProgress<int> numberExported)
         {
-            var allAuthors = await this._authorService.GetAll();
+            var allItems = await this._wishlistService.GetAll();
 
             await Task.Run(() =>
             {
                 int count = 0;
-                foreach (var author in allAuthors)
+                foreach (var item in allItems)
                 {
-                    this._excel.WriteEntity(author);
+                    this._excel.WriteEntity(item);
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
             });
 
-            this._excel.AutofitColumn(2);
             this._excel.AutofitColumn(3);
+            this._excel.WrapText(4);
+            this._excel.SetColumnWidth(4, 50);
 
             await this._excel.SaveAsync();
         }

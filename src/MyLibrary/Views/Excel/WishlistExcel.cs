@@ -29,31 +29,23 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.Views.Excel
 {
-    public class MediaItemsExcel : ExcelBase<MediaItem>
+    public class WishlistExcel : ExcelBase<WishlistItem>
     {
-        public MediaItemsExcel(IExcelFile file)
-            :base("Media Items", file)
+        public WishlistExcel(IExcelFile file)
+            :base("Wishlist", file)
         {
-            WriteHeaderCell("Title", "B");
-            WriteHeaderCell("Type", "C");
-            WriteHeaderCell("Number", "D");
-            WriteHeaderCell("Running Time", "E");
-            WriteHeaderCell("Release Year", "F");
-            WriteHeaderCell("Tags", "G");
-            WriteHeaderCell("Notes", "H");
+            WriteHeaderCell("Type", "B");
+            WriteHeaderCell("Title", "C");
+            WriteHeaderCell("Notes", "D");
         }
 
-        public override void WriteEntity(MediaItem entity)
+        public override void WriteEntity(WishlistItem entity)
         {
             object[] values = new object[]
             {
                 entity.Id,
+                entity.Type,
                 entity.Title,
-                entity.Type.ToString(),
-                entity.Number,
-                entity.RunningTime,
-                entity.ReleaseYear,
-                entity.GetCommaDelimitedTags(),
                 entity.Notes
             };
             if (this._currRow % 2 == 0)
@@ -64,7 +56,6 @@ namespace MyLibrary.Views.Excel
             {
                 WriteOddRow(this._currRow, values);
             }
-            this._ws.Cells[this._currRow, 4].Style.Numberformat.Format = "@";
         }
     }
 }

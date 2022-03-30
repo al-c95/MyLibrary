@@ -93,9 +93,18 @@ namespace MyLibrary
             this.pathField.Enabled = false;
 
             // do the work and save the file
-            ExcelFile file = new ExcelFile(path);
-            MyLibrary.Presenters.Excel.ExcelPresenterBase excelPresenter = MyLibrary.Presenters.Excel.ExcelPresenterBase.Factory(this._type, file);
-            await excelPresenter.RenderExcel(numberExported);
+            try
+            {
+                ExcelFile file = new ExcelFile(path);
+                MyLibrary.Presenters.Excel.ExcelPresenterBase excelPresenter = MyLibrary.Presenters.Excel.ExcelPresenterBase.GetExcelPresenter(this._type, file);
+                await excelPresenter.RenderExcel(numberExported);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error exporting", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                this.label1.Text = "Task aborted.";
+            }
 
             // finished
             this.label1.Text = "Task complete.";

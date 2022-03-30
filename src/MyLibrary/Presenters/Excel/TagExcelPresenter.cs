@@ -12,18 +12,18 @@ namespace MyLibrary.Presenters.Excel
     public class TagExcelPresenter : ExcelPresenterBase
     {
         protected readonly ITagService _tagService;
-        protected readonly TagsExcel _view;
+        protected readonly TagsExcel _excel;
 
-        public TagExcelPresenter(ITagService tagService, TagsExcel view)
+        public TagExcelPresenter(ITagService tagService, TagsExcel excel)
         {
             this._tagService = tagService;
-            this._view = view;
+            this._excel = excel;
         }
 
         public TagExcelPresenter(IExcelFile file)
         {
             this._tagService = new TagService();
-            this._view = new TagsExcel(file);
+            this._excel = new TagsExcel(file);
         }
 
         public async override Task RenderExcel(IProgress<int> numberExported)
@@ -35,15 +35,15 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var tag in allTags)
                 {
-                    this._view.WriteEntity(tag);
+                    this._excel.WriteEntity(tag);
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
             });
 
-            this._view.AutofitColumn(2);
+            this._excel.AutofitColumn(2);
 
-            await this._view.SaveAsync();
+            await this._excel.SaveAsync();
         }
     }
 }

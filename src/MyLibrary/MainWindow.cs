@@ -367,6 +367,11 @@ namespace MyLibrary
                 ExportDialog dialog = new ExportDialog("publisher");
                 dialog.ShowDialog();
             });
+            this.exportWishlistMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog("wishlist");
+                dialog.ShowDialog();
+            });
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
 

@@ -12,18 +12,18 @@ namespace MyLibrary.Presenters.Excel
     public class MediaItemExcelPresenter : ExcelPresenterBase
     {
         protected readonly IMediaItemService _mediaItemService;
-        protected readonly MediaItemsExcel _view;
+        protected readonly MediaItemsExcel _excel;
 
-        public MediaItemExcelPresenter(IMediaItemService tagService, MediaItemsExcel view)
+        public MediaItemExcelPresenter(IMediaItemService tagService, MediaItemsExcel excel)
         {
             this._mediaItemService = tagService;
-            this._view = view;
+            this._excel = excel;
         }
 
         public MediaItemExcelPresenter(IExcelFile file)
         {
             this._mediaItemService = new MediaItemService();
-            this._view = new MediaItemsExcel(file);
+            this._excel = new MediaItemsExcel(file);
         }
 
         public async override Task RenderExcel(IProgress<int> numberExported)
@@ -35,24 +35,24 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var item in allItems)
                 {
-                    this._view.WriteEntity(item);
+                    this._excel.WriteEntity(item);
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
             });
 
             // autofit some columns
-            this._view.AutofitColumn(2);
-            this._view.AutofitColumn(4);
-            this._view.AutofitColumn(5);
-            this._view.AutofitColumn(6);
-            this._view.AutofitColumn(7);
+            this._excel.AutofitColumn(2);
+            this._excel.AutofitColumn(4);
+            this._excel.AutofitColumn(5);
+            this._excel.AutofitColumn(6);
+            this._excel.AutofitColumn(7);
 
             // wrap text and set width for Notes column
-            this._view.WrapText(8);
-            this._view.SetColumnWidth(8, 30);
+            this._excel.WrapText(8);
+            this._excel.SetColumnWidth(8, 30);
 
-            await this._view.SaveAsync();
+            await this._excel.SaveAsync();
         }
     }
 }
