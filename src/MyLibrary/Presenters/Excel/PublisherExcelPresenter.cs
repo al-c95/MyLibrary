@@ -12,18 +12,18 @@ namespace MyLibrary.Presenters.Excel
     public class PublisherExcelPresenter : ExcelPresenterBase
     {
         protected readonly IPublisherService _publisherService;
-        protected readonly PublishersExcel _view;
+        protected readonly PublishersExcel _excel;
 
-        public PublisherExcelPresenter(IPublisherService publisherService, PublishersExcel view)
+        public PublisherExcelPresenter(IPublisherService publisherService, PublishersExcel excel)
         {
             this._publisherService = publisherService;
-            this._view = view;
+            this._excel = excel;
         }
 
         public PublisherExcelPresenter(IExcelFile file)
         {
             this._publisherService = new PublisherService();
-            this._view = new PublishersExcel(file);
+            this._excel = new PublishersExcel(file);
         }
 
         public async override Task RenderExcel(IProgress<int> numberExported)
@@ -35,15 +35,15 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var publisher in allPublishers)
                 {
-                    this._view.WriteEntity(publisher);
+                    this._excel.WriteEntity(publisher);
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
             });
 
-            this._view.AutofitColumn(2);
+            this._excel.AutofitColumn(2);
 
-            await this._view.SaveAsync();
+            await this._excel.SaveAsync();
         }
     }
 }

@@ -294,6 +294,7 @@
     <Compile Include="Presenters\Excel\MediaItemExcelPresenter.cs" />
     <Compile Include="Presenters\Excel\PublisherExcelPresenter.cs" />
     <Compile Include="Presenters\Excel\TagExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\WishlistExcelPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Presenters\ManageCopiesPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
@@ -321,6 +322,7 @@
     <Compile Include="Views\Excel\MediaItemsExcel.cs" />
     <Compile Include="Views\Excel\PublishersExcel.cs" />
     <Compile Include="Views\Excel\TagsExcel.cs" />
+    <Compile Include="Views\Excel\WishlistExcel.cs" />
     <Compile Include="Views\IAddItemForm.cs" />
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />

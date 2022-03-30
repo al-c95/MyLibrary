@@ -18,7 +18,7 @@ namespace MyLibrary.Presenters.Excel
         /// <returns></returns>
         public abstract Task RenderExcel(IProgress<int> numberExported);
 
-        internal static ExcelPresenterBase Factory(string type, IExcelFile file)
+        internal static ExcelPresenterBase GetExcelPresenter(string type, IExcelFile file)
         {
             switch (type)
             {
@@ -32,6 +32,8 @@ namespace MyLibrary.Presenters.Excel
                     return new MediaItemExcelPresenter(file);
                 case "book":
                     return new BookExcelPresenter(file);
+                case "wishlist":
+                    return new WishlistExcelPresenter(file);
                 default:
                     throw new Exception("Unknown export type: " + type);
             }

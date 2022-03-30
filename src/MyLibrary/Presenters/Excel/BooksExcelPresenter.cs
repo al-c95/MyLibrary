@@ -12,18 +12,18 @@ namespace MyLibrary.Presenters.Excel
     public class BookExcelPresenter : ExcelPresenterBase
     {
         protected readonly IBookService _bookService;
-        protected readonly BooksExcel _view;
+        protected readonly BooksExcel _excel;
 
-        public BookExcelPresenter(IBookService bookService, BooksExcel view)
+        public BookExcelPresenter(IBookService bookService, BooksExcel excel)
         {
             this._bookService = bookService;
-            this._view = view;
+            this._excel = excel;
         }
 
         public BookExcelPresenter(IExcelFile file)
         {
             this._bookService = new BookService();
-            this._view = new BooksExcel(file);
+            this._excel = new BooksExcel(file);
         }
 
         public async override Task RenderExcel(IProgress<int> numberExported)
@@ -35,7 +35,7 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var item in allItems)
                 {
-                    this._view.WriteEntity(item);
+                    this._excel.WriteEntity(item);
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
@@ -43,10 +43,10 @@ namespace MyLibrary.Presenters.Excel
 
             // autofit some columns
             int col = 2;
-            this._view.AutofitColumn(col);
+            this._excel.AutofitColumn(col);
             while (col <= 15)
             {
-                this._view.AutofitColumn(col);
+                this._excel.AutofitColumn(col);
                 col++;
             }
 
@@ -55,13 +55,13 @@ namespace MyLibrary.Presenters.Excel
             col = 16;
             while (col <= 19)
             {
-                this._view.WrapText(col);
-                this._view.SetColumnWidth(col, 30);
+                this._excel.WrapText(col);
+                this._excel.SetColumnWidth(col, 30);
 
                 col++;
             }
 
-            await this._view.SaveAsync();
+            await this._excel.SaveAsync();
         }
     }
 }

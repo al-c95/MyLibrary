@@ -93,6 +93,7 @@ namespace MyLibrary
             this.authorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.booksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportWishlistMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -709,7 +710,8 @@ namespace MyLibrary
             this.publishersToolStripMenuItem,
             this.authorsToolStripMenuItem,
             this.booksToolStripMenuItem1,
-            this.mediaItemsToolStripMenuItem});
+            this.mediaItemsToolStripMenuItem,
+            this.exportWishlistMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exportToolStripMenuItem.Text = "Export";
@@ -743,6 +745,11 @@ namespace MyLibrary
             this.mediaItemsToolStripMenuItem.Name = "mediaItemsToolStripMenuItem";
             this.mediaItemsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.mediaItemsToolStripMenuItem.Text = "Media items";
+            //
+            // exportWishlistMenuItem
+            this.exportWishlistMenuItem.Name = "exportWishlistMenuItem";
+            this.exportWishlistMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportWishlistMenuItem.Text = "Wishlist";
             // 
             // MainWindow
             // 
@@ -841,6 +848,7 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem authorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mediaItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportWishlistMenuItem;
     }
 }
 
