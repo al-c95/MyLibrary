@@ -102,7 +102,10 @@ namespace MyLibrary.Presenters.Excel
 
             // subscribe to dialog view's events
             this._dialog.BrowseButtonClicked += BrowseButtonClicked;
-            this._dialog.StartButtonClicked += StartButtonClicked;
+            this._dialog.StartButtonClicked += (async (sender, args) =>
+            {
+                await HandleStartButtonClicked(sender, args);
+            });
             this._dialog.Cancelled += Closed;
 
             this._dialog.Title = "Export " + this._type + "s";
@@ -123,7 +126,7 @@ namespace MyLibrary.Presenters.Excel
             }
         }
 
-        public async void StartButtonClicked(object sender, EventArgs e)
+        public async Task HandleStartButtonClicked(object sender, EventArgs e)
         {
             string path = this._dialog.Path;
 
@@ -208,7 +211,7 @@ namespace MyLibrary.Presenters.Excel
         /// </summary>
         /// <param name="numberExported"></param>
         /// <returns></returns>
-        public abstract Task RenderExcel(IProgress<int> numberExported);
+        protected abstract Task RenderExcel(IProgress<int> numberExported);
 
         public void Dispose()
         {

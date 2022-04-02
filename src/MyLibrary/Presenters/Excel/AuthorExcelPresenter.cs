@@ -55,7 +55,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("C", "Last Name");
         }
 
-        public async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allAuthors = await this._authorService.GetAll();
 

@@ -71,7 +71,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("S", "Notes");
         }
 
-        public async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             // write data
             var allItems = await this._bookService.GetAll();
