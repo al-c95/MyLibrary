@@ -344,32 +344,38 @@ namespace MyLibrary
             // export XLSX
             this.tagsToolStripMenuItem.Click += ((sender, args) =>
             {
-                ExportDialog dialog = new ExportDialog("tag");
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog);
                 dialog.ShowDialog();
             });
             this.booksToolStripMenuItem1.Click += ((sender, args) =>
             {
-                ExportDialog dialog = new ExportDialog("book");
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog);
                 dialog.ShowDialog();
             });
             this.authorsToolStripMenuItem.Click += ((sender, args) =>
             {
-                ExportDialog dialog = new ExportDialog("author");
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog);
                 dialog.ShowDialog();
             });
             this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
             {
-                ExportDialog dialog = new ExportDialog("media item");
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog);
                 dialog.ShowDialog();
             });
             this.publishersToolStripMenuItem.Click += ((sender, args) =>
             {
-                ExportDialog dialog = new ExportDialog("publisher");
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog);
                 dialog.ShowDialog();
             });
             this.exportWishlistMenuItem.Click += ((sender, args) =>
             {
-                ExportDialog dialog = new ExportDialog("wishlist");
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog);
                 dialog.ShowDialog();
             });
             // select viewing books by default

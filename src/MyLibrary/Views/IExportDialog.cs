@@ -25,37 +25,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Views.Excel
+namespace MyLibrary.Views
 {
-    public class WishlistExcel : ExcelBase<WishlistItem>
+    public interface IExportDialog
     {
-        public WishlistExcel(IExcelFile file)
-            :base("Wishlist", file)
-        {
-            WriteHeaderCell("Type", "B");
-            WriteHeaderCell("Title", "C");
-            WriteHeaderCell("Notes", "D");
-        }
+        string Title { get; set; }
+        string Label1 { get; set; }
+        string Label2 { get; set; }
+        string Path { get; set; }
+        Boolean BrowseButtonEnabled { get; set; }
+        Boolean StartButtonEnabled { get; set; }
+        Boolean CancelButtonEnabled { get; set; }
+        Boolean PathFieldEnabled { get; set; }
 
-        public override void WriteEntity(WishlistItem entity)
-        {
-            object[] values = new object[]
-            {
-                entity.Id,
-                entity.Type,
-                entity.Title,
-                entity.Notes
-            };
-            if (this._currRow % 2 == 0)
-            {
-                WriteEvenRow(this._currRow, values);
-            }
-            else
-            {
-                WriteOddRow(this._currRow, values);
-            }
-        }
+        string ShowFolderBrowserDialog(string type);
+        void ShowErrorDialog(string message);
+
+        event EventHandler BrowseButtonClicked;
+        event EventHandler StartButtonClicked;
+        event EventHandler Cancelled;
     }
 }
