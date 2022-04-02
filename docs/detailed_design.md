@@ -57,7 +57,7 @@ This document describes some of the detail of the data, architecture and user in
 |title    |TEXT         |No          |               |
 |type     |INTEGER      |No          |               |
 |imageId    |INTEGER         |Yes         |Foreign key, references (Images)id.               |
-|runningTime|INTEGER    |No          |               |
+|runningTime|INTEGER    |Yes          |               |
 |releaseYear|INTEGER    |No          |               |
 |notes    |TEXT         |Yes         |Free text field to write anything you like.|
 &nbsp;
@@ -104,7 +104,7 @@ This document describes some of the detail of the data, architecture and user in
 |**Field**|**Data Type**|**Nullable**|**Comments/Description**|
 |---------|-------------|------------|---------------|
 |id       |INTEGER      |No          |Primary key, autoincremented|
-|title    |TEXT         |No          |               |
+|title    |TEXT         |No          |Unique constraint               |
 |type     |INTEGER      |No          |               |
 |notes    |TEXT         |Yes         |               |
 
