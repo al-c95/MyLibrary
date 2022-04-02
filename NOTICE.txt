@@ -2,6 +2,10 @@ This file contains notices of software components included in this product.
 
 NOTICES:
 
+EPPlus 5.8.8
+------------
+https://polyformproject.org/licenses/noncommercial/1.0.0/
+
 Newtonsoft.Json 13.0.1
 ----------------------
 The MIT License (MIT)
