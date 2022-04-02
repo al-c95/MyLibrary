@@ -153,6 +153,11 @@ namespace MyLibrary.Models.BusinessLogic
             return exists;
         }
 
+        /// <summary>
+        /// Checks if a book exists with ISBN10 or ISBN13 as given.
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <returns></returns>
         public async Task<Boolean> ExistsWithIsbn(string isbn)
         {
             bool exists = false;

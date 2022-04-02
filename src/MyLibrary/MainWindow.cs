@@ -323,7 +323,61 @@ namespace MyLibrary
 
                 FiltersUpdated?.Invoke(sender, args);
             });
+            // import CSV
+            this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("tag");
+                dialog.ShowDialog();
 
+                this.TagsUpdated?.Invoke(sender, args);
+            });
+            this.importAuthorsCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("author");
+                dialog.ShowDialog();
+            });
+            this.importPublishersCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("publisher");
+                dialog.ShowDialog();
+            });
+            // export XLSX
+            this.tagsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog);
+                dialog.ShowDialog();
+            });
+            this.booksToolStripMenuItem1.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog);
+                dialog.ShowDialog();
+            });
+            this.authorsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog);
+                dialog.ShowDialog();
+            });
+            this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog);
+                dialog.ShowDialog();
+            });
+            this.publishersToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog);
+                dialog.ShowDialog();
+            });
+            this.exportWishlistMenuItem.Click += ((sender, args) =>
+            {
+                ExportDialog dialog = new ExportDialog();
+                Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog);
+                dialog.ShowDialog();
+            });
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
 
@@ -386,7 +440,7 @@ namespace MyLibrary
             {
                 if (this.dataGrid.SelectedRows.Count == 0)
                     return 0;
-
+                
                 // this is always an integer in the first col
                 return int.Parse(this.dataGrid.SelectedRows[0].Cells[0].Value.ToString());
             }
@@ -455,6 +509,7 @@ namespace MyLibrary
                     SetItemImage(ReadImage(this._selectedItem.Image));
                 }
 
+                Task.Delay(100);
                 this.dataGrid.Enabled = true;
             } 
         }

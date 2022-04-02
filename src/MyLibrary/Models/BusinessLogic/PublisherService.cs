@@ -65,19 +65,19 @@ namespace MyLibrary.Models.BusinessLogic
             return allPublishers;
         }
 
-        public async Task<Boolean> Exists(string name)
+        public async Task<Boolean> ExistsWithName(string name)
         {
             var allPublishers = await GetAll();
             return allPublishers.Any(p => p.Name.Equals(name));
         }
 
-        public async Task Create(Publisher publisher)
+        public async Task Add(Publisher entity)
         {
             await Task.Run(() =>
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IPublisherRepository repo = this._repoProvider.Get(uow);
-                repo.Create(publisher);
+                repo.Create(entity);
                 uow.Dispose();
             });
         }

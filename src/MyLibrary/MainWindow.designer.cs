@@ -36,9 +36,24 @@ namespace MyLibrary
             this.newBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newMediaItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importTagsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importAuthorsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPublishersCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.booksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaItemsAllCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dvdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bluRaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vhssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vinylsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addButton = new System.Windows.Forms.Button();
@@ -72,15 +87,13 @@ namespace MyLibrary
             this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.wishlistButton = new System.Windows.Forms.Button();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.booksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediaItemsAllCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dvdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bluRaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vhssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vinylsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.publishersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.authorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.booksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportWishlistMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -114,6 +127,9 @@ namespace MyLibrary
             this.newBookToolStripMenuItem,
             this.newMediaItemToolStripMenuItem,
             this.toolStripSeparator1,
+            this.importToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.toolStripSeparator3,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(46, 24);
@@ -135,6 +151,47 @@ namespace MyLibrary
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cSVToolStripMenuItem});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // cSVToolStripMenuItem
+            // 
+            this.cSVToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importTagsCsvToolStripMenuItem,
+            this.importAuthorsCsvToolStripMenuItem,
+            this.importPublishersCsvToolStripMenuItem});
+            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(118, 26);
+            this.cSVToolStripMenuItem.Text = "CSV";
+            // 
+            // importTagsCsvToolStripMenuItem
+            // 
+            this.importTagsCsvToolStripMenuItem.Name = "importTagsCsvToolStripMenuItem";
+            this.importTagsCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.importTagsCsvToolStripMenuItem.Text = "Tags";
+            // 
+            // importAuthorsCsvToolStripMenuItem
+            // 
+            this.importAuthorsCsvToolStripMenuItem.Name = "importAuthorsCsvToolStripMenuItem";
+            this.importAuthorsCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.importAuthorsCsvToolStripMenuItem.Text = "Authors";
+            // 
+            // importPublishersCsvToolStripMenuItem
+            // 
+            this.importPublishersCsvToolStripMenuItem.Name = "importPublishersCsvToolStripMenuItem";
+            this.importPublishersCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.importPublishersCsvToolStripMenuItem.Text = "Publishers";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
             // 
             // exitMenuItem
             // 
@@ -164,6 +221,59 @@ namespace MyLibrary
             this.databaseStatisticsToolStripMenuItem.Name = "databaseStatisticsToolStripMenuItem";
             this.databaseStatisticsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.databaseStatisticsToolStripMenuItem.Text = "Database statistics";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(276, 6);
+            // 
+            // booksToolStripMenuItem
+            // 
+            this.booksToolStripMenuItem.Name = "booksToolStripMenuItem";
+            this.booksToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.booksToolStripMenuItem.Text = "Books";
+            // 
+            // mediaItemsAllCategoriesToolStripMenuItem
+            // 
+            this.mediaItemsAllCategoriesToolStripMenuItem.Name = "mediaItemsAllCategoriesToolStripMenuItem";
+            this.mediaItemsAllCategoriesToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.mediaItemsAllCategoriesToolStripMenuItem.Text = "Media Items (All categories)";
+            // 
+            // cdsToolStripMenuItem
+            // 
+            this.cdsToolStripMenuItem.Name = "cdsToolStripMenuItem";
+            this.cdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.cdsToolStripMenuItem.Text = "Cds";
+            // 
+            // dvdsToolStripMenuItem
+            // 
+            this.dvdsToolStripMenuItem.Name = "dvdsToolStripMenuItem";
+            this.dvdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.dvdsToolStripMenuItem.Text = "Dvds";
+            // 
+            // bluRaysToolStripMenuItem
+            // 
+            this.bluRaysToolStripMenuItem.Name = "bluRaysToolStripMenuItem";
+            this.bluRaysToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.bluRaysToolStripMenuItem.Text = "BluRays";
+            // 
+            // vhssToolStripMenuItem
+            // 
+            this.vhssToolStripMenuItem.Name = "vhssToolStripMenuItem";
+            this.vhssToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.vhssToolStripMenuItem.Text = "Vhss";
+            // 
+            // vinylsToolStripMenuItem
+            // 
+            this.vinylsToolStripMenuItem.Name = "vinylsToolStripMenuItem";
+            this.vinylsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.vinylsToolStripMenuItem.Text = "Vinyls";
+            // 
+            // otherToolStripMenuItem
+            // 
+            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.otherToolStripMenuItem.Text = "Other";
             // 
             // helpMenu
             // 
@@ -593,58 +703,53 @@ namespace MyLibrary
             this.wishlistButton.Text = "Wishlist";
             this.wishlistButton.UseVisualStyleBackColor = true;
             // 
-            // toolStripSeparator2
+            // exportToolStripMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(276, 6);
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tagsToolStripMenuItem,
+            this.publishersToolStripMenuItem,
+            this.authorsToolStripMenuItem,
+            this.booksToolStripMenuItem1,
+            this.mediaItemsToolStripMenuItem,
+            this.exportWishlistMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportToolStripMenuItem.Text = "Export";
             // 
-            // booksToolStripMenuItem
+            // tagsToolStripMenuItem
             // 
-            this.booksToolStripMenuItem.Name = "booksToolStripMenuItem";
-            this.booksToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.booksToolStripMenuItem.Text = "Books";
+            this.tagsToolStripMenuItem.Name = "tagsToolStripMenuItem";
+            this.tagsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.tagsToolStripMenuItem.Text = "Tags";
             // 
-            // mediaItemsAllCategoriesToolStripMenuItem
+            // publishersToolStripMenuItem
             // 
-            this.mediaItemsAllCategoriesToolStripMenuItem.Name = "mediaItemsAllCategoriesToolStripMenuItem";
-            this.mediaItemsAllCategoriesToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.mediaItemsAllCategoriesToolStripMenuItem.Text = "Media Items (All categories)";
+            this.publishersToolStripMenuItem.Name = "publishersToolStripMenuItem";
+            this.publishersToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.publishersToolStripMenuItem.Text = "Publishers";
             // 
-            // cdsToolStripMenuItem
+            // authorsToolStripMenuItem
             // 
-            this.cdsToolStripMenuItem.Name = "cdsToolStripMenuItem";
-            this.cdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.cdsToolStripMenuItem.Text = "Cds";
+            this.authorsToolStripMenuItem.Name = "authorsToolStripMenuItem";
+            this.authorsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.authorsToolStripMenuItem.Text = "Authors";
             // 
-            // dvdsToolStripMenuItem
+            // booksToolStripMenuItem1
             // 
-            this.dvdsToolStripMenuItem.Name = "dvdsToolStripMenuItem";
-            this.dvdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.dvdsToolStripMenuItem.Text = "Dvds";
+            this.booksToolStripMenuItem1.Name = "booksToolStripMenuItem1";
+            this.booksToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.booksToolStripMenuItem1.Text = "Books";
             // 
-            // bluRaysToolStripMenuItem
+            // mediaItemsToolStripMenuItem
             // 
-            this.bluRaysToolStripMenuItem.Name = "bluRaysToolStripMenuItem";
-            this.bluRaysToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.bluRaysToolStripMenuItem.Text = "BluRays";
-            // 
-            // vhssToolStripMenuItem
-            // 
-            this.vhssToolStripMenuItem.Name = "vhssToolStripMenuItem";
-            this.vhssToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.vhssToolStripMenuItem.Text = "Vhss";
-            // 
-            // vinylsToolStripMenuItem
-            // 
-            this.vinylsToolStripMenuItem.Name = "vinylsToolStripMenuItem";
-            this.vinylsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.vinylsToolStripMenuItem.Text = "Vinyls";
-            // 
-            // otherToolStripMenuItem
-            // 
-            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.otherToolStripMenuItem.Text = "Other";
+            this.mediaItemsToolStripMenuItem.Name = "mediaItemsToolStripMenuItem";
+            this.mediaItemsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.mediaItemsToolStripMenuItem.Text = "Media items";
+            //
+            // exportWishlistMenuItem
+            this.exportWishlistMenuItem.Name = "exportWishlistMenuItem";
+            this.exportWishlistMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportWishlistMenuItem.Text = "Wishlist";
             // 
             // MainWindow
             // 
@@ -731,6 +836,19 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem vhssToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vinylsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cSVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem importTagsCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importAuthorsCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importPublishersCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tagsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem publishersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem authorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mediaItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportWishlistMenuItem;
     }
 }
 

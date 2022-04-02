@@ -28,8 +28,8 @@ namespace MyLibrary.Models.BusinessLogic
 {
     public interface IPublisherService
     {
-        Task Create(Publisher publisher);
-        Task<bool> Exists(string name);
+        Task Add(Publisher entity);
+        Task<bool> ExistsWithName(string name);
         Task<IEnumerable<Publisher>> GetAll();
     }
 }

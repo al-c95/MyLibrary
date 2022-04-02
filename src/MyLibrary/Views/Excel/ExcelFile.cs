@@ -25,38 +25,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeOpenXml;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Views.Excel
 {
-    public sealed class Tag : Entity
+    public class ExcelFile : IExcelFile
     {
-        private string _name;
-        public string Name
+        public ExcelFile()
         {
-            get => this._name;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Tag can't be empty.");
-                else
-                {
-                    if (!Validate(value))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
-                }
-            }//set
-        }//Name
 
-        public static bool Validate(string name)
-        {
-            return !(name.Contains(", ") || name.Contains(","));
         }
 
-        public ICollection<Item> Items { get; set; }
-    }//class
+        public async Task SaveAsAsync(ExcelPackage excelPackage, string path)
+        {
+            await excelPackage.SaveAsAsync(new System.IO.FileInfo(path));
+        }
+    }
 }
