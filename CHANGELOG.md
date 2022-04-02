@@ -3,6 +3,26 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.2.0] - 2-4-2022
+### Remarks
+First stable version. Previous versions were development versions.
+### Fixed
+- various performance fixes and improvements
+- various user interface enhancements
+- several memory leaks
+- bug with new wishlist item title and notes not being cleared after saving
+- bug with handling authors and publishers when scanning books
+- bug with processing ISBNs with dashes from API
+- bugs with populating authors, tags and publishers when pre-filling add new item forms
+### Added
+- import CSV functionality
+- export as Excel functionality
+- spinner when loading item data
+- filtering for authors and publishers in add new book dialog
+### Changed
+- restructured database to store images in a separate tables
+- better error handling when searching for books using API
+
 ## [1.1.1] - 1-3-2022
 ### Fixed
 - bug with checking if ISBN already exists when adding new book
