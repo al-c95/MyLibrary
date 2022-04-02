@@ -314,18 +314,13 @@
     </Compile>
     <Compile Include="Utils\IImageFileReader.cs" />
     <Compile Include="Utils\ImageFileReader.cs" />
-    <Compile Include="Views\Excel\AuthorsExcel.cs" />
-    <Compile Include="Views\Excel\BooksExcel.cs" />
-    <Compile Include="Views\Excel\ExcelBase.cs" />
+    <Compile Include="Views\Excel\Excel.cs" />
     <Compile Include="Views\Excel\ExcelFile.cs" />
     <Compile Include="Views\Excel\IExcelFile.cs" />
-    <Compile Include="Views\Excel\MediaItemsExcel.cs" />
-    <Compile Include="Views\Excel\PublishersExcel.cs" />
-    <Compile Include="Views\Excel\TagsExcel.cs" />
-    <Compile Include="Views\Excel\WishlistExcel.cs" />
     <Compile Include="Views\IAddItemForm.cs" />
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
+    <Compile Include="Views\IExportDialog.cs" />
     <Compile Include="Views\IItemView.cs" />
     <Compile Include="Views\IManageCopiesForm.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />

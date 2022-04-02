@@ -31,16 +31,14 @@ namespace MyLibrary.Views.Excel
 {
     public class ExcelFile : IExcelFile
     {
-        protected readonly System.IO.FileInfo _fi;
-
-        public ExcelFile(string filePath)
+        public ExcelFile()
         {
-            this._fi = new System.IO.FileInfo(filePath);
+
         }
 
-        public async Task SaveAsAsync(ExcelPackage excelPackage)
+        public async Task SaveAsAsync(ExcelPackage excelPackage, string path)
         {
-            await excelPackage.SaveAsAsync(this._fi);
+            await excelPackage.SaveAsAsync(new System.IO.FileInfo(path));
         }
     }
 }

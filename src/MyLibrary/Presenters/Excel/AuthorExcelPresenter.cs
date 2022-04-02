@@ -1,4 +1,26 @@
-﻿using System;
+﻿//MIT License
+
+//Copyright (c) 2021
+
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,18 +34,25 @@ namespace MyLibrary.Presenters.Excel
     public class AuthorExcelPresenter : ExcelPresenterBase
     {
         protected readonly IAuthorService _authorService;
-        protected readonly AuthorsExcel _excel;
 
-        public AuthorExcelPresenter(IAuthorService authorService, AuthorsExcel excel)
+        public AuthorExcelPresenter(IAuthorService authorService, IExcelFile file, Views.IExportDialog dialog)
+            :base("Author",file,dialog)
         {
             this._authorService = authorService;
-            this._excel = excel;
+            WriteHeaders();
         }
 
-        public AuthorExcelPresenter(IExcelFile file)
+        public AuthorExcelPresenter(Views.IExportDialog dialog)
+            :base("Author",new ExcelFile(),dialog)
         {
             this._authorService = new AuthorService();
-            this._excel = new AuthorsExcel(file);
+            WriteHeaders();
+        }
+
+        protected override void WriteHeaders()
+        {
+            WriteHeaderCell("B", "First Name");
+            WriteHeaderCell("C", "Last Name");
         }
 
         public async override Task RenderExcel(IProgress<int> numberExported)
@@ -35,16 +64,21 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var author in allAuthors)
                 {
-                    this._excel.WriteEntity(author);
+                    WriteEntityRow(new object[]
+                    {
+                        author.Id,
+                        author.FirstName,
+                        author.LastName
+                    });
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
             });
 
-            this._excel.AutofitColumn(2);
-            this._excel.AutofitColumn(3);
+            AutoFitColumn(2);
+            AutoFitColumn(3);
 
-            await this._excel.SaveAsync();
+            await this._excel.SaveAsync(this._file, this._dialog.Path);
         }
     }
 }

@@ -31,83 +31,113 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
+using MyLibrary.Views;
 using MyLibrary.Views.Excel;
 
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class ExportDialog : Form
+    public partial class ExportDialog : Form, IExportDialog
     {
-        private string _type;
-
-        public ExportDialog(string type)
+        public ExportDialog()
         {
             InitializeComponent();
 
             this.CenterToParent();
 
-            this.Text = "Export " + type + "s";
-            this._type = type;
-
-            this.label1.Text = "";
-            this.label2.Text = "";
-
-            this.startButton.Enabled = false;
-
             // register event handlers
             this.browseButton.Click += ((sender, args) =>
             {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    this.pathField.Text = dialog.SelectedPath + @"\" + type + "s_export.xlsx";
-
-                    this.startButton.Enabled = true;
-                }
-                else
-                {
-                    return;
-                }
+                this.BrowseButtonClicked?.Invoke(sender, args);
             });
-            this.startButton.Click += (async (sender, args) =>
+            this.startButton.Click += ((sender, args) =>
             {
-                var numberExported = new Progress<int>(p =>
-                {
-                    this.label2.Text = p + " rows exported";
-                });
-                await Process(numberExported);
+                this.StartButtonClicked?.Invoke(sender, args);
             });
             this.cancelButton.Click += ((sender, args) =>
             {
-                this.Close();
+                CloseDialog(sender, args);
+            });
+            this.FormClosed += ((sender, args) =>
+            {
+                CloseDialog(sender, args);
             });
         }
 
-        public async Task Process(IProgress<int> numberExported)
+        private void CloseDialog(object sender, EventArgs args)
         {
-            string path = this.pathField.Text;
-
-            this.label1.Text = "Exporting...";
-            this.startButton.Enabled = false;
-            this.browseButton.Enabled = false;
-            this.pathField.Enabled = false;
-
-            // do the work and save the file
-            try
-            {
-                ExcelFile file = new ExcelFile(path);
-                MyLibrary.Presenters.Excel.ExcelPresenterBase excelPresenter = MyLibrary.Presenters.Excel.ExcelPresenterBase.GetExcelPresenter(this._type, file);
-                await excelPresenter.RenderExcel(numberExported);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error exporting", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                this.label1.Text = "Task aborted.";
-            }
-
-            // finished
-            this.label1.Text = "Task complete.";
+            this.Cancelled?.Invoke(sender, args);
+            this.Close();
         }
-    }
+
+        public string Title
+        {
+            get => this.Text;
+            set => this.Text = value;
+        }
+
+        public string Label1
+        {
+            get => this.label1.Text;
+            set => this.label1.Text = value;
+        }
+
+        public string Label2 
+        {
+            get => this.label2.Text;
+            set => this.label2.Text = value; 
+        }
+
+        public string Path 
+        {
+            get => this.pathField.Text;
+            set => this.pathField.Text=value; 
+        }
+
+        public bool BrowseButtonEnabled 
+        {
+            get => this.browseButton.Enabled;
+            set => this.browseButton.Enabled = value; 
+        }
+
+        public bool StartButtonEnabled 
+        {
+            get => this.startButton.Enabled;
+            set => this.startButton.Enabled = value; 
+        }
+
+        public bool CancelButtonEnabled 
+        {
+            get => this.cancelButton.Enabled;
+            set => this.cancelButton.Enabled = value;
+        }
+
+        public bool PathFieldEnabled
+        {
+            get => this.pathField.Enabled;
+            set => this.pathField.Enabled = value;
+        }
+
+        public event EventHandler BrowseButtonClicked;
+        public event EventHandler StartButtonClicked;
+        public event EventHandler Cancelled;
+
+        public string ShowFolderBrowserDialog(string type)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.SelectedPath + @"\" + type + "s_export.xlsx";
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void ShowErrorDialog(string message)
+        {
+            MessageBox.Show("Error exporting", message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }//class
 }

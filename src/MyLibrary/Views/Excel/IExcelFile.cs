@@ -27,6 +27,6 @@ namespace MyLibrary.Views.Excel
 {
     public interface IExcelFile
     {
-        Task SaveAsAsync(ExcelPackage excelPackage);
+        Task SaveAsAsync(ExcelPackage excelPackage, string path);
     }
 }

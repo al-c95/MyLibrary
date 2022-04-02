@@ -25,46 +25,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
+using System.Drawing;
+using OfficeOpenXml;
 
 namespace MyLibrary.Views.Excel
 {
-    public class MediaItemsExcel : ExcelBase<MediaItem>
+    public class Excel : IDisposable
     {
-        public MediaItemsExcel(IExcelFile file)
-            :base("Media Items", file)
+        protected ExcelPackage _pck;
+        protected ExcelWorksheet _ws;
+
+        public ExcelPackage Package => this._pck;
+
+        public ExcelWorksheet Worksheet
         {
-            WriteHeaderCell("Title", "B");
-            WriteHeaderCell("Type", "C");
-            WriteHeaderCell("Number", "D");
-            WriteHeaderCell("Running Time", "E");
-            WriteHeaderCell("Release Year", "F");
-            WriteHeaderCell("Tags", "G");
-            WriteHeaderCell("Notes", "H");
+            get => this._ws;
+            set => this._ws = value;
         }
 
-        public override void WriteEntity(MediaItem entity)
+        /// <summary>
+        /// Constructor. Creates worksheet and adds named styles.
+        /// </summary>
+        public Excel()
         {
-            object[] values = new object[]
-            {
-                entity.Id,
-                entity.Title,
-                entity.Type.ToString(),
-                entity.Number,
-                entity.RunningTime,
-                entity.ReleaseYear,
-                entity.GetCommaDelimitedTags(),
-                entity.Notes
-            };
-            if (this._currRow % 2 == 0)
-            {
-                WriteEvenRow(this._currRow, values);
-            }
-            else
-            {
-                WriteOddRow(this._currRow, values);
-            }
-            this._ws.Cells[this._currRow, 4].Style.Numberformat.Format = "@";
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            this._pck = new ExcelPackage();
+        }//ctor
+
+        public async Task SaveAsync(IExcelFile file, string path)
+        {
+            await file.SaveAsAsync(this._pck, path);
+            this.Dispose();
         }
-    }
+
+        public void Dispose()
+        {
+            this._ws?.Dispose();
+            this._pck?.Dispose();
+        }
+    }//class
 }
