@@ -53,12 +53,19 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=5.8.8.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.8.8\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Sqlite, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Sqlite.Core.6.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="SQLitePCLRaw.batteries_v2, Version=2.0.6.1341, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_e_sqlite3.2.0.6\lib\net461\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
@@ -71,6 +78,9 @@
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -94,6 +104,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -180,6 +192,18 @@
     <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\WishlistRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
+    <Compile Include="ExportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportDialog.Designer.cs">
+      <DependentUpon>ExportDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportDialog.Designer.cs">
+      <DependentUpon>ImportDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManageCopiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +231,13 @@
     <Compile Include="Models\BusinessLogic\TagService.cs" />
     <Compile Include="Models\BusinessLogic\WishlistService.cs" />
     <Compile Include="Models\BusinessLogic\WishlistServiceProvider.cs" />
+    <Compile Include="Models\Csv\AuthorCsvImport.cs" />
+    <Compile Include="Models\Csv\CsvFile.cs" />
+    <Compile Include="Models\Csv\CsvImport.cs" />
+    <Compile Include="Models\Csv\CsvRowResult.cs" />
+    <Compile Include="Models\Csv\ICsvFile.cs" />
+    <Compile Include="Models\Csv\PublisherCsvImport.cs" />
+    <Compile Include="Models\Csv\TagCsvImport.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
@@ -257,6 +288,13 @@
     </Compile>
     <Compile Include="Presenters\AddBookPresenter.cs" />
     <Compile Include="Presenters\AddMediaItemPresenter.cs" />
+    <Compile Include="Presenters\Excel\AuthorExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\BooksExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\ExcelPresenterBase.cs" />
+    <Compile Include="Presenters\Excel\MediaItemExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\PublisherExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\TagExcelPresenter.cs" />
+    <Compile Include="Presenters\Excel\WishlistExcelPresenter.cs" />
     <Compile Include="Presenters\ItemPresenter.cs" />
     <Compile Include="Presenters\ManageCopiesPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
@@ -276,9 +314,13 @@
     </Compile>
     <Compile Include="Utils\IImageFileReader.cs" />
     <Compile Include="Utils\ImageFileReader.cs" />
+    <Compile Include="Views\Excel\Excel.cs" />
+    <Compile Include="Views\Excel\ExcelFile.cs" />
+    <Compile Include="Views\Excel\IExcelFile.cs" />
     <Compile Include="Views\IAddItemForm.cs" />
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
+    <Compile Include="Views\IExportDialog.cs" />
     <Compile Include="Views\IItemView.cs" />
     <Compile Include="Views\IManageCopiesForm.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />
@@ -301,6 +343,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApiService\SearchByIsbnDialog.resx">
       <DependentUpon>SearchByIsbnDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportDialog.resx">
+      <DependentUpon>ExportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportDialog.resx">
+      <DependentUpon>ImportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

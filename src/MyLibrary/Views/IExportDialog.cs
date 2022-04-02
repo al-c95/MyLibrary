@@ -26,37 +26,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Views
 {
-    public sealed class Tag : Entity
+    public interface IExportDialog
     {
-        private string _name;
-        public string Name
-        {
-            get => this._name;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Tag can't be empty.");
-                else
-                {
-                    if (!Validate(value))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
-                }
-            }//set
-        }//Name
+        string Title { get; set; }
+        string Label1 { get; set; }
+        string Label2 { get; set; }
+        string Path { get; set; }
+        Boolean BrowseButtonEnabled { get; set; }
+        Boolean StartButtonEnabled { get; set; }
+        Boolean CancelButtonEnabled { get; set; }
+        Boolean PathFieldEnabled { get; set; }
 
-        public static bool Validate(string name)
-        {
-            return !(name.Contains(", ") || name.Contains(","));
-        }
+        string ShowFolderBrowserDialog(string type);
+        void ShowErrorDialog(string message);
 
-        public ICollection<Item> Items { get; set; }
-    }//class
+        event EventHandler BrowseButtonClicked;
+        event EventHandler StartButtonClicked;
+        event EventHandler Cancelled;
+    }
 }

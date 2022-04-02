@@ -45,6 +45,8 @@ namespace MyLibrary
         {
             InitializeComponent();
 
+            this.tagsList.MultiSelect = false;
+
             this._service = new TagService();
 
             // set up ListView

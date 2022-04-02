@@ -25,38 +25,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Models.Csv
 {
-    public sealed class Tag : Entity
+    public class CsvRowResult
     {
-        private string _name;
-        public string Name
-        {
-            get => this._name;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Tag can't be empty.");
-                else
-                {
-                    if (!Validate(value))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
-                }
-            }//set
-        }//Name
+        public int Row { get; private set; }
+        public Entity Entity { get; private set; }
+        public string EntityName { get; private set; }
+        public Status RowStatus { get; private set; }
 
-        public static bool Validate(string name)
+        public CsvRowResult(int row, Status status, Entity entity, string entityName)
         {
-            return !(name.Contains(", ") || name.Contains(","));
+            this.Row = row;
+            this.Entity = entity;
+            this.EntityName = entityName;
+            this.RowStatus = status;
+            if (this.RowStatus == Status.ERROR)
+            {
+                this.Entity = null;
+                this.EntityName = null;
+            }
         }
 
-        public ICollection<Item> Items { get; set; }
-    }//class
+        public enum Status
+        {
+            SUCCESS,
+            ERROR
+        }
+    }
 }

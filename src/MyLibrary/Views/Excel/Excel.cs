@@ -25,38 +25,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using OfficeOpenXml;
 
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Views.Excel
 {
-    public sealed class Tag : Entity
+    public class Excel : IDisposable
     {
-        private string _name;
-        public string Name
-        {
-            get => this._name;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Tag can't be empty.");
-                else
-                {
-                    if (!Validate(value))
-                    {
-                        throw new ArgumentException("Tag can't have commas.");
-                    }
-                    else
-                    {
-                        this._name = value;
-                    }
-                }
-            }//set
-        }//Name
+        protected ExcelPackage _pck;
+        protected ExcelWorksheet _ws;
 
-        public static bool Validate(string name)
+        public ExcelPackage Package => this._pck;
+
+        public ExcelWorksheet Worksheet
         {
-            return !(name.Contains(", ") || name.Contains(","));
+            get => this._ws;
+            set => this._ws = value;
         }
 
-        public ICollection<Item> Items { get; set; }
+        /// <summary>
+        /// Constructor. Creates worksheet and adds named styles.
+        /// </summary>
+        public Excel()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            this._pck = new ExcelPackage();
+        }//ctor
+
+        public async Task SaveAsync(IExcelFile file, string path)
+        {
+            await file.SaveAsAsync(this._pck, path);
+            this.Dispose();
+        }
+
+        public void Dispose()
+        {
+            this._ws?.Dispose();
+            this._pck?.Dispose();
+        }
     }//class
 }
