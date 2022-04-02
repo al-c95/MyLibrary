@@ -54,7 +54,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("B", "Publisher");
         }
 
-        public async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allPublishers = await this._publisherService.GetAll();
 

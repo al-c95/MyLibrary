@@ -56,7 +56,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("D", "Notes");
         }
 
-        public async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allItems = await this._wishlistService.GetAll();
 

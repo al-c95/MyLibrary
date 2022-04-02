@@ -54,7 +54,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("B", "Tag");
         }
 
-        public async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allTags = await this._tagService.GetAll();
 
