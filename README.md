@@ -7,6 +7,8 @@ A Windows desktop application for keeping track of books and other "library" ite
 - .NET Framework 4.7.2
 - Microsoft Visual Studio (for development)
 
+![Main window screenshot](docs/img/main_window_design.PNG)
+
 ## Contents
 ```
 root
@@ -22,6 +24,8 @@ root
 |    +--MyLibrary // application
 |    |
 |    +--MyLibrary_Tests // unit tests
+|    |
+|    +--DBTool // tool for "seeding" data
 |
 +--scripts
 |        |
@@ -38,14 +42,22 @@ All notable changes to this project are documented in `CHANGELOG.md`.
 3. Set the `dbPath` in `app.config` to the path of the database (`library.db`).
 
 ## Architecture
-WinForms application connected to a bundled Sqlite database.
+WinForms application connected to a bundled Sqlite database. For more information, refer to `docs\design\detailed_design.md`.
 
 ## Usage
 Some instructions or a manual may be provided as part of a future release.
 
+## Known Issues and Solutions
+### Item selection in main list different to item data displayed
+Sometimes, when selecting items quickly one after another, there is a small chance that the item data displayed will not match the selected item in the list. Presently, the solution is to select the item again. 
+
 ## Attributions
 - Newtonsoft.Json 13.0.1 by James Newton-King
 - Dapper 2.0.123 by Sam Saffron, Marc Gravell and Nick Craver
+- EPPlus 5.8.8 by EPPlus Software AB
+- CircularProgressBar 2.8.0.16 by Soroush Falahati
+- WinFormAnimation 1.6.0.4 by Soroush Falahati
+- EntityFramework 6.4.4 by Microsoft
 - Microsoft.Data.Sqlite.Core by Microsoft
 
 ## Contributing
