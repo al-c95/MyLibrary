@@ -43,7 +43,7 @@ namespace MyLibrary
             Application.SetCompatibleTextRenderingDefault(false);
 
             MainWindow window = new MainWindow();
-            ItemPresenter presenter = new ItemPresenter(new BookService(), new MediaItemService(), new TagService(), new AuthorService(), new PublisherService(),
+            MainWindowPresenter presenter = new MainWindowPresenter(new BookService(), new MediaItemService(), new TagService(), new AuthorService(), new PublisherService(),
                 window);
             window.LoadWindow();
             Application.Run(window);
