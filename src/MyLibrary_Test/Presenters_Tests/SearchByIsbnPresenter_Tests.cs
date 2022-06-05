@@ -183,7 +183,7 @@ namespace MyLibrary_Test.Presenters_Tests
         
         class MockPresenter : SearchByIsbnPresenter
         {
-            public MockPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
+            public MockPresenter(ISearchByIsbn view, IMainWindow mainView, IAddBookForm addBookView,
             IBookService bookRepo,
             IApiServiceProvider apiServiceProvider)
                 :base(view, mainView, addBookView, bookRepo, apiServiceProvider)

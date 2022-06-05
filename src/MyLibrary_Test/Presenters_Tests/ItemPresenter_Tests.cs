@@ -24,7 +24,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             // view
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             fakeView.CategoryDropDownSelectedIndex = 0;
             A.CallTo(() => fakeView.TitleFilterText).Returns("book 2");
             A.CallTo(() => fakeView.SelectedFilterTags).Returns(new List<string> { "tag2" });
@@ -70,7 +70,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             // view
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             fakeView.CategoryDropDownSelectedIndex = 0;
             A.CallTo(() => fakeView.TitleFilterText).Returns("");
             // repos
@@ -110,7 +110,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
@@ -130,7 +130,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
@@ -150,7 +150,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
@@ -170,7 +170,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
@@ -192,7 +192,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            var fakeView = A.Fake<IItemView>();
+            var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
             A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
             ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
@@ -209,7 +209,7 @@ namespace MyLibrary_Test.Presenters_Tests
     public class MockItemPresenter : ItemPresenter
     {
         public MockItemPresenter(IBookService bookRepository, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
-            IItemView view,
+            IMainWindow view,
             DataTable allItemsDt)
             :base(bookRepository, mediaItemService, tagService, authorService, publisherService, view)
         {

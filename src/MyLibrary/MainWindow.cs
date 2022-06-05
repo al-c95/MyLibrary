@@ -40,7 +40,7 @@ using MyLibrary.Views;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class MainWindow : Form, IItemView
+    public partial class MainWindow : Form, IMainWindow
     {
         public static readonly int FILTER_DELAY = 2000; // millis
 

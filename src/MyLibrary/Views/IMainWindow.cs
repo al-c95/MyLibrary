@@ -30,7 +30,7 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.Views
 {
-    public interface IItemView
+    public interface IMainWindow
     {
         int SelectedItemId { get; }
         Item SelectedItem { get; set; }
