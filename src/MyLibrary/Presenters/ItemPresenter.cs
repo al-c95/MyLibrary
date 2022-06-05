@@ -350,7 +350,7 @@ namespace MyLibrary.Presenters
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
             this._addBookView = new AddNewBookForm();
-            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookService(), new ApiServiceProvider());
+            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._addBookView, new BookService(), new ApiServiceProvider());
             searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
                 this._addBookView, new ImageFileReader());
             searchDialog.ShowDialog();
