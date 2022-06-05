@@ -17,7 +17,7 @@ using MyLibrary.Presenters;
 namespace MyLibrary_Test.Presenters_Tests
 {
     [TestFixture]
-    public class ItemPresenter_Tests
+    public class MainWindowPresenter_Tests
     {
         [Test]
         public void PerformFilter_Test_FiltersApplied()
