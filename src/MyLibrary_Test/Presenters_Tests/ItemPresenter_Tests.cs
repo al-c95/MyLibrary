@@ -111,7 +111,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             presenter.SelectedItemModified(null, null);
@@ -132,7 +132,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             await presenter.HandleDeleteButtonClicked(null, null);
@@ -152,7 +152,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             await presenter.HandleDeleteButtonClicked(null, null);
@@ -173,7 +173,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             await presenter.HandleDeleteButtonClicked(null, null);
@@ -195,7 +195,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
             A.CallTo(() => fakeMediaItemService.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
-            ItemPresenter presenter = new ItemPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             await presenter.HandleDeleteButtonClicked(null, null);
@@ -206,7 +206,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
     }//class
 
-    public class MockItemPresenter : ItemPresenter
+    public class MockItemPresenter : MainWindowPresenter
     {
         public MockItemPresenter(IBookService bookRepository, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IMainWindow view,

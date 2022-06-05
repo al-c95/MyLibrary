@@ -39,7 +39,7 @@ namespace MyLibrary.Presenters
     /// <summary>
     /// Contains most of the logic which controls the main UI and interacts with the models.
     /// </summary>
-    public class ItemPresenter
+    public class MainWindowPresenter
     {
         private IBookService _bookService;
         private IMediaItemService _mediaItemService;
@@ -70,7 +70,7 @@ namespace MyLibrary.Presenters
         /// <param name="authorService"></param>
         /// <param name="publisherService"></param>
         /// <param name="view"></param>
-        public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
+        public MainWindowPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IMainWindow view)
         {
             this._bookService = bookService;

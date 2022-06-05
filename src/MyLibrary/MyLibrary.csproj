@@ -295,7 +295,7 @@
     <Compile Include="Presenters\Excel\PublisherExcelPresenter.cs" />
     <Compile Include="Presenters\Excel\TagExcelPresenter.cs" />
     <Compile Include="Presenters\Excel\WishlistExcelPresenter.cs" />
-    <Compile Include="Presenters\ItemPresenter.cs" />
+    <Compile Include="Presenters\MainWindowPresenter.cs" />
     <Compile Include="Presenters\ManageCopiesPresenter.cs" />
     <Compile Include="Presenters\SearchByIsbnPresenter.cs" />
     <Compile Include="Presenters\ServiceProviders\ApiServiceProvider.cs" />
