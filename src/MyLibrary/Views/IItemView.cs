@@ -64,6 +64,7 @@ namespace MyLibrary.Views
         event EventHandler AddNewBookClicked;
         event EventHandler SearchByIsbnClicked;
         event EventHandler ShowStatsClicked;
+        event EventHandler WishlistButtonClicked;
 
         bool ItemDetailsSpinner { get; set; }
         bool FilterGroupEnabled { get; set; }
