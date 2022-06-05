@@ -321,7 +321,7 @@
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
     <Compile Include="Views\IExportDialog.cs" />
-    <Compile Include="Views\IItemView.cs" />
+    <Compile Include="Views\IMainWindow.cs" />
     <Compile Include="Views\IManageCopiesForm.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />
     <Compile Include="Views\IShowStats.cs" />

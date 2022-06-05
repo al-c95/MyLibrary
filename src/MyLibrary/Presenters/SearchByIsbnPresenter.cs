@@ -40,7 +40,7 @@ namespace MyLibrary.Presenters
     {
         // injected values
         private ISearchByIsbn _view;
-        private IItemView _mainView;
+        private IMainWindow _mainView;
         private IAddBookForm _addBookView;
         private IBookService _bookService;
         private IApiServiceProvider _apiServiceProvider;
@@ -51,7 +51,7 @@ namespace MyLibrary.Presenters
         /// Constructor with dependency injection.
         /// </summary>
         /// <param name="view"></param>
-        public SearchByIsbnPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
+        public SearchByIsbnPresenter(ISearchByIsbn view, IMainWindow mainView, IAddBookForm addBookView,
             IBookService bookService,
             IApiServiceProvider apiServiceProvider)
         {

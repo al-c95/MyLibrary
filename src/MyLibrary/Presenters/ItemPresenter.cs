@@ -50,7 +50,7 @@ namespace MyLibrary.Presenters
 
         private IPublisherService _publisherService;
 
-        private IItemView _view;
+        private IMainWindow _view;
 
         private IAddMediaItemForm _addMediaItemView;
         private IAddBookForm _addBookView;
@@ -71,7 +71,7 @@ namespace MyLibrary.Presenters
         /// <param name="publisherService"></param>
         /// <param name="view"></param>
         public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
-            IItemView view)
+            IMainWindow view)
         {
             this._bookService = bookService;
             this._mediaItemService = mediaItemService;
