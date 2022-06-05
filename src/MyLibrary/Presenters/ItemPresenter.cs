@@ -101,9 +101,21 @@ namespace MyLibrary.Presenters
             this._view.AddNewBookClicked += AddNewBookClicked;
             this._view.SearchByIsbnClicked += SearchByIsbnClicked;
             this._view.ShowStatsClicked += ShowStatsClicked;
+            this._view.WishlistButtonClicked += (async (sender, args) =>
+            {
+                await HandleWishlistButtonClicked(sender, args);
+            });
         }
 
         #region View event handlers
+        public async Task HandleWishlistButtonClicked(object sender, EventArgs args)
+        {
+            var form = new WishlistDialog();
+            WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
+            await presenter.LoadData();
+            form.ShowDialog();
+        }
+
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
             // delete the item
