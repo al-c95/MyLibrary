@@ -119,6 +119,8 @@ namespace MyLibrary.Presenters
             Book book = null;
             try
             {
+                this._view.IsbnFieldEnabled = false;
+
                 using (var apiService = this._apiServiceProvider.Get())
                 {
                     book = await apiService.GetBookByIsbnAsync(enteredIsbn);
@@ -140,6 +142,7 @@ namespace MyLibrary.Presenters
             }
             finally
             {
+                this._view.IsbnFieldEnabled = true;
                 Reset();
             }
 

@@ -31,6 +31,7 @@ namespace MyLibrary.Views
     public interface ISearchByIsbn
     {
         string IsbnFieldText { get; set; }
+        bool IsbnFieldEnabled { get; set; }
         bool ScanModeChecked { get; set; }
         bool SearchButtonEnabled { get; set; }
         bool CancelButtonEnabled { get; set; }
