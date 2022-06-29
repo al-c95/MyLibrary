@@ -386,9 +386,11 @@ namespace MyLibrary.Presenters
 
                 return;
             }
+
+            this._view.CancelButtonEnabled = true;
             
             this._view.CloseDialog();
-        }
+        }//HandleSaveButtonClicked
 
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
