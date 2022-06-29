@@ -82,8 +82,33 @@ namespace MyLibrary.Presenters
             this._view.AuthorCheckedChanged += HandleAuthorCheckedChanged;
         }
 
+        /// <summary>
+        /// Given a book object, fill the fields in the form with the available data.
+        /// </summary>
+        /// <param name="book"></param>
         public void Prefill(Book book)
         {
+            // clear fields
+            this._view.TitleFieldText = "";
+            this._view.LongTitleFieldText = "";
+            this._view.IsbnFieldText = "";
+            this._view.Isbn13FieldText = "";
+            this._view.OverviewFieldText = "";
+            this._view.MsrpFieldText = "";
+            this._view.PagesFieldText = "";
+            this._view.SynopsysFieldText = "";
+            this._view.ExcerptFieldText = "";
+            this._view.EditionFieldText = "";
+            this._view.DeweyDecimalFieldText = "";
+            this._view.DimensionsFieldText = "";
+            this._view.DatePublishedFieldText = "";
+            this._view.PlaceOfPublicationFieldText = "";
+            this._view.PagesFieldText = "";
+            this._view.LanguageFieldText = "";
+            this._view.UncheckAllAuthors();
+            this._view.UncheckAllTags();
+
+            // now populate
             // basic fields
             this._view.TitleFieldText = book.Title;
             this._view.LongTitleFieldText = book.TitleLong;
@@ -93,7 +118,6 @@ namespace MyLibrary.Presenters
             this._view.PlaceOfPublicationFieldText = book.PlaceOfPublication;
             this._view.PagesFieldText = book.Pages.ToString();
             this._view.LanguageFieldText = book.Language;
-
             // publisher
             if (!this._allPublishers.Contains(book.Publisher.Name))
             {
@@ -101,7 +125,6 @@ namespace MyLibrary.Presenters
             }
             FilterPublishers(null, null);
             this._view.SetPublisher(book.Publisher, true);
-
             // authors
             foreach (var author in book.Authors)
             {

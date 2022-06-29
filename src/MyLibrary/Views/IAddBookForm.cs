@@ -70,6 +70,9 @@ namespace MyLibrary.Views
 
         void ShowAsDialog();
 
+        void UncheckAllTags();
+        void UncheckAllAuthors();
+
         event EventHandler FilterPublishersFieldUpdated;
         event EventHandler AddNewPublisherButtonClicked;
         event EventHandler FilterAuthorsFieldUpdated;
