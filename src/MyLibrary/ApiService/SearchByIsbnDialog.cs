@@ -68,6 +68,12 @@ namespace MyLibrary.ApiService
             set => this.isbnField.Text = value;
         }
 
+        public bool IsbnFieldEnabled
+        {
+            get => this.isbnField.Enabled;
+            set => this.isbnField.Enabled = value;
+        }
+
         public bool ScanModeChecked 
         {
             get => this.scanModecheckBox.Checked;
