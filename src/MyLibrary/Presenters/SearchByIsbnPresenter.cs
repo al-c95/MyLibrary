@@ -152,7 +152,7 @@ namespace MyLibrary.Presenters
                 this.AddBookPresenter.Prefill(book);
                 this._addBookView.ShowAsDialog();
             }
-        }
+        }//SearchButtonClicked
         #endregion
 
         private void Reset()

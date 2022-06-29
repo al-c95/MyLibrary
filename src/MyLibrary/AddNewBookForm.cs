@@ -477,6 +477,24 @@ namespace MyLibrary
             ItemAdded?.Invoke(this, null);
         }
 
+        private void UncheckAll(CheckedListBox list)
+        {
+            while (list.CheckedIndices.Count > 0)
+            {
+                list.SetItemChecked(list.CheckedIndices[0], false);
+            }
+        }
+
+        public void UncheckAllTags()
+        {
+            UncheckAll(this.tagsList);
+        }
+
+        public void UncheckAllAuthors()
+        {
+            UncheckAll(this.authorsList);
+        }
+
         public void PopulateTagsList(IEnumerable<string> tagNames)
         {
             this.tagsList.Items.Clear();
