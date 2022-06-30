@@ -29,9 +29,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyLibrary.Models.Entities;
 
 namespace MyLibrary
 {
+    // TODO: unit tests
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class NewTagOrPublisherInputBox : Form
     {
@@ -54,6 +56,8 @@ namespace MyLibrary
                     break;
             }
 
+            this.okButton.Enabled = false;
+
             // register event handlers
             this.okButton.Click += ((sender, args) =>
             {
@@ -63,6 +67,26 @@ namespace MyLibrary
             this.cancelButton.Click += ((sender, args) =>
             {
                 this.DialogResult = DialogResult.Cancel;
+            });
+            this.textBox1.TextChanged += ((sender, args) =>
+            {
+                // empty entries are not valid
+                if (string.IsNullOrWhiteSpace(this.textBox1.Text))
+                {
+                    this.okButton.Enabled = false;
+                }
+                else
+                {
+                    switch (mode)
+                    {
+                        case InputBoxMode.Tag:
+                            this.okButton.Enabled = (Models.Entities.Tag.Validate(this.textBox1.Text));
+                            break;
+                        case InputBoxMode.Publisher:
+                            this.okButton.Enabled = (Models.Entities.Publisher.ValidateName(this.textBox1.Text));
+                            break;
+                    }
+                }
             });
         }//ctor
 
