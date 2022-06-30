@@ -40,7 +40,7 @@ using MyLibrary.Views;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class MainWindow : Form, IItemView
+    public partial class MainWindow : Form, IMainWindow
     {
         public static readonly int FILTER_DELAY = 2000; // millis
 
@@ -310,12 +310,9 @@ namespace MyLibrary
                 await presenter.LoadData(sender, args);
                 form.ShowDialog();
             });
-            this.wishlistButton.Click += (async (sender, args) =>
+            this.wishlistButton.Click += ((sender, args) =>
             {
-                var form = new WishlistDialog();
-                WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
-                await presenter.LoadData();
-                form.ShowDialog();
+                this.WishlistButtonClicked?.Invoke(sender, args);
             });
             this.tagsList.ItemCheck += (async (sender, args) =>
             {
@@ -673,6 +670,7 @@ namespace MyLibrary
         public event EventHandler AddNewBookClicked;
         public event EventHandler SearchByIsbnClicked;
         public event EventHandler ShowStatsClicked;
+        public event EventHandler WishlistButtonClicked;
         #endregion
 
         public void ShowErrorDialog(string title, string message)

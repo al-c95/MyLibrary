@@ -644,6 +644,7 @@ namespace MyLibrary_Test.Presenters_Tests
             b.Isbn13 == isbn13FieldText &&
             b.DeweyDecimal == deweyDecimal))).MustHaveHappened();
             A.CallTo(() => fakeView.CloseDialog()).MustHaveHappened();
+            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [TestCase("", "", "", "500.0", ".bmp")]

@@ -41,7 +41,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbnFieldText);
             A.CallTo(() => fakeSearchByIsbnDialog.ScanModeChecked).Returns(true);
-            SearchByIsbnPresenter presenter = new SearchByIsbnPresenter(fakeSearchByIsbnDialog,null,null,null,null);
+            SearchByIsbnPresenter presenter = new SearchByIsbnPresenter(fakeSearchByIsbnDialog,null,null,null);
             presenter.AddBookPresenter = this._addBookPresenter;
 
             // act
@@ -60,7 +60,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbnFieldText);
             A.CallTo(() => fakeSearchByIsbnDialog.ScanModeChecked).Returns(false);
-            SearchByIsbnPresenter presenter = new SearchByIsbnPresenter(fakeSearchByIsbnDialog, null, null, null, null);
+            SearchByIsbnPresenter presenter = new SearchByIsbnPresenter(fakeSearchByIsbnDialog, null, null, null);
             presenter.AddBookPresenter = this._addBookPresenter;
 
             // act
@@ -81,7 +81,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.ScanModeChecked).Returns(scanModeEnabled);
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
-            SearchByIsbnPresenter presenter = new SearchByIsbnPresenter(fakeSearchByIsbnDialog,null,null,null,null);
+            SearchByIsbnPresenter presenter = new SearchByIsbnPresenter(fakeSearchByIsbnDialog,null,null,null);
             presenter.AddBookPresenter = this._addBookPresenter;
 
             // act
@@ -183,10 +183,10 @@ namespace MyLibrary_Test.Presenters_Tests
         
         class MockPresenter : SearchByIsbnPresenter
         {
-            public MockPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
+            public MockPresenter(ISearchByIsbn view, IMainWindow mainView, IAddBookForm addBookView,
             IBookService bookRepo,
             IApiServiceProvider apiServiceProvider)
-                :base(view, mainView, addBookView, bookRepo, apiServiceProvider)
+                :base(view, addBookView, bookRepo, apiServiceProvider)
             {
 
             }
