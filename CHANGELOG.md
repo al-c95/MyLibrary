@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.2.1] - 30-6-2022
+### Fixed
+- cancel button in add new book form disabled when adding another book in scan mode
+- information from previously added book appears in pre-populated forms
+- ok button enable logic in add new publisher or tag dialogs for add new item forms
+- ISBN fields now disabled in search dialog during API requests
+
 ## [1.2.0] - 2-4-2022
 ### Remarks
 First stable version. Previous versions were development versions.
