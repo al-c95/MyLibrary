@@ -53,5 +53,17 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             // act/assert
             Assert.Throws<ArgumentNullException>(() => new Publisher(name));
         }
+
+        [TestCase("publisher", true)]
+        [TestCase("", false)]
+        [TestCase(null, false)]
+        public void ValidateName_Test(string name, bool expectedResult)
+        {
+            // act
+            bool actualResult = Publisher.ValidateName(name);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }//class
 }

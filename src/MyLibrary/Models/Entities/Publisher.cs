@@ -34,22 +34,32 @@ namespace MyLibrary.Models.Entities
         public string Name
         {
             get => this._name;
-            set => ValidateName(value);
+            set => _ValidateName(value);
         }
 
         public Publisher() { }
 
         public Publisher(string name)
         {
-            this.ValidateName(name);
+            this._ValidateName(name);
         }
 
-        private void ValidateName(string name)
+        private void _ValidateName(string name)
         {
             if (name == null || string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException("Publisher must have a name.");
             else
                 _name = name;
+        }
+
+        public static bool ValidateName(string name)
+        {
+            if (name == null || string.IsNullOrWhiteSpace(name))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public ICollection<Book> Books { get; set; }
