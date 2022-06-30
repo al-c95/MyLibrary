@@ -109,7 +109,7 @@ namespace MyLibrary.Presenters
             this._view.UncheckAllTags();
 
             // now populate
-            // basic fields
+            // text/number input fields
             this._view.TitleFieldText = book.Title;
             this._view.LongTitleFieldText = book.TitleLong;
             this._view.IsbnFieldText = book.Isbn;
@@ -138,7 +138,7 @@ namespace MyLibrary.Presenters
                 }
             }
             FilterAuthors(null, null);
-        }
+        }//Prefill
 
         public void FilterTags(object sender, EventArgs args)
         {
@@ -439,7 +439,7 @@ namespace MyLibrary.Presenters
             // don't care about the other fields
 
             this._view.SaveButtonEnabled = sane;
-        }
+        }//InputFieldsUpdated
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)
         {
@@ -483,7 +483,7 @@ namespace MyLibrary.Presenters
             {
                 return;
             }
-        }
+        }//HandleAddNewAuthorClicked
 
         public void HandleTagCheckedChanged(object sender, EventArgs args)
         {
@@ -496,7 +496,7 @@ namespace MyLibrary.Presenters
             {
                 this._allTags[unselectedTag] = false;
             }
-        }
+        }//HandleTagCheckedChanged
 
         public void HandleAuthorCheckedChanged(object sender, EventArgs args)
         {
@@ -509,7 +509,7 @@ namespace MyLibrary.Presenters
             {
                 this._allAuthors[unselectedAuthor] = false;
             }
-        }
+        }//HandleAuthorCheckedChanged
 
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
@@ -531,7 +531,7 @@ namespace MyLibrary.Presenters
             {
                 return;
             }
-        }
+        }//HandleAddNewPublisherClicked
         #endregion
     }//class
 }
