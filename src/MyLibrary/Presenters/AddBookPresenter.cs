@@ -82,9 +82,34 @@ namespace MyLibrary.Presenters
             this._view.AuthorCheckedChanged += HandleAuthorCheckedChanged;
         }
 
+        /// <summary>
+        /// Given a book object, fill the fields in the form with the available data.
+        /// </summary>
+        /// <param name="book"></param>
         public void Prefill(Book book)
         {
-            // basic fields
+            // clear fields
+            this._view.TitleFieldText = "";
+            this._view.LongTitleFieldText = "";
+            this._view.IsbnFieldText = "";
+            this._view.Isbn13FieldText = "";
+            this._view.OverviewFieldText = "";
+            this._view.MsrpFieldText = "";
+            this._view.PagesFieldText = "";
+            this._view.SynopsysFieldText = "";
+            this._view.ExcerptFieldText = "";
+            this._view.EditionFieldText = "";
+            this._view.DeweyDecimalFieldText = "";
+            this._view.DimensionsFieldText = "";
+            this._view.DatePublishedFieldText = "";
+            this._view.PlaceOfPublicationFieldText = "";
+            this._view.PagesFieldText = "";
+            this._view.LanguageFieldText = "";
+            this._view.UncheckAllAuthors();
+            this._view.UncheckAllTags();
+
+            // now populate
+            // text/number input fields
             this._view.TitleFieldText = book.Title;
             this._view.LongTitleFieldText = book.TitleLong;
             this._view.IsbnFieldText = book.Isbn;
@@ -93,7 +118,6 @@ namespace MyLibrary.Presenters
             this._view.PlaceOfPublicationFieldText = book.PlaceOfPublication;
             this._view.PagesFieldText = book.Pages.ToString();
             this._view.LanguageFieldText = book.Language;
-
             // publisher
             if (!this._allPublishers.Contains(book.Publisher.Name))
             {
@@ -101,7 +125,6 @@ namespace MyLibrary.Presenters
             }
             FilterPublishers(null, null);
             this._view.SetPublisher(book.Publisher, true);
-
             // authors
             foreach (var author in book.Authors)
             {
@@ -115,7 +138,7 @@ namespace MyLibrary.Presenters
                 }
             }
             FilterAuthors(null, null);
-        }
+        }//Prefill
 
         public void FilterTags(object sender, EventArgs args)
         {
@@ -386,9 +409,11 @@ namespace MyLibrary.Presenters
 
                 return;
             }
+
+            this._view.CancelButtonEnabled = true;
             
             this._view.CloseDialog();
-        }
+        }//HandleSaveButtonClicked
 
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
@@ -414,7 +439,7 @@ namespace MyLibrary.Presenters
             // don't care about the other fields
 
             this._view.SaveButtonEnabled = sane;
-        }
+        }//InputFieldsUpdated
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)
         {
@@ -458,7 +483,7 @@ namespace MyLibrary.Presenters
             {
                 return;
             }
-        }
+        }//HandleAddNewAuthorClicked
 
         public void HandleTagCheckedChanged(object sender, EventArgs args)
         {
@@ -471,7 +496,7 @@ namespace MyLibrary.Presenters
             {
                 this._allTags[unselectedTag] = false;
             }
-        }
+        }//HandleTagCheckedChanged
 
         public void HandleAuthorCheckedChanged(object sender, EventArgs args)
         {
@@ -484,7 +509,7 @@ namespace MyLibrary.Presenters
             {
                 this._allAuthors[unselectedAuthor] = false;
             }
-        }
+        }//HandleAuthorCheckedChanged
 
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
@@ -506,7 +531,7 @@ namespace MyLibrary.Presenters
             {
                 return;
             }
-        }
+        }//HandleAddNewPublisherClicked
         #endregion
     }//class
 }

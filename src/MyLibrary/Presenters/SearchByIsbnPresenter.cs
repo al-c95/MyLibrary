@@ -40,7 +40,6 @@ namespace MyLibrary.Presenters
     {
         // injected values
         private ISearchByIsbn _view;
-        private IItemView _mainView;
         private IAddBookForm _addBookView;
         private IBookService _bookService;
         private IApiServiceProvider _apiServiceProvider;
@@ -51,13 +50,10 @@ namespace MyLibrary.Presenters
         /// Constructor with dependency injection.
         /// </summary>
         /// <param name="view"></param>
-        public SearchByIsbnPresenter(ISearchByIsbn view, IItemView mainView, IAddBookForm addBookView,
-            IBookService bookService,
-            IApiServiceProvider apiServiceProvider)
+        public SearchByIsbnPresenter(ISearchByIsbn view, IAddBookForm addBookView, IBookService bookService, IApiServiceProvider apiServiceProvider)
         {
             // inject values
             this._view = view;
-            this._mainView = mainView;
             this._addBookView = addBookView;
             this._bookService = bookService;
             this._apiServiceProvider = apiServiceProvider;
@@ -123,6 +119,8 @@ namespace MyLibrary.Presenters
             Book book = null;
             try
             {
+                this._view.IsbnFieldEnabled = false;
+
                 using (var apiService = this._apiServiceProvider.Get())
                 {
                     book = await apiService.GetBookByIsbnAsync(enteredIsbn);
@@ -144,6 +142,7 @@ namespace MyLibrary.Presenters
             }
             finally
             {
+                this._view.IsbnFieldEnabled = true;
                 Reset();
             }
 
@@ -156,7 +155,7 @@ namespace MyLibrary.Presenters
                 this.AddBookPresenter.Prefill(book);
                 this._addBookView.ShowAsDialog();
             }
-        }
+        }//SearchButtonClicked
         #endregion
 
         private void Reset()

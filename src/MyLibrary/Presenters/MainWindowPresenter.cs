@@ -39,7 +39,7 @@ namespace MyLibrary.Presenters
     /// <summary>
     /// Contains most of the logic which controls the main UI and interacts with the models.
     /// </summary>
-    public class ItemPresenter
+    public class MainWindowPresenter
     {
         private IBookService _bookService;
         private IMediaItemService _mediaItemService;
@@ -50,7 +50,7 @@ namespace MyLibrary.Presenters
 
         private IPublisherService _publisherService;
 
-        private IItemView _view;
+        private IMainWindow _view;
 
         private IAddMediaItemForm _addMediaItemView;
         private IAddBookForm _addBookView;
@@ -70,8 +70,8 @@ namespace MyLibrary.Presenters
         /// <param name="authorService"></param>
         /// <param name="publisherService"></param>
         /// <param name="view"></param>
-        public ItemPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
-            IItemView view)
+        public MainWindowPresenter(IBookService bookService, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
+            IMainWindow view)
         {
             this._bookService = bookService;
             this._mediaItemService = mediaItemService;
@@ -101,9 +101,21 @@ namespace MyLibrary.Presenters
             this._view.AddNewBookClicked += AddNewBookClicked;
             this._view.SearchByIsbnClicked += SearchByIsbnClicked;
             this._view.ShowStatsClicked += ShowStatsClicked;
+            this._view.WishlistButtonClicked += (async (sender, args) =>
+            {
+                await HandleWishlistButtonClicked(sender, args);
+            });
         }
 
         #region View event handlers
+        public async Task HandleWishlistButtonClicked(object sender, EventArgs args)
+        {
+            var form = new WishlistDialog();
+            WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
+            await presenter.LoadData();
+            form.ShowDialog();
+        }
+
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
             // delete the item
@@ -338,7 +350,7 @@ namespace MyLibrary.Presenters
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
             this._addBookView = new AddNewBookForm();
-            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._view, this._addBookView, new BookService(), new ApiServiceProvider());
+            var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._addBookView, new BookService(), new ApiServiceProvider());
             searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
                 this._addBookView, new ImageFileReader());
             searchDialog.ShowDialog();
