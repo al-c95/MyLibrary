@@ -46,7 +46,6 @@ namespace MyLibrary.Views
         void ShowItemAlreadyExistsDialog(string title);
         void ItemAddedFinished();
         void AddTags(Dictionary<string, bool> tags);
-        string ShowNewTagDialog();
         void ShowTagAlreadyExistsDialog(string tag);
         void ShowErrorDialog(string title, string message);
 

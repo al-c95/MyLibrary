@@ -284,20 +284,6 @@ namespace MyLibrary
             }
         }
 
-        public string ShowNewTagDialog()
-        {
-            var dialog = new NewTagOrPublisherInputBox();
-            MyLibrary.Presenters.NewTagOrPublisherInputPresenter presenter = new Presenters.NewTagOrPublisherInputPresenter(dialog, Presenters.NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                return dialog.Entry;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public void ShowTagAlreadyExistsDialog(string tag)
         {
             MessageBox.Show("Tag: " + tag + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
