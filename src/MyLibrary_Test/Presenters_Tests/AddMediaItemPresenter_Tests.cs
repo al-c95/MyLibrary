@@ -8,6 +8,7 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
+using MyLibrary;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
@@ -30,7 +31,7 @@ namespace MyLibrary_Test.Presenters_Tests
             List<Tag> tags = new List<Tag> { new Tag { Name = "tag" } };
             A.CallTo(() => fakeTagService.GetAll()).Returns(tags);
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             await presenter.PopulateTagsList();
@@ -72,7 +73,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -99,7 +100,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -168,7 +169,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -213,7 +214,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -255,7 +256,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -299,7 +300,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Throws(new Exception("error"));
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -343,7 +344,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             A.CallTo(() => fakeImageFileReader.ReadBytes()).Throws(new System.IO.IOException("error"));
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -389,7 +390,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -439,7 +440,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
             A.CallTo(() => fakeMediaItemService.Add(A<MediaItem>.That.Matches(i => i.Title=="title"))).Throws(new Exception("error"));
 
             // act
@@ -460,7 +461,10 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            var fakeAddTagDialogProvider = A.Fake<INewTagOrPublisherInputBoxProvider>();
+            var fakeAddTagDialog = A.Fake<INewTagOrPublisher>();
+            A.CallTo(() => fakeAddTagDialogProvider.Get()).Returns(fakeAddTagDialog);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, fakeAddTagDialogProvider);
 
             // act
             presenter.HandleAddNewTagClicked(null, null);
@@ -474,11 +478,14 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
-            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag1");
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            var fakeAddTagDialogProvider = A.Fake<INewTagOrPublisherInputBoxProvider>();
+            var fakeAddTagDialog = A.Fake<INewTagOrPublisher>();
+            A.CallTo(() => fakeAddTagDialog.ShowAsDialog()).Returns("tag1");
+            A.CallTo(() => fakeAddTagDialogProvider.Get()).Returns(fakeAddTagDialog);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, fakeAddTagDialogProvider);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", true);
             presenter.SetAllTags(allTags);
@@ -495,11 +502,14 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
-            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag2");
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            var fakeAddTagDialogProvider = A.Fake<INewTagOrPublisherInputBoxProvider>();
+            var fakeAddTagDialog = A.Fake<INewTagOrPublisher>();
+            A.CallTo(() => fakeAddTagDialog.ShowAsDialog()).Returns("tag2");
+            A.CallTo(() => fakeAddTagDialogProvider.Get()).Returns(fakeAddTagDialog);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, fakeAddTagDialogProvider);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", true);
             presenter.SetAllTags(allTags);
@@ -523,7 +533,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader);
+            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", false);
             allTags.Add("tag2", true);
@@ -540,8 +550,9 @@ namespace MyLibrary_Test.Presenters_Tests
 
     class MockPresenter : AddMediaItemPresenter
     {
-        public MockPresenter(IMediaItemService mediaItemService, ITagService tagService, IAddMediaItemForm view, IImageFileReader imageFileReader)
-            :base(mediaItemService, tagService, view, imageFileReader)
+        public MockPresenter(IMediaItemService mediaItemService, ITagService tagService, IAddMediaItemForm view, IImageFileReader imageFileReader, 
+            INewTagOrPublisherInputBoxProvider newTagOrPublisherInputBoxProvider)
+            :base(mediaItemService, tagService, view, imageFileReader, newTagOrPublisherInputBoxProvider)
         {
 
         }

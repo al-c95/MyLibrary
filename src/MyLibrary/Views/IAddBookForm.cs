@@ -78,5 +78,6 @@ namespace MyLibrary.Views
         event EventHandler FilterAuthorsFieldUpdated;
         event EventHandler AddNewAuthorButtonClicked;
         event EventHandler AuthorCheckedChanged;
+        event EventHandler AddNewTagButtonClicked;
     }
 }

@@ -29,34 +29,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyLibrary.Models.Entities;
+using MyLibrary.Views;
 
 namespace MyLibrary
 {
-    // TODO: unit tests
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class NewTagOrPublisherInputBox : Form
+    public partial class NewTagOrPublisherInputBox : Form, INewTagOrPublisher
     {
         private string _entry;
-        public string Entry { get => this._entry; }
 
-        public NewTagOrPublisherInputBox(InputBoxMode mode)
+        public event EventHandler InputChanged;
+
+        public string Entry
+        {
+            get => this.textBox1.Text;
+            set => this.textBox1.Text = value;
+        }
+
+        public bool OkButtonEnabled
+        {
+            get => this.okButton.Enabled;
+            set => this.okButton.Enabled = value; 
+        }
+
+        public string Label 
+        {
+            get => this.label.Text;
+            set => this.label.Text = value;
+        }
+
+        public string DialogTitle 
+        {
+            get => this.Text;
+            set => this.Text = value; 
+        }
+
+        public NewTagOrPublisherInputBox()
         {
             InitializeComponent();
-
-            switch (mode)
-            {
-                case InputBoxMode.Tag:
-                    this.label.Text = "New Tag:";
-                    this.Text = "New Tag";
-                    break;
-                case InputBoxMode.Publisher:
-                    this.label.Text = "New Publisher:";
-                    this.Text = "New Publisher";
-                    break;
-            }
-
-            this.okButton.Enabled = false;
 
             // register event handlers
             this.okButton.Click += ((sender, args) =>
@@ -70,30 +80,33 @@ namespace MyLibrary
             });
             this.textBox1.TextChanged += ((sender, args) =>
             {
-                // empty entries are not valid
-                if (string.IsNullOrWhiteSpace(this.textBox1.Text))
-                {
-                    this.okButton.Enabled = false;
-                }
-                else
-                {
-                    switch (mode)
-                    {
-                        case InputBoxMode.Tag:
-                            this.okButton.Enabled = (Models.Entities.Tag.Validate(this.textBox1.Text));
-                            break;
-                        case InputBoxMode.Publisher:
-                            this.okButton.Enabled = (Models.Entities.Publisher.ValidateName(this.textBox1.Text));
-                            break;
-                    }
-                }
+                this.InputChanged?.Invoke(sender, args);
             });
         }//ctor
 
-        public enum InputBoxMode
+        public string ShowAsDialog()
         {
-            Tag,
-            Publisher
+            if (this.ShowDialog() == DialogResult.OK)
+            {
+                return this.Entry;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }//class
+
+    public interface INewTagOrPublisherInputBoxProvider
+    {
+        INewTagOrPublisher Get();
+    }
+
+    public class NewTagOrPublisherInputBoxProvider : INewTagOrPublisherInputBoxProvider
+    {
+        public INewTagOrPublisher Get()
+        {
+            return new NewTagOrPublisherInputBox();
         }
     }//class
 }
