@@ -478,6 +478,7 @@ namespace MyLibrary.Presenters
             return dialog.ShowAsDialog();
         }
 
+        // TODO: unit test
         public void HandleAddNewAuthorClicked(object sender, EventArgs args)
         {
             string newAuthor = this._view.ShowNewAuthorDialog();
@@ -513,6 +514,7 @@ namespace MyLibrary.Presenters
             }
         }//HandleTagCheckedChanged
 
+        // TODO: unit test
         public void HandleAuthorCheckedChanged(object sender, EventArgs args)
         {
             foreach (var selectedAuthor in this._view.SelectedAuthors)
@@ -526,6 +528,7 @@ namespace MyLibrary.Presenters
             }
         }//HandleAuthorCheckedChanged
 
+        // TODO: unit test
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
             string newPublisher = ShowNewPublisherDialog();
