@@ -8,6 +8,7 @@ using System.Data;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
+using MyLibrary;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
@@ -103,7 +104,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, 
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -146,7 +147,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -185,7 +186,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService, 
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -241,7 +242,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             presenter.InputFieldsUpdated(null, null);
@@ -282,7 +283,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             presenter.Prefill(book);
@@ -312,7 +313,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView, null);
+                fakeView, null, null, null);
 
             // act
             await presenter.PopulateTagsList();
@@ -333,7 +334,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeAuthorService.GetAll()).Returns(new List<Author> { author1 });
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.PopulateAuthorsList();
@@ -354,7 +355,7 @@ namespace MyLibrary_Test.Presenters_Tests
             Publisher publisher1 = new Publisher("some_publisher");
             A.CallTo(() => fakePublisherService.GetAll()).Returns(new List<Publisher> { publisher1 });
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.PopulatePublishersList();
@@ -375,7 +376,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -398,7 +399,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -422,7 +423,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -446,7 +447,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -470,7 +471,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -495,7 +496,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
+                fakeView,null,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -525,7 +526,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             A.CallTo(() => fakeImageFileReader.ReadBytes()).Throws(new System.IO.IOException("error"));
             MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView, fakeImageFileReader);
+                fakeView, fakeImageFileReader,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -620,7 +621,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView, fakeImageFileReader);
+                fakeView, fakeImageFileReader,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -732,7 +733,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView, fakeImageFileReader);
+                fakeView, fakeImageFileReader,null,null);
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
@@ -771,7 +772,11 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            var fakeAddTagDialogProvider = A.Fake<INewTagOrPublisherInputBoxProvider>();
+            var fakeAddTagDialog = A.Fake<INewTagOrPublisher>();
+            A.CallTo(() => fakeAddTagDialog.ShowAsDialog()).Returns("");
+            A.CallTo(() => fakeAddTagDialogProvider.Get()).Returns(fakeAddTagDialog);
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader,fakeAddTagDialogProvider,null);
 
             // act
             presenter.HandleAddNewTagClicked(null, null);
@@ -785,13 +790,16 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag1");
             var fakeBookService = A.Fake<IBookService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            var fakeAddTagDialogProvider = A.Fake<INewTagOrPublisherInputBoxProvider>();
+            var fakeAddTagDialog = A.Fake<INewTagOrPublisher>();
+            A.CallTo(() => fakeAddTagDialog.ShowAsDialog()).Returns("tag1");
+            A.CallTo(() => fakeAddTagDialogProvider.Get()).Returns(fakeAddTagDialog);
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader,fakeAddTagDialogProvider,null);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", true);
             presenter.SetAllTags(allTags);
@@ -808,13 +816,16 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("tag2");
             var fakeBookService = A.Fake<IBookService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            var fakeAddTagDialogProvider = A.Fake<INewTagOrPublisherInputBoxProvider>();
+            var fakeAddTagDialog = A.Fake<INewTagOrPublisher>();
+            A.CallTo(() => fakeAddTagDialog.ShowAsDialog()).Returns("tag2");
+            A.CallTo(() => fakeAddTagDialogProvider.Get()).Returns(fakeAddTagDialog);
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader,fakeAddTagDialogProvider,null);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", true);
             presenter.SetAllTags(allTags);
@@ -840,7 +851,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader);
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, fakeImageFileReader,null,null);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", false);
             allTags.Add("tag2", true);
@@ -858,8 +869,8 @@ namespace MyLibrary_Test.Presenters_Tests
     public class MockBookPresenter : AddBookPresenter
     {
         public MockBookPresenter(IBookService bookRepo, ITagService tagService, IAuthorService authorService, IPublisherService publisherService, IAddBookForm view,
-            IImageFileReader imageFileReader)
-            :base(bookRepo, tagService, authorService, publisherService, view, imageFileReader)
+            IImageFileReader imageFileReader, INewTagOrPublisherInputBoxProvider newTagInputBoxProvider, INewTagOrPublisherInputBoxProvider newPublisherInputBoxProvider)
+            :base(bookRepo, tagService, authorService, publisherService, view, imageFileReader, newTagInputBoxProvider, newPublisherInputBoxProvider)
         {
 
         }

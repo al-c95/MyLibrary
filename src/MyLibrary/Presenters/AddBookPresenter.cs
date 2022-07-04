@@ -49,9 +49,13 @@ namespace MyLibrary.Presenters
         protected Dictionary<string, bool> _allAuthors;
         protected List<string> _allPublishers;
 
+        private INewTagOrPublisherInputBoxProvider _newTagDialogProvider;
+        private INewTagOrPublisherInputBoxProvider _newPublisherDialogProvider;
+
         public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IAddBookForm view,
-            IImageFileReader imageFileReader)
+            IImageFileReader imageFileReader,
+            INewTagOrPublisherInputBoxProvider newTagDialogProvider, INewTagOrPublisherInputBoxProvider newPublisherDialogProvider)
         {
             this._bookService = bookService;
             this._tagService = tagService;
@@ -65,6 +69,9 @@ namespace MyLibrary.Presenters
             this._allTags = new Dictionary<string, bool>();
             this._allAuthors = new Dictionary<string, bool>();
             this._allPublishers = new List<string>();
+
+            this._newTagDialogProvider = newTagDialogProvider;
+            this._newPublisherDialogProvider = newPublisherDialogProvider;
 
             // subscribe to the view's events
             this._view.SaveButtonClicked += (async (sender, args) => 
@@ -443,7 +450,7 @@ namespace MyLibrary.Presenters
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)
         {
-            string newTag = this._view.ShowNewTagDialog();
+            string newTag = ShowNewTagDialog();
             if (!string.IsNullOrWhiteSpace(newTag))
             {
                 if (!this._allTags.ContainsKey(newTag))
@@ -462,6 +469,14 @@ namespace MyLibrary.Presenters
                 return;
             }
         }//HandleAddNewTagClicked
+
+        private string ShowNewTagDialog()
+        {
+            var dialog = this._newTagDialogProvider.Get();
+            NewTagOrPublisherInputPresenter presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
+
+            return dialog.ShowAsDialog();
+        }
 
         public void HandleAddNewAuthorClicked(object sender, EventArgs args)
         {
@@ -513,7 +528,7 @@ namespace MyLibrary.Presenters
 
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
-            string newPublisher = this._view.ShowNewPublisherDialog();
+            string newPublisher = ShowNewPublisherDialog();
             if (!string.IsNullOrWhiteSpace(newPublisher))
             {
                 if (!this._allPublishers.Contains(newPublisher))
@@ -532,6 +547,14 @@ namespace MyLibrary.Presenters
                 return;
             }
         }//HandleAddNewPublisherClicked
+
+        private string ShowNewPublisherDialog()
+        {
+            var dialog = this._newPublisherDialogProvider.Get();
+            NewTagOrPublisherInputPresenter presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Publisher);
+
+            return dialog.ShowAsDialog();
+        }
         #endregion
     }//class
 }
