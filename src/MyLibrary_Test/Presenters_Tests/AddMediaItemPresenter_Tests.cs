@@ -457,7 +457,6 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddMediaItemForm>();
-            A.CallTo(() => fakeView.ShowNewTagDialog()).Returns("");
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
