@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
@@ -43,6 +44,8 @@ namespace MyLibrary.Presenters
 
         private IImageFileReader _imageFileReader;
 
+        private INewTagOrPublisherInputBoxProvider _newTagDialogProvider;
+
         protected Dictionary<string, bool> _allTags;
 
         /// <summary>
@@ -54,7 +57,8 @@ namespace MyLibrary.Presenters
         /// <param name="imageFileReader"></param>
         public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, 
             IAddMediaItemForm view,
-            IImageFileReader imageFileReader)
+            IImageFileReader imageFileReader,
+            INewTagOrPublisherInputBoxProvider newTagDialogProvider)
         {
             this._mediaItemService = mediaItemService;
             this._tagService = tagService;
@@ -64,6 +68,8 @@ namespace MyLibrary.Presenters
             this._imageFileReader = imageFileReader;
 
             this._allTags = new Dictionary<string, bool>();
+
+            this._newTagDialogProvider = newTagDialogProvider;
 
             // subscribe to the view's events
             this._view.SaveButtonClicked += (async (sender, args) => 
@@ -263,11 +269,11 @@ namespace MyLibrary.Presenters
             sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
 
             this._view.SaveButtonEnabled = sane;
-        }
+        }//InputFieldsUpdated
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)
         {
-            string newTag = this._view.ShowNewTagDialog();
+            string newTag = ShowNewTagDialog();
             if (!string.IsNullOrWhiteSpace(newTag))
             {
                 if (!this._allTags.ContainsKey(newTag))
@@ -286,6 +292,14 @@ namespace MyLibrary.Presenters
                 return;
             }
         }//HandleAddNewTagClicked
+
+        private string ShowNewTagDialog()
+        {
+            var dialog = this._newTagDialogProvider.Get();
+            NewTagOrPublisherInputPresenter presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
+
+            return dialog.ShowAsDialog();
+        }
         #endregion
     }//class
 }

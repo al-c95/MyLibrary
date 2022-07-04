@@ -599,7 +599,8 @@ namespace MyLibrary
 
         public string ShowNewTagDialog()
         {
-            NewTagOrPublisherInputBox dialog = new NewTagOrPublisherInputBox(NewTagOrPublisherInputBox.InputBoxMode.Tag);
+            var dialog = new NewTagOrPublisherInputBox();
+            MyLibrary.Presenters.NewTagOrPublisherInputPresenter presenter = new Presenters.NewTagOrPublisherInputPresenter(dialog, Presenters.NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 return dialog.Entry;
@@ -612,7 +613,8 @@ namespace MyLibrary
 
         public string ShowNewPublisherDialog()
         {
-            NewTagOrPublisherInputBox dialog = new NewTagOrPublisherInputBox(NewTagOrPublisherInputBox.InputBoxMode.Publisher);
+            var dialog = new NewTagOrPublisherInputBox();
+            MyLibrary.Presenters.NewTagOrPublisherInputPresenter presenter = new Presenters.NewTagOrPublisherInputPresenter(dialog, Presenters.NewTagOrPublisherInputPresenter.InputBoxMode.Publisher);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 return dialog.Entry;

@@ -314,7 +314,8 @@ namespace MyLibrary.Presenters
             this._addMediaItemView = new AddNewMediaItemForm();
             var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, this._tagService,
                 this._addMediaItemView,
-                new ImageFileReader());
+                new ImageFileReader(),
+                new NewTagOrPublisherInputBoxProvider());
             await addItemPresenter.PopulateTagsList();
 
             this._addMediaItemView.ItemAdded += ItemsAdded;
