@@ -51,11 +51,12 @@ namespace MyLibrary.Presenters
 
         private INewTagOrPublisherInputBoxProvider _newTagDialogProvider;
         private INewTagOrPublisherInputBoxProvider _newPublisherDialogProvider;
+        private INewAuthorInputBoxProvider _newAuthorDialogProvider;
 
         public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IAddBookForm view,
             IImageFileReader imageFileReader,
-            INewTagOrPublisherInputBoxProvider newTagDialogProvider, INewTagOrPublisherInputBoxProvider newPublisherDialogProvider)
+            INewTagOrPublisherInputBoxProvider newTagDialogProvider, INewTagOrPublisherInputBoxProvider newPublisherDialogProvider, INewAuthorInputBoxProvider newAuthorDialogProvider)
         {
             this._bookService = bookService;
             this._tagService = tagService;
@@ -72,6 +73,7 @@ namespace MyLibrary.Presenters
 
             this._newTagDialogProvider = newTagDialogProvider;
             this._newPublisherDialogProvider = newPublisherDialogProvider;
+            this._newAuthorDialogProvider = newAuthorDialogProvider;
 
             // subscribe to the view's events
             this._view.SaveButtonClicked += (async (sender, args) => 
@@ -481,25 +483,33 @@ namespace MyLibrary.Presenters
         // TODO: unit test
         public void HandleAddNewAuthorClicked(object sender, EventArgs args)
         {
-            string newAuthor = this._view.ShowNewAuthorDialog();
-            if (!string.IsNullOrWhiteSpace(newAuthor))
-            {
-                if (!this._allAuthors.ContainsKey(newAuthor))
-                {
-                    this._allAuthors.Add(newAuthor, true);
-
-                    FilterAuthors(null, null);
-                }
-                else
-                {
-                    this._view.ShowAuthorAlreadyExistsDialog(newAuthor);
-                }
-            }
-            else
+            var result = ShowNewAuthorDialog();
+            if (result is null)
             {
                 return;
             }
+
+            dynamic author = new Author($"{result.FirstName} {result.LastName}");
+            author = ((Author)author).GetFullNameLastNameCommaFirstName();
+            if (!this._allAuthors.ContainsKey(author))
+            {
+                this._allAuthors.Add(author, true);
+
+                FilterAuthors(null, null);
+            }
+            else
+            {
+                this._view.ShowAuthorAlreadyExistsDialog(author);
+            }
         }//HandleAddNewAuthorClicked
+
+        private AuthorName ShowNewAuthorDialog()
+        {
+            var dialog = this._newAuthorDialogProvider.Get();
+            NewAuthorInputPresenter presenter = new NewAuthorInputPresenter(dialog);
+
+            return dialog.ShowAsDialog();
+        }
 
         public void HandleTagCheckedChanged(object sender, EventArgs args)
         {

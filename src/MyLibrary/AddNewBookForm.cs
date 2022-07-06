@@ -597,34 +597,6 @@ namespace MyLibrary
             this.publishersList.EndUpdate();
         }
 
-        public string ShowNewTagDialog()
-        {
-            var dialog = new NewTagOrPublisherInputBox();
-            MyLibrary.Presenters.NewTagOrPublisherInputPresenter presenter = new Presenters.NewTagOrPublisherInputPresenter(dialog, Presenters.NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                return dialog.Entry;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public string ShowNewPublisherDialog()
-        {
-            var dialog = new NewTagOrPublisherInputBox();
-            MyLibrary.Presenters.NewTagOrPublisherInputPresenter presenter = new Presenters.NewTagOrPublisherInputPresenter(dialog, Presenters.NewTagOrPublisherInputPresenter.InputBoxMode.Publisher);
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                return dialog.Entry;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public string ShowNewAuthorDialog()
         {
             NewAuthorInputBox dialog = new NewAuthorInputBox();

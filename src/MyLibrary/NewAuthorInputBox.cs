@@ -31,11 +31,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
+using MyLibrary.Views;
 
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class NewAuthorInputBox : Form
+    public partial class NewAuthorInputBox : Form, INewAuthor
     {
         public string AuthorName;
 
@@ -60,36 +61,67 @@ namespace MyLibrary
             });
             this.firstNameField.TextChanged += ((sender, args) =>
             {
-                ValidateInput();
+                this.InputChanged?.Invoke(sender, args);
             });
             this.lastNameField.TextChanged += ((sender, args) =>
             {
-                ValidateInput();
+                this.InputChanged?.Invoke(sender, args);
             });
         }//ctor
 
-        private void ValidateInput()
+        public bool OkButtonEnabled
         {
-            bool sane = true;
-            string firstName = this.firstNameField.Text;
-            string lastName = this.lastNameField.Text;
-            sane = sane && (Regex.IsMatch(firstName, Author.NAME_PATTERN) || Regex.IsMatch(firstName, Author.WITH_MIDDLE_NAME_PATTERN));
-            sane = sane && Regex.IsMatch(lastName, Author.NAME_PATTERN);
+            get => this.okButton.Enabled;
+            set => this.okButton.Enabled = value;
+        }
 
-            this.okButton.Enabled = sane;
+        public string DialogTitle 
+        {
+            get => this.Text;
+            set => this.Text = value;
+        }
 
-            if (sane)
+        public string FirstNameEntry
+        {
+            get => this.firstNameField.Text;
+            set => this.firstNameField.Text = value;
+        }
+
+        public string LastNameEntry
+        {
+            get => this.lastNameField.Text;
+            set => this.lastNameField.Text = value;
+        }
+
+        public event EventHandler InputChanged;
+
+        public AuthorName ShowAsDialog()
+        {
+            if (this.ShowDialog() == DialogResult.OK)
             {
-                Author author = new Author();
-                author.FirstName = firstName;
-                author.LastName = lastName;
-
-                this.AuthorName = author.GetFullNameLastNameCommaFirstName();
+                return new AuthorName
+                {
+                    FirstName = this.firstNameField.Text,
+                    LastName = this.lastNameField.Text
+                };
             }
             else
             {
-                this.AuthorName = null;
+                return null;
             }
+        }
+    }//class
+
+    public interface INewAuthorInputBoxProvider
+    {
+        INewAuthor Get();
+    }
+
+    public class NewAuthorInputBoxProvider : INewAuthorInputBoxProvider
+    {
+        public INewAuthor Get()
+        {
+            return new NewAuthorInputBox();
         }
     }//class
 }
