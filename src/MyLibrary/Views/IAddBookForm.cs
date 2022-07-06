@@ -63,7 +63,6 @@ namespace MyLibrary.Views
         void AddPublishers(List<string> publishers);
 
         void ShowIsbnAlreadyExistsDialog(string isbn);
-        string ShowNewPublisherDialog();
         void ShowPublisherAlreadyExistsDialog(string newPublisher);
         string ShowNewAuthorDialog();
         void ShowAuthorAlreadyExistsDialog(string author);
@@ -78,6 +77,5 @@ namespace MyLibrary.Views
         event EventHandler FilterAuthorsFieldUpdated;
         event EventHandler AddNewAuthorButtonClicked;
         event EventHandler AuthorCheckedChanged;
-        event EventHandler AddNewTagButtonClicked;
     }
 }
