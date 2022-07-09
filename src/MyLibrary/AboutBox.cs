@@ -42,7 +42,7 @@ namespace MyLibrary
             this.labelVersion.Text = String.Format("Version {0}", Configuration.APP_VERSION);
             this.labelCopyright.Text = Configuration.APP_COPYRIGHT;
             this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = Configuration.APP_DESCRIPTION;
+            this.richTextBoxDescription.Text = Configuration.APP_DESCRIPTION;
 
             this.Text = "About " + Configuration.APP_NAME;
         }
