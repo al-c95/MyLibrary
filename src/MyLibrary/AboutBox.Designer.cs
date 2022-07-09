@@ -35,8 +35,8 @@ namespace MyLibrary
             this.labelVersion = new System.Windows.Forms.Label();
             this.labelCopyright = new System.Windows.Forms.Label();
             this.labelCompanyName = new System.Windows.Forms.Label();
-            this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.richTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -51,8 +51,8 @@ namespace MyLibrary
             this.tableLayoutPanel.Controls.Add(this.labelVersion, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.labelCopyright, 1, 2);
             this.tableLayoutPanel.Controls.Add(this.labelCompanyName, 1, 3);
-            this.tableLayoutPanel.Controls.Add(this.textBoxDescription, 1, 4);
             this.tableLayoutPanel.Controls.Add(this.okButton, 1, 5);
+            this.tableLayoutPanel.Controls.Add(this.richTextBoxDescription, 1, 4);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(12, 11);
             this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4);
@@ -128,21 +128,6 @@ namespace MyLibrary
             this.labelCompanyName.Text = "Company Name";
             this.labelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBoxDescription
-            // 
-            this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDescription.Location = new System.Drawing.Point(242, 132);
-            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
-            this.textBoxDescription.Multiline = true;
-            this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.ReadOnly = true;
-            this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxDescription.Size = new System.Drawing.Size(465, 155);
-            this.textBoxDescription.TabIndex = 23;
-            this.textBoxDescription.TabStop = false;
-            this.textBoxDescription.Text = "Description";
-            this.textBoxDescription.WordWrap = false;
-            // 
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -153,6 +138,16 @@ namespace MyLibrary
             this.okButton.Size = new System.Drawing.Size(100, 27);
             this.okButton.TabIndex = 24;
             this.okButton.Text = "&OK";
+            // 
+            // richTextBoxDescription
+            // 
+            this.richTextBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxDescription.Location = new System.Drawing.Point(237, 131);
+            this.richTextBoxDescription.Name = "richTextBoxDescription";
+            this.richTextBoxDescription.ReadOnly = true;
+            this.richTextBoxDescription.Size = new System.Drawing.Size(471, 157);
+            this.richTextBoxDescription.TabIndex = 25;
+            this.richTextBoxDescription.Text = "";
             // 
             // AboutBox
             // 
@@ -172,7 +167,6 @@ namespace MyLibrary
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AboutBox";
             this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -186,7 +180,7 @@ namespace MyLibrary
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label labelCopyright;
         private System.Windows.Forms.Label labelCompanyName;
-        private System.Windows.Forms.TextBox textBoxDescription;
         private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.RichTextBox richTextBoxDescription;
     }
 }
