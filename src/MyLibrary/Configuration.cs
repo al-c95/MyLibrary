@@ -52,6 +52,7 @@ namespace MyLibrary
                 descriptionBuilder.AppendLine("");
                 descriptionBuilder.AppendLine("");
                 descriptionBuilder.AppendLine("Thanks To: ");
+                descriptionBuilder.AppendLine(@"Icons by Yusuke Kamiyamane: https://p.yusukekamiyamane.com/");
                 descriptionBuilder.AppendLine("Newtonsoft.Json 13.0.1 by James Newton-King");
                 descriptionBuilder.AppendLine("Dapper 2.0.123 by Sam Saffron, Marc Gravell and Nick Craver");
                 descriptionBuilder.AppendLine("EPPlus 5.8.8 by EPPlus Software AB");
