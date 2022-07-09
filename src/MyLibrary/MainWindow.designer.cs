@@ -41,6 +41,13 @@ namespace MyLibrary
             this.importTagsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importAuthorsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPublishersCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.publishersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.authorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.booksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportWishlistMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,9 +63,6 @@ namespace MyLibrary
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addButton = new System.Windows.Forms.Button();
-            this.deleteSelectedButton = new System.Windows.Forms.Button();
-            this.tagsButton = new System.Windows.Forms.Button();
             this.dataGrid = new System.Windows.Forms.DataGridView();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -84,16 +88,14 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.categoryDropDown = new System.Windows.Forms.ComboBox();
-            this.searchBooksButton = new System.Windows.Forms.Button();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.wishlistButton = new System.Windows.Forms.Button();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.publishersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.authorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.booksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediaItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportWishlistMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.addButton = new System.Windows.Forms.ToolStripButton();
+            this.searchBooksButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteSelectedButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tagsButton = new System.Windows.Forms.ToolStripButton();
+            this.wishlistButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -104,6 +106,7 @@ namespace MyLibrary
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -117,7 +120,7 @@ namespace MyLibrary
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(1349, 28);
+            this.menuStrip.Size = new System.Drawing.Size(1349, 30);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -132,32 +135,32 @@ namespace MyLibrary
             this.toolStripSeparator3,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
-            this.fileMenu.Size = new System.Drawing.Size(46, 24);
+            this.fileMenu.Size = new System.Drawing.Size(46, 26);
             this.fileMenu.Text = "File";
             // 
             // newBookToolStripMenuItem
             // 
             this.newBookToolStripMenuItem.Name = "newBookToolStripMenuItem";
-            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.newBookToolStripMenuItem.Text = "New Book";
             // 
             // newMediaItemToolStripMenuItem
             // 
             this.newMediaItemToolStripMenuItem.Name = "newMediaItemToolStripMenuItem";
-            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.newMediaItemToolStripMenuItem.Text = "New Media Item";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // cSVToolStripMenuItem
@@ -188,15 +191,64 @@ namespace MyLibrary
             this.importPublishersCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.importPublishersCsvToolStripMenuItem.Text = "Publishers";
             // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tagsToolStripMenuItem,
+            this.publishersToolStripMenuItem,
+            this.authorsToolStripMenuItem,
+            this.booksToolStripMenuItem1,
+            this.mediaItemsToolStripMenuItem,
+            this.exportWishlistMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // tagsToolStripMenuItem
+            // 
+            this.tagsToolStripMenuItem.Name = "tagsToolStripMenuItem";
+            this.tagsToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.tagsToolStripMenuItem.Text = "Tags";
+            // 
+            // publishersToolStripMenuItem
+            // 
+            this.publishersToolStripMenuItem.Name = "publishersToolStripMenuItem";
+            this.publishersToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.publishersToolStripMenuItem.Text = "Publishers";
+            // 
+            // authorsToolStripMenuItem
+            // 
+            this.authorsToolStripMenuItem.Name = "authorsToolStripMenuItem";
+            this.authorsToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.authorsToolStripMenuItem.Text = "Authors";
+            // 
+            // booksToolStripMenuItem1
+            // 
+            this.booksToolStripMenuItem1.Name = "booksToolStripMenuItem1";
+            this.booksToolStripMenuItem1.Size = new System.Drawing.Size(174, 26);
+            this.booksToolStripMenuItem1.Text = "Books";
+            // 
+            // mediaItemsToolStripMenuItem
+            // 
+            this.mediaItemsToolStripMenuItem.Name = "mediaItemsToolStripMenuItem";
+            this.mediaItemsToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.mediaItemsToolStripMenuItem.Text = "Media items";
+            // 
+            // exportWishlistMenuItem
+            // 
+            this.exportWishlistMenuItem.Name = "exportWishlistMenuItem";
+            this.exportWishlistMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.exportWishlistMenuItem.Text = "Wishlist";
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitMenuItem.Size = new System.Drawing.Size(202, 26);
             this.exitMenuItem.Text = "Exit";
             // 
             // viewMenu
@@ -213,7 +265,7 @@ namespace MyLibrary
             this.vinylsToolStripMenuItem,
             this.otherToolStripMenuItem});
             this.viewMenu.Name = "viewMenu";
-            this.viewMenu.Size = new System.Drawing.Size(55, 24);
+            this.viewMenu.Size = new System.Drawing.Size(55, 26);
             this.viewMenu.Text = "View";
             // 
             // databaseStatisticsToolStripMenuItem
@@ -280,7 +332,7 @@ namespace MyLibrary
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(55, 24);
+            this.helpMenu.Size = new System.Drawing.Size(55, 26);
             this.helpMenu.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -288,39 +340,6 @@ namespace MyLibrary
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.aboutToolStripMenuItem.Text = "About";
-            // 
-            // addButton
-            // 
-            this.addButton.Location = new System.Drawing.Point(7, 2);
-            this.addButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(117, 34);
-            this.addButton.TabIndex = 1;
-            this.addButton.Text = "Add";
-            this.addButton.UseVisualStyleBackColor = true;
-            // 
-            // deleteSelectedButton
-            // 
-            this.deleteSelectedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.deleteSelectedButton.Location = new System.Drawing.Point(252, 2);
-            this.deleteSelectedButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.deleteSelectedButton.Name = "deleteSelectedButton";
-            this.deleteSelectedButton.Size = new System.Drawing.Size(119, 34);
-            this.deleteSelectedButton.TabIndex = 2;
-            this.deleteSelectedButton.Text = "Delete";
-            this.deleteSelectedButton.UseVisualStyleBackColor = true;
-            // 
-            // tagsButton
-            // 
-            this.tagsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tagsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.tagsButton.Location = new System.Drawing.Point(1139, 2);
-            this.tagsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tagsButton.Name = "tagsButton";
-            this.tagsButton.Size = new System.Drawing.Size(95, 34);
-            this.tagsButton.TabIndex = 5;
-            this.tagsButton.Text = "Tags";
-            this.tagsButton.UseVisualStyleBackColor = true;
             // 
             // dataGrid
             // 
@@ -340,7 +359,7 @@ namespace MyLibrary
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGrid.Location = new System.Drawing.Point(485, 42);
+            this.dataGrid.Location = new System.Drawing.Point(485, 37);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -348,7 +367,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(849, 738);
+            this.dataGrid.Size = new System.Drawing.Size(849, 741);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -380,7 +399,7 @@ namespace MyLibrary
             // categoryLabel
             // 
             this.categoryLabel.AutoSize = true;
-            this.categoryLabel.Location = new System.Drawing.Point(12, 46);
+            this.categoryLabel.Location = new System.Drawing.Point(12, 40);
             this.categoryLabel.Name = "categoryLabel";
             this.categoryLabel.Size = new System.Drawing.Size(69, 17);
             this.categoryLabel.TabIndex = 10;
@@ -394,11 +413,11 @@ namespace MyLibrary
             this.filterGroup.Controls.Add(this.applyFilterButton);
             this.filterGroup.Controls.Add(this.label2);
             this.filterGroup.Controls.Add(this.titleFilterField);
-            this.filterGroup.Location = new System.Drawing.Point(7, 73);
+            this.filterGroup.Location = new System.Drawing.Point(7, 65);
             this.filterGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterGroup.Name = "filterGroup";
             this.filterGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.filterGroup.Size = new System.Drawing.Size(468, 210);
+            this.filterGroup.Size = new System.Drawing.Size(468, 218);
             this.filterGroup.TabIndex = 11;
             this.filterGroup.TabStop = false;
             this.filterGroup.Text = "Filter";
@@ -427,7 +446,7 @@ namespace MyLibrary
             // clearFilterButton
             // 
             this.clearFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearFilterButton.Location = new System.Drawing.Point(388, 174);
+            this.clearFilterButton.Location = new System.Drawing.Point(388, 182);
             this.clearFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.clearFilterButton.Name = "clearFilterButton";
             this.clearFilterButton.Size = new System.Drawing.Size(75, 28);
@@ -438,7 +457,7 @@ namespace MyLibrary
             // applyFilterButton
             // 
             this.applyFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.applyFilterButton.Location = new System.Drawing.Point(5, 177);
+            this.applyFilterButton.Location = new System.Drawing.Point(5, 185);
             this.applyFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.applyFilterButton.Name = "applyFilterButton";
             this.applyFilterButton.Size = new System.Drawing.Size(75, 28);
@@ -484,7 +503,7 @@ namespace MyLibrary
             this.detailsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsGroup.Name = "detailsGroup";
             this.detailsGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.detailsGroup.Size = new System.Drawing.Size(468, 492);
+            this.detailsGroup.Size = new System.Drawing.Size(468, 490);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -536,7 +555,7 @@ namespace MyLibrary
             // 
             this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.detailsBox.Location = new System.Drawing.Point(9, 143);
+            this.detailsBox.Location = new System.Drawing.Point(9, 141);
             this.detailsBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsBox.Name = "detailsBox";
             this.detailsBox.ReadOnly = true;
@@ -558,7 +577,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeImageButton.Location = new System.Drawing.Point(308, 110);
+            this.removeImageButton.Location = new System.Drawing.Point(308, 108);
             this.removeImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(155, 28);
@@ -569,7 +588,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(9, 110);
+            this.selectImageButton.Location = new System.Drawing.Point(9, 108);
             this.selectImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(155, 28);
@@ -581,7 +600,7 @@ namespace MyLibrary
             // 
             this.notesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notesLabel.AutoSize = true;
-            this.notesLabel.Location = new System.Drawing.Point(12, 343);
+            this.notesLabel.Location = new System.Drawing.Point(12, 341);
             this.notesLabel.Name = "notesLabel";
             this.notesLabel.Size = new System.Drawing.Size(45, 17);
             this.notesLabel.TabIndex = 17;
@@ -591,7 +610,7 @@ namespace MyLibrary
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 361);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 359);
             this.textBoxNotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
@@ -603,7 +622,7 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(308, 456);
+            this.discardChangesButton.Location = new System.Drawing.Point(308, 454);
             this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -615,7 +634,7 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 456);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 454);
             this.saveChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -632,7 +651,7 @@ namespace MyLibrary
             this.pictureBox.Location = new System.Drawing.Point(9, 50);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(453, 52);
+            this.pictureBox.Size = new System.Drawing.Size(453, 50);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -641,22 +660,11 @@ namespace MyLibrary
             // 
             this.categoryDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.categoryDropDown.FormattingEnabled = true;
-            this.categoryDropDown.Location = new System.Drawing.Point(95, 42);
+            this.categoryDropDown.Location = new System.Drawing.Point(96, 37);
             this.categoryDropDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.categoryDropDown.Name = "categoryDropDown";
             this.categoryDropDown.Size = new System.Drawing.Size(379, 24);
             this.categoryDropDown.TabIndex = 15;
-            // 
-            // searchBooksButton
-            // 
-            this.searchBooksButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.8F);
-            this.searchBooksButton.Location = new System.Drawing.Point(129, 2);
-            this.searchBooksButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.searchBooksButton.Name = "searchBooksButton";
-            this.searchBooksButton.Size = new System.Drawing.Size(117, 34);
-            this.searchBooksButton.TabIndex = 16;
-            this.searchBooksButton.Text = "Search Books";
-            this.searchBooksButton.UseVisualStyleBackColor = true;
             // 
             // toolStripContainer1
             // 
@@ -667,18 +675,14 @@ namespace MyLibrary
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.wishlistButton);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.addButton);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.detailsGroup);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.categoryDropDown);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.filterGroup);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.searchBooksButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.categoryLabel);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.deleteSelectedButton);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.tagsButton);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGrid);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1349, 787);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1349, 785);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4);
@@ -691,65 +695,74 @@ namespace MyLibrary
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip);
             // 
+            // toolStrip
+            // 
+            this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addButton,
+            this.searchBooksButton,
+            this.deleteSelectedButton,
+            this.toolStripSeparator4,
+            this.tagsButton,
+            this.wishlistButton});
+            this.toolStrip.Location = new System.Drawing.Point(7, 2);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(203, 31);
+            this.toolStrip.TabIndex = 18;
+            this.toolStrip.Text = "toolStrip1";
+            // 
+            // addButton
+            // 
+            this.addButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addButton.Image = ((System.Drawing.Image)(resources.GetObject("addButton.Image")));
+            this.addButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(29, 28);
+            this.addButton.Text = "toolStripButton1";
+            this.addButton.ToolTipText = "Add New Item";
+            // 
+            // searchBooksButton
+            // 
+            this.searchBooksButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.searchBooksButton.Image = ((System.Drawing.Image)(resources.GetObject("searchBooksButton.Image")));
+            this.searchBooksButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.searchBooksButton.Name = "searchBooksButton";
+            this.searchBooksButton.Size = new System.Drawing.Size(29, 28);
+            this.searchBooksButton.Text = "toolStripButton2";
+            this.searchBooksButton.ToolTipText = "Search Books Online by ISBN";
+            // 
+            // deleteSelectedButton
+            // 
+            this.deleteSelectedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteSelectedButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteSelectedButton.Image")));
+            this.deleteSelectedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteSelectedButton.Name = "deleteSelectedButton";
+            this.deleteSelectedButton.Size = new System.Drawing.Size(29, 28);
+            this.deleteSelectedButton.Text = "toolStripButton3";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 31);
+            // 
+            // tagsButton
+            // 
+            this.tagsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tagsButton.Image = ((System.Drawing.Image)(resources.GetObject("tagsButton.Image")));
+            this.tagsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tagsButton.Name = "tagsButton";
+            this.tagsButton.Size = new System.Drawing.Size(29, 28);
+            this.tagsButton.Text = "toolStripButton4";
+            // 
             // wishlistButton
             // 
-            this.wishlistButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.wishlistButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.wishlistButton.Location = new System.Drawing.Point(1239, 2);
-            this.wishlistButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.wishlistButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.wishlistButton.Image = ((System.Drawing.Image)(resources.GetObject("wishlistButton.Image")));
+            this.wishlistButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.wishlistButton.Name = "wishlistButton";
-            this.wishlistButton.Size = new System.Drawing.Size(95, 34);
-            this.wishlistButton.TabIndex = 17;
-            this.wishlistButton.Text = "Wishlist";
-            this.wishlistButton.UseVisualStyleBackColor = true;
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tagsToolStripMenuItem,
-            this.publishersToolStripMenuItem,
-            this.authorsToolStripMenuItem,
-            this.booksToolStripMenuItem1,
-            this.mediaItemsToolStripMenuItem,
-            this.exportWishlistMenuItem});
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.exportToolStripMenuItem.Text = "Export";
-            // 
-            // tagsToolStripMenuItem
-            // 
-            this.tagsToolStripMenuItem.Name = "tagsToolStripMenuItem";
-            this.tagsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.tagsToolStripMenuItem.Text = "Tags";
-            // 
-            // publishersToolStripMenuItem
-            // 
-            this.publishersToolStripMenuItem.Name = "publishersToolStripMenuItem";
-            this.publishersToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.publishersToolStripMenuItem.Text = "Publishers";
-            // 
-            // authorsToolStripMenuItem
-            // 
-            this.authorsToolStripMenuItem.Name = "authorsToolStripMenuItem";
-            this.authorsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.authorsToolStripMenuItem.Text = "Authors";
-            // 
-            // booksToolStripMenuItem1
-            // 
-            this.booksToolStripMenuItem1.Name = "booksToolStripMenuItem1";
-            this.booksToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.booksToolStripMenuItem1.Text = "Books";
-            // 
-            // mediaItemsToolStripMenuItem
-            // 
-            this.mediaItemsToolStripMenuItem.Name = "mediaItemsToolStripMenuItem";
-            this.mediaItemsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.mediaItemsToolStripMenuItem.Text = "Media items";
-            //
-            // exportWishlistMenuItem
-            this.exportWishlistMenuItem.Name = "exportWishlistMenuItem";
-            this.exportWishlistMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.exportWishlistMenuItem.Text = "Wishlist";
+            this.wishlistButton.Size = new System.Drawing.Size(29, 28);
+            this.wishlistButton.Text = "toolStripButton5";
             // 
             // MainWindow
             // 
@@ -780,6 +793,8 @@ namespace MyLibrary
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -790,9 +805,6 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem fileMenu;
         private System.Windows.Forms.ToolStripMenuItem viewMenu;
         private System.Windows.Forms.ToolStripMenuItem helpMenu;
-        private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.Button deleteSelectedButton;
-        private System.Windows.Forms.Button tagsButton;
         private System.Windows.Forms.DataGridView dataGrid;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
@@ -820,12 +832,10 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem newMediaItemToolStripMenuItem;
         private System.Windows.Forms.RichTextBox detailsBox;
-        private System.Windows.Forms.Button searchBooksButton;
         private System.Windows.Forms.ToolStripMenuItem databaseStatisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.Button manageItemCopiesButton;
-        private System.Windows.Forms.Button wishlistButton;
         private CircularProgressBar.CircularProgressBar itemDetailsSpinner;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem;
@@ -849,6 +859,13 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mediaItemsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportWishlistMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip;
+        private System.Windows.Forms.ToolStripButton addButton;
+        private System.Windows.Forms.ToolStripButton searchBooksButton;
+        private System.Windows.Forms.ToolStripButton deleteSelectedButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton tagsButton;
+        private System.Windows.Forms.ToolStripButton wishlistButton;
     }
 }
 

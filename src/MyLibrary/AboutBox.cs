@@ -45,6 +45,11 @@ namespace MyLibrary
             this.richTextBoxDescription.Text = Configuration.APP_DESCRIPTION;
 
             this.Text = "About " + Configuration.APP_NAME;
+
+            this.richTextBoxDescription.LinkClicked += ((sender, args) =>
+            {
+                System.Diagnostics.Process.Start(args.LinkText);
+            });
         }
 
         #region Assembly Attribute Accessors
