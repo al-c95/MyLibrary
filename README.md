@@ -52,6 +52,7 @@ Some instructions or a manual may be provided as part of a future release.
 Sometimes, when selecting items quickly one after another, there is a small chance that the item data displayed will not match the selected item in the list. Presently, the solution is to select the item again. 
 
 ## Attributions
+- Icons by Yusuke Kamiyamane: https://p.yusukekamiyamane.com/
 - Newtonsoft.Json 13.0.1 by James Newton-King
 - Dapper 2.0.123 by Sam Saffron, Marc Gravell and Nick Craver
 - EPPlus 5.8.8 by EPPlus Software AB
