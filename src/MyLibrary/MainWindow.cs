@@ -303,12 +303,9 @@ namespace MyLibrary
                 });
                 form.ShowDialog();
             });
-            this.manageItemCopiesButton.Click += (async (sender, args) =>
+            this.manageItemCopiesButton.Click += ((sender, args) =>
             {
-                var form = new ManageCopiesDialog(this.SelectedItem);
-                ManageCopiesPresenter presenter = new ManageCopiesPresenter(form, this._selectedItem, new CopyServiceFactory());
-                await presenter.LoadData(sender, args);
-                form.ShowDialog();
+                ManageCopiesButtonClicked?.Invoke(sender, args);
             });
             this.wishlistButton.Click += ((sender, args) =>
             {
@@ -671,6 +668,7 @@ namespace MyLibrary
         public event EventHandler SearchByIsbnClicked;
         public event EventHandler ShowStatsClicked;
         public event EventHandler WishlistButtonClicked;
+        public event EventHandler ManageCopiesButtonClicked;
         #endregion
 
         public void ShowErrorDialog(string title, string message)
