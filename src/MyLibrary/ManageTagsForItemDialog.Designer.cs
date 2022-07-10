@@ -50,7 +50,7 @@ namespace MyLibrary
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(282, 412);
+            this.buttonCancel.Location = new System.Drawing.Point(454, 412);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(96, 26);
             this.buttonCancel.TabIndex = 1;
@@ -62,14 +62,14 @@ namespace MyLibrary
             this.tagsList.FormattingEnabled = true;
             this.tagsList.Location = new System.Drawing.Point(12, 46);
             this.tagsList.Name = "tagsList";
-            this.tagsList.Size = new System.Drawing.Size(366, 293);
+            this.tagsList.Size = new System.Drawing.Size(538, 293);
             this.tagsList.TabIndex = 2;
             // 
             // newTagField
             // 
             this.newTagField.Location = new System.Drawing.Point(12, 345);
             this.newTagField.Name = "newTagField";
-            this.newTagField.Size = new System.Drawing.Size(366, 22);
+            this.newTagField.Size = new System.Drawing.Size(538, 22);
             this.newTagField.TabIndex = 3;
             // 
             // addNewTagButton
@@ -94,7 +94,7 @@ namespace MyLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 450);
+            this.ClientSize = new System.Drawing.Size(562, 450);
             this.Controls.Add(this.itemTitleLabel);
             this.Controls.Add(this.addNewTagButton);
             this.Controls.Add(this.newTagField);
