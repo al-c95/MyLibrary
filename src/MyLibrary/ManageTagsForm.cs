@@ -27,6 +27,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
@@ -36,6 +37,7 @@ using MyLibrary.Views;
 
 namespace MyLibrary
 {
+    // TODO: refactor and unit test
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ManageTagsForm : Form
     {
@@ -206,7 +208,38 @@ namespace MyLibrary
 
                 TagsUpdated?.Invoke(this, args);
             });
+            this.filterTagField.TextChanged += (async (sender, args) =>
+            {
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                await FilterTags(this.filterTagField.Text);
+            });
+            this.applyFilterButton.Click += (async (sender, args) =>
+            {
+                await FilterTags(this.filterTagField.Text);
+            });
+            this.clearFilterButton.Click += (async (sender, args) =>
+            {
+                this.filterTagField.Text = "";
+            });
         }
+
+        private async Task FilterTags(string filterText)
+        {
+            // grab the filter
+            const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
+            Regex filterPattern = new Regex(filterText, REGEX_OPTIONS);
+
+            // perform filtering
+            var allTags = await this._service.GetAll();
+            this.tagsList.Items.Clear();
+            foreach (var tag in allTags)
+            {
+                if (filterPattern.IsMatch(tag.Name))
+                {
+                    this.tagsList.Items.Add(tag.Name);
+                }
+            }
+        }//FilterTags
 
         public event EventHandler TagsUpdated;
 
