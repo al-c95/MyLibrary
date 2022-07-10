@@ -29,6 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewMediaItemForm));
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.mediaTypesOptions = new System.Windows.Forms.ComboBox();
@@ -44,6 +45,8 @@ namespace MyLibrary
             this.yearField = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tagsGroup = new System.Windows.Forms.GroupBox();
+            this.clearFilterButton = new System.Windows.Forms.Button();
+            this.applyFilterButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.filterTagField = new System.Windows.Forms.TextBox();
             this.addNewTagButton = new System.Windows.Forms.Button();
@@ -51,14 +54,14 @@ namespace MyLibrary
             this.imageFilePathField = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.browseImageButton = new System.Windows.Forms.Button();
-            this.applyFilterButton = new System.Windows.Forms.Button();
-            this.clearFilterButton = new System.Windows.Forms.Button();
             this.tagsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // saveButton
             // 
             this.saveButton.Enabled = false;
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.saveButton.Location = new System.Drawing.Point(12, 585);
             this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveButton.Name = "saveButton";
@@ -69,6 +72,8 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
+            this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
+            this.cancelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cancelButton.Location = new System.Drawing.Point(325, 585);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cancelButton.Name = "cancelButton";
@@ -201,6 +206,28 @@ namespace MyLibrary
             this.tagsGroup.TabStop = false;
             this.tagsGroup.Text = "Tags";
             // 
+            // clearFilterButton
+            // 
+            this.clearFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearFilterButton.Location = new System.Drawing.Point(376, 162);
+            this.clearFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clearFilterButton.Name = "clearFilterButton";
+            this.clearFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.clearFilterButton.TabIndex = 29;
+            this.clearFilterButton.Text = "Clear";
+            this.clearFilterButton.UseVisualStyleBackColor = true;
+            // 
+            // applyFilterButton
+            // 
+            this.applyFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.applyFilterButton.Location = new System.Drawing.Point(295, 162);
+            this.applyFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.applyFilterButton.Name = "applyFilterButton";
+            this.applyFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.applyFilterButton.TabIndex = 28;
+            this.applyFilterButton.Text = "Apply";
+            this.applyFilterButton.UseVisualStyleBackColor = true;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -264,28 +291,6 @@ namespace MyLibrary
             this.browseImageButton.Text = "Browse";
             this.browseImageButton.UseVisualStyleBackColor = true;
             // 
-            // applyFilterButton
-            // 
-            this.applyFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.applyFilterButton.Location = new System.Drawing.Point(295, 162);
-            this.applyFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.applyFilterButton.Name = "applyFilterButton";
-            this.applyFilterButton.Size = new System.Drawing.Size(75, 28);
-            this.applyFilterButton.TabIndex = 28;
-            this.applyFilterButton.Text = "Apply";
-            this.applyFilterButton.UseVisualStyleBackColor = true;
-            // 
-            // clearFilterButton
-            // 
-            this.clearFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearFilterButton.Location = new System.Drawing.Point(376, 162);
-            this.clearFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.clearFilterButton.Name = "clearFilterButton";
-            this.clearFilterButton.Size = new System.Drawing.Size(75, 28);
-            this.clearFilterButton.TabIndex = 29;
-            this.clearFilterButton.Text = "Clear";
-            this.clearFilterButton.UseVisualStyleBackColor = true;
-            // 
             // AddNewMediaItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -310,6 +315,7 @@ namespace MyLibrary
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
