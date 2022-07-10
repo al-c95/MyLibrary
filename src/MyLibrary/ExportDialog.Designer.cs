@@ -29,6 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -58,18 +59,22 @@ namespace MyLibrary
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(348, 138);
+            this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
+            this.cancelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cancelButton.Location = new System.Drawing.Point(332, 138);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(104, 29);
+            this.cancelButton.Size = new System.Drawing.Size(120, 29);
             this.cancelButton.TabIndex = 4;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // startButton
             // 
+            this.startButton.Image = ((System.Drawing.Image)(resources.GetObject("startButton.Image")));
+            this.startButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startButton.Location = new System.Drawing.Point(12, 138);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(104, 29);
+            this.startButton.Size = new System.Drawing.Size(123, 29);
             this.startButton.TabIndex = 5;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
@@ -92,6 +97,8 @@ namespace MyLibrary
             // 
             // browseButton
             // 
+            this.browseButton.Image = ((System.Drawing.Image)(resources.GetObject("browseButton.Image")));
+            this.browseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.browseButton.Location = new System.Drawing.Point(348, 56);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(104, 29);
@@ -112,6 +119,7 @@ namespace MyLibrary
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ExportDialog";
