@@ -30,6 +30,7 @@ namespace MyLibrary
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WishlistDialog));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -70,11 +71,11 @@ namespace MyLibrary
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox2);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
-            this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1043, 533);
+            this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1043, 539);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolStripContainer.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer.Name = "toolStripContainer";
             this.toolStripContainer.Size = new System.Drawing.Size(1043, 590);
             this.toolStripContainer.TabIndex = 0;
@@ -118,7 +119,7 @@ namespace MyLibrary
             this.groupBox2.Controls.Add(this.newItemNotesBox);
             this.groupBox2.Controls.Add(this.saveNewItemChangesButton);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(15, 253);
+            this.groupBox2.Location = new System.Drawing.Point(15, 259);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -142,7 +143,7 @@ namespace MyLibrary
             this.typesDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.typesDropDown.FormattingEnabled = true;
             this.typesDropDown.Location = new System.Drawing.Point(75, 207);
-            this.typesDropDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.typesDropDown.Margin = new System.Windows.Forms.Padding(4);
             this.typesDropDown.Name = "typesDropDown";
             this.typesDropDown.Size = new System.Drawing.Size(377, 24);
             this.typesDropDown.TabIndex = 30;
@@ -160,7 +161,7 @@ namespace MyLibrary
             // newItemTitleField
             // 
             this.newItemTitleField.Location = new System.Drawing.Point(57, 22);
-            this.newItemTitleField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.newItemTitleField.Margin = new System.Windows.Forms.Padding(4);
             this.newItemTitleField.Name = "newItemTitleField";
             this.newItemTitleField.Size = new System.Drawing.Size(393, 22);
             this.newItemTitleField.TabIndex = 30;
@@ -284,7 +285,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(548, 512);
+            this.dataGrid.Size = new System.Drawing.Size(548, 518);
             this.dataGrid.TabIndex = 26;
             // 
             // WishlistDialog
@@ -293,7 +294,8 @@ namespace MyLibrary
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 590);
             this.Controls.Add(this.toolStripContainer);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "WishlistDialog";
             this.Text = "Wishlist";
             this.toolStripContainer.BottomToolStripPanel.ResumeLayout(false);

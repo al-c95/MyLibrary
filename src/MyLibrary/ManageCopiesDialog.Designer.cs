@@ -29,7 +29,8 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageCopiesDialog));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -37,18 +38,18 @@ namespace MyLibrary
             this.itemTitleLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.newCopyNotesBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.saveNewCopyChangesButton = new System.Windows.Forms.Button();
+            this.newCopyDescriptionField = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.discardChangesButton = new System.Windows.Forms.Button();
             this.selectedCopyNotesBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.saveChangesButton = new System.Windows.Forms.Button();
+            this.selectedCopyDescriptionField = new System.Windows.Forms.TextBox();
             this.notesLabel = new System.Windows.Forms.Label();
             this.dataGrid = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.newCopyDescriptionField = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.selectedCopyDescriptionField = new System.Windows.Forms.TextBox();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
@@ -72,13 +73,13 @@ namespace MyLibrary
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox2);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
-            this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(760, 415);
+            this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1013, 510);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.toolStripContainer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.toolStripContainer.Name = "toolStripContainer";
-            this.toolStripContainer.Size = new System.Drawing.Size(760, 461);
+            this.toolStripContainer.Size = new System.Drawing.Size(1013, 567);
             this.toolStripContainer.TabIndex = 0;
             this.toolStripContainer.Text = "toolStripContainer1";
             // 
@@ -90,7 +91,7 @@ namespace MyLibrary
             this.toolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(760, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1013, 26);
             this.statusStrip1.TabIndex = 0;
             // 
             // toolStripStatusLabel
@@ -102,10 +103,10 @@ namespace MyLibrary
             // deleteButton
             // 
             this.deleteButton.Enabled = false;
-            this.deleteButton.Location = new System.Drawing.Point(232, 213);
-            this.deleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteButton.Location = new System.Drawing.Point(309, 262);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(116, 23);
+            this.deleteButton.Size = new System.Drawing.Size(155, 28);
             this.deleteButton.TabIndex = 25;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -113,10 +114,9 @@ namespace MyLibrary
             // itemTitleLabel
             // 
             this.itemTitleLabel.AutoSize = true;
-            this.itemTitleLabel.Location = new System.Drawing.Point(9, 7);
-            this.itemTitleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.itemTitleLabel.Location = new System.Drawing.Point(12, 9);
             this.itemTitleLabel.Name = "itemTitleLabel";
-            this.itemTitleLabel.Size = new System.Drawing.Size(41, 15);
+            this.itemTitleLabel.Size = new System.Drawing.Size(46, 17);
             this.itemTitleLabel.TabIndex = 26;
             this.itemTitleLabel.Text = "label4";
             // 
@@ -128,11 +128,11 @@ namespace MyLibrary
             this.groupBox2.Controls.Add(this.saveNewCopyChangesButton);
             this.groupBox2.Controls.Add(this.newCopyDescriptionField);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(9, 241);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Location = new System.Drawing.Point(12, 295);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox2.Size = new System.Drawing.Size(345, 166);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(460, 204);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "New Copy";
@@ -140,34 +140,50 @@ namespace MyLibrary
             // newCopyNotesBox
             // 
             this.newCopyNotesBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.newCopyNotesBox.Location = new System.Drawing.Point(6, 64);
-            this.newCopyNotesBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.newCopyNotesBox.Location = new System.Drawing.Point(8, 79);
+            this.newCopyNotesBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.newCopyNotesBox.Multiline = true;
             this.newCopyNotesBox.Name = "newCopyNotesBox";
             this.newCopyNotesBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.newCopyNotesBox.Size = new System.Drawing.Size(333, 71);
+            this.newCopyNotesBox.Size = new System.Drawing.Size(443, 86);
             this.newCopyNotesBox.TabIndex = 20;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 17);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "Description:";
             // 
             // saveNewCopyChangesButton
             // 
             this.saveNewCopyChangesButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.saveNewCopyChangesButton.Enabled = false;
-            this.saveNewCopyChangesButton.Location = new System.Drawing.Point(5, 139);
-            this.saveNewCopyChangesButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveNewCopyChangesButton.Location = new System.Drawing.Point(7, 171);
+            this.saveNewCopyChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveNewCopyChangesButton.Name = "saveNewCopyChangesButton";
-            this.saveNewCopyChangesButton.Size = new System.Drawing.Size(116, 23);
+            this.saveNewCopyChangesButton.Size = new System.Drawing.Size(155, 28);
             this.saveNewCopyChangesButton.TabIndex = 18;
             this.saveNewCopyChangesButton.Text = "Save Changes";
             this.saveNewCopyChangesButton.UseVisualStyleBackColor = true;
+            // 
+            // newCopyDescriptionField
+            // 
+            this.newCopyDescriptionField.Location = new System.Drawing.Point(92, 22);
+            this.newCopyDescriptionField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.newCopyDescriptionField.Name = "newCopyDescriptionField";
+            this.newCopyDescriptionField.Size = new System.Drawing.Size(360, 22);
+            this.newCopyDescriptionField.TabIndex = 22;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 47);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(7, 58);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 15);
+            this.label3.Size = new System.Drawing.Size(45, 17);
             this.label3.TabIndex = 21;
             this.label3.Text = "Notes";
             // 
@@ -179,11 +195,11 @@ namespace MyLibrary
             this.groupBox1.Controls.Add(this.saveChangesButton);
             this.groupBox1.Controls.Add(this.selectedCopyDescriptionField);
             this.groupBox1.Controls.Add(this.notesLabel);
-            this.groupBox1.Location = new System.Drawing.Point(9, 43);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(12, 53);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(345, 166);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(460, 204);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Copy Details";
@@ -192,10 +208,10 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.discardChangesButton.Enabled = false;
-            this.discardChangesButton.Location = new System.Drawing.Point(223, 137);
-            this.discardChangesButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.discardChangesButton.Location = new System.Drawing.Point(297, 169);
+            this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
-            this.discardChangesButton.Size = new System.Drawing.Size(116, 23);
+            this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
             this.discardChangesButton.TabIndex = 24;
             this.discardChangesButton.Text = "Discard Changes";
             this.discardChangesButton.UseVisualStyleBackColor = true;
@@ -203,34 +219,50 @@ namespace MyLibrary
             // selectedCopyNotesBox
             // 
             this.selectedCopyNotesBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.selectedCopyNotesBox.Location = new System.Drawing.Point(5, 61);
-            this.selectedCopyNotesBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.selectedCopyNotesBox.Location = new System.Drawing.Point(7, 75);
+            this.selectedCopyNotesBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.selectedCopyNotesBox.Multiline = true;
             this.selectedCopyNotesBox.Name = "selectedCopyNotesBox";
             this.selectedCopyNotesBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.selectedCopyNotesBox.Size = new System.Drawing.Size(334, 74);
+            this.selectedCopyNotesBox.Size = new System.Drawing.Size(444, 90);
             this.selectedCopyNotesBox.TabIndex = 20;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 17);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Description:";
             // 
             // saveChangesButton
             // 
             this.saveChangesButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.saveChangesButton.Enabled = false;
-            this.saveChangesButton.Location = new System.Drawing.Point(5, 139);
-            this.saveChangesButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveChangesButton.Location = new System.Drawing.Point(7, 171);
+            this.saveChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveChangesButton.Name = "saveChangesButton";
-            this.saveChangesButton.Size = new System.Drawing.Size(116, 23);
+            this.saveChangesButton.Size = new System.Drawing.Size(155, 28);
             this.saveChangesButton.TabIndex = 18;
             this.saveChangesButton.Text = "Save Changes";
             this.saveChangesButton.UseVisualStyleBackColor = true;
+            // 
+            // selectedCopyDescriptionField
+            // 
+            this.selectedCopyDescriptionField.Location = new System.Drawing.Point(92, 22);
+            this.selectedCopyDescriptionField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.selectedCopyDescriptionField.Name = "selectedCopyDescriptionField";
+            this.selectedCopyDescriptionField.Size = new System.Drawing.Size(360, 22);
+            this.selectedCopyDescriptionField.TabIndex = 22;
             // 
             // notesLabel
             // 
             this.notesLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.notesLabel.AutoSize = true;
-            this.notesLabel.Location = new System.Drawing.Point(5, 44);
-            this.notesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.notesLabel.Location = new System.Drawing.Point(7, 54);
             this.notesLabel.Name = "notesLabel";
-            this.notesLabel.Size = new System.Drawing.Size(39, 15);
+            this.notesLabel.Size = new System.Drawing.Size(45, 17);
             this.notesLabel.TabIndex = 21;
             this.notesLabel.Text = "Notes";
             // 
@@ -244,68 +276,33 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGrid.Location = new System.Drawing.Point(361, 46);
-            this.dataGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGrid.Location = new System.Drawing.Point(481, 57);
+            this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
             this.dataGrid.ReadOnly = true;
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(392, 361);
+            this.dataGrid.Size = new System.Drawing.Size(523, 443);
             this.dataGrid.TabIndex = 8;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 20);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 15);
-            this.label2.TabIndex = 23;
-            this.label2.Text = "Description:";
-            // 
-            // newCopyDescriptionField
-            // 
-            this.newCopyDescriptionField.Location = new System.Drawing.Point(69, 18);
-            this.newCopyDescriptionField.Margin = new System.Windows.Forms.Padding(2);
-            this.newCopyDescriptionField.Name = "newCopyDescriptionField";
-            this.newCopyDescriptionField.Size = new System.Drawing.Size(271, 20);
-            this.newCopyDescriptionField.TabIndex = 22;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 20);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 15);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "Description:";
-            // 
-            // selectedCopyDescriptionField
-            // 
-            this.selectedCopyDescriptionField.Location = new System.Drawing.Point(69, 18);
-            this.selectedCopyDescriptionField.Margin = new System.Windows.Forms.Padding(2);
-            this.selectedCopyDescriptionField.Name = "selectedCopyDescriptionField";
-            this.selectedCopyDescriptionField.Size = new System.Drawing.Size(271, 20);
-            this.selectedCopyDescriptionField.TabIndex = 22;
             // 
             // ManageCopiesDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(760, 461);
+            this.ClientSize = new System.Drawing.Size(1013, 567);
             this.Controls.Add(this.toolStripContainer);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ManageCopiesDialog";
             this.Text = "Manage Copies For Item";
             this.toolStripContainer.BottomToolStripPanel.ResumeLayout(false);

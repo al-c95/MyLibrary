@@ -29,6 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageTagsForm));
             this.tagsList = new System.Windows.Forms.ListView();
             this.addTagButton = new System.Windows.Forms.Button();
             this.addTagGroup = new System.Windows.Forms.GroupBox();
@@ -92,6 +93,7 @@ namespace MyLibrary
             this.Controls.Add(this.addTagGroup);
             this.Controls.Add(this.tagsList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ManageTagsForm";
