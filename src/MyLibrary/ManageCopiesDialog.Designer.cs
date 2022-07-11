@@ -29,8 +29,8 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageCopiesDialog));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -74,7 +74,7 @@ namespace MyLibrary
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
             this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1013, 510);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1013, 516);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -103,6 +103,8 @@ namespace MyLibrary
             // deleteButton
             // 
             this.deleteButton.Enabled = false;
+            this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
+            this.deleteButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.deleteButton.Location = new System.Drawing.Point(309, 262);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deleteButton.Name = "deleteButton";
@@ -128,7 +130,7 @@ namespace MyLibrary
             this.groupBox2.Controls.Add(this.saveNewCopyChangesButton);
             this.groupBox2.Controls.Add(this.newCopyDescriptionField);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 295);
+            this.groupBox2.Location = new System.Drawing.Point(12, 301);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -161,6 +163,8 @@ namespace MyLibrary
             // 
             this.saveNewCopyChangesButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.saveNewCopyChangesButton.Enabled = false;
+            this.saveNewCopyChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("saveNewCopyChangesButton.Image")));
+            this.saveNewCopyChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.saveNewCopyChangesButton.Location = new System.Drawing.Point(7, 171);
             this.saveNewCopyChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveNewCopyChangesButton.Name = "saveNewCopyChangesButton";
@@ -208,12 +212,15 @@ namespace MyLibrary
             // 
             this.discardChangesButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.discardChangesButton.Enabled = false;
+            this.discardChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("discardChangesButton.Image")));
+            this.discardChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.discardChangesButton.Location = new System.Drawing.Point(297, 169);
             this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
             this.discardChangesButton.TabIndex = 24;
             this.discardChangesButton.Text = "Discard Changes";
+            this.discardChangesButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.discardChangesButton.UseVisualStyleBackColor = true;
             // 
             // selectedCopyNotesBox
@@ -240,6 +247,8 @@ namespace MyLibrary
             // 
             this.saveChangesButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.saveChangesButton.Enabled = false;
+            this.saveChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("saveChangesButton.Image")));
+            this.saveChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.saveChangesButton.Location = new System.Drawing.Point(7, 171);
             this.saveChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveChangesButton.Name = "saveChangesButton";
@@ -276,14 +285,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(481, 57);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -292,7 +301,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(523, 443);
+            this.dataGrid.Size = new System.Drawing.Size(523, 449);
             this.dataGrid.TabIndex = 8;
             // 
             // ManageCopiesDialog
