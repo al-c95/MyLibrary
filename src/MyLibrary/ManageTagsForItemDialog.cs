@@ -27,6 +27,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.BusinessLogic;
@@ -35,12 +36,15 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary
 {
+    // TODO: refactor and unit test
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ManageTagsForItemDialog : Form
     {
         private ITagService _tagService;
 
         private Item _item;
+
+        private List<string> _checkedTags;
 
         public ManageTagsForItemDialog(Item item)
         {
@@ -52,6 +56,8 @@ namespace MyLibrary
             this.itemTitleLabel.Text = item.Title;
 
             this.tagsList.CheckOnClick = true;
+
+            this._checkedTags = new List<string>();   
 
             this.CenterToParent();
 
@@ -74,7 +80,9 @@ namespace MyLibrary
                 // save changes
                 List<string> originalTags = new List<string>();
                 foreach (var tag in this._item.Tags)
+                {
                     originalTags.Add(tag.Name);
+                }
                 ItemTagsDto dto = new ItemTagsDto(this._item.Id, originalTags, this.SelectedTags);
                 try
                 {
@@ -168,7 +176,67 @@ namespace MyLibrary
             {
                 this.buttonSave.Enabled = true;
             });
+            this.filterTagField.TextChanged += (async (sender, args) =>
+            {
+                await Task.Delay(MainWindow.FILTER_DELAY);
+                await FilterTags(this.filterTagField.Text);
+            });
+            this.clearFilterButton.Click += ((sender, args) =>
+            {
+                this.filterTagField.Text = "";
+            });
+            this.applyFilterButton.Click += (async (sender, args) =>
+            {
+                await FilterTags(this.filterTagField.Text);
+            });
+            this.tagsList.ItemCheck += ((sender, args) =>
+            {
+                if (args.NewValue == CheckState.Checked)
+                {
+                    if (!this._checkedTags.Contains(tagsList.Items[args.Index]))
+                    {
+                        this._checkedTags.Add(tagsList.Items[args.Index].ToString());
+                    }
+                }
+                else if (args.NewValue == CheckState.Unchecked)
+                {
+                    this._checkedTags.Remove(tagsList.Items[args.Index].ToString());
+                    this._checkedTags.Remove(tagsList.Items[args.Index].ToString());
+                }
+            });
         }
+
+        private async Task FilterTags(string filterText)
+        {
+            // grab the filter
+            const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
+            Regex filterPattern = new Regex(filterText, REGEX_OPTIONS);
+
+            // perform filtering
+            var allTags = await this._tagService.GetAll();
+            // tell the list it is being updated
+            tagsList.BeginUpdate();
+            tagsList.Items.Clear();
+            // fill the list with filtered items
+            foreach (Tag tag in allTags)
+            {
+                if (filterPattern.IsMatch(tag.Name))
+                {
+                    tagsList.Items.Add(tag.Name);
+                }
+            }
+            // now check previously-checked tags
+            for (int i = 0; i < tagsList.Items.Count; i++)
+            {
+                string currTagName = tagsList.Items[i].ToString();
+                if (_checkedTags.Contains(currTagName))
+                {
+                    tagsList.SetItemChecked(tagsList.Items.IndexOf(currTagName), true);
+                }
+            }
+            // finished
+            tagsList.EndUpdate();
+        }//FilterTags
 
         public event EventHandler TagsUpdated;
 
@@ -184,22 +252,25 @@ namespace MyLibrary
         {
             get
             {
-                foreach (var tag in this.tagsList.CheckedItems)
+                foreach (var tag in this._checkedTags)
                     yield return tag.ToString();
             }
         }
 
         async Task PopulateTags()
         {
+            // populate list
             this.tagsList.Items.Clear();
-
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
-                bool checkedState = this._item.Tags.Any(t => t.Name.Equals(tag.Name));
-                this.tagsList.Items.Add(tag.Name, checkedState);
-            }
+                bool isChecked = this._item.Tags.Any(t => t.Name.Equals(tag.Name));
+                this.tagsList.Items.Add(tag.Name, isChecked);
 
+                // take note of checked tags
+                if (isChecked)
+                    _checkedTags.Add(tag.Name);
+            }
             this.buttonSave.Enabled = false;
         }//PopulateTags
     }//class
