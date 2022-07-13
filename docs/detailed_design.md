@@ -169,3 +169,10 @@ The following types can be imported as bulk imports:
 - Publishers
 
 These types are uniquely identifiable by their name or title fields, so if there are any already in the database, they will be skipped.
+
+### Excel imports
+- Supported for books and media items
+- Selected fields are editable. Columns which are not editable will be locked.
+
+#### Import process
+TODO
