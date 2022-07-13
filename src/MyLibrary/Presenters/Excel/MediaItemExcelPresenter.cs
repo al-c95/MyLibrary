@@ -86,6 +86,8 @@ namespace MyLibrary.Presenters.Excel
                 }
             });
 
+            this._dialog.Label1 = "Formatting worksheet...";
+
             // autofit some columns
             AutoFitColumn(2);
             AutoFitColumn(4);
@@ -97,7 +99,21 @@ namespace MyLibrary.Presenters.Excel
             WrapText(8);
             SetColumnWidth(8, 30);
 
+            // lock selected cells
+            await Task.Run(() =>
+            {
+                SetWorksheetProtectionAttributes();
+                for (int i = HEADER_ROW + 1; i <= 65000; i++)
+                {
+                    UnlockCell(i, 2);
+                    for (int j = 4; j <= 8; j++)
+                    {
+                        UnlockCell(i, j);
+                    }
+                }
+            });
+
             await this._excel.SaveAsync(this._file, this._dialog.Path);
         }
-    }
+    }//class
 }

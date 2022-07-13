@@ -205,6 +205,44 @@ namespace MyLibrary.Presenters.Excel
             this._excel.Worksheet.Column(col).Width = width;
         }
 
+        protected void SetWorksheetProtectionAttributes()
+        {
+            this._excel.Worksheet.Protection.IsProtected = true;
+            this._excel.Worksheet.Protection.AllowAutoFilter = true;
+            this._excel.Worksheet.Protection.AllowDeleteColumns = false;
+            this._excel.Worksheet.Protection.AllowDeleteRows = true;
+            this._excel.Worksheet.Protection.AllowEditObject = true;
+            this._excel.Worksheet.Protection.AllowEditScenarios = true;
+            this._excel.Worksheet.Protection.AllowFormatCells = true;
+            this._excel.Worksheet.Protection.AllowFormatColumns = true;
+            this._excel.Worksheet.Protection.AllowFormatRows = true;
+            this._excel.Worksheet.Protection.AllowInsertColumns = false;
+            this._excel.Worksheet.Protection.AllowInsertRows = true;
+            this._excel.Worksheet.Protection.AllowPivotTables = false;
+            this._excel.Worksheet.Protection.AllowSelectLockedCells = true;
+            this._excel.Worksheet.Protection.AllowSelectUnlockedCells = true;
+            this._excel.Worksheet.Protection.AllowSort = true;
+            // additionally, don't allow the user to change sheet names
+            this._excel.Package.Workbook.Protection.LockStructure = true;
+
+            SetLockPassword();
+        }
+
+        protected void UnlockCell(int row, int col)
+        {
+            this._excel.Worksheet.Cells[row, col].Style.Locked = false;
+        }
+
+        private void SetLockPassword()
+        {
+            // set a random password so that *nobody* can edit the protected cells
+            byte[] passwordBytes = new byte[32];
+            System.Random rng = new Random();
+            rng.NextBytes(passwordBytes);
+            string passwordString = Convert.ToBase64String(passwordBytes);
+            this._excel.Worksheet.Protection.SetPassword(passwordString);
+        }
+
         /// <summary>
         /// Writes entities as rows to the Excel, then saves the file and disposes of the view.
         /// TODO: protect sheet.
