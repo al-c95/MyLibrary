@@ -35,6 +35,15 @@ namespace MyLibrary.Presenters.Excel
     {
         protected readonly IMediaItemService _mediaItemService;
 
+        protected const int ID_COL = 1;
+        protected const int TITLE_COL = 2;
+        protected const int TYPE_COL = 3;
+        protected const int NUMBER_COL = 4;
+        protected const int RUNNING_TIME_COL = 5;
+        protected const int RELEASE_YEAR_COL = 6;
+        protected const int TAGS_COL = 7;
+        protected const int NOTES_COL = 8;
+
         public MediaItemExcelPresenter(IMediaItemService tagService, IExcelFile file, Views.IExportDialog dialog)
             :base("Media item", file, dialog)
         {
@@ -64,9 +73,9 @@ namespace MyLibrary.Presenters.Excel
         {
             // write data
             var allItems = await this._mediaItemService.GetAll();
+            int count = 0;
             await Task.Run(() =>
             {
-                int count = 0;
                 foreach (var item in allItems)
                 {
                     WriteEntityRow(new object[]
@@ -89,31 +98,38 @@ namespace MyLibrary.Presenters.Excel
             this._dialog.Label1 = "Formatting worksheet...";
 
             // autofit some columns
-            AutoFitColumn(2);
-            AutoFitColumn(4);
-            AutoFitColumn(5);
-            AutoFitColumn(6);
-            AutoFitColumn(7);
+            AutoFitColumn(TITLE_COL);
+            AutoFitColumn(NUMBER_COL);
+            AutoFitColumn(RUNNING_TIME_COL);
+            AutoFitColumn(RELEASE_YEAR_COL);
+            AutoFitColumn(TAGS_COL);
 
             // wrap text and set width for Notes column
-            WrapText(8);
-            SetColumnWidth(8, 30);
+            WrapText(NOTES_COL);
+            SetColumnWidth(NOTES_COL, 30);
 
-            // lock selected cells
+            // unlock selected cells
             await Task.Run(() =>
             {
                 SetWorksheetProtectionAttributes();
                 for (int i = HEADER_ROW + 1; i <= 65000; i++)
                 {
-                    UnlockCell(i, 2);
-                    for (int j = 4; j <= 8; j++)
+                    UnlockCell(i, NUMBER_COL);
+                    UnlockCell(i, RUNNING_TIME_COL);
+                    UnlockCell(i, TAGS_COL);
+                    UnlockCell(i, NOTES_COL);
+
+                    // allow adding new rows
+                    if (i >= HEADER_ROW + count)
                     {
-                        UnlockCell(i, j);
+                        UnlockCell(i, TITLE_COL);
+                        UnlockCell(i, TYPE_COL);
+                        UnlockCell(i, RELEASE_YEAR_COL);
                     }
                 }
             });
 
             await this._excel.SaveAsync(this._file, this._dialog.Path);
-        }
+        }//RenderExcel
     }//class
 }
