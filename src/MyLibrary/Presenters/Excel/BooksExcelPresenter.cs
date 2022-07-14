@@ -35,6 +35,28 @@ namespace MyLibrary.Presenters.Excel
     {
         protected readonly IBookService _bookService;
 
+        protected const int ID_COL =1;
+        protected const int TITLE_COL = 2;
+        protected const int TITLE_LONG_COL = 3;
+        protected const int ISBN_COL = 4;
+        protected const int ISBN13_COL = 5;
+        protected const int AUTHORS_COL = 6;
+        protected const int LANGUAGE_COL = 7;
+        protected const int TAGS_COL = 8;
+        protected const int DEWEY_DECIMAL_COL = 9;
+        protected const int MSRP_COL = 10;
+        protected const int PUBLISHER_COL = 11;
+        protected const int FORMAT_COL = 12;
+        protected const int DATE_PUBLISHED_COL = 13;
+        protected const int PLACE_OF_PUBLICATION_COL = 14;
+        protected const int EDITION_COL = 15;
+        protected const int PAGES_COL = 16;
+        protected const int DIMENSIONS_COL = 17;
+        protected const int OVERVIEW_COL = 18;
+        protected const int EXCERPT_COL = 19;
+        protected const int SYNOPSYS_COL = 20;
+        protected const int NOTES_COL = 21;
+
         public BookExcelPresenter(IBookService bookService, IExcelFile file, Views.IExportDialog dialog)
             :base("Book", file, dialog)
         {
@@ -58,26 +80,28 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("F", "Authors");
             WriteHeaderCell("G", "Language");
             WriteHeaderCell("H", "Tags");
-            WriteHeaderCell("I", "Publisher");
-            WriteHeaderCell("J", "Format");
-            WriteHeaderCell("K", "Date Published");
-            WriteHeaderCell("L", "Place of Publication");
-            WriteHeaderCell("M", "Edition");
-            WriteHeaderCell("N", "Pages");
-            WriteHeaderCell("O", "Dimensions");
-            WriteHeaderCell("P", "Overview");
-            WriteHeaderCell("Q", "Excerpt");
-            WriteHeaderCell("R", "Synopsys");
-            WriteHeaderCell("S", "Notes");
+            WriteHeaderCell("I", "Dewey Decimal");
+            WriteHeaderCell("J", "MSRP");
+            WriteHeaderCell("K", "Publisher");
+            WriteHeaderCell("L", "Format");
+            WriteHeaderCell("M", "Date Published");
+            WriteHeaderCell("N", "Place of Publication");
+            WriteHeaderCell("O", "Edition");
+            WriteHeaderCell("P", "Pages");
+            WriteHeaderCell("Q", "Dimensions");
+            WriteHeaderCell("R", "Overview");
+            WriteHeaderCell("S", "Excerpt");
+            WriteHeaderCell("T", "Synopsys");
+            WriteHeaderCell("U", "Notes");
         }
 
         protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             // write data
+            int count = 0;
             var allItems = await this._bookService.GetAll();
             await Task.Run(() =>
             {
-                int count = 0;
                 foreach (var item in allItems)
                 {
                     WriteEntityRow(new object[]
@@ -90,6 +114,8 @@ namespace MyLibrary.Presenters.Excel
                         item.GetAuthorList(),
                         item.Language,
                         item.GetCommaDelimitedTags(),
+                        item.DeweyDecimal,
+                        item.Msrp,
                         item.Publisher.Name,
                         item.Format,
                         item.DatePublished,
@@ -110,9 +136,9 @@ namespace MyLibrary.Presenters.Excel
             this._dialog.Label1 = "Formatting worksheet...";
 
             // autofit some columns
-            int col = 2;
+            int col = TITLE_COL;
             AutoFitColumn(col);
-            while (col <= 15)
+            while (col <= DIMENSIONS_COL)
             {
                 AutoFitColumn(col);
                 col++;
@@ -120,8 +146,8 @@ namespace MyLibrary.Presenters.Excel
 
             // wrap text and set column width for some columns
             // Dimensions, Overview, Excerpt, Synopsys, Notes
-            col = 16;
-            while (col <= 19)
+            col = OVERVIEW_COL;
+            while (col <= NOTES_COL)
             {
                 WrapText(col);
                 SetColumnWidth(col, 30);
@@ -129,17 +155,35 @@ namespace MyLibrary.Presenters.Excel
                 col++;
             }
 
-            // lock selected cells
+            // unlock selected cells
             await Task.Run(() =>
             {
                 SetWorksheetProtectionAttributes();
                 for (int i = HEADER_ROW + 1; i <= 65000; i++)
                 {
-                    UnlockCell(i, 2);
-                    UnlockCell(i, 3);
-                    for (int j = 6; j <= 19; j++)
+                    UnlockCell(i, DEWEY_DECIMAL_COL);
+                    UnlockCell(i, TAGS_COL);
+                    UnlockCell(i, FORMAT_COL);
+                    UnlockCell(i, DATE_PUBLISHED_COL);
+                    UnlockCell(i, PLACE_OF_PUBLICATION_COL);
+                    UnlockCell(i, EDITION_COL);
+                    UnlockCell(i, DIMENSIONS_COL);
+                    UnlockCell(i, OVERVIEW_COL);
+                    UnlockCell(i, MSRP_COL);
+                    UnlockCell(i, EXCERPT_COL);
+                    UnlockCell(i, SYNOPSYS_COL);
+                    UnlockCell(i, NOTES_COL);
+
+                    // allow adding new rows
+                    if (i >= HEADER_ROW + count)
                     {
-                        UnlockCell(i, j);
+                        UnlockCell(i, TITLE_COL);
+                        UnlockCell(i, TITLE_LONG_COL);
+                        UnlockCell(i, ISBN_COL);
+                        UnlockCell(i, ISBN13_COL);
+                        UnlockCell(i, PUBLISHER_COL);
+                        UnlockCell(i, LANGUAGE_COL);
+                        UnlockCell(i, PAGES_COL);
                     }
                 }
             });
