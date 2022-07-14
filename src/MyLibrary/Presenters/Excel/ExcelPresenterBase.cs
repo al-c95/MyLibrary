@@ -149,8 +149,11 @@ namespace MyLibrary.Presenters.Excel
             {
                 // something bad happened
                 // tell the user
-                this._dialog.ShowErrorDialog(ex.Message);
                 this._dialog.Label1 = "Task aborted.";
+                this._dialog.Label2 = "";
+                this._dialog.ShowErrorDialog(ex.Message);
+                // nothing more to do
+                return;
             }
 
             // finished

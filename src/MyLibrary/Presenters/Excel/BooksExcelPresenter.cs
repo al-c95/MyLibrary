@@ -143,7 +143,7 @@ namespace MyLibrary.Presenters.Excel
                 AutoFitColumn(col);
                 col++;
             }
-
+            
             // wrap text and set column width for some columns
             // Dimensions, Overview, Excerpt, Synopsys, Notes
             col = OVERVIEW_COL;
