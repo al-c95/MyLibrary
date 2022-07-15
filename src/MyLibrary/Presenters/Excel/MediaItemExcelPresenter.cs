@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
@@ -69,7 +70,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("H", "Notes");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
         {
             // write data
             var allItems = await this._mediaItemService.GetAll();
@@ -90,6 +91,7 @@ namespace MyLibrary.Presenters.Excel
                         item.Notes
                     });
                     this._excel.Worksheet.Cells[this._currRow, 4].Style.Numberformat.Format = "@";
+
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }

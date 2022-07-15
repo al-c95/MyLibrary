@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
@@ -95,7 +96,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("U", "Notes");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
         {
             // write data
             int count = 0;
@@ -104,6 +105,13 @@ namespace MyLibrary.Presenters.Excel
             {
                 foreach (var item in allItems)
                 {
+                    // check for cancellation
+                    if (token.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException();
+                    }
+
+                    // now write the data
                     WriteEntityRow(new object[]
                     {
                         item.Id,
@@ -128,6 +136,7 @@ namespace MyLibrary.Presenters.Excel
                         item.Synopsys,
                         item.Notes
                     });
+
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }
@@ -161,6 +170,12 @@ namespace MyLibrary.Presenters.Excel
                 SetWorksheetProtectionAttributes();
                 for (int i = HEADER_ROW + 1; i <= 65000; i++)
                 {
+                    // check for cancellation
+                    if (token.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException();
+                    }
+
                     UnlockCell(i, DEWEY_DECIMAL_COL);
                     UnlockCell(i, TAGS_COL);
                     UnlockCell(i, FORMAT_COL);

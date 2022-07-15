@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
@@ -54,7 +55,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("B", "Tag");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
         {
             var allTags = await this._tagService.GetAll();
 
@@ -63,11 +64,18 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var tag in allTags)
                 {
+                    // check for cancellation
+                    if (token.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException();
+                    }
+
                     WriteEntityRow(new object[]
                     {
                         tag.Id,
                         tag.Name
                     });
+
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }

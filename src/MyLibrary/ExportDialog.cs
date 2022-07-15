@@ -56,17 +56,16 @@ namespace MyLibrary
             });
             this.cancelButton.Click += ((sender, args) =>
             {
-                CloseDialog(sender, args);
+                this.Cancelled?.Invoke(sender, args);
             });
             this.FormClosed += ((sender, args) =>
             {
-                CloseDialog(sender, args);
+                CloseDialog();
             });
         }
 
-        private void CloseDialog(object sender, EventArgs args)
+        public void CloseDialog()
         {
-            this.Cancelled?.Invoke(sender, args);
             this.Close();
         }
 
@@ -110,6 +109,12 @@ namespace MyLibrary
         {
             get => this.cancelButton.Enabled;
             set => this.cancelButton.Enabled = value;
+        }
+
+        public bool CloseButtonEnabled
+        {
+            get => this.ControlBox;
+            set => this.ControlBox = value;
         }
 
         public bool PathFieldEnabled

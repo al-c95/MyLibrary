@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
@@ -56,7 +57,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("D", "Notes");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported)
+        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
         {
             var allItems = await this._wishlistService.GetAll();
 
@@ -65,6 +66,12 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var item in allItems)
                 {
+                    // check for cancellation
+                    if (token.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException();
+                    }
+
                     WriteEntityRow(new object[]
                     {
                         item.Id,
@@ -72,6 +79,7 @@ namespace MyLibrary.Presenters.Excel
                         item.Title,
                         item.Notes
                     });
+
                     if (numberExported != null)
                         numberExported.Report(++count);
                 }

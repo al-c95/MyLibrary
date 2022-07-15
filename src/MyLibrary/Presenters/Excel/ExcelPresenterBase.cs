@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
 using OfficeOpenXml;
@@ -49,8 +50,12 @@ namespace MyLibrary.Presenters.Excel
 
         protected readonly string _type;
 
+        public bool IsRunning { get; set; }
+
+        protected CancellationTokenSource _cts = null;
+
         /// <summary>
-        /// Constructor. Writes metadata and Id column header to excel.
+        /// Constructor. Writes metadata and Id column header to Excel.
         /// </summary>
         public ExcelPresenterBase(string type, IExcelFile file, Views.IExportDialog dialog)
         {
@@ -60,7 +65,9 @@ namespace MyLibrary.Presenters.Excel
 
             this._type = type;
 
-            this._dialog.Title = this._type;
+            this.IsRunning = false;
+
+            this._dialog.Title = "Export " + this._type + "s";
             this._dialog.Label1 = string.Empty;
             this._dialog.Label2 = string.Empty;
             this._dialog.StartButtonEnabled = false;
@@ -106,9 +113,7 @@ namespace MyLibrary.Presenters.Excel
             {
                 await HandleStartButtonClicked(sender, args);
             });
-            this._dialog.Cancelled += Closed;
-
-            this._dialog.Title = "Export " + this._type + "s";
+            this._dialog.Cancelled += CancelButtonClicked;
         }
 
         public void BrowseButtonClicked(object sender, EventArgs e)
@@ -126,8 +131,15 @@ namespace MyLibrary.Presenters.Excel
             }
         }
 
-        public async Task HandleStartButtonClicked(object sender, EventArgs e)
+        #region UI view event handlers
+        public async Task HandleStartButtonClicked(object sender, EventArgs args)
         {
+            this._cts = new CancellationTokenSource();
+            var token = this._cts.Token;
+
+            this.IsRunning = true;
+            this._dialog.CloseButtonEnabled = false;
+
             string path = this._dialog.Path;
 
             this._dialog.Label1 = "Exporting...";
@@ -143,27 +155,47 @@ namespace MyLibrary.Presenters.Excel
                     this._dialog.Label2 = p + " rows exported";
                 });
 
-                await this.RenderExcel(numberExported);
+                await this.RenderExcel(numberExported, token);
             }
             catch (Exception ex)
             {
-                // something bad happened
-                // tell the user
                 this._dialog.Label1 = "Task aborted.";
                 this._dialog.Label2 = "";
-                this._dialog.ShowErrorDialog(ex.Message);
+
+                if (!(ex is OperationCanceledException))
+                {
+                    // something bad happened
+                    // tell the user
+                    this._dialog.ShowErrorDialog(ex.Message);
+                }
                 // nothing more to do
                 return;
+            }
+            finally
+            {
+                this.IsRunning = false;
+                this._cts.Dispose();
+
+                this._dialog.CloseButtonEnabled = true;
             }
 
             // finished
             this._dialog.Label1 = "Task complete.";
         }
 
-        public void Closed(object sender, EventArgs e)
+        public void CancelButtonClicked(object sender, EventArgs e)
         {
-            this.Dispose();
+            if (IsRunning)
+            {
+                this._cts.Cancel();
+            }
+            else
+            {
+                this._dialog.CloseDialog();
+                this.Dispose();
+            }
         }
+        #endregion
 
         protected abstract void WriteHeaders();
 
@@ -228,16 +260,6 @@ namespace MyLibrary.Presenters.Excel
             // additionally, don't allow the user to change sheet names
             this._excel.Package.Workbook.Protection.LockStructure = true;
 
-            SetLockPassword();
-        }
-
-        protected void UnlockCell(int row, int col)
-        {
-            this._excel.Worksheet.Cells[row, col].Style.Locked = false;
-        }
-
-        private void SetLockPassword()
-        {
             // set a random password so that *nobody* can edit the protected cells
             byte[] passwordBytes = new byte[32];
             System.Random rng = new Random();
@@ -246,13 +268,17 @@ namespace MyLibrary.Presenters.Excel
             this._excel.Worksheet.Protection.SetPassword(passwordString);
         }
 
+        protected void UnlockCell(int row, int col)
+        {
+            this._excel.Worksheet.Cells[row, col].Style.Locked = false;
+        }
+
         /// <summary>
         /// Writes entities as rows to the Excel, then saves the file and disposes of the view.
-        /// TODO: protect sheet.
         /// </summary>
         /// <param name="numberExported"></param>
         /// <returns></returns>
-        protected abstract Task RenderExcel(IProgress<int> numberExported);
+        protected abstract Task RenderExcel(IProgress<int> numberExported, CancellationToken token);
 
         public void Dispose()
         {
