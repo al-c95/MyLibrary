@@ -37,10 +37,12 @@ namespace MyLibrary.Views
         Boolean BrowseButtonEnabled { get; set; }
         Boolean StartButtonEnabled { get; set; }
         Boolean CancelButtonEnabled { get; set; }
+        Boolean CloseButtonEnabled { get; set; }
         Boolean PathFieldEnabled { get; set; }
 
         string ShowFolderBrowserDialog(string type);
         void ShowErrorDialog(string message);
+        void CloseDialog();
 
         event EventHandler BrowseButtonClicked;
         event EventHandler StartButtonClicked;
