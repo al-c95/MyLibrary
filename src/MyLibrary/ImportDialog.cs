@@ -27,6 +27,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Views;
@@ -42,6 +43,9 @@ namespace MyLibrary
     {
         private string _type;
 
+        private CancellationTokenSource _cts = null;
+        private bool _isRunning;
+
         public ImportDialog(string type)
         {
             InitializeComponent();
@@ -53,6 +57,8 @@ namespace MyLibrary
 
             this.label1.Text = "";
             this.label2.Text = "";
+
+            this._isRunning = false;
 
             // prepare list column
             ColumnHeader columnHeader1 = new ColumnHeader();
@@ -72,27 +78,70 @@ namespace MyLibrary
 
                     this.startButton.Enabled = false;
                     this.listView.Items.Clear();
+
+                    dialog.Dispose();
                 }
                 else
                 {
+                    dialog.Dispose();
                     return;
                 }
 
-                await Process(filePath, type);
+                this._cts = new CancellationTokenSource();
+                var token = this._cts.Token;
+
+                this._isRunning = true;
+
+                try
+                {
+                    await Process(filePath, type, token);
+                }
+                catch (Exception ex)
+                {
+                    this.label1.Text = "Task aborted.";
+                    this.label2.Text = "";
+
+                    if (!(ex is OperationCanceledException))
+                    {
+                        // something bad happened
+                        // tell the user
+                        MessageBox.Show(ex.Message, "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                finally
+                {
+                    this._isRunning = false;
+                    this._cts.Dispose();
+
+                    this.startButton.Enabled = false;
+                }
             });
             this.cancelButton.Click += ((sender, args) =>
             {
-                this.Close();
+                if (_isRunning)
+                {
+                    this._cts.Cancel();
+                }
+                else
+                {
+                    this.Close();
+                }
             });
         }
 
-        public async Task Process(string filePath, string type)
+        public async Task Process(string filePath, string type, CancellationToken token)
         {
             // read file
             CsvImport import = null;
             try
             {
                 import = await CsvImport.ImportFactory(type, filePath);
+
+                // check for cancellation
+                if (token.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException();
+                }
             }
             catch (Exception e)
             {
@@ -100,16 +149,21 @@ namespace MyLibrary
                 return;
             }
 
-            this.startButton.Enabled = true;
-
             this.label1.Text = "Importing...";
             this.label2.Text = filePath;
 
             int warnCount = 0;
             int errorCount = 0;
             int successCount = 0;
+
             foreach (var row in import)
             {
+                // check for cancellation
+                if (token.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException();
+                }
+
                 // process row
                 int currRow = row.Row;
                 if (row.RowStatus == CsvRowResult.Status.SUCCESS)
@@ -146,9 +200,8 @@ namespace MyLibrary
                     errorCount++;
                 }
             }
-
+            
             // finished
-            this.startButton.Enabled = true;
             // display summary
             this.label1.Text = "Task Complete.";
             this.label2.Text = errorCount + " errors, " + warnCount + " warnings. " + successCount + " " + type + "s added.";
