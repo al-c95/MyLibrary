@@ -217,7 +217,7 @@ namespace MyLibrary
             {
                 await FilterTags(this.filterTagField.Text);
             });
-            this.clearFilterButton.Click += (async (sender, args) =>
+            this.clearFilterButton.Click += ((sender, args) =>
             {
                 this.filterTagField.Text = "";
             });
