@@ -144,7 +144,7 @@ namespace MyLibrary
                 try
                 {
                     // re-populate the list
-                    await PopulateTags();
+                    await FilterTags(this.filterTagField.Text);
                 }
                 catch(Exception ex)
                 {
@@ -192,7 +192,7 @@ namespace MyLibrary
                 try
                 {
                     // re-populate the list
-                    await PopulateTags();
+                    await FilterTags(this.filterTagField.Text);
                 }
                 catch (Exception ex)
                 {
