@@ -211,14 +211,9 @@ namespace MyLibrary
             // grab the filter
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(filterText, REGEX_OPTIONS);
-            
+
             // perform filtering
-            var tagsInDatabase = await this._tagService.GetAll();
-            List<Tag> allTags = new List<Tag>();
-            foreach (var tag in tagsInDatabase)
-            {
-                allTags.Add(tag);
-            }
+            List<Tag> allTags = (await this._tagService.GetAll()).ToList();
             for (int i = 0; i < tagsList.Items.Count; i++)
             {
                 string currTagName = tagsList.Items[i].ToString();
