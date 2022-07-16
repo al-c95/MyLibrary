@@ -211,9 +211,22 @@ namespace MyLibrary
             // grab the filter
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(filterText, REGEX_OPTIONS);
-
+            
             // perform filtering
-            var allTags = await this._tagService.GetAll();
+            var tagsInDatabase = await this._tagService.GetAll();
+            List<Tag> allTags = new List<Tag>();
+            foreach (var tag in tagsInDatabase)
+            {
+                allTags.Add(tag);
+            }
+            for (int i = 0; i < tagsList.Items.Count; i++)
+            {
+                string currTagName = tagsList.Items[i].ToString();
+                if (!allTags.Any(t => t.Name.Equals(currTagName)))
+                {
+                    allTags.Add(new Models.Entities.Tag { Name = currTagName });
+                }
+            }
             // tell the list it is being updated
             tagsList.BeginUpdate();
             tagsList.Items.Clear();
