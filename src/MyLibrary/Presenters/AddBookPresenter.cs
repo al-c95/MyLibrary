@@ -51,12 +51,12 @@ namespace MyLibrary.Presenters
 
         private INewTagOrPublisherInputBoxProvider _newTagDialogProvider;
         private INewTagOrPublisherInputBoxProvider _newPublisherDialogProvider;
-        private INewAuthorInputBoxProvider _newAuthorDialogProvider;
+        private NewAuthorInputBox.INewAuthorInputBoxProvider _newAuthorDialogProvider;
 
         public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IAddBookForm view,
             IImageFileReader imageFileReader,
-            INewTagOrPublisherInputBoxProvider newTagDialogProvider, INewTagOrPublisherInputBoxProvider newPublisherDialogProvider, INewAuthorInputBoxProvider newAuthorDialogProvider)
+            INewTagOrPublisherInputBoxProvider newTagDialogProvider, INewTagOrPublisherInputBoxProvider newPublisherDialogProvider, NewAuthorInputBox.INewAuthorInputBoxProvider newAuthorDialogProvider)
         {
             this._bookService = bookService;
             this._tagService = tagService;

@@ -16,20 +16,19 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 namespace MyLibrary_Test.DataAccessLayer_Tests.ServiceProviders_Tests
 {
     [TestFixture]
-    public class MediaItemCopyRepositoryProvider_Tests
+    class UnitOfWorkProvider_Tests
     {
         [Test]
         public void Get_Test()
         {
             // arrange
-            MediaItemCopyRepositoryProvider provider = new MediaItemCopyRepositoryProvider();
-            var fakeUow = A.Fake<IUnitOfWork>();
+            UnitOfWorkProvider uowProvider = new UnitOfWorkProvider();
 
             // act
-            var result = provider.Get(fakeUow);
+            var result = uowProvider.Get();
 
             // assert
-            Assert.IsTrue(result.GetType() == typeof(MediaItemCopyRepository));
+            Assert.IsTrue(result.GetType() == typeof(UnitOfWork));
         }
-    }
+    }//class
 }

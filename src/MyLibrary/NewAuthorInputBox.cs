@@ -110,18 +110,18 @@ namespace MyLibrary
                 return null;
             }
         }
-    }//class
 
-    public interface INewAuthorInputBoxProvider
-    {
-        INewAuthor Get();
-    }
-
-    public class NewAuthorInputBoxProvider : INewAuthorInputBoxProvider
-    {
-        public INewAuthor Get()
+        public interface INewAuthorInputBoxProvider
         {
-            return new NewAuthorInputBox();
+            INewAuthor Get();
         }
+
+        public class NewAuthorInputBoxProvider : INewAuthorInputBoxProvider
+        {
+            public INewAuthor Get()
+            {
+                return new NewAuthorInputBox();
+            }
+        }//class
     }//class
 }
