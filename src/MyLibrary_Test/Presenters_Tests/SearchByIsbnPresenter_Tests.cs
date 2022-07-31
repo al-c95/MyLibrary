@@ -197,7 +197,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             public MockAddBookPresenter(IBookService bookRepo, ITagService tagService, IAuthorService authorService, IPublisherService publisherService, IAddBookForm view,
             IImageFileReader imageFileReader, 
-            INewTagOrPublisherInputBoxProvider newTagInputBoxProvider, INewTagOrPublisherInputBoxProvider newPublisherInputBoxProvider, INewAuthorInputBoxProvider newAuthorInputBoxProvider)
+            INewTagOrPublisherInputBoxProvider newTagInputBoxProvider, INewTagOrPublisherInputBoxProvider newPublisherInputBoxProvider, NewAuthorInputBox.INewAuthorInputBoxProvider newAuthorInputBoxProvider)
             : base(bookRepo, tagService, authorService, publisherService, view, imageFileReader, newTagInputBoxProvider, newPublisherInputBoxProvider, newAuthorInputBoxProvider)
             {
 

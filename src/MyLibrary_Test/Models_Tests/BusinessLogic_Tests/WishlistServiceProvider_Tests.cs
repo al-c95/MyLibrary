@@ -13,23 +13,22 @@ using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
 using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary_Test.DataAccessLayer_Tests.ServiceProviders_Tests
+namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
 {
     [TestFixture]
-    public class MediaItemCopyRepositoryProvider_Tests
+    class WishlistServiceProvider_Tests
     {
         [Test]
         public void Get_Test()
         {
             // arrange
-            MediaItemCopyRepositoryProvider provider = new MediaItemCopyRepositoryProvider();
-            var fakeUow = A.Fake<IUnitOfWork>();
+            WishlistServiceProvider provider = new WishlistServiceProvider();
 
             // act
-            var result = provider.Get(fakeUow);
+            var result = provider.Get();
 
             // assert
-            Assert.IsTrue(result.GetType() == typeof(MediaItemCopyRepository));
+            Assert.AreEqual(typeof(WishlistService), result.GetType());
         }
-    }
+    }//class
 }

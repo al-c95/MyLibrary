@@ -42,7 +42,7 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
 
             // assert
             Assert.AreEqual("Task complete.", fakeDialog.Label1);
-            //Assert.AreEqual("2 rows exported", fakeDialog.Label2);
+            Assert.AreEqual("2 rows exported", fakeDialog.Label2);
         }
 
         class MockPresenter : MediaItemExcelPresenter
