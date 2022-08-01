@@ -33,7 +33,9 @@ namespace MyLibrary.Models.Csv
 {
     public class AuthorCsvImport : CsvImport
     {
-        public AuthorCsvImport(string[] allLines)
+        private IAuthorService _service;
+
+        public AuthorCsvImport(string[] allLines, IAuthorService service)
         {
             // validate headers
             if (allLines[0].Equals("First Name,Last Name"))
@@ -44,30 +46,31 @@ namespace MyLibrary.Models.Csv
             {
                 throw new FormatException("Authors CSV file does not have appropriate structure.");
             }
+
+            this._service = service;
         }
 
         public override string GetTypeName => "Author";
 
         async public static Task<AuthorCsvImport> BuildAsync(ICsvFile file)
         {
-            return new AuthorCsvImport(await file.ReadLinesAsync());
+            return new AuthorCsvImport(await file.ReadLinesAsync(), new AuthorService());
         }
 
         public async override Task<bool> AddIfNotExists(CsvRowResult row)
         {
-            AuthorService service = new AuthorService();
             Author author = row.Entity as Author;
-            if (await service.ExistsWithName(author.FirstName, author.LastName))
+            if (await this._service.ExistsWithName(author.FirstName, author.LastName))
             {
                 return false;
             }
             else
             {
-                await service.Add(author);
+                await this._service.Add(author);
 
                 return true;
             }
-        }
+        }//AddIfNotExists
 
         public override IEnumerator<CsvRowResult> GetEnumerator()
         {

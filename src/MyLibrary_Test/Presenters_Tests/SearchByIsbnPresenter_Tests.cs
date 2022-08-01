@@ -76,6 +76,8 @@ namespace MyLibrary_Test.Presenters_Tests
         [TestCase(null, true)]
         [TestCase("", false)]
         [TestCase(null, false)]
+        [TestCase("bogus_isbn", true)]
+        [TestCase("bogus_isbn", false)]
         public void IsbnFieldTextChanged_Test_Invalid(string isbn, bool scanModeEnabled)
         {
             // arrange
@@ -133,6 +135,31 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // assert
             A.CallTo(() => fakeSearchByIsbnDialog.ShowCouldNotFindBookDialog("0123456789")).MustHaveHappened();
+        }
+
+        [Test]
+        public void SearchButtonClicked_Test_HttpRequestException()
+        {
+            // arrange
+            string isbn = "0123456789";
+            var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
+            A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
+            var fakeRepo = A.Fake<IBookService>();
+            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
+            var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
+            var fakeApiService = A.Fake<IBookApiService>();
+            A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);
+            Exception innerException = new Exception("The remote name could not be resolved: 'openlibrary.org'");
+            System.Net.Http.HttpRequestException httpRequestException = new System.Net.Http.HttpRequestException("", innerException);
+            A.CallTo(() => fakeApiService.GetBookByIsbnAsync("0123456789")).Throws(httpRequestException);
+            var presenter = new MockPresenter(fakeSearchByIsbnDialog, null, null, fakeRepo, fakeApiServiceProvider);
+            presenter.AddBookPresenter = this._addBookPresenter;
+
+            // act
+            presenter.SearchButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeSearchByIsbnDialog.ShowConnectionErrorDialog()).MustHaveHappened();
         }
 
         [Test]

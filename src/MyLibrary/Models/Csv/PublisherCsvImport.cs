@@ -33,7 +33,9 @@ namespace MyLibrary.Models.Csv
 {
     public class PublisherCsvImport : CsvImport
     {
-        public PublisherCsvImport(string[] allLines)
+        private IPublisherService _service;
+
+        public PublisherCsvImport(string[] allLines, IPublisherService service)
         {
             // validate header
             if (allLines[0].Equals("Publisher"))
@@ -44,26 +46,27 @@ namespace MyLibrary.Models.Csv
             {
                 throw new FormatException("Publishers CSV file does not have appropriate structure.");
             }
+
+            this._service = service;
         }
 
         public override string GetTypeName => "Publisher";
 
         async public static Task<PublisherCsvImport> BuildAsync(ICsvFile file)
         {
-            return new PublisherCsvImport(await file.ReadLinesAsync());
+            return new PublisherCsvImport(await file.ReadLinesAsync(), new PublisherService());
         }
 
         public async override Task<bool> AddIfNotExists(CsvRowResult row)
         {
-            PublisherService service = new PublisherService();
             Publisher publisher = row.Entity as Publisher;
-            if (await service.ExistsWithName(publisher.Name))
+            if (await this._service.ExistsWithName(publisher.Name))
             {
                 return false;
             }
             else
             {
-                await service.Add(publisher);
+                await this._service.Add(publisher);
 
                 return true;
             }
