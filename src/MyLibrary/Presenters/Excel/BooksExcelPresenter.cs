@@ -58,15 +58,15 @@ namespace MyLibrary.Presenters.Excel
         protected const int SYNOPSYS_COL = 20;
         protected const int NOTES_COL = 21;
 
-        public BookExcelPresenter(IBookService bookService, IExcelFile file, Views.IExportDialog dialog)
-            :base("Book", file, dialog)
+        public BookExcelPresenter(IBookService bookService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Book", file, dialog, excel)
         {
             this._bookService = bookService;
             WriteHeaders();
         }
 
-        public BookExcelPresenter(Views.IExportDialog dialog)
-            : base("Book", new ExcelFile(), dialog)
+        public BookExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
+            : base("Book", new ExcelFile(), dialog, excel)
         {
             this._bookService = new BookService();
             WriteHeaders();

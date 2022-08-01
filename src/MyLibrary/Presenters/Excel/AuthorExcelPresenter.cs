@@ -36,15 +36,15 @@ namespace MyLibrary.Presenters.Excel
     {
         protected readonly IAuthorService _authorService;
 
-        public AuthorExcelPresenter(IAuthorService authorService, IExcelFile file, Views.IExportDialog dialog)
-            :base("Author",file,dialog)
+        public AuthorExcelPresenter(IAuthorService authorService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Author",file,dialog,excel)
         {
             this._authorService = authorService;
             WriteHeaders();
         }
 
-        public AuthorExcelPresenter(Views.IExportDialog dialog)
-            :base("Author",new ExcelFile(),dialog)
+        public AuthorExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Author",new ExcelFile(),dialog, new Views.Excel.Excel())
         {
             this._authorService = new AuthorService();
             WriteHeaders();
@@ -87,6 +87,6 @@ namespace MyLibrary.Presenters.Excel
             AutoFitColumn(3);
 
             await this._excel.SaveAsync(this._file, this._dialog.Path);
-        }
-    }
+        }//RenderExcel
+    }//class
 }

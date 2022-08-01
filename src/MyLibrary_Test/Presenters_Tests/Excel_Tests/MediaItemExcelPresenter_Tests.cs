@@ -35,7 +35,8 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             A.CallTo(() => fakeService.GetAll()).Returns(items);
             var fakeExcelFile = A.Fake<IExcelFile>();
             var fakeDialog = A.Fake<IExportDialog>();
-            MockPresenter presenter = new MockPresenter(fakeService, fakeExcelFile, fakeDialog);
+            var excel = new MyLibrary.Views.Excel.Excel();
+            MockPresenter presenter = new MockPresenter(fakeService, fakeExcelFile, fakeDialog, excel);
 
             // act
             await presenter.HandleStartButtonClicked(null, null);
@@ -47,8 +48,8 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
 
         class MockPresenter : MediaItemExcelPresenter
         {
-            public MockPresenter(IMediaItemService itemService, IExcelFile file, IExportDialog dialog)
-                : base(itemService, file, dialog)
+            public MockPresenter(IMediaItemService itemService, IExcelFile file, IExportDialog dialog, MyLibrary.Views.Excel.Excel excel)
+                : base(itemService, file, dialog, excel)
             {
 
             }

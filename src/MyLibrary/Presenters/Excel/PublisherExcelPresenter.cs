@@ -36,15 +36,15 @@ namespace MyLibrary.Presenters.Excel
     {
         protected readonly IPublisherService _publisherService;
 
-        public PublisherExcelPresenter(IPublisherService publisherService, IExcelFile file, Views.IExportDialog dialog)
-            :base("Publisher",file,dialog)
+        public PublisherExcelPresenter(IPublisherService publisherService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Publisher",file,dialog, excel)
         {
             this._publisherService = publisherService;
             WriteHeaders();
         }
 
-        public PublisherExcelPresenter(Views.IExportDialog dialog)
-            : base("Publisher", new ExcelFile(), dialog)
+        public PublisherExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
+            : base("Publisher", new ExcelFile(), dialog, excel)
         {
             this._publisherService = new PublisherService();
             WriteHeaders();

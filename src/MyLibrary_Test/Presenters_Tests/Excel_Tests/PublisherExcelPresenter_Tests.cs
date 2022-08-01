@@ -36,7 +36,8 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             A.CallTo(() => fakeService.GetAll()).Returns(publishers);
             var fakeExcelFile = A.Fake<IExcelFile>();
             var fakeDialog = A.Fake<IExportDialog>();
-            MockPresenter presenter = new MockPresenter(fakeService, fakeExcelFile, fakeDialog);
+            var excel = new MyLibrary.Views.Excel.Excel();
+            MockPresenter presenter = new MockPresenter(fakeService, fakeExcelFile, fakeDialog, excel);
 
             // act
             await presenter.HandleStartButtonClicked(null, null);
@@ -48,8 +49,8 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
 
         class MockPresenter : PublisherExcelPresenter
         {
-            public MockPresenter(IPublisherService publisherService, IExcelFile file, IExportDialog dialog)
-                : base(publisherService, file, dialog)
+            public MockPresenter(IPublisherService publisherService, IExcelFile file, IExportDialog dialog, MyLibrary.Views.Excel.Excel excel)
+                : base(publisherService, file, dialog,excel)
             {
 
             }

@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -24,43 +24,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Drawing;
-using OfficeOpenXml;
 
-namespace MyLibrary.Views.Excel
+namespace MyLibrary.Utils
 {
-    public class Excel : IDisposable
+    public class CancellationTokenSourceWrapper
     {
-        protected ExcelPackage _pck;
-        protected ExcelWorksheet _ws;
+        private readonly CancellationTokenSource _cts;
 
-        public ExcelPackage Package => this._pck;
-
-        public ExcelWorksheet Worksheet
+        public CancellationTokenSourceWrapper(CancellationTokenSource source)
         {
-            get => this._ws;
-            set => this._ws = value;
+            this._cts = source;
         }
 
-        /// <summary>
-        /// Constructor. Creates worksheet and adds named styles.
-        /// </summary>
-        public Excel()
+        public void Cancel()
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            this._pck = new ExcelPackage();
-        }//ctor
-
-        public async Task SaveAsync(IExcelFile file, string path)
-        {
-            await file.SaveAsAsync(this._pck, path);
+            this._cts.Cancel();
         }
-
-        public void Dispose()
-        {
-            this._ws?.Dispose();
-            this._pck?.Dispose();
-        }
-    }//class
+    }
 }

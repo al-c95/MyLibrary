@@ -34,6 +34,7 @@ namespace MyLibrary.Models.BusinessLogic
 {
     /// <summary>
     /// Base class for implementing services dealing with data-access repositories.
+    /// Managed driver does not support asynchronous operations, so we provide "asynchronous" wrappers.
     /// </summary>
     public abstract class ServiceBase
     {
