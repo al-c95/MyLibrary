@@ -69,8 +69,6 @@ namespace MyLibrary.ApiService
         /// <returns></returns>
         public async Task<Book> GetBookByIsbnAsync(string isbn)
         {
-            // TODO: update unit tests
-
             // make a request for the book data
             HttpResponseWrapper response = await this._isbnApiClient.GetResponse(isbn);
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
