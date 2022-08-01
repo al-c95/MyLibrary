@@ -339,38 +339,44 @@ namespace MyLibrary
             this.tagsToolStripMenuItem.Click += ((sender, args) =>
             {
                 ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog);
+                Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog, new Views.Excel.Excel());
                 dialog.ShowDialog();
+                presenter.Dispose();
             });
             this.booksToolStripMenuItem1.Click += ((sender, args) =>
             {
                 ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog);
+                Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog, new Views.Excel.Excel());
                 dialog.ShowDialog();
+                presenter.Dispose();
             });
             this.authorsToolStripMenuItem.Click += ((sender, args) =>
             {
                 ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog);
+                Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog, new Views.Excel.Excel());
                 dialog.ShowDialog();
+                presenter.Dispose();
             });
             this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
             {
                 ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog);
+                Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog, new Views.Excel.Excel());
                 dialog.ShowDialog();
+                presenter.Dispose();
             });
             this.publishersToolStripMenuItem.Click += ((sender, args) =>
             {
                 ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog);
+                Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog, new Views.Excel.Excel());
                 dialog.ShowDialog();
+                presenter.Dispose();
             });
             this.exportWishlistMenuItem.Click += ((sender, args) =>
             {
                 ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog);
+                Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog, new Views.Excel.Excel());
                 dialog.ShowDialog();
+                presenter.Dispose();
             });
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;

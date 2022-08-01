@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using OfficeOpenXml;
 using MyLibrary.Views.Excel;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters.Excel
 {
@@ -57,9 +57,8 @@ namespace MyLibrary.Presenters.Excel
         /// <summary>
         /// Constructor. Writes metadata and Id column header to Excel.
         /// </summary>
-        public ExcelPresenterBase(string type, IExcelFile file, Views.IExportDialog dialog)
+        public ExcelPresenterBase(string type, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
         {
-            Views.Excel.Excel excel = new Views.Excel.Excel();
             this._dialog = dialog;
             this._file = file;
 

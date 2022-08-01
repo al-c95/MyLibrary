@@ -36,15 +36,15 @@ namespace MyLibrary.Presenters.Excel
     {
         protected readonly ITagService _tagService;
 
-        public TagExcelPresenter(ITagService tagService, IExcelFile file, Views.IExportDialog dialog)
-            :base("Tag", file, dialog)
+        public TagExcelPresenter(ITagService tagService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Tag", file, dialog, excel)
         {
             this._tagService = tagService;
             WriteHeaders();
         }
 
-        public TagExcelPresenter(Views.IExportDialog dialog)
-            : base("Tag", new ExcelFile(), dialog)
+        public TagExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
+            : base("Tag", new ExcelFile(), dialog, excel)
         {
             this._tagService = new TagService();
             WriteHeaders();
@@ -84,6 +84,6 @@ namespace MyLibrary.Presenters.Excel
             AutoFitColumn(2);
 
             await this._excel.SaveAsync(this._file, this._dialog.Path);
-        }
-    }
+        }//RenderExcel
+    }//class
 }

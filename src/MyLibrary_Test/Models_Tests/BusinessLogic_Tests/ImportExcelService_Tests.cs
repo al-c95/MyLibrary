@@ -105,7 +105,9 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
         public void Factory_Test_Invalid_Type()
         {
             // arrange
-            ExcelPackage pck = WorksheetFactory("bogus", "1.2.2");
+            ExcelPackage pck = WorksheetFactory("bogus", "1.2.1");
+            pck.Workbook.Worksheets["Media item"].Cells["A6"].Value = "Id";
+            pck.Workbook.Worksheets["Media item"].Cells["B6"].Value = "Title";
             MyLibrary.Models.ValueObjects.AppVersion runningAppVersion = new MyLibrary.Models.ValueObjects.AppVersion(1, 2, 1);
 
             Assert.Throws<FormatException>(() => ImportExcelService.Create(pck, runningAppVersion));

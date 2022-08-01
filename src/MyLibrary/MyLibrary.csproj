@@ -317,6 +317,8 @@
     <Compile Include="ShowStatsDialog.Designer.cs">
       <DependentUpon>ShowStatsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\CancellationTokenSourceWrapper.cs" />
+    <Compile Include="Utils\ICancellationTokenSource.cs" />
     <Compile Include="Utils\IImageFileReader.cs" />
     <Compile Include="Utils\ImageFileReader.cs" />
     <Compile Include="Views\Excel\Excel.cs" />

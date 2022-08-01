@@ -45,15 +45,15 @@ namespace MyLibrary.Presenters.Excel
         protected const int TAGS_COL = 7;
         protected const int NOTES_COL = 8;
 
-        public MediaItemExcelPresenter(IMediaItemService tagService, IExcelFile file, Views.IExportDialog dialog)
-            :base("Media item", file, dialog)
+        public MediaItemExcelPresenter(IMediaItemService tagService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Media item", file, dialog, excel)
         {
             this._mediaItemService = tagService;
             WriteHeaders();
         }
 
-        public MediaItemExcelPresenter(Views.IExportDialog dialog)
-            : base("Media item", new ExcelFile(), dialog)
+        public MediaItemExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
+            : base("Media item", new ExcelFile(), dialog, excel)
         {
             this._mediaItemService = new MediaItemService();
             WriteHeaders();

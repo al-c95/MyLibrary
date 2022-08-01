@@ -36,15 +36,15 @@ namespace MyLibrary.Presenters.Excel
     {
         protected readonly IWishlistService _wishlistService;
 
-        public WishlistExcelPresenter(IWishlistService wishlistService, IExcelFile file, Views.IExportDialog dialog)
-            :base("Wishlist item", file, dialog)
+        public WishlistExcelPresenter(IWishlistService wishlistService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
+            :base("Wishlist item", file, dialog, excel)
         {
             this._wishlistService = wishlistService;
             WriteHeaders();
         }
 
-        public WishlistExcelPresenter(Views.IExportDialog dialog)
-            : base("Wishlist item", new ExcelFile(), dialog)
+        public WishlistExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
+            : base("Wishlist item", new ExcelFile(), dialog, excel)
         {
             this._wishlistService = new WishlistService();
             WriteHeaders();
@@ -90,6 +90,6 @@ namespace MyLibrary.Presenters.Excel
             SetColumnWidth(4, 50);
 
             await this._excel.SaveAsync(this._file, this._dialog.Path);
-        }
-    }
+        }//RenderExcel
+    }//class
 }
