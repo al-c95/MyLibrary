@@ -31,7 +31,41 @@ namespace MyLibrary_Test.ApiService_Tests
         }
 
         [Test]
-        public async Task GetBookByIsbnAsync_Test_Success()
+        public async Task GetBookByIsbnAsync_Test_SuccessNoAuthorsNoPropertiesExist()
+        {
+            // arrange
+            string bookJson = "{" + "\r\n" +
+                "\"title\": \"Test book: this book is a test\"," + "\r\n" +
+                "}";
+            var fakeIsbnApiClient = A.Fake<IIsbnApiClient>();
+            var fakeIsbnHttpResponse = A.Fake<HttpResponseWrapper>();
+            A.CallTo(() => fakeIsbnHttpResponse.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            A.CallTo(() => fakeIsbnHttpResponse.ReadAsStringAsync()).Returns(bookJson);
+            A.CallTo(() => fakeIsbnApiClient.GetResponse("0123456789")).Returns(fakeIsbnHttpResponse);
+            var fakeAuthorApiClient = A.Fake<IAuthorApiClient>();
+            BookApiService service = new BookApiService(fakeIsbnApiClient, fakeAuthorApiClient);
+
+            // act
+            Book result = await service.GetBookByIsbnAsync("0123456789");
+
+            // assert
+            // title
+            Assert.AreEqual("Test book: this book is a test", result.Title);
+            // ISBNs
+            Assert.AreEqual("", result.Isbn);
+            Assert.AreEqual("", result.Isbn13);
+            // number of pages
+            Assert.AreEqual(0, result.Pages);
+            // publication details
+            Assert.AreEqual("No Publisher", result.Publisher.Name);
+            Assert.AreEqual("", result.DatePublished);
+            Assert.AreEqual("", result.PlaceOfPublication);
+            // authors
+            Assert.IsTrue(result.Authors.Count == 0);
+        }
+
+        [Test]
+        public async Task GetBookByIsbnAsync_Test_Success_AuthorsAndAllPropertiesExist()
         {
             // arrange
             string bookJson = "{\r\n" +
