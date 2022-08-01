@@ -32,10 +32,16 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 
 namespace MyLibrary.Models.BusinessLogic
 {
+    /// <summary>
+    /// Base class for implementing services dealing with data-access repositories.
+    /// </summary>
     public abstract class ServiceBase
     {
         protected readonly IUnitOfWorkProvider _uowProvider;
 
+        /// <summary>
+        /// Default constructor. Instantiates real unit of work.
+        /// </summary>
         public ServiceBase()
         {
             this._uowProvider = new UnitOfWorkProvider();

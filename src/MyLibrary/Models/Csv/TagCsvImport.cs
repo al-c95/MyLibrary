@@ -32,9 +32,11 @@ namespace MyLibrary.Models.Csv
 {
     public class TagCsvImport : CsvImport
     {
+        private ITagService _service;
+
         public override string GetTypeName => "Tag";
 
-        public TagCsvImport(string[] allLines)
+        public TagCsvImport(string[] allLines, ITagService service)
         {
             // validate headers
             if (allLines[0].Equals("Tag"))
@@ -45,11 +47,13 @@ namespace MyLibrary.Models.Csv
             {
                 throw new FormatException("Tags CSV file does not have appropriate structure.");
             }
+
+            this._service = service;
         }
 
         async public static Task<TagCsvImport> BuildAsync(ICsvFile file)
         {
-            return new TagCsvImport(await file.ReadLinesAsync());
+            return new TagCsvImport(await file.ReadLinesAsync(), new TagService());
         }
 
         public override IEnumerator<CsvRowResult> GetEnumerator()
@@ -80,15 +84,14 @@ namespace MyLibrary.Models.Csv
 
         public override async Task<bool> AddIfNotExists(CsvRowResult row)
         {
-            TagService service = new TagService();
             Tag tag = row.Entity as Tag;
-            if (await service.ExistsWithName(tag.Name))
+            if (await this._service.ExistsWithName(tag.Name))
             {
                 return false;
             }
             else
             {
-                await service.Add(tag);
+                await this._service.Add(tag);
 
                 return true;
             }

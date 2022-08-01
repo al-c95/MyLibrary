@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Linq;
 using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Csv;
+using MyLibrary.Models.BusinessLogic;
 
 namespace MyLibrary_Test.Models_Tests.Csv_Tests
 {
@@ -16,27 +18,84 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
         [Test]
         public void Constructor_Test_Ok()
         {
+            // arrange
             string[] lines = new string[]
             {
                 "Publisher",
                 "publisher1",
                 "publisher2"
             };
+            var fakeService = A.Fake<IPublisherService>();
 
-            Assert.DoesNotThrow(() => new PublisherCsvImport(lines));
+            // act/assert
+            Assert.DoesNotThrow(() => new PublisherCsvImport(lines,fakeService));
         }
         
         [Test]
         public void Constructor_Test_Invalid()
         {
+            // arrange
             string[] lines = new string[]
             {
                 "bogus header",
                 "publisher1",
                 "publisher2"
             };
+            var fakeService = A.Fake<IPublisherService>();
 
-            Assert.Throws<FormatException>(() => new PublisherCsvImport(lines));
+            // act/assert
+            Assert.Throws<FormatException>(() => new PublisherCsvImport(lines, fakeService));
+        }
+
+        [Test]
+        public void GetTypeName_Test()
+        {
+            // arrange
+            string expectedResult = "Publisher";
+            var fakeService = A.Fake<IPublisherService>();
+            var import = new PublisherCsvImport(new string[] { "Publisher" }, fakeService);
+
+            // act
+            string actualResult = import.GetTypeName;
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task AddIfNotExists_Test_Exists()
+        {
+            // arrange
+            Publisher publisher = new Publisher("some_publisher");
+            CsvRowResult row = new CsvRowResult(1, CsvRowResult.Status.SUCCESS, publisher, "Publisher");
+            var fakeService = A.Fake<IPublisherService>();
+            A.CallTo(() => fakeService.ExistsWithName("some_publisher")).Returns(true);
+            PublisherCsvImport import = new PublisherCsvImport(new string[] { "Publisher" }, fakeService);
+
+            // act
+            bool result = await import.AddIfNotExists(row);
+
+            // assert
+            Assert.IsFalse(result);
+            A.CallTo(() => fakeService.Add(publisher)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task AddIfNotExists_Test_DoesNotExist()
+        {
+            // arrange
+            Publisher publisher = new Publisher("some_publisher");
+            CsvRowResult row = new CsvRowResult(1, CsvRowResult.Status.SUCCESS, publisher, "Publisher");
+            var fakeService = A.Fake<IPublisherService>();
+            A.CallTo(() => fakeService.ExistsWithName("some_publisher")).Returns(false);
+            PublisherCsvImport import = new PublisherCsvImport(new string[] { "Publisher" }, fakeService);
+
+            // act
+            bool result = await import.AddIfNotExists(row);
+
+            // assert
+            Assert.IsTrue(result);
+            A.CallTo(() => fakeService.Add(publisher)).MustHaveHappened();
         }
 
         [Test]
@@ -49,8 +108,8 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
                 "",
                 "publisher2"
             };
-
-            var import = new PublisherCsvImport(lines);
+            var fakeService = A.Fake<IPublisherService>();
+            var import = new PublisherCsvImport(lines, fakeService);
             List<CsvRowResult> results = new List<CsvRowResult>();
             foreach (var result in import)
             {
