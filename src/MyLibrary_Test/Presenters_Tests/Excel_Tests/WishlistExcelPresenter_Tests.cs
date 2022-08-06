@@ -27,11 +27,9 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             // arrange
             var fakeService = A.Fake<IWishlistService>();
             WishlistItem item1 = new WishlistItem { Id = 1 };
-            WishlistItem item2 = new WishlistItem { Id = 2 };
             List<WishlistItem> items = new List<WishlistItem>
             {
-                item1,
-                item2
+                item1
             };
             A.CallTo(() => fakeService.GetAll()).Returns(items);
             var fakeExcelFile = A.Fake<IExcelFile>();
@@ -44,7 +42,7 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
 
             // assert
             Assert.AreEqual("Task complete.", fakeDialog.Label1);
-            Assert.AreEqual("2 rows exported", fakeDialog.Label2);
+            Assert.AreEqual("1 rows exported", fakeDialog.Label2);
         }
 
         class MockPresenter : WishlistExcelPresenter
