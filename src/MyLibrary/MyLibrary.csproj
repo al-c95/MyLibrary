@@ -204,11 +204,11 @@
     <Compile Include="ImportDialog.Designer.cs">
       <DependentUpon>ImportDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImportExcelDialog.cs">
+    <Compile Include="ExcelImportDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImportExcelDialog.Designer.cs">
-      <DependentUpon>ImportExcelDialog.cs</DependentUpon>
+    <Compile Include="ExcelImportDialog.Designer.cs">
+      <DependentUpon>ExcelImportDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="ManageCopiesDialog.cs">
       <SubType>Form</SubType>
@@ -333,6 +333,7 @@
     <Compile Include="Views\IAddItemForm.cs" />
     <Compile Include="Views\IAddMediaItemForm.cs" />
     <Compile Include="Views\IAddBookForm.cs" />
+    <Compile Include="Views\IExcelImportDialog.cs" />
     <Compile Include="Views\IExportDialog.cs" />
     <Compile Include="Views\IMainWindow.cs" />
     <Compile Include="Views\IManageCopiesForm.cs" />
@@ -365,8 +366,8 @@
     <EmbeddedResource Include="ImportDialog.resx">
       <DependentUpon>ImportDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImportExcelDialog.resx">
-      <DependentUpon>ImportExcelDialog.cs</DependentUpon>
+    <EmbeddedResource Include="ExcelImportDialog.resx">
+      <DependentUpon>ExcelImportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

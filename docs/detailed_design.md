@@ -175,7 +175,7 @@ These types are uniquely identifiable by their name or title fields, so if there
 - Selected fields are editable. Columns which are not editable will be locked.
 - Must be in format of Excel exports.
 
-#### Import process
+#### Media Item Import process
 TODO
 
 ### User interface
