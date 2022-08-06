@@ -27,11 +27,9 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             // arrange
             var fakeService = A.Fake<IAuthorService>();
             Author author1 = new Author { Id=1, FirstName = "John", LastName = "Smith" };
-            Author author2 = new Author { Id=2, FirstName = "Jane", LastName = "Doe" };
             List<Author> authors = new List<Author>
             {
-                author1,
-                author2
+                author1
             };
             A.CallTo(() => fakeService.GetAll()).Returns(authors);
             var fakeExcelFile = A.Fake<IExcelFile>();
@@ -45,7 +43,7 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             // assert
             // dialog labels
             Assert.AreEqual("Task complete.", fakeDialog.Label1);
-            Assert.AreEqual("2 rows exported", fakeDialog.Label2);
+            Assert.AreEqual("1 rows exported", fakeDialog.Label2);
             // worksheet
             Assert.AreEqual("MyLibrary", excel.Worksheet.Cells["A1"].GetValue<string>());       
             Assert.AreEqual("Type", excel.Worksheet.Cells["A2"].GetValue<string>());
@@ -57,11 +55,7 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             Assert.AreEqual("Last Name", excel.Worksheet.Cells["C6"].GetValue<string>());
             Assert.AreEqual(1, excel.Worksheet.Cells["A7"].GetValue<int>());
             Assert.AreEqual("John", excel.Worksheet.Cells["B7"].GetValue<string>());
-            Assert.AreEqual("Smith", excel.Worksheet.Cells["C7"].GetValue<string>());
-            Assert.AreEqual(2, excel.Worksheet.Cells["A8"].GetValue<int>());
-            Assert.AreEqual("Jane", excel.Worksheet.Cells["B8"].GetValue<string>());
-            Assert.AreEqual("Doe", excel.Worksheet.Cells["C8"].GetValue<string>());
-            
+            Assert.AreEqual("Smith", excel.Worksheet.Cells["C7"].GetValue<string>());       
         }
 
         class MockPresenter : AuthorExcelPresenter
