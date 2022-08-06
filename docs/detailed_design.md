@@ -171,8 +171,12 @@ The following types can be imported as bulk imports:
 These types are uniquely identifiable by their name or title fields, so if there are any already in the database, they will be skipped.
 
 ### Excel imports
-- Supported for books and media items
+- Supported for books and media items.
 - Selected fields are editable. Columns which are not editable will be locked.
+- Must be in format of Excel exports.
 
 #### Import process
 TODO
+
+### User interface
+![Import Excel dialog design](img/import_excel_dialog_design.png)
