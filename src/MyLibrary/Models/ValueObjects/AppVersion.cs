@@ -42,6 +42,13 @@ namespace MyLibrary.Models.ValueObjects
             this.Revision = revision;
         }
 
+        /// <summary>
+        /// Creates AppVersion object from string in {major}.{minor}.{bugfix} format.
+        /// Performs validation.
+        /// </summary>
+        /// <param name="version"></param>
+        /// <throws>FormatException when version string has incorrect format.</throws>
+        /// <returns></returns>
         public static AppVersion Parse(string version)
         {
             const string VERSION_PATTERN = @"^(\d)+\.(\d)+\.(\d)+$";
