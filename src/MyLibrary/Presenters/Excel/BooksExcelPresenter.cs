@@ -119,7 +119,7 @@ namespace MyLibrary.Presenters.Excel
                         item.TitleLong,
                         item.Isbn,
                         item.Isbn13,
-                        item.GetAuthorList(),
+                        item.GetAuthorListFullNamesGiven(),
                         item.Language,
                         item.GetCommaDelimitedTags(),
                         item.DeweyDecimal,

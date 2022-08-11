@@ -147,6 +147,32 @@ namespace MyLibrary.Models.Entities
             return authorsString;
         }//GetAuthorList
 
+        /// <summary>
+        /// Get a string of the authors in the format: Firstname Lastname; Firstname Lastname; ... Firstname Lastname;
+        /// </summary>
+        /// <returns></returns>
+        public string GetAuthorListFullNamesGiven()
+        {
+            if (this.Authors.Count == 0)
+                return null;
+
+            string firstAuthor = this.Authors.First().FirstName + " " + this.Authors.First().LastName;
+            if (this.Authors.Count == 1)
+            {
+                return firstAuthor;
+            }
+            else
+            {
+                StringBuilder authors = new StringBuilder();
+                foreach (var author in this.Authors)
+                {
+                    authors.Append(author.FirstName + " " + author.LastName + "; ");
+                }
+
+                return authors.ToString().Substring(0, authors.ToString().Length-2);
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
