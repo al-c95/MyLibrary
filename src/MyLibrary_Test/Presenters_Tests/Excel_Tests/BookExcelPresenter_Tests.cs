@@ -97,7 +97,7 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             Assert.AreEqual("book1: this is a test", excel.Worksheet.Cells["C7"].GetValue<string>());
             Assert.AreEqual("0123456789", excel.Worksheet.Cells["D7"].GetValue<string>());
             Assert.AreEqual("", excel.Worksheet.Cells["E7"].GetValue<string>());
-            Assert.AreEqual("Smith, J.", excel.Worksheet.Cells["F7"].GetValue<string>());
+            Assert.AreEqual("John Smith", excel.Worksheet.Cells["F7"].GetValue<string>());
             Assert.AreEqual("English", excel.Worksheet.Cells["G7"].GetValue<string>());
             Assert.AreEqual("test", excel.Worksheet.Cells["H7"].GetValue<string>());
             Assert.AreEqual("1.2", excel.Worksheet.Cells["I7"].GetValue<string>());

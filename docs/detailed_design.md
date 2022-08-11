@@ -149,6 +149,8 @@ The data used to pre-fill an add new book dialog are the following:
 ### Exports
 Exporting and importing data in XLSX and CSV format is supported.
 
+For books, author entries are in the format: `Firstname Lastname; Firstname Lastname`.
+
 #### Excel
 Each export has a metadata section indicating the date and time it was created and the application version that created it. It has a row for each record, comprised of the Id and other fields. Images are not included.
 ![Excel format](img/excel_format.jpg)
@@ -179,7 +181,9 @@ These types are uniquely identifiable by their name or title fields, so if there
 ![Media item Excel import process](img/media_item_excel_parse.jpg)
 
 ### Book Import process
-TODO
+Author entries must be in the format: `Firstname Lastname; Firstname Lastname`.
+![Book Excel import process part1](img/book_excel_parse1.jpg)
+![Book Excel import process part2](img/book_excel_parse2.jpg)
 
 ### User interface
 ![Import Excel dialog design](img/import_excel_dialog_design.png)

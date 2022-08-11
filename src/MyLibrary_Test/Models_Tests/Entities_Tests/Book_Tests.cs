@@ -106,6 +106,63 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.IsNull(book.GetAuthorList());
         }
 
+        [Test]
+        public void GetAuthorListFullNamesGiven_Test_OneAuthorExists()
+        {
+            // arrange
+            Author author1 = new Author();
+            author1.FirstName = "John";
+            author1.LastName = "Smith";
+            Book book = new Book();
+            book.Authors.Add(author1);
+            string expectedResult = "John Smith";
+
+            // act
+            var actualResult = book.GetAuthorListFullNamesGiven();
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public void GetAuthorListFullNamesGiven_Test_AuthorsExist()
+        {
+            // arrange
+            Author author1 = new Author();
+            author1.FirstName = "John";
+            author1.LastName = "Smith";
+            Author author2 = new Author();
+            author2.FirstName = "Jane";
+            author2.LastName = "Doe";
+            Author author3 = new Author();
+            author3.FirstName = "Korky";
+            author3.LastName = "Buchek";
+            Book book = new Book();
+            book.Authors.Add(author1);
+            book.Authors.Add(author2);
+            book.Authors.Add(author3);
+            string expectedResult = "John Smith; Jane Doe; Korky Buchek";
+
+            // act
+            var actualResult = book.GetAuthorListFullNamesGiven();
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public void GetAuthorListFullNamesGiven_Test_NoAuthors()
+        {
+            // arrange
+            Book book = new Book();
+
+            // act
+            var result = book.GetAuthorListFullNamesGiven();
+
+            // assert
+            Assert.IsNull(book.GetAuthorList());
+        }
+
         [TestCase("0123456789")]
         [TestCase("012345678X")]
         public void Isbn_Set_Test_Valid(string givenIsbn)
