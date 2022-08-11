@@ -28,15 +28,20 @@ namespace MyLibrary.Models.BusinessLogic
 {
     public interface IMediaItemService
     {
-        Task Add(MediaItem item);
-        Task DeleteById(int id);
-        Task<bool> ExistsWithId(int id);
-        Task<bool> ExistsWithTitle(string title);
-        Task<IEnumerable<MediaItem>> GetAll();
-        Task<MediaItem> GetById(int id);
-        Task<IEnumerable<MediaItem>> GetByType(ItemType type);
-        Task<int> GetIdByTitle(string title);
-        Task Update(MediaItem item);
-        Task UpdateTags(ItemTagsDto dto);
+        void Add(MediaItem item);
+        bool AddIfNotExists(MediaItem item);
+        Task AddAsync(MediaItem item);
+        Task DeleteByIdAsync(int id);
+        Task<bool> ExistsWithIdAsync(int id);
+        bool ExistsWithTitle(string title);
+        Task<bool> ExistsWithTitleAsync(string title);
+        Task<IEnumerable<MediaItem>> GetAllAsync();
+        Task<MediaItem> GetByIdAsync(int id);
+        Task<IEnumerable<MediaItem>> GetByTypeAsync(ItemType type);
+        Task<int> GetIdByTitleAsync(string title);
+        void Update(MediaItem item);
+        Task UpdateAsync(MediaItem item);
+        void UpdateTags(ItemTagsDto dto);
+        Task UpdateTagsAsync(ItemTagsDto dto);
     }
 }

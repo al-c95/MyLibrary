@@ -138,7 +138,7 @@ namespace MyLibrary.Presenters
             // check if item with title already exists
             try
             {
-                if (await this._mediaItemService.ExistsWithTitle(this._view.TitleFieldText))
+                if (await this._mediaItemService.ExistsWithTitleAsync(this._view.TitleFieldText))
                 {
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
@@ -214,7 +214,7 @@ namespace MyLibrary.Presenters
             // add new item
             try
             {
-                await this._mediaItemService.Add(item);
+                await this._mediaItemService.AddAsync(item);
                 this._view.ItemAddedFinished();
             }
             catch (Exception ex)

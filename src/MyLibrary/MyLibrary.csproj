@@ -226,9 +226,9 @@
     <Compile Include="Models\BusinessLogic\ICopyServiceFactory.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemCopyService.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\BookImportExcelService.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\ImportExcelService.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\MediaItemImportExcelService.cs" />
+    <Compile Include="Models\BusinessLogic\ImportExcel\BookExcelParser.cs" />
+    <Compile Include="Models\BusinessLogic\ImportExcel\ExcelParserBase.cs" />
+    <Compile Include="Models\BusinessLogic\ImportExcel\MediaItemExcelParser.cs" />
     <Compile Include="Models\BusinessLogic\ImportExcel\RowResult.cs" />
     <Compile Include="Models\BusinessLogic\IPublisherService.cs" />
     <Compile Include="Models\BusinessLogic\ITagService.cs" />

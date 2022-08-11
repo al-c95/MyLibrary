@@ -29,15 +29,15 @@ using MyLibrary.Models.Entities;
 
 namespace MyLibrary.Models.BusinessLogic.ImportExcel
 {
-    public class RowResult
+    public class ExcelRowResult
     {
         public int Row { get; set; }
         public Item Item { get; set; }
-        public RowResultStatus Status { get; set; }
+        public ExcelRowResultStatus Status { get; set; }
         public string Message { get; set; }
     }
 
-    public enum RowResultStatus
+    public enum ExcelRowResultStatus
     {
         Success,
         Warning,

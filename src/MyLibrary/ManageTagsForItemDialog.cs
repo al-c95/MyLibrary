@@ -94,7 +94,7 @@ namespace MyLibrary
                     else
                     {
                         IMediaItemService _itemRepo = new MediaItemService();
-                        await _itemRepo.UpdateTags(dto);
+                        await _itemRepo.UpdateTagsAsync(dto);
                     }
 
                     this.Close();

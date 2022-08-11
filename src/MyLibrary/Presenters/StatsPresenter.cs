@@ -73,7 +73,7 @@ namespace MyLibrary.Presenters
             builder.AppendLine("Publishers: " + (await _publisherService.GetAll()).Count());
             builder.AppendLine("Authors: " + (await _authorService.GetAll()).Count());
             builder.AppendLine("");
-            builder.AppendLine("Media Items: " + (await _mediaItemService.GetAll()).Count());
+            builder.AppendLine("Media Items: " + (await _mediaItemService.GetAllAsync()).Count());
             builder.AppendLine("");
             builder.AppendLine("Tags: " + (await _tagService.GetAll()).Count());
 

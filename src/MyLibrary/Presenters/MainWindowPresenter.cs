@@ -135,7 +135,7 @@ namespace MyLibrary.Presenters
                 }
                 else
                 {
-                    await this._mediaItemService.DeleteById(selectedItemId);
+                    await this._mediaItemService.DeleteByIdAsync(selectedItemId);
                 }
             }
             catch (Exception ex)
@@ -239,7 +239,7 @@ namespace MyLibrary.Presenters
             }
             else
             {
-                this._view.SelectedItem = await this._mediaItemService.GetById(selectedItemId);
+                this._view.SelectedItem = await this._mediaItemService.GetByIdAsync(selectedItemId);
             }
 
             this._selectedItemMemento = this._view.SelectedItem.GetMemento();
@@ -279,7 +279,7 @@ namespace MyLibrary.Presenters
                 }
                 else
                 {
-                    await this._mediaItemService.Update((MediaItem)this._view.SelectedItem);
+                    await this._mediaItemService.UpdateAsync((MediaItem)this._view.SelectedItem);
                 }
             }
             catch (Exception ex)
@@ -412,12 +412,12 @@ namespace MyLibrary.Presenters
 
         private async Task DisplayMediaItems()
         {
-            CreateMediaItemsTable(await this._mediaItemService.GetAll());
+            CreateMediaItemsTable(await this._mediaItemService.GetAllAsync());
         }
 
         private async Task DisplayMediaItems(ItemType type)
         {
-            CreateMediaItemsTable(await this._mediaItemService.GetByType(type));
+            CreateMediaItemsTable(await this._mediaItemService.GetByTypeAsync(type));
         }
 
         /// <summary>
