@@ -17,7 +17,7 @@ using MyLibrary.DataAccessLayer.ServiceProviders;
 namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
 {
     [TestFixture]
-    class BookImportExcelService_Tests
+    class BookExcelParser_Tests
     {
         private ExcelPackage AddWorksheetHeaders(ExcelPackage pck)
         {
@@ -84,14 +84,11 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
         public void Constructor_Test_Ok(string excelVersionEntry)
         {
             // arrange
-            var pck = Utils.WorksheetFactory(excelVersionEntry, "Book");
+            var pck = Utils.MediaItemWorksheetFactory(excelVersionEntry, "Book");
             pck = AddWorksheetHeaders(pck);
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
 
             // act/assert
-            Assert.DoesNotThrow(() => new BookImportExcelService(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0), fakeUowProvider));
+            Assert.DoesNotThrow(() => new BookExcelParser(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0)));
         }
 
         [TestCase("1.2.0")]
@@ -99,14 +96,11 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
         public void Constructor_Test_VersionMismatch(string excelVersionEntry)
         {
             // arrange
-            var pck = Utils.WorksheetFactory(excelVersionEntry, "Book");
+            var pck = Utils.MediaItemWorksheetFactory(excelVersionEntry, "Book");
             pck = AddWorksheetHeaders(pck);
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
 
             // act/assert
-            Assert.Throws<FormatException>(() => new BookImportExcelService(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0), fakeUowProvider));
+            Assert.Throws<FormatException>(() => new BookExcelParser(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0)));
         }
 
         [TestCase("bogus", "Id", "Title", "Long Title", "ISBN", "ISBN13", "Authors", "Language", "Tags", "Dewey Decimal", "MSRP", "Publisher", "Format", "Date Published", "Place of Publication", "Edition", "Pages", "Dimensions", "Overview", "Excerpt", "Synopsys", "Notes")]
@@ -136,14 +130,11 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
             string R6, string S6, string T6, string U6)
         {
             // arrange
-            var pck = Utils.WorksheetFactory("1.4.0", "Book");
+            var pck = Utils.MediaItemWorksheetFactory("1.4.0", "Book");
             pck = AddBogusWorksheetHeaders(pck,B2,A6,B6,C6,D6,E6,F6,G6,H6,I6,J6,K6,L6,M6,N6,O6,P6,Q6,R6,S6,T6,U6);
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
 
             // act/assert
-            Assert.Throws<FormatException>(() => new BookImportExcelService(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0), fakeUowProvider));
+            Assert.Throws<FormatException>(() => new BookExcelParser(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0)));
         }
     }//class
 }

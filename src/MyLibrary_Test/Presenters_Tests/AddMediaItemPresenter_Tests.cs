@@ -253,7 +253,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(true);
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
@@ -297,7 +297,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Throws(new Exception("error"));
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Throws(new Exception("error"));
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
@@ -340,7 +340,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             A.CallTo(() => fakeImageFileReader.ReadBytes()).Throws(new System.IO.IOException("error"));
@@ -387,7 +387,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
@@ -396,7 +396,7 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeMediaItemService.Add(A<MediaItem>.That.Matches(i => 
+            A.CallTo(() => fakeMediaItemService.AddAsync(A<MediaItem>.That.Matches(i => 
             i.Title == "title" &&
             i.Number == 0123456789 &&
             i.ReleaseYear == 2021 &&
@@ -437,11 +437,11 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitle("title")).Returns(false);
+            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
-            A.CallTo(() => fakeMediaItemService.Add(A<MediaItem>.That.Matches(i => i.Title=="title"))).Throws(new Exception("error"));
+            A.CallTo(() => fakeMediaItemService.AddAsync(A<MediaItem>.That.Matches(i => i.Title=="title"))).Throws(new Exception("error"));
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);

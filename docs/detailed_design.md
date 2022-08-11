@@ -176,6 +176,9 @@ These types are uniquely identifiable by their name or title fields, so if there
 - Must be in format of Excel exports.
 
 #### Media Item Import process
+![Media item Excel import process](img/media_item_excel_parse.jpg)
+
+### Book Import process
 TODO
 
 ### User interface

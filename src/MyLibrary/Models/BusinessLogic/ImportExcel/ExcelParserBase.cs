@@ -37,9 +37,9 @@ using MyLibrary.Utils;
 namespace MyLibrary.Models.BusinessLogic.ImportExcel
 {
     /// <summary>
-    /// Performs logic of parsing MyLibrary exports in Excel format and performs database update.
+    /// Performs logic of parsing MyLibrary exports in Excel format.
     /// </summary>
-    public abstract class ImportExcelService<T> : ServiceBase where T : Item
+    public abstract class ExcelParserBase<T> where T : Item
     {
         protected ExcelPackage _excel;
 
@@ -52,9 +52,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
         /// <param name="runningVersion"></param>
         /// <param name="unitOfWorkProvider"</param>
         /// <throws>FormatException when metadata structure in worksheet incorrect, or app version mismatch.</throws>
-        public ImportExcelService(ExcelPackage excel, string worksheet, AppVersion runningVersion,
-            IUnitOfWorkProvider unitOfWorkProvider)
-            :base(unitOfWorkProvider)
+        public ExcelParserBase(ExcelPackage excel, string worksheet, AppVersion runningVersion)
         {
             this._excel = excel;
 
@@ -75,16 +73,11 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
             }
         }//ctor
 
+        public abstract IEnumerable<ExcelRowResult> Run();
+
         protected string ReadCellAsString(ExcelPackage pck, string worksheet, string address)
         {
             return pck.Workbook.Worksheets[worksheet].Cells[address].GetValue<string>();
         }
-
-        protected int ReadCellAsInt(ExcelPackage pck, string worksheet, string address)
-        {
-            return pck.Workbook.Worksheets[worksheet].Cells[address].GetValue<int>();
-        }
-
-        public abstract IEnumerable<RowResult> Run();
     }//class
 }

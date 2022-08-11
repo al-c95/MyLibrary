@@ -36,11 +36,10 @@ using MyLibrary.Utils;
 
 namespace MyLibrary.Models.BusinessLogic.ImportExcel
 {
-    public class BookImportExcelService : ImportExcelService<Book>
+    public class BookExcelParser : ExcelParserBase<Book>
     {
-        public BookImportExcelService(ExcelPackage excel, AppVersion runningVersion,
-            IUnitOfWorkProvider unitOfWorkProvider)
-            :base(excel, "Book", runningVersion, unitOfWorkProvider)
+        public BookExcelParser(ExcelPackage excel, AppVersion runningVersion)
+            :base(excel, "Book", runningVersion)
         {
             bool sane = true;
             sane = sane && ReadCellAsString(this._excel, "Book", "B2").Equals("Books");
@@ -71,7 +70,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
             }
         }//ctor
 
-        public override IEnumerable<RowResult> Run()
+        public override IEnumerable<ExcelRowResult> Run()
         {
             throw new NotImplementedException();
         }

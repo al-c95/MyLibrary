@@ -73,7 +73,7 @@ namespace MyLibrary.Presenters.Excel
         protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
         {
             // write data
-            var allItems = await this._mediaItemService.GetAll();
+            var allItems = await this._mediaItemService.GetAllAsync();
             int count = 0;
             await Task.Run(() =>
             {
