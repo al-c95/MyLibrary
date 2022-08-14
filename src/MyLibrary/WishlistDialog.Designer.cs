@@ -30,7 +30,7 @@ namespace MyLibrary
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WishlistDialog));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -67,17 +67,16 @@ namespace MyLibrary
             // 
             // toolStripContainer.ContentPanel
             // 
-            this.toolStripContainer.ContentPanel.Controls.Add(this.deleteButton);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox2);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
             this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1043, 539);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1137, 539);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer.Name = "toolStripContainer";
-            this.toolStripContainer.Size = new System.Drawing.Size(1043, 590);
+            this.toolStripContainer.Size = new System.Drawing.Size(1137, 590);
             this.toolStripContainer.TabIndex = 0;
             this.toolStripContainer.Text = "toolStripContainer1";
             // 
@@ -89,7 +88,7 @@ namespace MyLibrary
             this.toolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1043, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1137, 26);
             this.statusStrip1.TabIndex = 0;
             // 
             // toolStripStatusLabel
@@ -103,7 +102,7 @@ namespace MyLibrary
             this.deleteButton.Enabled = false;
             this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
             this.deleteButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.deleteButton.Location = new System.Drawing.Point(313, 223);
+            this.deleteButton.Location = new System.Drawing.Point(6, 209);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(155, 28);
@@ -205,6 +204,7 @@ namespace MyLibrary
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.deleteButton);
             this.groupBox1.Controls.Add(this.discardChangesButton);
             this.groupBox1.Controls.Add(this.selectedItemNotesBox);
             this.groupBox1.Controls.Add(this.saveChangesButton);
@@ -213,10 +213,10 @@ namespace MyLibrary
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(460, 204);
+            this.groupBox1.Size = new System.Drawing.Size(460, 241);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Selected Item Details";
+            this.groupBox1.Text = "Selected Item";
             // 
             // discardChangesButton
             // 
@@ -224,7 +224,7 @@ namespace MyLibrary
             this.discardChangesButton.Enabled = false;
             this.discardChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("discardChangesButton.Image")));
             this.discardChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.discardChangesButton.Location = new System.Drawing.Point(297, 169);
+            this.discardChangesButton.Location = new System.Drawing.Point(297, 177);
             this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -236,7 +236,7 @@ namespace MyLibrary
             // selectedItemNotesBox
             // 
             this.selectedItemNotesBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.selectedItemNotesBox.Location = new System.Drawing.Point(7, 39);
+            this.selectedItemNotesBox.Location = new System.Drawing.Point(7, 47);
             this.selectedItemNotesBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.selectedItemNotesBox.Multiline = true;
             this.selectedItemNotesBox.Name = "selectedItemNotesBox";
@@ -250,7 +250,7 @@ namespace MyLibrary
             this.saveChangesButton.Enabled = false;
             this.saveChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("saveChangesButton.Image")));
             this.saveChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveChangesButton.Location = new System.Drawing.Point(7, 171);
+            this.saveChangesButton.Location = new System.Drawing.Point(7, 177);
             this.saveChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -262,7 +262,7 @@ namespace MyLibrary
             // 
             this.notesLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.notesLabel.AutoSize = true;
-            this.notesLabel.Location = new System.Drawing.Point(5, 18);
+            this.notesLabel.Location = new System.Drawing.Point(7, 28);
             this.notesLabel.Name = "notesLabel";
             this.notesLabel.Size = new System.Drawing.Size(45, 17);
             this.notesLabel.TabIndex = 21;
@@ -275,17 +275,16 @@ namespace MyLibrary
             this.dataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(480, 14);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -294,14 +293,14 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(548, 518);
+            this.dataGrid.Size = new System.Drawing.Size(642, 518);
             this.dataGrid.TabIndex = 26;
             // 
             // WishlistDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1043, 590);
+            this.ClientSize = new System.Drawing.Size(1137, 590);
             this.Controls.Add(this.toolStripContainer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
