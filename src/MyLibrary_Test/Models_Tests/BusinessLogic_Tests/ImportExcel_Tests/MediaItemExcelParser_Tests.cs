@@ -218,7 +218,8 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
                                             r.Item.Title == "item2" &&
                                             r.Item.Type == ItemType.Cd &&
                                             ((MediaItem)r.Item).Tags.Count == 1 &&
-                                            ((MediaItem)r.Item).Tags.Any(t => t.Name == "tag1")));
+                                            ((MediaItem)r.Item).Tags.Any(t => t.Name.Equals("tag1")) &&
+                                            r.Item.Notes == "this is a test."));
             Assert.IsTrue(results.Any(r => r.Status == ExcelRowResultStatus.Error &&
                                             r.Row == 9 &&
                                             r.Item == null &&

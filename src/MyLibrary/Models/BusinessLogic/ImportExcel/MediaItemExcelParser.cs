@@ -57,7 +57,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
             sane = sane && ReadCellAsString(this._excel, "Media item", "H6").Equals("Notes");
             if (!sane)
             {
-                throw new FormatException("Provided Excel is not a valid export from MyLibrary");
+                throw new FormatException("Provided Excel is not a valid media items export from MyLibrary");
             }
         }
 
@@ -175,12 +175,15 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                 }
                 // read Tags
                 string tagsEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 7].GetValue<string>();
-                Regex tagSplitRegex = new Regex(", ");
-                string[] tagNames = tagSplitRegex.Split(tagsEntry);
                 List<Tag> tags = new List<Tag>();
-                foreach (var tagName in tagNames)
+                if (!string.IsNullOrWhiteSpace(tagsEntry))
                 {
-                    tags.Add(new Tag { Name = tagName });
+                    Regex tagSplitRegex = new Regex(", ");
+                    string[] tagNames = tagSplitRegex.Split(tagsEntry);
+                    foreach (var tagName in tagNames)
+                    {
+                        tags.Add(new Tag { Name = tagName });
+                    }
                 }
                 // read Notes
                 string notes = this._excel.Workbook.Worksheets["Media item"].Cells[index, 8].GetValue<string>();
