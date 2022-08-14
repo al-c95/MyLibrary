@@ -90,6 +90,10 @@ namespace MyLibrary
             {
                 this.SelectedItemFieldsUpdated?.Invoke(sender, args);
             });
+            this.Resize += ((sender, args) =>
+            {
+                ResizeColumns();
+            });
         }
 
         public string SelectedNotes
@@ -229,11 +233,21 @@ namespace MyLibrary
             }
             this.dataGrid.DataSource = dt;
             this.dataGrid.Columns["Notes"].Visible = false;
+
+            ResizeColumns();
         }
 
         public void ShowItemAlreadyExistsDialog(string title)
         {
             MessageBox.Show("Item already exists", "Wishlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void ResizeColumns()
+        {
+            this.dataGrid.Columns["Id"].Width = this.dataGrid.Width / 8;
+            this.dataGrid.Columns["Type"].Width = this.dataGrid.Width / 8;
+
+            this.dataGrid.Columns["Title"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
     }//class
 }
