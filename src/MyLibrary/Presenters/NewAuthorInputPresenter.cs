@@ -50,8 +50,8 @@ namespace MyLibrary.Presenters
             bool sane = true;
             string firstName = this._view.FirstNameEntry;
             string lastName = this._view.LastNameEntry;
-            sane = sane && (Regex.IsMatch(firstName, Author.NAME_PATTERN) || Regex.IsMatch(firstName, Author.WITH_MIDDLE_NAME_PATTERN));
-            sane = sane && Regex.IsMatch(lastName, Author.NAME_PATTERN);
+            sane = sane && (Regex.IsMatch(firstName, Author.FIRST_NAME_PATTERN) || Regex.IsMatch(firstName, Author.FIRST_NAME_WITH_MIDDLE_NAME_PATTERN));
+            sane = sane && Regex.IsMatch(lastName, Author.LAST_NAME_PATTERN);
 
             this._view.OkButtonEnabled = sane;
         }

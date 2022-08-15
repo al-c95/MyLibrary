@@ -11,7 +11,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
     public class Author_Tests
     {
         [Test]
-        public void Author_Test_WithMiddleName()
+        public void Author_Test_WithMiddleNameSimple()
         {
             // arrange
             string authorName = "John H. Smith";
@@ -25,7 +25,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
         }
 
         [Test]
-        public void Author_Test_NoMiddleName()
+        public void Author_Test_NoMiddleNameSimple()
         {
             // arrange
             string authorName = "John Smith";
@@ -38,14 +38,32 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.AreEqual("Smith", author.LastName);
         }
 
-        [Test]
-        public void Author_Test_InvalidFormat()
+        [TestCase("JohnSmith")]
+        [TestCase("John Smith1")]
+        public void Author_Test_InvalidFormat(string authorName)
         {
-            // arrange
-            string authorName = "JohnSmith";
-
             // act/assert
             Assert.Throws<ArgumentException>(() => new Author(authorName));
+        }
+
+        [TestCase("John", "Smith")]
+        [TestCase("John H.", "Smith")]
+        [TestCase("John", "de Coder")]
+        [TestCase("John", "d'Coder")]
+        [TestCase("John", "de Coder-Jones")]
+        [TestCase("John", "d'Coder-Jones")]
+        [TestCase("John H.", "de Coder")]
+        [TestCase("John H.", "d'Coder")]
+        [TestCase("John H.", "de Coder-Jones")]
+        [TestCase("John H.", "d'Coder-Jones")]
+        public void Author_Test_CompositeName(string firstName, string lastName)
+        {
+            // act
+            Author author = new Author(firstName + " " + lastName);
+
+            // assert
+            Assert.AreEqual(firstName, author.FirstName);
+            Assert.AreEqual(lastName, author.LastName);
         }
 
         [TestCase("John", "Smith")]
@@ -65,6 +83,14 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
         [TestCase("John", "Smith")]
         [TestCase("John H.", "Smith")]
+        [TestCase("John", "de Coder")]
+        [TestCase("John", "d'Coder")]
+        [TestCase("John", "de Coder-Jones")]
+        [TestCase("John", "d'Coder-Jones")]
+        [TestCase("John H.", "de Coder")]
+        [TestCase("John H.", "d'Coder")]
+        [TestCase("John H.", "de Coder-Jones")]
+        [TestCase("John H.", "d'Coder-Jones")]
         public void GetFullNameLastNameCommaFirstName_Test(string firstName, string lastName)
         {
             // arrange
@@ -78,12 +104,12 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
-        [Test]
-        public void FirstName_setter_Test_Valid()
+        [TestCase("John")]
+        [TestCase("John H.")]
+        public void FirstName_setter_Test_Valid(string name)
         {
             // arrange
             Author author = new Author();
-            string name = "John";
 
             // act
             author.FirstName = name;
@@ -114,12 +140,16 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.Throws<ArgumentNullException>(() => testAuthor.FirstName = null);
         }
 
-        [Test]
-        public void LastName_setter_Test_Valid()
+        [TestCase("Smith")]
+        [TestCase("Smith-Jones")]
+        [TestCase("de Coder")]
+        [TestCase("d'Coder")]
+        [TestCase("de Coder-Jones")]
+        [TestCase("d'Coder-Jones")]
+        public void LastName_setter_Test_Valid(string name)
         {
             // arrange
             Author author = new Author();
-            string name = "Smith";
 
             // act
             author.LastName = name;
@@ -152,6 +182,14 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
         [TestCase("John", "Smith")]
         [TestCase("John H.", "Smith")]
+        [TestCase("John", "de Coder")]
+        [TestCase("John", "d'Coder")]
+        [TestCase("John", "de Coder-Jones")]
+        [TestCase("John", "d'Coder-Jones")]
+        [TestCase("John H.", "de Coder")]
+        [TestCase("John H.", "d'Coder")]
+        [TestCase("John H.", "de Coder-Jones")]
+        [TestCase("John H.", "d'Coder-Jones")]
         public void GetFullNameWithFirstInitial(string firstName, string lastName)
         {
             // arrange
@@ -164,7 +202,14 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
         [TestCase("John", "Smith")]
         [TestCase("John H.", "Smith")]
-        [TestCase("John", "Smith-Jones")]
+        [TestCase("John", "de Coder")]
+        [TestCase("John", "d'Coder")]
+        [TestCase("John", "de Coder-Jones")]
+        [TestCase("John", "d'Coder-Jones")]
+        [TestCase("John H.", "de Coder")]
+        [TestCase("John H.", "d'Coder")]
+        [TestCase("John H.", "de Coder-Jones")]
+        [TestCase("John H.", "d'Coder-Jones")]
         public void SetFullNameFromCommaFormat(string firstName, string lastName)
         {
             // arrange
