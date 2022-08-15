@@ -31,8 +31,9 @@ namespace MyLibrary.Models.Entities
 {
     public sealed class Author : Entity
     {
-        public static readonly string NAME_PATTERN = @"^[a-zA-Z-]+$";
-        public static readonly string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z-]+ [a-zA-Z].$";
+        public static readonly string FIRST_NAME_PATTERN = @"^[a-zA-Z-]+$";
+        public static readonly string LAST_NAME_PATTERN = @"^([a-zA-Z-']+ )*[a-zA-Z-']+$";
+        public static readonly string FIRST_NAME_WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z-]+ [a-zA-Z]\.$";
 
         private string _firstName;
         public string FirstName
@@ -46,8 +47,8 @@ namespace MyLibrary.Models.Entities
                 }
                 else
                 {
-                    if (Regex.IsMatch(value, NAME_PATTERN) ||
-                        Regex.IsMatch(value, WITH_MIDDLE_NAME_PATTERN))
+                    if (Regex.IsMatch(value, FIRST_NAME_PATTERN) ||
+                        Regex.IsMatch(value, FIRST_NAME_WITH_MIDDLE_NAME_PATTERN))
                     {
                         _firstName = value;
                     }
@@ -71,7 +72,7 @@ namespace MyLibrary.Models.Entities
                 }
                 else
                 {
-                    if (Regex.IsMatch(value, NAME_PATTERN))
+                    if (Regex.IsMatch(value, LAST_NAME_PATTERN))
                     {
                         _lastName = value;
                     }
@@ -87,8 +88,8 @@ namespace MyLibrary.Models.Entities
 
         public Author(string fullName)
         {
-            const string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z]+ [a-zA-Z]. [a-zA-Z]+$";
-            const string NO_MIDDLE_NAME_PATTERN = @"^[a-zA-Z]+ [a-zA-Z]+$";
+            const string WITH_MIDDLE_NAME_PATTERN = @"^[a-zA-Z']+ [a-zA-Z]\. ([a-zA-Z-']+ )*[a-zA-Z-']+$";
+            const string NO_MIDDLE_NAME_PATTERN = @"^[a-zA-Z']+ ([a-zA-Z-']+ )*[a-zA-Z-']+$";
 
             if (Regex.IsMatch(fullName, WITH_MIDDLE_NAME_PATTERN))
             {
@@ -101,8 +102,13 @@ namespace MyLibrary.Models.Entities
             else if (Regex.IsMatch(fullName, NO_MIDDLE_NAME_PATTERN))
             {
                 string[] parts = Regex.Split(fullName, " ");
-                this._lastName = parts[1];
                 this._firstName = parts[0];
+                StringBuilder lastName = new StringBuilder();
+                for (int i = 1; i < parts.Length; i++)
+                {
+                    lastName.Append(parts[i] + " ");
+                }
+                this._lastName = lastName.ToString().TrimEnd(' ');
             }
             else
             {
@@ -128,9 +134,7 @@ namespace MyLibrary.Models.Entities
 
         public void SetFullNameFromCommaFormat(string name)
         {
-            const string NAME_PATTERN = @"^[a-zA-Z\-]+, [a-zA-Z]+( [a-zA-Z].)?$";
-
-            if (Regex.IsMatch(name, NAME_PATTERN))
+            if (name.Contains(", "))
             {
                 string[] parts = Regex.Split(name, ", ");
                 this._firstName = parts[1];
