@@ -86,6 +86,7 @@ namespace MyLibrary.Presenters
 
             // subscribe to the view's events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
+            this._view.WindowCreated += (async (sender, args) => { await DisplayItems(); });
             this._view.ItemSelectionChanged += ItemSelectionChanged;
             this._view.FiltersUpdated += PerformFilter;
             this._view.ApplyFilterButtonClicked += PerformFilter;
@@ -125,6 +126,10 @@ namespace MyLibrary.Presenters
 
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
+            // ask user for confirmation
+            if (!this._view.ShowDeleteConfirmationDialog(this._view.SelectedItem.Title))
+                return;
+
             // delete the item
             try
             {
@@ -196,7 +201,9 @@ namespace MyLibrary.Presenters
                 foreach (var tag in filterByTags)
                 {
                     if (row.Field<string>("Tags").Contains(tag))
+                    {
                         filteredTable.ImportRow(row);
+                    }
                 }
             }
 
