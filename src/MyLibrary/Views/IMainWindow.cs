@@ -50,6 +50,7 @@ namespace MyLibrary.Views
         void LoadWindow();
         void PopulateFilterTags(Dictionary<string, bool> tagNamesAndCheckedStatuses);
         void ShowErrorDialog(string title, string message);
+        bool ShowDeleteConfirmationDialog(string title);
 
         event EventHandler ItemSelectionChanged;
         event EventHandler CategorySelectionChanged;
@@ -66,6 +67,7 @@ namespace MyLibrary.Views
         event EventHandler ShowStatsClicked;
         event EventHandler WishlistButtonClicked;
         event EventHandler ManageCopiesButtonClicked;
+        event EventHandler WindowCreated;
 
         bool ItemDetailsSpinner { get; set; }
         bool FilterGroupEnabled { get; set; }

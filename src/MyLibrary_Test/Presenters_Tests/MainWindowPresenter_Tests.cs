@@ -122,7 +122,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task DeleteButtonClicked_Test_Book()
+        public async Task HandleDeleteButtonClicked_Test_UserSaysNoToConfirmation()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -132,6 +132,40 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
+            A.CallTo(() => fakeView.ShowDeleteConfirmationDialog("item")).Returns(false);
+            MediaItem item = new MediaItem
+            {
+                Id = 1,
+                Title = "item"
+            };
+            A.CallTo(() => fakeView.SelectedItem).Returns(item);
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
+
+            // act
+            await presenter.HandleDeleteButtonClicked(null, null);
+
+            // assert
+            A.CallTo(() => fakeBookRepo.DeleteByIdAsync(fakeView.SelectedItemId)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task HandleDeleteButtonClicked_Test_Book_UserConfirmsDelete()
+        {
+            // arrange
+            var fakeBookRepo = A.Fake<IBookService>();
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeTagService = A.Fake<ITagService>();
+            var fakeAuthorService = A.Fake<IAuthorService>();
+            var fakePublisherService = A.Fake<IPublisherService>();
+            var fakeView = A.Fake<IMainWindow>();
+            Book book = new Book
+            {
+                Id = 1,
+                Title = "book"
+            };
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
+            A.CallTo(() => fakeView.ShowDeleteConfirmationDialog("book")).Returns(true);
+            A.CallTo(() => fakeView.SelectedItem).Returns(book);
             MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
@@ -142,7 +176,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task DeleteButtonClicked_Test_MediaItem()
+        public async Task HandleDeleteButtonClicked_Test_MediaItem_UserConfirmsDelete()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -151,7 +185,15 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
+            MediaItem item = new MediaItem
+            {
+                Id = 1,
+                Title = "item"
+            };
+            A.CallTo(() => fakeView.SelectedItem).Returns(item);
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
+            A.CallTo(() => fakeView.ShowDeleteConfirmationDialog("item")).Returns(true);
+            A.CallTo(() => fakeView.SelectedItem).Returns(item);
             MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
@@ -162,7 +204,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task DeleteButtonClicked_Test_Book_Error()
+        public async Task HandleDeleteButtonClicked_Test_Book_Error()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -171,6 +213,13 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
+            Book book = new Book
+            {
+                Id = 1,
+                Title = "book"
+            };
+            A.CallTo(() => fakeView.ShowDeleteConfirmationDialog("book")).Returns(true);
+            A.CallTo(() => fakeView.SelectedItem).Returns(book);
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             A.CallTo(() => fakeBookRepo.DeleteByIdAsync(fakeView.SelectedItemId)).Throws(new Exception("error"));
             MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
@@ -184,7 +233,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task DeleteButtonClicked_Test_MediaItem_Error()
+        public async Task HandleDeleteButtonClicked_Test_MediaItem_Error()
         {
             // arrange
             var fakeBookRepo = A.Fake<IBookService>();
@@ -193,6 +242,13 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
+            MediaItem item = new MediaItem
+            {
+                Id = 1,
+                Title = "item"
+            };
+            A.CallTo(() => fakeView.SelectedItem).Returns(item);
+            A.CallTo(() => fakeView.ShowDeleteConfirmationDialog("item")).Returns(true);
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
             A.CallTo(() => fakeMediaItemService.DeleteByIdAsync(fakeView.SelectedItemId)).Throws(new Exception("error"));
             MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);

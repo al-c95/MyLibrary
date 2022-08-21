@@ -195,6 +195,79 @@ namespace MyLibrary
                 this.TagsUpdated?.Invoke(sender, args);
                 this.CategorySelectionChanged?.Invoke(sender, args);
             });
+            // import CSV
+            this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("tag");
+                dialog.ShowDialog();
+
+                this.TagsUpdated?.Invoke(sender, args);
+            });
+            this.importAuthorsCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("author");
+                dialog.ShowDialog();
+            });
+            this.importPublishersCsvToolStripMenuItem.Click += ((sender, args) =>
+            {
+                ImportDialog dialog = new ImportDialog("publisher");
+                dialog.ShowDialog();
+            });
+            // export XLSX
+            this.tagsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                using (var dialog = new ExportDialog())
+                {
+                    Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog, new Views.Excel.Excel());
+                    dialog.ShowDialog();
+                    presenter.Dispose();
+                }
+            });
+            this.booksToolStripMenuItem1.Click += ((sender, args) =>
+            {
+                using (var dialog = new ExportDialog())
+                {
+                    Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog, new Views.Excel.Excel());
+                    dialog.ShowDialog();
+                    presenter.Dispose();
+                }
+            });
+            this.authorsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                using (var dialog = new ExportDialog())
+                {
+                    Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog, new Views.Excel.Excel());
+                    dialog.ShowDialog();
+                    presenter.Dispose();
+                }
+            });
+            this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
+            {
+                using (var dialog = new ExportDialog())
+                {
+                    Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog, new Views.Excel.Excel());
+                    dialog.ShowDialog();
+                    presenter.Dispose();
+                }
+            });
+            this.publishersToolStripMenuItem.Click += ((sender, args) =>
+            {
+                using (var dialog = new ExportDialog())
+                {
+                    Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog, new Views.Excel.Excel());
+                    dialog.ShowDialog();
+                    presenter.Dispose();
+                }
+            });
+            this.exportWishlistMenuItem.Click += ((sender, args) =>
+            {
+                using (var dialog = new ExportDialog())
+                {
+                    Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog, new Views.Excel.Excel());
+                    dialog.ShowDialog();
+                    presenter.Dispose();
+                }
+            });
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
@@ -245,13 +318,6 @@ namespace MyLibrary
             });
             this.deleteSelectedButton.Click += ((sender, args) =>
             {
-                // user confirmation dialog
-                var confirmResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirmResult == DialogResult.No)
-                {
-                    return;
-                }
-
                 this.DeleteButtonClicked?.Invoke(this, args);
             });
             this.clearFilterButton.Click += ((sender, args) =>
@@ -327,67 +393,7 @@ namespace MyLibrary
 
                 FiltersUpdated?.Invoke(sender, args);
             });
-            // import CSV
-            this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ImportDialog dialog = new ImportDialog("tag");
-                dialog.ShowDialog();
 
-                this.TagsUpdated?.Invoke(sender, args);
-            });
-            this.importAuthorsCsvToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ImportDialog dialog = new ImportDialog("author");
-                dialog.ShowDialog();
-            });
-            this.importPublishersCsvToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ImportDialog dialog = new ImportDialog("publisher");
-                dialog.ShowDialog();
-            });
-            // export XLSX
-            this.tagsToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog, new Views.Excel.Excel());
-                dialog.ShowDialog();
-                presenter.Dispose();
-            });
-            this.booksToolStripMenuItem1.Click += ((sender, args) =>
-            {
-                ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog, new Views.Excel.Excel());
-                dialog.ShowDialog();
-                presenter.Dispose();
-            });
-            this.authorsToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog, new Views.Excel.Excel());
-                dialog.ShowDialog();
-                presenter.Dispose();
-            });
-            this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog, new Views.Excel.Excel());
-                dialog.ShowDialog();
-                presenter.Dispose();
-            });
-            this.publishersToolStripMenuItem.Click += ((sender, args) =>
-            {
-                ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog, new Views.Excel.Excel());
-                dialog.ShowDialog();
-                presenter.Dispose();
-            });
-            this.exportWishlistMenuItem.Click += ((sender, args) =>
-            {
-                ExportDialog dialog = new ExportDialog();
-                Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog, new Views.Excel.Excel());
-                dialog.ShowDialog();
-                presenter.Dispose();
-            });
             // select viewing books by default
             this.categoryDropDown.SelectedIndex = 0;
 
@@ -412,15 +418,24 @@ namespace MyLibrary
                 // books displayed
                 this.dataGrid.Columns[2].Width = this.dataGrid.Width / 9; // ISBN
             }
+        }
+
+        public bool ShowDeleteConfirmationDialog(string title)
+        {
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this item? \r\n " + title, "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmResult == DialogResult.Yes)
+            {
+                return true;
+            }
             else
             {
-                // media items displayed
+                return false;
             }
         }
 
         public void LoadWindow()
         {
-            CategorySelectionChanged?.Invoke(this, null);
+            WindowCreated?.Invoke(this, null);
         }
 
         public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
@@ -685,6 +700,7 @@ namespace MyLibrary
         public event EventHandler ShowStatsClicked;
         public event EventHandler WishlistButtonClicked;
         public event EventHandler ManageCopiesButtonClicked;
+        public event EventHandler WindowCreated;
         #endregion
 
         public void ShowErrorDialog(string title, string message)
