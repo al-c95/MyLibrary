@@ -28,16 +28,16 @@ namespace MyLibrary.Models.BusinessLogic
 {
     public interface IBookService
     {
-        Task Add(Book book);
-        Task<bool> ExistsWithId(int id);
-        Task<bool> ExistsWithIsbn(string isbn);
-        Task<bool> ExistsWithLongTitle(string longTitle);
-        Task<bool> ExistsWithTitle(string title);
-        Task<IEnumerable<Book>> GetAll();
-        Task<Book> GetById(int id);
-        Task<int> GetIdByTitle(string title);
-        Task Update(Book book);
-        Task DeleteById(int id);
-        Task UpdateTags(ItemTagsDto dto);
+        Task AddAsync(Book book);
+        Task<bool> ExistsWithIdAsync(int id);
+        Task<bool> ExistsWithIsbnAsync(string isbn);
+        Task<bool> ExistsWithLongTitleAsync(string longTitle);
+        Task<bool> ExistsWithTitleAsync(string title);
+        Task<IEnumerable<Book>> GetAllAsync();
+        Task<Book> GetByIdAsync(int id);
+        Task<int> GetIdByTitleAsync(string title);
+        Task UpdateAsync(Book book);
+        Task DeleteByIdAsync(int id);
+        Task UpdateTagsAsync(ItemTagsDto dto);
     }
 }

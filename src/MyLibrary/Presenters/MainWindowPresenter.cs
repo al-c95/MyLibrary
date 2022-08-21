@@ -131,7 +131,7 @@ namespace MyLibrary.Presenters
                 int selectedItemId = this._view.SelectedItemId;
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
-                    await this._bookService.DeleteById(selectedItemId);
+                    await this._bookService.DeleteByIdAsync(selectedItemId);
                 }
                 else
                 {
@@ -235,7 +235,7 @@ namespace MyLibrary.Presenters
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
 
-                this._view.SelectedItem = await this._bookService.GetById(selectedItemId);
+                this._view.SelectedItem = await this._bookService.GetByIdAsync(selectedItemId);
             }
             else
             {
@@ -275,7 +275,7 @@ namespace MyLibrary.Presenters
             {
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
-                    await this._bookService.Update((Book)this._view.SelectedItem);
+                    await this._bookService.UpdateAsync((Book)this._view.SelectedItem);
                 }
                 else
                 {
@@ -385,7 +385,7 @@ namespace MyLibrary.Presenters
         private async Task DisplayBooks()
         {
             // fetch the data
-            var allBooks = await this._bookService.GetAll();
+            var allBooks = await this._bookService.GetAllAsync();
 
             // create DataTable to display and assign to the view
             DataTable dt = new DataTable();

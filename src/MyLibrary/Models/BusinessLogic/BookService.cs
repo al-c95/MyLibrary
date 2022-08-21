@@ -70,7 +70,7 @@ namespace MyLibrary.Models.BusinessLogic
         /// Gets all books in the database. Does not include images.
         /// </summary>
         /// <returns></returns>
-        public async virtual Task<IEnumerable<Book>> GetAll()
+        public async virtual Task<IEnumerable<Book>> GetAllAsync()
         {
             IEnumerable<Book> allBooks = null;
             await Task.Run(() =>
@@ -89,7 +89,7 @@ namespace MyLibrary.Models.BusinessLogic
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Book> GetById(int id)
+        public async Task<Book> GetByIdAsync(int id)
         {
             Book book = null;
             await Task.Run(() =>
@@ -103,7 +103,7 @@ namespace MyLibrary.Models.BusinessLogic
             return book;
         }
 
-        public async Task<int> GetIdByTitle(string title)
+        public async Task<int> GetIdByTitleAsync(string title)
         {
             int id = 0;
             await Task.Run(() =>
@@ -117,13 +117,13 @@ namespace MyLibrary.Models.BusinessLogic
             return id;
         }
 
-        public async Task<Boolean> ExistsWithId(int id)
+        public async Task<Boolean> ExistsWithIdAsync(int id)
         {
-            var allBooks = await GetAll();
+            var allBooks = await GetAllAsync();
             return allBooks.Any(b => b.Id == id);
         }
 
-        public async Task<Boolean> ExistsWithTitle(string title)
+        public async Task<Boolean> ExistsWithTitleAsync(string title)
         {
             bool exists = false;
             await Task.Run(() =>
@@ -138,7 +138,7 @@ namespace MyLibrary.Models.BusinessLogic
             return exists;
         }
 
-        public async Task<Boolean> ExistsWithLongTitle(string longTitle)
+        public async Task<Boolean> ExistsWithLongTitleAsync(string longTitle)
         {
             bool exists = false;
             await Task.Run(() =>
@@ -158,7 +158,7 @@ namespace MyLibrary.Models.BusinessLogic
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns></returns>
-        public async Task<Boolean> ExistsWithIsbn(string isbn)
+        public async Task<Boolean> ExistsWithIsbnAsync(string isbn)
         {
             bool exists = false;
             await Task.Run(() =>
@@ -172,7 +172,7 @@ namespace MyLibrary.Models.BusinessLogic
             return exists;
         }
 
-        public async Task Add(Book book)
+        public async Task AddAsync(Book book)
         {
             await Task.Run(() =>
             {
@@ -267,7 +267,7 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public async Task Update(Book book)
+        public async Task UpdateAsync(Book book)
         {
             await Task.Run(() =>
             {
@@ -284,7 +284,7 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public async Task DeleteById(int id)
+        public async Task DeleteByIdAsync(int id)
         {
             await Task.Run(() =>
             {
@@ -301,7 +301,7 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public async Task UpdateTags(ItemTagsDto dto)
+        public async Task UpdateTagsAsync(ItemTagsDto dto)
         {
             await Task.Run(() =>
             {

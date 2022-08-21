@@ -89,7 +89,7 @@ namespace MyLibrary
                     if (this._item.Type == ItemType.Book)
                     {
                         IBookService _bookService = new BookService();
-                        await _bookService.UpdateTags(dto);
+                        await _bookService.UpdateTagsAsync(dto);
                     }
                     else
                     {

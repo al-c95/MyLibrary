@@ -24,7 +24,7 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeDialog = A.Fake<IShowStats>();
             var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.GetAll()).Returns(new List<Book> { });
+            A.CallTo(() => fakeBookRepo.GetAllAsync()).Returns(new List<Book> { });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
             A.CallTo(() => fakeMediaItemService.GetAllAsync()).Returns(new List<MediaItem> { new MediaItem { Title = "mediaItem" } });
             var fakeTagService = A.Fake<ITagService>();

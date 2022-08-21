@@ -266,14 +266,14 @@ namespace MyLibrary.Presenters
             string existingIsbn = null;
             try
             {
-                if (await this._bookService.ExistsWithTitle(this._view.TitleFieldText))
+                if (await this._bookService.ExistsWithTitleAsync(this._view.TitleFieldText))
                 {
                     titleExists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
                 if (!string.IsNullOrWhiteSpace(this._view.LongTitleFieldText))
                 {
-                    if (await this._bookService.ExistsWithLongTitle(this._view.LongTitleFieldText))
+                    if (await this._bookService.ExistsWithLongTitleAsync(this._view.LongTitleFieldText))
                     {
                         titleExists = true;
                         existingTitle = this._view.LongTitleFieldText;
@@ -281,7 +281,7 @@ namespace MyLibrary.Presenters
                 }
 
                 string isbnEntry = this._view.IsbnFieldText;
-                if (await this._bookService.ExistsWithIsbn(isbnEntry))
+                if (await this._bookService.ExistsWithIsbnAsync(isbnEntry))
                 {
                     if (!string.IsNullOrWhiteSpace(isbnEntry))
                     {
@@ -290,7 +290,7 @@ namespace MyLibrary.Presenters
                     }
                 }
                 string isbn13Entry = this._view.Isbn13FieldText;
-                if (await this._bookService.ExistsWithIsbn(isbn13Entry))
+                if (await this._bookService.ExistsWithIsbnAsync(isbn13Entry))
                 {
                     if (!string.IsNullOrWhiteSpace(isbn13Entry))
                     {
@@ -403,7 +403,7 @@ namespace MyLibrary.Presenters
             // add item
             try
             {
-                await this._bookService.Add(book);
+                await this._bookService.AddAsync(book);
                 this._view.ItemAddedFinished();
             }
             catch (Exception ex)

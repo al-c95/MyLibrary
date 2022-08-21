@@ -36,7 +36,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            var result = await service.GetById(1);
+            var result = await service.GetByIdAsync(1);
 
             // assert
             Assert.AreEqual(1, result.Id);
@@ -60,7 +60,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            var result = await service.GetIdByTitle("test");
+            var result = await service.GetIdByTitleAsync("test");
 
             // assert
             Assert.AreEqual(1, result);
@@ -74,7 +74,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             MockBookService service = new MockBookService();
 
             // act
-            bool actualResult = await service.ExistsWithId(id);
+            bool actualResult = await service.ExistsWithIdAsync(id);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -103,7 +103,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool actualResult = await service.ExistsWithTitle(title);
+            bool actualResult = await service.ExistsWithTitleAsync(title);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -132,7 +132,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool actualResult = await service.ExistsWithLongTitle(title);
+            bool actualResult = await service.ExistsWithLongTitleAsync(title);
 
             // assert
             Assert.AreEqual(expectedResult, actualResult);
@@ -159,7 +159,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbn("0123456789");
+            bool exists = await service.ExistsWithIsbnAsync("0123456789");
 
             // assert
             Assert.IsTrue(exists);
@@ -186,7 +186,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbn("0123456789012");
+            bool exists = await service.ExistsWithIsbnAsync("0123456789012");
 
             // assert
             Assert.IsTrue(exists);
@@ -219,7 +219,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbn("0123456789012");
+            bool exists = await service.ExistsWithIsbnAsync("0123456789012");
 
             // assert
             Assert.IsTrue(exists);
@@ -242,7 +242,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             Book book = new Book { Id = 1, Title = "test_book" };
 
             // act
-            await service.Update(book);
+            await service.UpdateAsync(book);
 
             // assert
             A.CallTo(() => fakeRepo.Update(book)).MustHaveHappened();
@@ -279,7 +279,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             Tag newTag = new Tag { Name = "tag4" };
 
             // act
-            await service.UpdateTags(itemTags);
+            await service.UpdateTagsAsync(itemTags);
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
@@ -340,7 +340,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             };
 
             // act
-            await service.Add(book);
+            await service.AddAsync(book);
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
@@ -408,7 +408,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             };
 
             // act
-            await service.Add(book);
+            await service.AddAsync(book);
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
@@ -440,7 +440,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            await service.DeleteById(1);
+            await service.DeleteByIdAsync(1);
 
             // assert
             A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
@@ -468,7 +468,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeRepo.ReadAll()).Returns(books);
 
             // act
-            var result = await service.GetAll();
+            var result = await service.GetAllAsync();
 
             // assert
             Assert.IsTrue(result.ToList().Count == 1);
@@ -477,7 +477,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
 
         class MockBookService : BookService
         {
-            public async override Task<IEnumerable<Book>> GetAll()
+            public async override Task<IEnumerable<Book>> GetAllAsync()
             {
                 List<Book> books = new List<Book>();
                 await Task.Run(() =>

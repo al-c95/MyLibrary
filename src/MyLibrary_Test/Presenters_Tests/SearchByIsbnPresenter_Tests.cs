@@ -103,7 +103,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
             var fakeRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(true);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(true);
             var presenter = new MockPresenter(fakeSearchByIsbnDialog, null, null, fakeRepo, null);
             presenter.AddBookPresenter = this._addBookPresenter;
 
@@ -122,7 +122,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
             var fakeRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(false);
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
             A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);
@@ -145,7 +145,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
             var fakeRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(false);
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
             A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);
@@ -170,7 +170,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
             var fakeRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(false);
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
             A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);
@@ -193,7 +193,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
             A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
             var fakeRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeRepo.ExistsWithIsbn("0123456789")).Returns(false);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(false);
             var fakeApiServiceProvider = A.Fake<IApiServiceProvider>();
             var fakeApiService = A.Fake<IBookApiService>();
             A.CallTo(() => fakeApiServiceProvider.Get()).Returns(fakeApiService);

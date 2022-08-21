@@ -138,7 +138,7 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleDeleteButtonClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+            A.CallTo(() => fakeBookRepo.DeleteByIdAsync(fakeView.SelectedItemId)).MustHaveHappened();
         }
 
         [Test]
@@ -172,14 +172,14 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakePublisherService = A.Fake<IPublisherService>();
             var fakeView = A.Fake<IMainWindow>();
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
-            A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).Throws(new Exception("error"));
+            A.CallTo(() => fakeBookRepo.DeleteByIdAsync(fakeView.SelectedItemId)).Throws(new Exception("error"));
             MainWindowPresenter presenter = new MainWindowPresenter(fakeBookRepo, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView);
 
             // act
             await presenter.HandleDeleteButtonClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeBookRepo.DeleteById(fakeView.SelectedItemId)).MustHaveHappened();
+            A.CallTo(() => fakeBookRepo.DeleteByIdAsync(fakeView.SelectedItemId)).MustHaveHappened();
             A.CallTo(() => fakeView.ShowErrorDialog("Error deleting item.", "error")).MustHaveHappened();
         }
 
