@@ -38,6 +38,7 @@ using MyLibrary.Views;
 
 namespace MyLibrary.ApiService
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class SearchByIsbnDialog : Form, ISearchByIsbn
     {
         public SearchByIsbnDialog()

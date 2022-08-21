@@ -69,7 +69,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
             // insert Images table record, if any
             if (entity.Image != null)
             {
-                // insert record
                 this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new 
                 {
                     image = entity.Image
