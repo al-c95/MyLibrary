@@ -86,8 +86,8 @@ namespace MyLibrary.Models.Csv
 
                 // read data row and get result
                 // TODO: refactor validation
-                const string NAME_ENTRY_PATTERN = "^[a-zA-Z-]+,[a-zA-Z-]+$";
-                const string NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME = "^[a-zA-Z-]+ [a-zA-Z].,[a-zA-Z-]+$";
+                const string NAME_ENTRY_PATTERN = @"^[a-zA-Z-]+,([a-zA-Z-']+ )*[a-zA-Z-']+$";
+                const string NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME = @"^[a-zA-Z-]+ [a-zA-Z]\.,([a-zA-Z-']+ )*[a-zA-Z-']+$";
                 if (Regex.IsMatch(line, NAME_ENTRY_PATTERN) ||
                     Regex.IsMatch(line, NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME))
                 {
