@@ -185,15 +185,24 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
             AddRow(pck, "F14", "2012");
             AddRow(pck, "G14", "tag1");
             AddRow(pck, "H14", "this is a test.");
+            // empty row
+            AddRow(pck, "A15", "");
+            AddRow(pck, "B15", "");
+            AddRow(pck, "C15", "");
+            AddRow(pck, "D15", "");
+            AddRow(pck, "E15", "");
+            AddRow(pck, "F15", "");
+            AddRow(pck, "G15", "");
+            AddRow(pck, "H15", "");
             // invalid year
-            AddRow(pck, "A15", "1");
-            AddRow(pck, "B15", "item6");
-            AddRow(pck, "C15", "Dvd");
-            AddRow(pck, "D15", "0123456789");
-            AddRow(pck, "E15", "80");
-            AddRow(pck, "F15", "bogus_number");
-            AddRow(pck, "G15", "tag1");
-            AddRow(pck, "H15", "this is a test.");
+            AddRow(pck, "A16", "1");
+            AddRow(pck, "B16", "item6");
+            AddRow(pck, "C16", "Dvd");
+            AddRow(pck, "D16", "0123456789");
+            AddRow(pck, "E16", "80");
+            AddRow(pck, "F16", "bogus_number");
+            AddRow(pck, "G16", "tag1");
+            AddRow(pck, "H16", "this is a test.");
             // service
             var importService = new MediaItemExcelParser(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0));
 
@@ -245,7 +254,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
                                             r.Item == null &&
                                             r.Message == "Invalid running time: bogus_number"));
             Assert.IsTrue(results.Any(r => r.Status == ExcelRowResultStatus.Error &&
-                                            r.Row == 15 &&
+                                            r.Row == 16 &&
                                             r.Item == null &&
                                             r.Message == "Invalid release year: bogus_number"));
         }
