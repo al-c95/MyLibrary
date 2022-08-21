@@ -100,7 +100,7 @@ namespace MyLibrary.Presenters.Excel
         {
             // write data
             int count = 0;
-            var allItems = await this._bookService.GetAll();
+            var allItems = await this._bookService.GetAllAsync();
             await Task.Run(() =>
             {
                 foreach (var item in allItems)

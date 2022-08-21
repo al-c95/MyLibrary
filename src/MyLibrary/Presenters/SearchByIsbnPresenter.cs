@@ -104,7 +104,7 @@ namespace MyLibrary.Presenters
             string enteredIsbn = this._view.IsbnFieldText;
             
             // check if book with this ISBN already exists in database
-            if (await this._bookService.ExistsWithIsbn(enteredIsbn))
+            if (await this._bookService.ExistsWithIsbnAsync(enteredIsbn))
             {
                 // book already exists
                 // tell the user

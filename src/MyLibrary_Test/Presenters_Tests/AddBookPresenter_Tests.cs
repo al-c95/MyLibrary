@@ -371,7 +371,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithTitle("test book")).Returns(true);
+            A.CallTo(() => fakeBookRepo.ExistsWithTitleAsync("test book")).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -394,7 +394,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Returns(true);
+            A.CallTo(() => fakeBookRepo.ExistsWithLongTitleAsync("test book")).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -418,7 +418,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             A.CallTo(() => fakeView.IsbnFieldText).Returns("0123456789");
             var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithIsbn("0123456789")).Returns(true);
+            A.CallTo(() => fakeBookRepo.ExistsWithIsbnAsync("0123456789")).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -442,7 +442,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             A.CallTo(() => fakeView.Isbn13FieldText).Returns("0123456789012");
             var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithIsbn("0123456789012")).Returns(true);
+            A.CallTo(() => fakeBookRepo.ExistsWithIsbnAsync("0123456789012")).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -466,7 +466,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
             Exception ex = new Exception("error");
-            A.CallTo(() => fakeBookRepo.ExistsWithLongTitle("test book")).Throws(ex);
+            A.CallTo(() => fakeBookRepo.ExistsWithLongTitleAsync("test book")).Throws(ex);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -491,7 +491,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.IsbnFieldText).Returns("0123456789");
             var fakeBookRepo = A.Fake<IBookService>();
             Exception ex = new Exception("error");
-            A.CallTo(() => fakeBookRepo.ExistsWithIsbn("0123456789")).Throws(ex);
+            A.CallTo(() => fakeBookRepo.ExistsWithIsbnAsync("0123456789")).Throws(ex);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -636,7 +636,7 @@ namespace MyLibrary_Test.Presenters_Tests
             {
                 deweyDecimal = null;
             }
-            A.CallTo(() => fakeBookService.Add(A<Book>.That.Matches(b =>
+            A.CallTo(() => fakeBookService.AddAsync(A<Book>.That.Matches(b =>
             b.Title == "title" &&
             b.TitleLong == longTitle &&
             b.Language == "English" &&
@@ -727,7 +727,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
             var fakeBookService = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookService.Add(A<Book>.That.Matches(b => b.Title == "title"))).Throws(new Exception("error"));
+            A.CallTo(() => fakeBookService.AddAsync(A<Book>.That.Matches(b => b.Title == "title"))).Throws(new Exception("error"));
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -748,7 +748,7 @@ namespace MyLibrary_Test.Presenters_Tests
             {
                 deweyDecimal = null;
             }
-            A.CallTo(() => fakeBookService.Add(A<Book>.That.Matches(b => 
+            A.CallTo(() => fakeBookService.AddAsync(A<Book>.That.Matches(b => 
             b.Title == "title" &&
             b.TitleLong == longTitle &&
             b.Language == "English" &&

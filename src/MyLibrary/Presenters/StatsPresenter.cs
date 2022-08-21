@@ -69,7 +69,7 @@ namespace MyLibrary.Presenters
             this._view.StatusLabelText = "Loading...";
 
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Books: " + (await _bookService.GetAll()).Count());
+            builder.AppendLine("Books: " + (await _bookService.GetAllAsync()).Count());
             builder.AppendLine("Publishers: " + (await _publisherService.GetAll()).Count());
             builder.AppendLine("Authors: " + (await _authorService.GetAll()).Count());
             builder.AppendLine("");

@@ -52,7 +52,7 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             {
                 item1
             };
-            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeService.GetAllAsync()).Returns(items);
             var fakeExcelFile = A.Fake<IExcelFile>();
             var fakeDialog = A.Fake<IExportDialog>();
             var excel = new MyLibrary.Views.Excel.Excel();
