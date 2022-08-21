@@ -29,6 +29,7 @@ namespace MyLibrary.Models.BusinessLogic
     public interface IBookService
     {
         Task AddAsync(Book book);
+        Task<bool> AddIfNotExistsAsync(Book book);
         Task<bool> ExistsWithIdAsync(int id);
         Task<bool> ExistsWithIsbnAsync(string isbn);
         Task<bool> ExistsWithLongTitleAsync(string longTitle);
