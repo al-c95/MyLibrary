@@ -190,4 +190,4 @@ Author entries must be in the format: `Firstname Lastname; Firstname Lastname`.
 ![Import Excel dialog design](img/import_excel_dialog_design.png)
 
 ### Test cases
-TODO
+![Import update media items Excel test case](img/import_update_media_items_test_case.png)
