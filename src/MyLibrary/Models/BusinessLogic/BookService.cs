@@ -267,6 +267,20 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
+        public async Task<bool> AddIfNotExistsAsync(Book book)
+        {
+            if (await ExistsWithTitleAsync(book.Title))
+            {
+                return false;
+            }
+            else
+            {
+                await AddAsync(book);
+
+                return true;
+            }
+        }
+
         public async Task UpdateAsync(Book book)
         {
             await Task.Run(() =>

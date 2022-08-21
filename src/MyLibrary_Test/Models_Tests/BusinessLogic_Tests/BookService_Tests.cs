@@ -425,6 +425,84 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         }
 
         [Test]
+        public async Task AddIfNotExistsAsync_Test_DoesNotExist()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> titles = new List<string> { "existing_item" };
+            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            var fakeTagRepo = A.Fake<ITagRepository>();
+            var fakeAuthorRepo = A.Fake<IAuthorRepository>();
+            var fakePublisherRepo = A.Fake<IPublisherRepository>();
+            A.CallTo(() => fakeAuthorRepoProvider.Get(fakeUow)).Returns(fakeAuthorRepo);
+            A.CallTo(() => fakePublisherRepoProvider.Get(fakeUow)).Returns(fakePublisherRepo);
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
+            Book item = new Book
+            {
+                Title = "new_item",
+                TitleLong = "",
+                Publisher = new Publisher { Name="some_publisher"},
+                Authors = new List<Author> { new Author { FirstName = "John", LastName = "Smith" } }
+            };
+
+            // act
+            bool result = await service.AddIfNotExistsAsync(item);
+
+            // assert
+            Assert.IsTrue(result);
+            A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
+        }
+
+        [Test]
+        public async Task AddIfNotExistsAsync_Test_Exists()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<IBookRepository>();
+            List<string> titles = new List<string> { "existing_item" };
+            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            var fakeTagRepo = A.Fake<ITagRepository>();
+            var fakeAuthorRepo = A.Fake<IAuthorRepository>();
+            var fakePublisherRepo = A.Fake<IPublisherRepository>();
+            A.CallTo(() => fakeAuthorRepoProvider.Get(fakeUow)).Returns(fakeAuthorRepo);
+            A.CallTo(() => fakePublisherRepoProvider.Get(fakeUow)).Returns(fakePublisherRepo);
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
+            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
+            Book item = new Book
+            {
+                Title = "existing_item",
+                TitleLong = ""
+            };
+
+            // act
+            bool result = await service.AddIfNotExistsAsync(item);
+
+            // assert
+            Assert.IsFalse(result);
+            A.CallTo(() => fakeUow.Begin()).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.Create(item)).MustNotHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustNotHaveHappened();
+        }
+
+        [Test]
         public async Task DeleteById_Test()
         {
             // arrange

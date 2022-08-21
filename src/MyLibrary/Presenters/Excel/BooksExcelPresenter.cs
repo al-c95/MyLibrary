@@ -199,6 +199,7 @@ namespace MyLibrary.Presenters.Excel
                         UnlockCell(i, PUBLISHER_COL);
                         UnlockCell(i, LANGUAGE_COL);
                         UnlockCell(i, PAGES_COL);
+                        UnlockCell(i, AUTHORS_COL);
                     }
                 }
             });

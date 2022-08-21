@@ -124,7 +124,41 @@ namespace MyLibrary.Presenters
                 });
 
                 this._view.Label1Text = "Updating database...";
-                // TODO
+                BookService service = new BookService();
+                foreach (var result in parseResults)
+                {
+                    if (await service.AddIfNotExistsAsync((Book)result.Item))
+                    {
+                        importCount++;
+                    }
+                    else
+                    {
+                        // deal with rows for pre-existing titles without Id
+                        int id = result.Item.Id;
+                        if (id == default(int))
+                            id = await service.GetIdByTitleAsync(result.Item.Title);
+
+                        // update non-tag fields
+                        await service.UpdateAsync((Book)result.Item);
+
+                        // update tags
+                        IEnumerable<Tag> currentTags = (await service.GetByIdAsync(id)).Tags;
+                        List<string> currentTagNames = new List<string>();
+                        foreach (Tag tag in currentTags)
+                        {
+                            currentTagNames.Add(tag.Name);
+                        }
+                        List<string> updatedTagNames = new List<string>();
+                        foreach (Tag tag in result.Item.Tags)
+                        {
+                            updatedTagNames.Add(tag.Name);
+                        }
+                        ItemTagsDto updateTags = new ItemTagsDto(id, currentTagNames, updatedTagNames);
+                        await service.UpdateTagsAsync(updateTags);
+
+                        updateCount++;
+                    }
+                }
             }
             else if (this._view.MediaItemChecked && !this._view.BookChecked)
             {

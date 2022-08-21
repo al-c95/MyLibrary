@@ -233,14 +233,14 @@ namespace MyLibrary.DataAccessLayer.Repositories
         }
 
         /// <summary>
-        /// Update image and/or notes fields of book record in database.
+        /// Update image and other fields of book record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
         public override void Update(Book toUpdate)
         {
             // update image
             // delete old Images table record, if it exists
-            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Books WHERE id=@id", new
+            var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Books WHERE id=@id", new
             {
                 id = toUpdate.Id
             });
@@ -277,12 +277,24 @@ namespace MyLibrary.DataAccessLayer.Repositories
                 });
             }
 
-            // update notes field in Books table record
-            const string UPDATE_BOOK_SQL = "UPDATE Books SET notes = @notes WHERE id = @id;";
+            const string UPDATE_BOOK_SQL = "UPDATE Books SET notes = @notes, deweyDecimal = @deweyDecimal, msrp = @msrp," +
+                " format = @format, datePublished = @datePublished, placeOfPublication = @placeOfPublication, edition = @edition, dimensions = @dimensions," +
+                " overview = @overview, excerpt = @excerpt, synopsys = @synopsys" +
+                " WHERE id = @id;";
             this._uow.Connection.Execute(UPDATE_BOOK_SQL, new
             {
                 id = toUpdate.Id,
-                notes = toUpdate.Notes
+                notes = toUpdate.Notes,
+                deweyDecimal = toUpdate.DeweyDecimal,
+                msrp = toUpdate.Msrp,
+                format = toUpdate.Format,
+                datePublished = toUpdate.DatePublished,
+                placeOfPublication = toUpdate.PlaceOfPublication,
+                edition = toUpdate.Edition,
+                dimensions = toUpdate.Dimensions,
+                overview = toUpdate.Overview,
+                excerpt = toUpdate.Excerpt,
+                synopsys = toUpdate.Synopsys
             });
         }//Update
     }//class
