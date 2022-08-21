@@ -185,6 +185,16 @@ namespace MyLibrary
             this.vhssToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 5);
             this.vinylsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 6);
             this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
+            this.XLSXtoolStripMenuItem.Click += ((sender, args) =>
+            {
+                ExcelImportDialog dialog = new ExcelImportDialog();
+                ExcelImportPresenter presenter = new ExcelImportPresenter(dialog);
+                dialog.ShowDialog();
+                dialog.Dispose();
+
+                this.TagsUpdated?.Invoke(sender, args);
+                this.CategorySelectionChanged?.Invoke(sender, args);
+            });
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {

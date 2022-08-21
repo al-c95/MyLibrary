@@ -33,13 +33,18 @@ using MyLibrary.Views;
 
 namespace MyLibrary
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public partial class ExcelImportDialog : Form, IExcelImportDialog
     {
         public ExcelImportDialog()
         {
             InitializeComponent();
 
+            this.CenterToParent();
+
             this.itemsList.View = View.Details;
+            this.itemsList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            this.itemsList.FullRowSelect = true;
 
             // register event handlers
             this.closeButton.Click += CloseButton_Click;
@@ -50,6 +55,10 @@ namespace MyLibrary
             this.startButton.Click += ((sender, args) =>
             {
                 this.StartButtonClicked?.Invoke(sender, args);
+            });
+            this.fileField.TextChanged += ((sender, args) =>
+            {
+                this.FileFieldTextChanged?.Invoke(sender, args);
             });
         }
 
@@ -89,22 +98,51 @@ namespace MyLibrary
             set => this.fileField.Enabled = value;
         }
 
+        public string FileFieldText
+        {
+            get => this.fileField.Text;
+            set => this.fileField.Text = value;
+        }
+
+        public bool BookChecked
+        {
+            get => this.bookRadioButton.Checked;
+            set => this.bookRadioButton.Checked = value;
+        }
+
+        public bool MediaItemChecked
+        {
+            get => this.mediaItemRadioButton.Checked;
+            set => this.mediaItemRadioButton.Checked = value;
+        }
+
+        public bool RadioButtonsEnabled
+        {
+            get => this.bookRadioButton.Enabled && this.mediaItemRadioButton.Enabled;
+            set
+            {
+                this.bookRadioButton.Enabled = value;
+                this.mediaItemRadioButton.Enabled = value;
+            }
+        }
+
         public event EventHandler BrowseButtonClicked;
+        public event EventHandler FileFieldTextChanged;
         public event EventHandler StartButtonClicked;
 
         public void AddError(string message)
         {
-            throw new NotImplementedException();
+            AddListItem("ERROR: " + message);
         }
 
         public void AddSuccess(string message)
         {
-            throw new NotImplementedException();
+            AddListItem("SUCCESS: " + message);
         }
 
         public void AddWarning(string message)
         {
-            throw new NotImplementedException();
+            AddListItem("WARNING: " + message);
         }
 
         private void AddListItem(string message)

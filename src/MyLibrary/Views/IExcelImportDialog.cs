@@ -35,7 +35,11 @@ namespace MyLibrary.Views
         bool CloseButtonEnabled { get; set; }
         bool BrowseButtonEnabled { get; set; }
         bool FileFieldEnabled { get; set; }
+        string FileFieldText { get; set; }
         bool StartButtonEnabled { get; set; }
+        bool BookChecked { get; set; }
+        bool MediaItemChecked { get; set; }
+        bool RadioButtonsEnabled { get; set; }
 
         void AddSuccess(string message);
         void AddWarning(string message);
@@ -43,6 +47,7 @@ namespace MyLibrary.Views
         string ShowFileBrowserDialog();
 
         event EventHandler BrowseButtonClicked;
+        event EventHandler FileFieldTextChanged;
         event EventHandler StartButtonClicked;
     }
 }

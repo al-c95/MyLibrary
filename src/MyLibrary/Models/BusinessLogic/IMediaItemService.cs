@@ -30,6 +30,7 @@ namespace MyLibrary.Models.BusinessLogic
     {
         void Add(MediaItem item);
         bool AddIfNotExists(MediaItem item);
+        Task<bool> AddIfNotExistsAsync(MediaItem item);
         Task AddAsync(MediaItem item);
         Task DeleteByIdAsync(int id);
         Task<bool> ExistsWithIdAsync(int id);

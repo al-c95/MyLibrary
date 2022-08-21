@@ -190,14 +190,14 @@ namespace MyLibrary.DataAccessLayer.Repositories
         }
 
         /// <summary>
-        /// Update image and/or notes fields of media item record in database.
+        /// Update image and/or notes, number, running time fields of media item record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
         public override void Update(MediaItem toUpdate)
         {
             // update image
             // delete old Images table record, if it exists
-            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
+            var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Media WHERE id=@id", new
             {
                 id = toUpdate.Id
             });
@@ -214,7 +214,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
                 // item has new image
                 // insert new Images table record
                 this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
-                int newImageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+                int newImageId = this._uow.Connection.QuerySingleOrDefault<int>("SELECT last_insert_rowid();");
                 // update foreign key
                 this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
                 {
@@ -234,12 +234,14 @@ namespace MyLibrary.DataAccessLayer.Repositories
                 });
             }
 
-            // update notes field in Media table record
-            const string UPDATE_ITEM_SQL = "UPDATE Media SET notes = @notes WHERE id = @id;";
+            // update notes, running time and number fields in Media table record
+            const string UPDATE_ITEM_SQL = "UPDATE Media SET notes = @notes, runningTime = @runningTime, number = @number WHERE id = @id;";
             this._uow.Connection.Execute(UPDATE_ITEM_SQL, new
             {
                 id = toUpdate.Id,
-                notes = toUpdate.Notes
+                notes = toUpdate.Notes,
+                runningTime = toUpdate.RunningTime,
+                number = toUpdate.Number
             });
         }//Update
 

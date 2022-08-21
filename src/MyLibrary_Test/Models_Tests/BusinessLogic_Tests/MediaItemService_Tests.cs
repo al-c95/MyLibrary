@@ -352,6 +352,68 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
         }
 
         [Test]
+        public async Task AddIfNotExistsAsync_Test_DoesNotExist()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<IMediaItemRepository>();
+            List<string> titles = new List<string> { "existing_item" };
+            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            var fakeTagRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
+            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
+            MediaItem item = new MediaItem
+            {
+                Title = "new_item"
+            };
+
+            // act
+            bool result = await service.AddIfNotExistsAsync(item);
+
+            // assert
+            Assert.IsTrue(result);
+            A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
+        }
+
+        [Test]
+        public async Task AddIfNotExistsAsync_Test_Exists()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
+            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<IMediaItemRepository>();
+            List<string> titles = new List<string> { "existing_item" };
+            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            var fakeTagRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
+            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
+            MediaItem item = new MediaItem
+            {
+                Title = "existing_item"
+            };
+
+            // act
+            bool result = await service.AddIfNotExistsAsync(item);
+
+            // assert
+            Assert.IsFalse(result);
+            A.CallTo(() => fakeUow.Begin()).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.Create(item)).MustNotHaveHappened();
+            A.CallTo(() => fakeUow.Commit()).MustNotHaveHappened();
+        }
+
+        [Test]
         public async Task AddAsync_Test()
         {
             // arrange

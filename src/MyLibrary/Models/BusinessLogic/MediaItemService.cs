@@ -148,6 +148,20 @@ namespace MyLibrary.Models.BusinessLogic
             }
         }
 
+        public async Task<bool> AddIfNotExistsAsync(MediaItem item)
+        {
+            if (await ExistsWithTitleAsync(item.Title))
+            {
+                return false;
+            }
+            else
+            {
+                await AddAsync(item);
+
+                return true;
+            }
+        }
+
         public void Add(MediaItem item)
         {
             // begin transaction
