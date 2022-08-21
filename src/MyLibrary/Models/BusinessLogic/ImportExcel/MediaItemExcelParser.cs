@@ -66,9 +66,32 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
             ExcelAddressBase usedRange = this._excel.Workbook.Worksheets["Media item"].Dimension;
             for (int index = HEADER_ROW+1; index <= usedRange.End.Row; index++)
             {
-                // read Id
+                // read row
+                // if empty, just move to the next one
+                string idEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 1].GetValue<string>();
+                string title = this._excel.Workbook.Worksheets["Media item"].Cells[index, 2].GetValue<string>();
+                string typeEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 3].GetValue<string>();
+                string numberEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 4].GetValue<string>();
+                string runningTimeEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 5].GetValue<string>();
+                string releaseYearEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 6].GetValue<string>();
+                string tagsEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 7].GetValue<string>();
+                string notes = this._excel.Workbook.Worksheets["Media item"].Cells[index, 8].GetValue<string>();
+                bool allEmpty = true;
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(idEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(title);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(typeEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(numberEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(runningTimeEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(releaseYearEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(tagsEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(notes);
+                if (allEmpty)
+                {
+                    continue;
+                }
+
+                // process Id
                 int? id = null;
-                string idEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 1].GetValue<string>(); 
                 if (!string.IsNullOrWhiteSpace(idEntry))
                 {
                     // if the entry in this column is not empty, it should be an integer
@@ -90,8 +113,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         id = outValue;
                     }
                 }
-                // read Title
-                string title = this._excel.Workbook.Worksheets["Media item"].Cells[index, 2].GetValue<string>();
+                // process Title  
                 if (string.IsNullOrWhiteSpace(title))
                 {
                     yield return new ExcelRowResult
@@ -104,9 +126,8 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Type
+                // process Type
                 ItemType type;
-                string typeEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 3].GetValue<string>();
                 if (!Enum.TryParse<ItemType>(typeEntry, out type) || typeEntry.Equals("Book"))
                 {
                     yield return new ExcelRowResult
@@ -119,9 +140,8 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Number
+                // process Number
                 long number;
-                string numberEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 4].GetValue<string>();
                 if (!long.TryParse(numberEntry, out number))
                 {
                     yield return new ExcelRowResult
@@ -134,8 +154,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Running Time
-                string runningTimeEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 5].GetValue<string>();
+                // process Running Time
                 int? runningTime = null;
                 if (!string.IsNullOrWhiteSpace(runningTimeEntry))
                 {
@@ -158,9 +177,8 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         runningTime = outValue;
                     }
                 }
-                // read Release Year
+                // process Release Year
                 int releaseYear;
-                string releaseYearEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 6].GetValue<string>();
                 if (!int.TryParse(releaseYearEntry, out releaseYear))
                 {
                     yield return new ExcelRowResult
@@ -173,8 +191,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Tags
-                string tagsEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 7].GetValue<string>();
+                // process Tags
                 List<Tag> tags = new List<Tag>();
                 if (!string.IsNullOrWhiteSpace(tagsEntry))
                 {
@@ -185,9 +202,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         tags.Add(new Tag { Name = tagName });
                     }
                 }
-                // read Notes
-                string notes = this._excel.Workbook.Worksheets["Media item"].Cells[index, 8].GetValue<string>();
-
+           
                 // all ok
                 // create the object
                 MediaItem item = new MediaItem();

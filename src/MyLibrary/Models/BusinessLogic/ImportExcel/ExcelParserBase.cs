@@ -54,6 +54,8 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
         /// <throws>FormatException when metadata structure in worksheet incorrect, or app version mismatch.</throws>
         public ExcelParserBase(ExcelPackage excel, string worksheet, AppVersion runningVersion)
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             this._excel = excel;
 
             // validate

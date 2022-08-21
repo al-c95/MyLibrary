@@ -75,10 +75,59 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
         {
             ExcelAddressBase usedRange = this._excel.Workbook.Worksheets["Book"].Dimension;
             for (int index = HEADER_ROW + 1; index <= usedRange.End.Row; index++)
-            {
-                // read Id
-                int? id = null;
+            { 
+                // read row
+                // if empty, just move to the next one
                 string idEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 1].GetValue<string>();
+                string title = this._excel.Workbook.Worksheets["Book"].Cells[index, 2].GetValue<string>();
+                string longTitle = this._excel.Workbook.Worksheets["Book"].Cells[index, 3].GetValue<string>();
+                string isbnEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 4].GetValue<string>();
+                string isbn13Entry = this._excel.Workbook.Worksheets["Book"].Cells[index, 5].GetValue<string>();
+                string authorsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 6].GetValue<string>();
+                string language = this._excel.Workbook.Worksheets["Book"].Cells[index, 7].GetValue<string>();
+                string tagsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 8].GetValue<string>();
+                string deweyDecimalEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 9].GetValue<string>();
+                string msrp = this._excel.Workbook.Worksheets["Book"].Cells[index, 10].GetValue<string>();
+                string publisher = this._excel.Workbook.Worksheets["Book"].Cells[index, 11].GetValue<string>();
+                string format = this._excel.Workbook.Worksheets["Book"].Cells[index, 12].GetValue<string>();
+                string datePublished = this._excel.Workbook.Worksheets["Book"].Cells[index, 13].GetValue<string>();
+                string placeOfPublication = this._excel.Workbook.Worksheets["Book"].Cells[index, 14].GetValue<string>();
+                string edition = this._excel.Workbook.Worksheets["Book"].Cells[index, 15].GetValue<string>();
+                string pagesEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 16].GetValue<string>();
+                string dimensions = this._excel.Workbook.Worksheets["Book"].Cells[index, 17].GetValue<string>();
+                string overview = this._excel.Workbook.Worksheets["Book"].Cells[index, 18].GetValue<string>();
+                string excerpt = this._excel.Workbook.Worksheets["Book"].Cells[index, 19].GetValue<string>();
+                string synopsys = this._excel.Workbook.Worksheets["Book"].Cells[index, 20].GetValue<string>();
+                string notes = this._excel.Workbook.Worksheets["Book"].Cells[index, 21].GetValue<string>();
+                bool allEmpty = true;
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(idEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(title);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(longTitle);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(isbnEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(isbn13Entry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(authorsEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(language);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(tagsEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(deweyDecimalEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(msrp);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(publisher);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(format);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(datePublished);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(placeOfPublication);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(edition);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(pagesEntry);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(dimensions);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(overview);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(excerpt);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(synopsys);
+                allEmpty = allEmpty && string.IsNullOrWhiteSpace(notes);
+                if (allEmpty)
+                {
+                    continue;
+                }
+
+                // process Id
+                int? id = null;         
                 if (!string.IsNullOrWhiteSpace(idEntry))
                 {
                     // if the entry in this column is not empty, it should be an integer
@@ -100,8 +149,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         id = outValue;
                     }
                 }
-                // read Title
-                string title = this._excel.Workbook.Worksheets["Book"].Cells[index, 2].GetValue<string>();
+                // process Title
                 if (string.IsNullOrWhiteSpace(title))
                 {
                     yield return new ExcelRowResult
@@ -114,10 +162,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Long Title
-                string longTitle = this._excel.Workbook.Worksheets["Book"].Cells[index, 3].GetValue<string>();
-                // read ISBN10
-                string isbnEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 4].GetValue<string>();
+                // process ISBN10
                 if (!string.IsNullOrWhiteSpace(isbnEntry))
                 {
                     if (!(Regex.IsMatch(isbnEntry, Book.ISBN_10_PATTERN)))
@@ -133,8 +178,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         continue;
                     }
                 }
-                // read ISBN13
-                string isbn13Entry = this._excel.Workbook.Worksheets["Book"].Cells[index, 5].GetValue<string>();
+                // process ISBN13
                 if (!string.IsNullOrWhiteSpace(isbn13Entry))
                 {
                     if (!(Regex.IsMatch(isbn13Entry, Book.ISBN_13_PATTERN)))
@@ -150,13 +194,12 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         continue;
                     }
                 }
-                // read Authors
-                string authorsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 6].GetValue<string>();
+                // process Authors
                 List<Author> authors = new List<Author>();
                 if (!(string.IsNullOrWhiteSpace(authorsEntry)))
                 {
                     // if author field not blank, must be in "Firstname Lastname; Firstname lastname; ... Firstname Lastname " format
-                    const string AUTHORS_ENTRY_PATTERN = @"^([a-zA-Z]+ ([a-zA-Z]. )?[a-zA-Z]+; )*[a-zA-Z]+ ([a-zA-Z]. )?[a-zA-Z]+$";
+                    const string AUTHORS_ENTRY_PATTERN = @"^([a-zA-Z]+ ([a-zA-Z]\. )?([a-zA-Z-']+ )*[a-zA-Z-']+; )*[a-zA-Z]+ ([a-zA-Z]\. )?([a-zA-Z-']+ )*[a-zA-Z-']+$";
                     if (!Regex.IsMatch(authorsEntry, AUTHORS_ENTRY_PATTERN))
                     {
                         yield return new ExcelRowResult
@@ -178,8 +221,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         }
                     }
                 }
-                // read Language
-                string language = this._excel.Workbook.Worksheets["Book"].Cells[index, 7].GetValue<string>();
+                // process Language 
                 if (string.IsNullOrWhiteSpace(language))
                 {
                     yield return new ExcelRowResult
@@ -192,8 +234,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Tags
-                string tagsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 8].GetValue<string>();
+                // process Tags 
                 List<Tag> tags = new List<Tag>();
                 if (!string.IsNullOrWhiteSpace(tagsEntry))
                 {
@@ -204,8 +245,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         tags.Add(new Tag { Name = tagName });
                     }
                 }
-                // read Dewey Decimal
-                string deweyDecimalEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 9].GetValue<string>();
+                // process Dewey Decimal
                 decimal? deweyDecimal = null;
                 if (!(string.IsNullOrWhiteSpace(deweyDecimalEntry)))
                 {
@@ -226,10 +266,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                         deweyDecimal = decimal.Parse(deweyDecimalEntry);
                     }
                 }
-                // read MSRP
-                string msrp = this._excel.Workbook.Worksheets["Book"].Cells[index, 10].GetValue<string>();
-                // read Publisher
-                string publisher = this._excel.Workbook.Worksheets["Book"].Cells[index, 11].GetValue<string>();
+                // process Publisher
                 if (string.IsNullOrWhiteSpace(publisher))
                 {
                     yield return new ExcelRowResult
@@ -242,16 +279,7 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read Format
-                string format = this._excel.Workbook.Worksheets["Book"].Cells[index, 12].GetValue<string>();
-                // read Date Published
-                string datePublished = this._excel.Workbook.Worksheets["Book"].Cells[index, 13].GetValue<string>();
-                // read Place of Publication
-                string placeOfPublication = this._excel.Workbook.Worksheets["Book"].Cells[index, 14].GetValue<string>();
-                // read Edition
-                string edition = this._excel.Workbook.Worksheets["Book"].Cells[index, 15].GetValue<string>();
-                // read Pages
-                string pagesEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 16].GetValue<string>();
+                // process Pages
                 int pages;
                 if (!int.TryParse(pagesEntry, out pages))
                 {
@@ -265,16 +293,6 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
                     continue;
                 }
-                // read dimensions
-                string dimensions = this._excel.Workbook.Worksheets["Book"].Cells[index, 17].GetValue<string>();
-                // read overview
-                string overview = this._excel.Workbook.Worksheets["Book"].Cells[index, 18].GetValue<string>();
-                // read excerpt
-                string excerpt = this._excel.Workbook.Worksheets["Book"].Cells[index, 19].GetValue<string>();
-                // read synopsys
-                string synopsys = this._excel.Workbook.Worksheets["Book"].Cells[index, 20].GetValue<string>();
-                // read notes
-                string notes = this._excel.Workbook.Worksheets["Book"].Cells[index, 21].GetValue<string>();
 
                 // all ok
                 // create the object
