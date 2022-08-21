@@ -1,1 +1,9 @@
-﻿
+﻿DELETE FROM Books;
+DELETE FROM Authors;
+DELETE FROM Tags;
+DELETE FROM Publishers;
+DELETE FROM Media;
+DELETE FROM Book_Tag;
+DELETE FROM Book_Author;
+DELETE FROM Media_Tag;
+DELETE FROM Images;
