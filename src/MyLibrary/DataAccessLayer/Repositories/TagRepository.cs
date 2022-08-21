@@ -102,7 +102,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         public void LinkBook(int bookId, int tagId)
         {
-            // insert record into link table
             this._uow.Connection.Execute("INSERT INTO Book_Tag (bookId,tagId) VALUES(@bookId,@tagId);", new
             {
                 bookId = bookId,
@@ -112,7 +111,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         public void LinkMediaItem(int mediaId, int tagId)
         {
-            // insert record into link table
             this._uow.Connection.Execute("INSERT INTO Media_Tag (mediaId,tagId) VALUES(@mediaId,@tagId);", new
             {
                 mediaId = mediaId,
@@ -122,7 +120,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         public void UnlinkBook(int bookId, int tagId)
         {
-            // delete record from link table
             this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId AND tagId=@tagId;", new
             {
                 bookId = bookId,
@@ -132,11 +129,26 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         public void UnlinkMediaItem(int mediaId, int tagId)
         {
-            // delete record from link table
             this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId AND tagId=@tagId;", new
             {
                 mediaId = mediaId,
                 tagId = tagId
+            });
+        }
+
+        public void UnlinkAllTagsForBook(int bookId)
+        {
+            this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId", new
+            {
+                bookId = bookId
+            });
+        }
+
+        public void UnlinkAllTagsForMediaItem(int itemId)
+        {
+            this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId", new
+            {
+                mediaId = itemId
             });
         }
     }//class

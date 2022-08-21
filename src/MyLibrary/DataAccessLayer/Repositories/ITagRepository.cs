@@ -37,5 +37,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
         IEnumerable<Tag> ReadAll();
         void UnlinkBook(int bookId, int tagId);
         void UnlinkMediaItem(int mediaId, int tagId);
+        void UnlinkAllTagsForBook(int bookId);
+        void UnlinkAllTagsForMediaItem(int itemId);
     }
 }

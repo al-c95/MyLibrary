@@ -96,6 +96,7 @@ namespace MyLibrary
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tagsButton = new System.Windows.Forms.ToolStripButton();
             this.wishlistButton = new System.Windows.Forms.ToolStripButton();
+            this.XLSXtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -120,7 +121,7 @@ namespace MyLibrary
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(2108, 38);
+            this.menuStrip.Size = new System.Drawing.Size(1349, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -135,32 +136,33 @@ namespace MyLibrary
             this.toolStripSeparator3,
             this.exitMenuItem});
             this.fileMenu.Name = "fileMenu";
-            this.fileMenu.Size = new System.Drawing.Size(46, 34);
+            this.fileMenu.Size = new System.Drawing.Size(46, 24);
             this.fileMenu.Text = "File";
             // 
             // newBookToolStripMenuItem
             // 
             this.newBookToolStripMenuItem.Name = "newBookToolStripMenuItem";
-            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.newBookToolStripMenuItem.Text = "New Book";
             // 
             // newMediaItemToolStripMenuItem
             // 
             this.newMediaItemToolStripMenuItem.Name = "newMediaItemToolStripMenuItem";
-            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.newMediaItemToolStripMenuItem.Text = "New Media Item";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cSVToolStripMenuItem});
+            this.cSVToolStripMenuItem,
+            this.XLSXtoolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // cSVToolStripMenuItem
@@ -170,7 +172,7 @@ namespace MyLibrary
             this.importAuthorsCsvToolStripMenuItem,
             this.importPublishersCsvToolStripMenuItem});
             this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(118, 26);
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cSVToolStripMenuItem.Text = "CSV";
             // 
             // importTagsCsvToolStripMenuItem
@@ -201,7 +203,7 @@ namespace MyLibrary
             this.mediaItemsToolStripMenuItem,
             this.exportWishlistMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // tagsToolStripMenuItem
@@ -243,12 +245,12 @@ namespace MyLibrary
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.exitMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitMenuItem.Text = "Exit";
             // 
             // viewMenu
@@ -265,7 +267,7 @@ namespace MyLibrary
             this.vinylsToolStripMenuItem,
             this.otherToolStripMenuItem});
             this.viewMenu.Name = "viewMenu";
-            this.viewMenu.Size = new System.Drawing.Size(55, 34);
+            this.viewMenu.Size = new System.Drawing.Size(55, 24);
             this.viewMenu.Text = "View";
             // 
             // databaseStatisticsToolStripMenuItem
@@ -332,7 +334,7 @@ namespace MyLibrary
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(55, 34);
+            this.helpMenu.Size = new System.Drawing.Size(55, 24);
             this.helpMenu.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -367,7 +369,7 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(1186, 927);
+            this.dataGrid.Size = new System.Drawing.Size(849, 743);
             this.dataGrid.TabIndex = 7;
             // 
             // statusStrip
@@ -503,7 +505,7 @@ namespace MyLibrary
             this.detailsGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsGroup.Name = "detailsGroup";
             this.detailsGroup.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.detailsGroup.Size = new System.Drawing.Size(468, 702);
+            this.detailsGroup.Size = new System.Drawing.Size(468, 518);
             this.detailsGroup.TabIndex = 12;
             this.detailsGroup.TabStop = false;
             this.detailsGroup.Text = "Item Details";
@@ -558,7 +560,7 @@ namespace MyLibrary
             // 
             this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.detailsBox.Location = new System.Drawing.Point(9, 353);
+            this.detailsBox.Location = new System.Drawing.Point(9, 169);
             this.detailsBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.detailsBox.Name = "detailsBox";
             this.detailsBox.ReadOnly = true;
@@ -582,7 +584,7 @@ namespace MyLibrary
             // removeImageButton
             // 
             this.removeImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeImageButton.Location = new System.Drawing.Point(308, 320);
+            this.removeImageButton.Location = new System.Drawing.Point(308, 136);
             this.removeImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.removeImageButton.Name = "removeImageButton";
             this.removeImageButton.Size = new System.Drawing.Size(155, 28);
@@ -593,7 +595,7 @@ namespace MyLibrary
             // selectImageButton
             // 
             this.selectImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectImageButton.Location = new System.Drawing.Point(9, 320);
+            this.selectImageButton.Location = new System.Drawing.Point(9, 136);
             this.selectImageButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.selectImageButton.Name = "selectImageButton";
             this.selectImageButton.Size = new System.Drawing.Size(155, 28);
@@ -605,7 +607,7 @@ namespace MyLibrary
             // 
             this.notesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.notesLabel.AutoSize = true;
-            this.notesLabel.Location = new System.Drawing.Point(12, 553);
+            this.notesLabel.Location = new System.Drawing.Point(12, 369);
             this.notesLabel.Name = "notesLabel";
             this.notesLabel.Size = new System.Drawing.Size(45, 17);
             this.notesLabel.TabIndex = 17;
@@ -615,7 +617,7 @@ namespace MyLibrary
             // 
             this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxNotes.Location = new System.Drawing.Point(12, 571);
+            this.textBoxNotes.Location = new System.Drawing.Point(12, 387);
             this.textBoxNotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
@@ -629,7 +631,7 @@ namespace MyLibrary
             this.discardChangesButton.Enabled = false;
             this.discardChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("discardChangesButton.Image")));
             this.discardChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.discardChangesButton.Location = new System.Drawing.Point(308, 666);
+            this.discardChangesButton.Location = new System.Drawing.Point(308, 482);
             this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -644,7 +646,7 @@ namespace MyLibrary
             this.saveChangesButton.Enabled = false;
             this.saveChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("saveChangesButton.Image")));
             this.saveChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveChangesButton.Location = new System.Drawing.Point(12, 666);
+            this.saveChangesButton.Location = new System.Drawing.Point(12, 482);
             this.saveChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(151, 28);
@@ -661,7 +663,7 @@ namespace MyLibrary
             this.pictureBox.Location = new System.Drawing.Point(9, 50);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(453, 262);
+            this.pictureBox.Size = new System.Drawing.Size(453, 78);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
@@ -692,7 +694,7 @@ namespace MyLibrary
             this.toolStripContainer1.ContentPanel.Controls.Add(this.categoryLabel);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGrid);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1686, 971);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1349, 787);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4);
@@ -718,7 +720,7 @@ namespace MyLibrary
             this.wishlistButton});
             this.toolStrip.Location = new System.Drawing.Point(7, 2);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(205, 39);
+            this.toolStrip.Size = new System.Drawing.Size(164, 27);
             this.toolStrip.TabIndex = 18;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -728,7 +730,7 @@ namespace MyLibrary
             this.addButton.Image = ((System.Drawing.Image)(resources.GetObject("addButton.Image")));
             this.addButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(29, 36);
+            this.addButton.Size = new System.Drawing.Size(29, 24);
             this.addButton.Text = "toolStripButton1";
             this.addButton.ToolTipText = "Add New Item";
             // 
@@ -738,7 +740,7 @@ namespace MyLibrary
             this.searchBooksButton.Image = ((System.Drawing.Image)(resources.GetObject("searchBooksButton.Image")));
             this.searchBooksButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.searchBooksButton.Name = "searchBooksButton";
-            this.searchBooksButton.Size = new System.Drawing.Size(29, 36);
+            this.searchBooksButton.Size = new System.Drawing.Size(29, 24);
             this.searchBooksButton.Text = "toolStripButton2";
             this.searchBooksButton.ToolTipText = "Search Books Online by ISBN";
             // 
@@ -748,14 +750,14 @@ namespace MyLibrary
             this.deleteSelectedButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteSelectedButton.Image")));
             this.deleteSelectedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteSelectedButton.Name = "deleteSelectedButton";
-            this.deleteSelectedButton.Size = new System.Drawing.Size(29, 36);
+            this.deleteSelectedButton.Size = new System.Drawing.Size(29, 24);
             this.deleteSelectedButton.Text = "toolStripButton3";
             this.deleteSelectedButton.ToolTipText = "Delete Selected Item";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
             // 
             // tagsButton
             // 
@@ -763,7 +765,7 @@ namespace MyLibrary
             this.tagsButton.Image = ((System.Drawing.Image)(resources.GetObject("tagsButton.Image")));
             this.tagsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tagsButton.Name = "tagsButton";
-            this.tagsButton.Size = new System.Drawing.Size(29, 36);
+            this.tagsButton.Size = new System.Drawing.Size(29, 24);
             this.tagsButton.Text = "toolStripButton4";
             this.tagsButton.ToolTipText = "Tags";
             // 
@@ -773,9 +775,15 @@ namespace MyLibrary
             this.wishlistButton.Image = ((System.Drawing.Image)(resources.GetObject("wishlistButton.Image")));
             this.wishlistButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.wishlistButton.Name = "wishlistButton";
-            this.wishlistButton.Size = new System.Drawing.Size(29, 36);
+            this.wishlistButton.Size = new System.Drawing.Size(29, 24);
             this.wishlistButton.Text = "toolStripButton5";
             this.wishlistButton.ToolTipText = "Wishlist";
+            // 
+            // XLSXtoolStripMenuItem
+            // 
+            this.XLSXtoolStripMenuItem.Name = "XLSXtoolStripMenuItem";
+            this.XLSXtoolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.XLSXtoolStripMenuItem.Text = "XLSX";
             // 
             // MainWindow
             // 
@@ -879,6 +887,7 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton tagsButton;
         private System.Windows.Forms.ToolStripButton wishlistButton;
+        private System.Windows.Forms.ToolStripMenuItem XLSXtoolStripMenuItem;
     }
 }
 
