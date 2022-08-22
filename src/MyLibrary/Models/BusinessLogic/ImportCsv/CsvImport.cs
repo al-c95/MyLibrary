@@ -28,7 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.Csv
+namespace MyLibrary.Models.BusinessLogic.ImportCsv
 {
     public abstract class CsvImport : IEnumerable<CsvRowResult>
     {

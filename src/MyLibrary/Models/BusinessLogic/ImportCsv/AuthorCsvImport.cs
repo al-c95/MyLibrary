@@ -24,37 +24,53 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary.Models.Csv
+namespace MyLibrary.Models.BusinessLogic.ImportCsv
 {
-    public class TagCsvImport : CsvImport
+    public class AuthorCsvImport : CsvImport
     {
-        private ITagService _service;
+        private IAuthorService _service;
 
-        public override string GetTypeName => "Tag";
-
-        public TagCsvImport(string[] allLines, ITagService service)
+        public AuthorCsvImport(string[] allLines, IAuthorService service)
         {
             // validate headers
-            if (allLines[0].Equals("Tag"))
+            if (allLines[0].Equals("First Name,Last Name"))
             {
                 this._lines = allLines;
             }
             else
             {
-                throw new FormatException("Tags CSV file does not have appropriate structure.");
+                throw new FormatException("Authors CSV file does not have appropriate structure.");
             }
 
             this._service = service;
         }
 
-        async public static Task<TagCsvImport> BuildAsync(ICsvFile file)
+        public override string GetTypeName => "Author";
+
+        async public static Task<AuthorCsvImport> BuildAsync(ICsvFile file)
         {
-            return new TagCsvImport(await file.ReadLinesAsync(), new TagService());
+            return new AuthorCsvImport(await file.ReadLinesAsync(), new AuthorService());
         }
+
+        public async override Task<bool> AddIfNotExists(CsvRowResult row)
+        {
+            Author author = row.Entity as Author;
+            if (await this._service.ExistsWithName(author.FirstName, author.LastName))
+            {
+                return false;
+            }
+            else
+            {
+                await this._service.Add(author);
+
+                return true;
+            }
+        }//AddIfNotExists
 
         public override IEnumerator<CsvRowResult> GetEnumerator()
         {
@@ -69,32 +85,24 @@ namespace MyLibrary.Models.Csv
                 }
 
                 // read data row and get result
-                if (Tag.Validate(line))
+                // TODO: refactor validation
+                const string NAME_ENTRY_PATTERN = @"^[a-zA-Z-]+,([a-zA-Z-']+ )*[a-zA-Z-']+$";
+                const string NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME = @"^[a-zA-Z-]+ [a-zA-Z]\.,([a-zA-Z-']+ )*[a-zA-Z-']+$";
+                if (Regex.IsMatch(line, NAME_ENTRY_PATTERN) ||
+                    Regex.IsMatch(line, NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME))
                 {
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Tag { Name = line }, line);
+                    string[] parts = line.Split(',');
+                    string processedName = parts[0] + " " + parts[1];
+
+                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Author { FirstName = parts[0], LastName = parts[1] }, processedName);
                 }
                 else
-                { 
+                {
                     yield return new CsvRowResult(index + 1, CsvRowResult.Status.ERROR, null, null);
                 }
 
                 index++;
             }
         }//GetEnumerator
-
-        public override async Task<bool> AddIfNotExists(CsvRowResult row)
-        {
-            Tag tag = row.Entity as Tag;
-            if (await this._service.ExistsWithName(tag.Name))
-            {
-                return false;
-            }
-            else
-            {
-                await this._service.Add(tag);
-
-                return true;
-            }
-        }//AddIfNotExists
-    }//class
+    }
 }

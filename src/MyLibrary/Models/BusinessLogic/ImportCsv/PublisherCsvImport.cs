@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary.Models.Csv
+namespace MyLibrary.Models.BusinessLogic.ImportCsv
 {
     public class PublisherCsvImport : CsvImport
     {

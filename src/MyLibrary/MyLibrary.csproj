@@ -226,6 +226,13 @@
     <Compile Include="Models\BusinessLogic\ICopyServiceFactory.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemCopyService.cs" />
     <Compile Include="Models\BusinessLogic\IMediaItemService.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\AuthorCsvImport.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\CsvFile.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\CsvImport.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\CsvRowResult.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\ICsvFile.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\PublisherCsvImport.cs" />
+    <Compile Include="Models\BusinessLogic\ImportCsv\TagCsvImport.cs" />
     <Compile Include="Models\BusinessLogic\ImportExcel\BookExcelParser.cs" />
     <Compile Include="Models\BusinessLogic\ImportExcel\ExcelParserBase.cs" />
     <Compile Include="Models\BusinessLogic\ImportExcel\MediaItemExcelParser.cs" />
@@ -241,13 +248,6 @@
     <Compile Include="Models\BusinessLogic\TagService.cs" />
     <Compile Include="Models\BusinessLogic\WishlistService.cs" />
     <Compile Include="Models\BusinessLogic\WishlistServiceProvider.cs" />
-    <Compile Include="Models\Csv\AuthorCsvImport.cs" />
-    <Compile Include="Models\Csv\CsvFile.cs" />
-    <Compile Include="Models\Csv\CsvImport.cs" />
-    <Compile Include="Models\Csv\CsvRowResult.cs" />
-    <Compile Include="Models\Csv\ICsvFile.cs" />
-    <Compile Include="Models\Csv\PublisherCsvImport.cs" />
-    <Compile Include="Models\Csv\TagCsvImport.cs" />
     <Compile Include="Models\Entities\Author.cs" />
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />

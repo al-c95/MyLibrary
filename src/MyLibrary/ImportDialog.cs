@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Views;
 using MyLibrary.Models.BusinessLogic;
-using MyLibrary.Models.Csv;
+using MyLibrary.Models.BusinessLogic.ImportCsv;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.ValueObjects;
 

@@ -7,10 +7,10 @@ using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Csv;
+using MyLibrary.Models.BusinessLogic.ImportCsv;
 using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary_Test.Models_Tests.Csv_Tests
+namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
 {
     [TestFixture]
     class PublisherCsvImport_Tests
@@ -28,9 +28,9 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
             var fakeService = A.Fake<IPublisherService>();
 
             // act/assert
-            Assert.DoesNotThrow(() => new PublisherCsvImport(lines,fakeService));
+            Assert.DoesNotThrow(() => new PublisherCsvImport(lines, fakeService));
         }
-        
+
         [Test]
         public void Constructor_Test_Invalid()
         {

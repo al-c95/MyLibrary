@@ -7,10 +7,10 @@ using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Csv;
+using MyLibrary.Models.BusinessLogic.ImportCsv;
 using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary_Test.Models_Tests.Csv_Tests
+namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
 {
     [TestFixture]
     class TagCsvImport_Tests
@@ -66,7 +66,7 @@ namespace MyLibrary_Test.Models_Tests.Csv_Tests
             }
 
             Assert.IsTrue(results.Count == 3);
-            Assert.IsTrue(results.Any(r => r.Row == 2 && r.RowStatus == CsvRowResult.Status.SUCCESS && ((Tag)r.Entity).Name.Equals("tag1") ));
+            Assert.IsTrue(results.Any(r => r.Row == 2 && r.RowStatus == CsvRowResult.Status.SUCCESS && ((Tag)r.Entity).Name.Equals("tag1")));
             Assert.IsTrue(results.Any(r => r.Row == 3 && r.RowStatus == CsvRowResult.Status.SUCCESS && ((Tag)r.Entity).Name.Equals("tag2")));
             Assert.IsTrue(results.Any(r => r.Row == 4 && r.RowStatus == CsvRowResult.Status.ERROR && r.Entity is null));
         }
