@@ -87,7 +87,11 @@ namespace MyLibrary.Presenters
             // subscribe to the view's events
             this._view.CategorySelectionChanged += CategorySelectionChanged;
             this._view.WindowCreated += (async (sender, args) => { await DisplayItems(); });
-            this._view.ItemSelectionChanged += ItemSelectionChanged;
+            //this._view.ItemSelectionChanged += ItemSelectionChanged;
+            this._view.ItemSelectionChanged += (async (sender, args) =>
+            {
+                await HandleItemSelectionChanged(sender, args);
+            });
             this._view.FiltersUpdated += PerformFilter;
             this._view.ApplyFilterButtonClicked += PerformFilter;
             this._view.DeleteButtonClicked += (async (sender, args) => 
@@ -100,6 +104,7 @@ namespace MyLibrary.Presenters
             this._view.TagsUpdated += TagsUpdated;
             this._view.AddNewMediaItemClicked += AddNewMediaItemClicked;
             this._view.AddNewBookClicked += AddNewBookClicked;
+            this._view.AddNewItemButtonClicked += HandleAddNewItemButtonClicked;
             this._view.SearchByIsbnClicked += SearchByIsbnClicked;
             this._view.ShowStatsClicked += ShowStatsClicked;
             this._view.WishlistButtonClicked += (async (sender, args) =>
@@ -210,7 +215,7 @@ namespace MyLibrary.Presenters
             return filteredTable;
         }
 
-        public async void ItemSelectionChanged(object sender, EventArgs e)
+        public async Task HandleItemSelectionChanged(object sender, EventArgs e)
         {
             // update status bar
             this._view.StatusText = "Please Wait...";
@@ -323,7 +328,44 @@ namespace MyLibrary.Presenters
             await DisplayItems();
         }
 
+        public async void HandleAddNewItemButtonClicked(object sender, EventArgs args)
+        {
+            int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
+            if (selectedCategoryIndex==0)
+            {
+                await ShowAddNewBook();
+            }
+            else
+            {
+                await ShowAddNewMediaItem();
+            }
+        }
+        
         public async void AddNewMediaItemClicked(object sender, EventArgs e)
+        {
+            await ShowAddNewMediaItem();
+        }
+
+        public async void AddNewBookClicked(object sender, EventArgs e)
+        {
+            await ShowAddNewBook();
+        }
+
+        private async Task ShowAddNewBook()
+        {
+            this._addBookView = new AddNewBookForm();
+            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
+                this._addBookView, new ImageFileReader(),
+                new NewTagOrPublisherInputBoxProvider(), new NewTagOrPublisherInputBoxProvider(), new NewAuthorInputBox.NewAuthorInputBoxProvider());
+            await addBookPresenter.PopulateTagsList();
+            await addBookPresenter.PopulateAuthorsList();
+            await addBookPresenter.PopulatePublishersList();
+
+            this._addBookView.ItemAdded += ItemsAdded;
+            ((AddNewBookForm)this._addBookView).ShowDialog();
+        }
+
+        private async Task ShowAddNewMediaItem()
         {
             this._addMediaItemView = new AddNewMediaItemForm();
             var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, this._tagService,
@@ -347,21 +389,7 @@ namespace MyLibrary.Presenters
 
             ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
         }
-
-        public async void AddNewBookClicked(object sender, EventArgs e)
-        {
-            this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
-                this._addBookView, new ImageFileReader(),
-                new NewTagOrPublisherInputBoxProvider(), new NewTagOrPublisherInputBoxProvider(), new NewAuthorInputBox.NewAuthorInputBoxProvider());
-            await addBookPresenter.PopulateTagsList();
-            await addBookPresenter.PopulateAuthorsList();
-            await addBookPresenter.PopulatePublishersList();
-
-            this._addBookView.ItemAdded += ItemsAdded;
-            ((AddNewBookForm)this._addBookView).ShowDialog();
-        }
-
+        
         public void SearchByIsbnClicked(object sender, EventArgs e)
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();

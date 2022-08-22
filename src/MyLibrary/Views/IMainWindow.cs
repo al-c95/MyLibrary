@@ -68,6 +68,7 @@ namespace MyLibrary.Views
         event EventHandler WishlistButtonClicked;
         event EventHandler ManageCopiesButtonClicked;
         event EventHandler WindowCreated;
+        event EventHandler AddNewItemButtonClicked;
 
         bool ItemDetailsSpinner { get; set; }
         bool FilterGroupEnabled { get; set; }

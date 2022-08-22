@@ -283,14 +283,7 @@ namespace MyLibrary
             });
             this.addButton.Click += ((sender, args) =>
             {
-                if (this.categoryDropDown.SelectedIndex == 0)
-                {
-                    AddNewBookClicked?.Invoke(sender, args);
-                }
-                else
-                {
-                    AddNewMediaItemClicked?.Invoke(sender, args);
-                }
+                AddNewItemButtonClicked?.Invoke(sender, args);
             });
             this.categoryDropDown.SelectedIndexChanged += ((sender, args) =>
             {
@@ -378,6 +371,7 @@ namespace MyLibrary
                     this.TagsUpdated?.Invoke(s, a);
                 });
                 form.ShowDialog();
+                form.Dispose();
             });
             this.manageItemCopiesButton.Click += ((sender, args) =>
             {
@@ -701,6 +695,7 @@ namespace MyLibrary
         public event EventHandler WishlistButtonClicked;
         public event EventHandler ManageCopiesButtonClicked;
         public event EventHandler WindowCreated;
+        public event EventHandler AddNewItemButtonClicked;
         #endregion
 
         public void ShowErrorDialog(string title, string message)
