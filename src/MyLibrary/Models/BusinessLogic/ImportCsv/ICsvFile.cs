@@ -26,27 +26,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.Csv
+namespace MyLibrary.Models.BusinessLogic.ImportCsv
 {
-    public class CsvFile : ICsvFile
+    public interface ICsvFile
     {
-        public string Path { get; private set; }
-
-        public CsvFile(string path)
-        {
-            if (System.IO.Path.GetExtension(path).Equals(".csv"))
-                this.Path = path;
-            else
-                throw new Exception("Import must be a CSV file");
-        }
-
-        public async Task<string[]> ReadLinesAsync()
-        {
-            using (var reader = System.IO.File.OpenText(this.Path))
-            {
-                var text = await reader.ReadToEndAsync();
-                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            }
-        }
+        string Path { get; }
+        Task<string[]> ReadLinesAsync();
     }
 }

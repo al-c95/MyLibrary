@@ -25,34 +25,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.Csv
+namespace MyLibrary.Models.BusinessLogic.ImportCsv
 {
-    public class CsvRowResult
+    public class CsvFile : ICsvFile
     {
-        public int Row { get; private set; }
-        public Entity Entity { get; private set; }
-        public string EntityName { get; private set; }
-        public Status RowStatus { get; private set; }
+        public string Path { get; private set; }
 
-        public CsvRowResult(int row, Status status, Entity entity, string entityName)
+        public CsvFile(string path)
         {
-            this.Row = row;
-            this.Entity = entity;
-            this.EntityName = entityName;
-            this.RowStatus = status;
-            if (this.RowStatus == Status.ERROR)
-            {
-                this.Entity = null;
-                this.EntityName = null;
-            }
+            if (System.IO.Path.GetExtension(path).Equals(".csv"))
+                this.Path = path;
+            else
+                throw new Exception("Import must be a CSV file");
         }
 
-        public enum Status
+        public async Task<string[]> ReadLinesAsync()
         {
-            SUCCESS,
-            ERROR
+            using (var reader = System.IO.File.OpenText(this.Path))
+            {
+                var text = await reader.ReadToEndAsync();
+                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            }
         }
     }
 }

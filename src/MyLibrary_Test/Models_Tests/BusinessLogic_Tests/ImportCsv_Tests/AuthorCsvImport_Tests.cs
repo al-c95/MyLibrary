@@ -7,10 +7,10 @@ using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Csv;
+using MyLibrary.Models.BusinessLogic.ImportCsv;
 using MyLibrary.Models.BusinessLogic;
 
-namespace MyLibrary_Test.Models_Tests.Csv_Tests
+namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
 {
     [TestFixture]
     class AuthorCsvImport_Tests
