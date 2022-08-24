@@ -55,7 +55,8 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockItemPresenter presenter = new MockItemPresenter(fakeBookService, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView,
-                allItems);
+                allItems,
+                null);
 
             // act
             presenter.PerformFilter(null,null);
@@ -92,7 +93,8 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
             MockItemPresenter presenter = new MockItemPresenter(fakeBookService, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView,
-                allItems);
+                allItems,
+                null);
 
             // act
             presenter.PerformFilter(null,null);
@@ -305,7 +307,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
             A.CallTo(() => fakeView.NumberOfItemsSelected).Returns(1);
             A.CallTo(() => fakeView.DisplayedItems).Returns(displayedItems);
-            MockItemPresenter presenter = new MockItemPresenter(fakeBookService, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, displayedItems);
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookService, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, displayedItems, null);
 
             // act
             await presenter.HandleItemSelectionChanged(null, null);
@@ -361,7 +363,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
             A.CallTo(() => fakeView.NumberOfItemsSelected).Returns(1);
             A.CallTo(() => fakeView.DisplayedItems).Returns(displayedItems);
-            MockItemPresenter presenter = new MockItemPresenter(fakeBookService, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, displayedItems);
+            MockItemPresenter presenter = new MockItemPresenter(fakeBookService, fakeMediaItemService, fakeTagService, fakeAuthorService, fakePublisherService, fakeView, displayedItems, null);
 
             // act
             await presenter.HandleItemSelectionChanged(null, null);
@@ -385,16 +387,48 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.AreEqual("Ready.", fakeView.StatusText);
             Assert.AreEqual("1 items selected. 2 of 2 items displayed.", fakeView.ItemsDisplayedText);
         }
+
+        [Test]
+        public void DiscardSelectedItemChangesButtonClicked_Test()
+        {
+            // arrange
+            MediaItem originalItem = new MediaItem
+            {
+                Id = 1,
+                Title = "item",
+                Notes = "not updated"
+            };
+            MediaItem updatedItem = new MediaItem
+            {
+                Id = 1,
+                Title = "item",
+                Notes = "updated"
+            };
+            var fakeView = A.Fake<IMainWindow>();
+            A.CallTo(() => fakeView.SelectedItem).Returns(updatedItem);
+            MockItemPresenter presenter = new MockItemPresenter(null, null, null, null, null, fakeView, null, originalItem.GetMemento());
+
+            // act
+            presenter.DiscardSelectedItemChangesButtonClicked(null, null);
+
+            // assert
+            Assert.IsFalse(fakeView.DiscardSelectedItemChangesButtonEnabled);
+            Assert.AreEqual(1, fakeView.SelectedItem.Id);
+            Assert.AreEqual("item", fakeView.SelectedItem.Title);
+            Assert.AreEqual("not updated", fakeView.SelectedItem.Notes);
+        }
     }//class
 
     public class MockItemPresenter : MainWindowPresenter
     {
         public MockItemPresenter(IBookService bookRepository, IMediaItemService mediaItemService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
             IMainWindow view,
-            DataTable allItemsDt)
+            DataTable allItemsDt,
+            ItemMemento selectedItemMemento)
             :base(bookRepository, mediaItemService, tagService, authorService, publisherService, view)
         {
             this._allItems = allItemsDt;
+            this._selectedItemMemento = selectedItemMemento;
         }
     }//class
 }

@@ -57,7 +57,7 @@ namespace MyLibrary.Presenters
 
         protected DataTable _allItems;
 
-        private ItemMemento _selectedItemMemento;
+        protected ItemMemento _selectedItemMemento;
 
         private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
@@ -85,9 +85,8 @@ namespace MyLibrary.Presenters
             this._view = view;
 
             // subscribe to the view's events
-            this._view.CategorySelectionChanged += CategorySelectionChanged;
+            this._view.CategorySelectionChanged += (async (sender, args) => { await DisplayItems(); });
             this._view.WindowCreated += (async (sender, args) => { await DisplayItems(); });
-            //this._view.ItemSelectionChanged += ItemSelectionChanged;
             this._view.ItemSelectionChanged += (async (sender, args) =>
             {
                 await HandleItemSelectionChanged(sender, args);
@@ -102,10 +101,10 @@ namespace MyLibrary.Presenters
             this._view.SelectedItemModified += SelectedItemModified;
             this._view.DiscardSelectedItemChangesButtonClicked += DiscardSelectedItemChangesButtonClicked;
             this._view.TagsUpdated += TagsUpdated;
-            this._view.AddNewMediaItemClicked += AddNewMediaItemClicked;
-            this._view.AddNewBookClicked += AddNewBookClicked;
+            this._view.AddNewMediaItemClicked += (async (sender, args) => { await ShowAddNewMediaItem(); });
+            this._view.AddNewBookClicked += (async (sender, args) => { await ShowAddNewBook(); });
             this._view.AddNewItemButtonClicked += HandleAddNewItemButtonClicked;
-            this._view.SearchByIsbnClicked += SearchByIsbnClicked;
+            this._view.SearchByIsbnClicked += (async (sender, args) => { await SearchByIsbnClicked(); });
             this._view.ShowStatsClicked += ShowStatsClicked;
             this._view.WishlistButtonClicked += (async (sender, args) =>
             {
@@ -276,11 +275,6 @@ namespace MyLibrary.Presenters
             this._view.DeleteItemButtonEnabled = true;
         }//ItemSelectionChanged
 
-        public async void CategorySelectionChanged(object sender, EventArgs e)
-        {
-            await DisplayItems();
-        }
-
         public async void UpdateSelectedItemButtonClicked(object sender, EventArgs e)
         {
             try
@@ -340,16 +334,6 @@ namespace MyLibrary.Presenters
                 await ShowAddNewMediaItem();
             }
         }
-        
-        public async void AddNewMediaItemClicked(object sender, EventArgs e)
-        {
-            await ShowAddNewMediaItem();
-        }
-
-        public async void AddNewBookClicked(object sender, EventArgs e)
-        {
-            await ShowAddNewBook();
-        }
 
         private async Task ShowAddNewBook()
         {
@@ -361,7 +345,7 @@ namespace MyLibrary.Presenters
             await addBookPresenter.PopulateAuthorsList();
             await addBookPresenter.PopulatePublishersList();
 
-            this._addBookView.ItemAdded += ItemsAdded;
+            this._addBookView.ItemAdded += (async (sender, args) => { await DisplayItems(); });
             ((AddNewBookForm)this._addBookView).ShowDialog();
         }
 
@@ -374,7 +358,7 @@ namespace MyLibrary.Presenters
                 new NewTagOrPublisherInputBoxProvider());
             await addItemPresenter.PopulateTagsList();
 
-            this._addMediaItemView.ItemAdded += ItemsAdded;
+            this._addMediaItemView.ItemAdded += (async (sender, args) => { await DisplayItems(); });
 
             int categoryIndexToSelect;
             if (this._view.CategoryDropDownSelectedIndex > 2)
@@ -390,7 +374,7 @@ namespace MyLibrary.Presenters
             ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
         }
         
-        public void SearchByIsbnClicked(object sender, EventArgs e)
+        public async Task SearchByIsbnClicked()
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
             this._addBookView = new AddNewBookForm();
@@ -399,12 +383,8 @@ namespace MyLibrary.Presenters
                 this._addBookView, new ImageFileReader(),
                 new NewTagOrPublisherInputBoxProvider(), new NewTagOrPublisherInputBoxProvider(), new NewAuthorInputBox.NewAuthorInputBoxProvider());
             searchDialog.ShowDialog();
+            searchDialog.Dispose();
 
-            ItemsAdded(null, null);
-        }
-
-        public async void ItemsAdded(object sender, EventArgs e)
-        {
             await DisplayItems();
         }
 
@@ -414,6 +394,7 @@ namespace MyLibrary.Presenters
             StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagService, this._publisherService, this._authorService);
             await statsPresenter.ShowStats();
             statsDialog.ShowDialog();
+            statsDialog.Dispose();
         }
         #endregion
 
