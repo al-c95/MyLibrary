@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 
@@ -597,19 +598,6 @@ namespace MyLibrary
             this.publishersList.EndUpdate();
         }
 
-        public string ShowNewAuthorDialog()
-        {
-            NewAuthorInputBox dialog = new NewAuthorInputBox();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                return dialog.AuthorName;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public void ShowTagAlreadyExistsDialog(string tag)
         {
             MessageBox.Show("Tag: " + tag + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -623,6 +611,30 @@ namespace MyLibrary
         public void ShowAuthorAlreadyExistsDialog(string author)
         {
             MessageBox.Show("Author: " + author + " already exists.", "Add Tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public string ShowNewTagDialog()
+        {
+            var dialog = new NewTagOrPublisherInputBox();
+            NewTagOrPublisherInputPresenter presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
+
+            return dialog.ShowAsDialog();
+        }
+
+        public string ShowNewPublisherDialog()
+        {
+            var dialog = new NewTagOrPublisherInputBox();
+            NewTagOrPublisherInputPresenter presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Publisher);
+
+            return dialog.ShowAsDialog();
+        }
+
+        public AuthorName ShowNewAuthorDialog()
+        {
+            var dialog = new NewAuthorInputBox();
+            NewAuthorInputPresenter presenter = new NewAuthorInputPresenter(dialog);
+
+            return dialog.ShowAsDialog();
         }
     }//class
 }

@@ -417,6 +417,52 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.AreEqual("item", fakeView.SelectedItem.Title);
             Assert.AreEqual("not updated", fakeView.SelectedItem.Notes);
         }
+
+        [Test]
+        public async Task HandleUpdateSelectedItemButtonClicked_Test_UpdateBookError()
+        {
+            // arrange
+            var fakeBookService = A.Fake<IBookService>();
+            var fakeView = A.Fake<IMainWindow>();
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(0);
+            Book selected = new Book
+            {
+                Id = 1,
+                Title = "test"
+            };
+            A.CallTo(() => fakeView.SelectedItem).Returns(selected);
+            A.CallTo(() => fakeBookService.UpdateAsync(selected)).Throws(new Exception("error"));
+            MainWindowPresenter presenter = new MainWindowPresenter(fakeBookService, null, null, null, null, fakeView);
+
+            // act
+            await presenter.HandleUpdateSelectedItemButtonClicked();
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Error updating item.", "error")).MustHaveHappened();
+        }
+        
+        [Test]
+        public async Task HandleUpdateSelectedItemButtonClicked_Test_UpdateMediaItemError()
+        {
+            // arrange
+            var fakeMediaItemService = A.Fake<IMediaItemService>();
+            var fakeView = A.Fake<IMainWindow>();
+            A.CallTo(() => fakeView.CategoryDropDownSelectedIndex).Returns(1);
+            MediaItem selected = new MediaItem
+            {
+                Id = 1,
+                Title = "test"
+            };
+            A.CallTo(() => fakeView.SelectedItem).Returns(selected);
+            A.CallTo(() => fakeMediaItemService.UpdateAsync(selected)).Throws(new Exception("error"));
+            MainWindowPresenter presenter = new MainWindowPresenter(null, fakeMediaItemService, null, null, null, fakeView);
+
+            // act
+            await presenter.HandleUpdateSelectedItemButtonClicked();
+
+            // assert
+            A.CallTo(() => fakeView.ShowErrorDialog("Error updating item.", "error")).MustHaveHappened();
+        }
     }//class
 
     public class MockItemPresenter : MainWindowPresenter

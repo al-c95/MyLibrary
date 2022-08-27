@@ -64,8 +64,12 @@ namespace MyLibrary.Views
 
         void ShowIsbnAlreadyExistsDialog(string isbn);
         void ShowPublisherAlreadyExistsDialog(string newPublisher);
-        string ShowNewAuthorDialog();
+        //string ShowNewAuthorDialog();
         void ShowAuthorAlreadyExistsDialog(string author);
+
+        string ShowNewTagDialog();
+        string ShowNewPublisherDialog();
+        AuthorName ShowNewAuthorDialog();
 
         void ShowAsDialog();
 
