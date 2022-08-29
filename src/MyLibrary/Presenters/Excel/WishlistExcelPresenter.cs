@@ -75,7 +75,7 @@ namespace MyLibrary.Presenters.Excel
                     WriteEntityRow(new object[]
                     {
                         item.Id,
-                        item.Type,
+                        Item.GetTypeString(item.Type),
                         item.Title,
                         item.Notes
                     });

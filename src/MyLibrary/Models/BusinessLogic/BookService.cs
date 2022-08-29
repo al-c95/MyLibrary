@@ -281,7 +281,7 @@ namespace MyLibrary.Models.BusinessLogic
             }
         }
 
-        public async Task UpdateAsync(Book book)
+        public async Task UpdateAsync(Book book, bool includeImage)
         {
             await Task.Run(() =>
             {
@@ -291,7 +291,7 @@ namespace MyLibrary.Models.BusinessLogic
                 uow.Begin();
 
                 // do the work
-                repo.Update(book);
+                repo.Update(book, includeImage);
 
                 // commit transaction
                 uow.Commit();

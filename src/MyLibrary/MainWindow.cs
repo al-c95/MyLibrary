@@ -156,6 +156,8 @@ namespace MyLibrary
             this.categoryDropDown.Items.Add(ItemType.BluRay);
             this.categoryDropDown.Items.Add(ItemType.Vhs);
             this.categoryDropDown.Items.Add(ItemType.Vinyl);
+            this.categoryDropDown.Items.Add("Flash Drive");
+            this.categoryDropDown.Items.Add("Floppy Disk");
             this.categoryDropDown.Items.Add(ItemType.Other);
 
             this.tagsList.CheckOnClick = true;
@@ -184,7 +186,9 @@ namespace MyLibrary
             this.bluRaysToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 4);
             this.vhssToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 5);
             this.vinylsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 6);
-            this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
+            this.flashDriveToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
+            this.floppyDiskStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 8);
+            this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 9);
             this.XLSXtoolStripMenuItem.Click += ((sender, args) =>
             {
                 ExcelImportDialog dialog = new ExcelImportDialog();

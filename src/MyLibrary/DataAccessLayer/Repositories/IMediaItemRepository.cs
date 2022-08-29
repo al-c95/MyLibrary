@@ -33,6 +33,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
         MediaItem GetById(int id);
         IEnumerable<string> GetTitles();
         int GetIdByTitle(string title);
-        void Update(MediaItem toUpdate);
+        void Update(MediaItem toUpdate, bool includeImage);
     }
 }

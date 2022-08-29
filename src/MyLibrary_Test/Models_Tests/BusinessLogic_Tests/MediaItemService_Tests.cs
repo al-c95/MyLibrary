@@ -47,8 +47,9 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
-        [Test]
-        public void Update_Test()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Update_Test(bool updateImage)
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -64,15 +65,16 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             MediaItem item = new MediaItem { Id = 1, Title = "item" };
 
             // act
-            service.Update(item);
+            service.Update(item, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(item)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Update(item, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
-        [Test]
-        public async Task UpdateAsync_Test()
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task UpdateAsync_Test(bool updateImage)
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -88,10 +90,10 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             MediaItem item = new MediaItem { Id = 1, Title = "item" };
 
             // act
-            await service.UpdateAsync(item);
+            await service.UpdateAsync(item, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(item)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Update(item, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 

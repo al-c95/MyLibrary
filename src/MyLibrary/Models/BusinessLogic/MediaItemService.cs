@@ -231,7 +231,7 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public void Update(MediaItem item)
+        public void Update(MediaItem item, bool includeImage)
         {
             // begin transaction
             IUnitOfWork uow = this._uowProvider.Get();
@@ -239,17 +239,17 @@ namespace MyLibrary.Models.BusinessLogic
             uow.Begin();
 
             // do the work
-            repo.Update(item);
+            repo.Update(item, includeImage);
 
             // commit transaction
             uow.Commit();
         }
 
-        public async Task UpdateAsync(MediaItem item)
+        public async Task UpdateAsync(MediaItem item, bool includeImage)
         {
             await Task.Run(() =>
             {
-                Update(item);
+                Update(item, includeImage);
             });
         }
 

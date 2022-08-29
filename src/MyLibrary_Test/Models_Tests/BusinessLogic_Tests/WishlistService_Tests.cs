@@ -186,8 +186,9 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
-        [Test]
-        public async Task Update_Test()
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task Update_Test(bool updateImage)
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -205,10 +206,10 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             };
 
             // act
-            await service.Update(item);
+            await service.Update(item, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(item)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Update(item, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 

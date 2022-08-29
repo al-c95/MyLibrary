@@ -40,8 +40,8 @@ namespace MyLibrary.Models.BusinessLogic
         Task<MediaItem> GetByIdAsync(int id);
         Task<IEnumerable<MediaItem>> GetByTypeAsync(ItemType type);
         Task<int> GetIdByTitleAsync(string title);
-        void Update(MediaItem item);
-        Task UpdateAsync(MediaItem item);
+        void Update(MediaItem item, bool includeImage);
+        Task UpdateAsync(MediaItem item, bool includeImage);
         void UpdateTags(ItemTagsDto dto);
         Task UpdateTagsAsync(ItemTagsDto dto);
     }

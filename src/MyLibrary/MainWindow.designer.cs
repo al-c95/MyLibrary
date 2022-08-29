@@ -41,6 +41,7 @@ namespace MyLibrary
             this.importTagsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importAuthorsCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPublishersCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.XLSXtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.publishersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +97,8 @@ namespace MyLibrary
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tagsButton = new System.Windows.Forms.ToolStripButton();
             this.wishlistButton = new System.Windows.Forms.ToolStripButton();
-            this.XLSXtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flashDriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.floppyDiskStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -172,7 +174,7 @@ namespace MyLibrary
             this.importAuthorsCsvToolStripMenuItem,
             this.importPublishersCsvToolStripMenuItem});
             this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.cSVToolStripMenuItem.Text = "CSV";
             // 
             // importTagsCsvToolStripMenuItem
@@ -192,6 +194,12 @@ namespace MyLibrary
             this.importPublishersCsvToolStripMenuItem.Name = "importPublishersCsvToolStripMenuItem";
             this.importPublishersCsvToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.importPublishersCsvToolStripMenuItem.Text = "Publishers";
+            // 
+            // XLSXtoolStripMenuItem
+            // 
+            this.XLSXtoolStripMenuItem.Name = "XLSXtoolStripMenuItem";
+            this.XLSXtoolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.XLSXtoolStripMenuItem.Text = "XLSX";
             // 
             // exportToolStripMenuItem
             // 
@@ -265,6 +273,8 @@ namespace MyLibrary
             this.bluRaysToolStripMenuItem,
             this.vhssToolStripMenuItem,
             this.vinylsToolStripMenuItem,
+            this.flashDriveToolStripMenuItem,
+            this.floppyDiskStripMenuItem,
             this.otherToolStripMenuItem});
             this.viewMenu.Name = "viewMenu";
             this.viewMenu.Size = new System.Drawing.Size(55, 24);
@@ -779,11 +789,17 @@ namespace MyLibrary
             this.wishlistButton.Text = "toolStripButton5";
             this.wishlistButton.ToolTipText = "Wishlist";
             // 
-            // XLSXtoolStripMenuItem
+            // flashDriveToolStripMenuItem
             // 
-            this.XLSXtoolStripMenuItem.Name = "XLSXtoolStripMenuItem";
-            this.XLSXtoolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.XLSXtoolStripMenuItem.Text = "XLSX";
+            this.flashDriveToolStripMenuItem.Name = "flashDriveToolStripMenuItem";
+            this.flashDriveToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.flashDriveToolStripMenuItem.Text = "Flash drives";
+            // 
+            // floppyDiskStripMenuItem
+            // 
+            this.floppyDiskStripMenuItem.Name = "floppyDiskStripMenuItem";
+            this.floppyDiskStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.floppyDiskStripMenuItem.Text = "Floppy disks";
             // 
             // MainWindow
             // 
@@ -888,6 +904,8 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripButton tagsButton;
         private System.Windows.Forms.ToolStripButton wishlistButton;
         private System.Windows.Forms.ToolStripMenuItem XLSXtoolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flashDriveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem floppyDiskStripMenuItem;
     }
 }
 

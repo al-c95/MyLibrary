@@ -139,7 +139,7 @@ namespace MyLibrary.Presenters
                             id = await service.GetIdByTitleAsync(result.Item.Title);
 
                         // update non-tag fields
-                        await service.UpdateAsync((Book)result.Item);
+                        await service.UpdateAsync((Book)result.Item, false);
 
                         // update tags
                         IEnumerable<Tag> currentTags = (await service.GetByIdAsync(id)).Tags;
@@ -195,7 +195,7 @@ namespace MyLibrary.Presenters
                             id = await service.GetIdByTitleAsync(result.Item.Title);
 
                         // update non-tag fields
-                        await service.UpdateAsync((MediaItem)result.Item);
+                        await service.UpdateAsync((MediaItem)result.Item, false);
 
                         // update tags
                         IEnumerable<Tag> currentTags = (await service.GetByIdAsync(id)).Tags;

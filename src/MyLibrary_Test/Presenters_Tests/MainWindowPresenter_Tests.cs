@@ -431,7 +431,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 Title = "test"
             };
             A.CallTo(() => fakeView.SelectedItem).Returns(selected);
-            A.CallTo(() => fakeBookService.UpdateAsync(selected)).Throws(new Exception("error"));
+            A.CallTo(() => fakeBookService.UpdateAsync(selected, true)).Throws(new Exception("error"));
             MainWindowPresenter presenter = new MainWindowPresenter(fakeBookService, null, null, null, null, fakeView);
 
             // act
@@ -454,7 +454,7 @@ namespace MyLibrary_Test.Presenters_Tests
                 Title = "test"
             };
             A.CallTo(() => fakeView.SelectedItem).Returns(selected);
-            A.CallTo(() => fakeMediaItemService.UpdateAsync(selected)).Throws(new Exception("error"));
+            A.CallTo(() => fakeMediaItemService.UpdateAsync(selected, true)).Throws(new Exception("error"));
             MainWindowPresenter presenter = new MainWindowPresenter(null, fakeMediaItemService, null, null, null, fakeView);
 
             // act

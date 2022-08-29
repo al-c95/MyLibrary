@@ -98,7 +98,7 @@ namespace MyLibrary.Presenters
             this._view.StatusText = "Please Wait...";
 
             var service = this._serviceProvider.Get();
-            await service.Update(this._view.ModifiedItem);
+            await service.Update(this._view.ModifiedItem, false);
 
             this._view.DisplayItems(await service.GetAll());
 

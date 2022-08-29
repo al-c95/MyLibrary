@@ -36,6 +36,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
         IEnumerable<string> GetLongTitles();
         IEnumerable<string> GetIsbns();
         IEnumerable<string> GetIsbn13s();
-        void Update(Book toUpdate);
+        void Update(Book toUpdate, bool includeImage);
     }
 }

@@ -170,7 +170,8 @@ namespace MyLibrary.Presenters
             MediaItem item = new MediaItem
             {
                 Title = this._view.TitleFieldText,
-                Type = (ItemType)Enum.Parse(typeof(ItemType), selectedCategory),
+                //Type = (ItemType)Enum.Parse(typeof(ItemType), selectedCategory),
+                Type = Item.ParseType(selectedCategory),
                 Number = long.Parse(this._view.NumberFieldText),
                 ReleaseYear = int.Parse(this._view.YearFieldEntry),
                 Notes = this._view.NotesFieldText
