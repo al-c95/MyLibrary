@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.3.0] - unreleased
+### Fixed
+- bug with filtering in manage tags for item dialog
+### Added
+- support for Flash Drives and Floppy Disks
+- support for importing/updating book and media item worksheets
+- various icons for dialogs and toolstrip
+- support for author names with composite and apostrophied last names
+### Changed
+- replaced buttons below menustrip with toolstrip
+- place main window category selection drop-down near toolbar
+- enhancements to wishlist window
+
 ## [1.2.1] - 30-6-2022
 ### Fixed
 - cancel button in add new book form disabled when adding another book in scan mode
