@@ -55,7 +55,7 @@ This document describes some of the detail of the data, architecture and user in
 |---------|-------------|------------|---------------|
 |id       |INTEGER      |No          |Primary key, autoincremented|
 |title    |TEXT         |No          |               |
-|type     |INTEGER      |No          |               |
+|type     |INTEGER      |No          |Cd=1; Dvd=2; BluRay=3; Vhs=4; Vinyl=5; Other=6; Flash Drive=7; Floppy Disk=8               |
 |number   |INTEGER      |No          |               |
 |imageId    |INTEGER         |Yes         |Foreign key, references (Images)id.               |
 |runningTime|INTEGER    |Yes          |               |
@@ -106,8 +106,25 @@ This document describes some of the detail of the data, architecture and user in
 |---------|-------------|------------|---------------|
 |id       |INTEGER      |No          |Primary key, autoincremented|
 |title    |TEXT         |No          |Unique constraint               |
-|type     |INTEGER      |No          |               |
-|notes    |TEXT         |Yes         |               |
+|type     |INTEGER      |No          |Book=0; Cd=1; Dvd=2; BluRay=3; Vhs=4; Vinyl=5; Other=6; Flash Drive=7; Floppy               |
+|notes    |TEXT         |Yes         |Free text field to write anything you like.               |
+&nbsp;
+
+#### BookCopies
+|**Field**|**Data Type**|**Nullable**|**Comments/Description**|
+|---------|-------------|------------|---------------|
+|id       |INTEGER      |No          |Primary key, autoincremented|
+|description |TEXT      |No          |               |
+|bookId   |INTEGER      |No          |Foreign key, references (Books)id.
+&nbsp;
+
+#### MediaItemCopies
+|**Field**|**Data Type**|**Nullable**|**Comments/Description**|
+|---------|-------------|------------|---------------|
+|id       |INTEGER      |No          |Primary key, autoincremented|
+|description |TEXT      |No          |               |
+|mediaItemId   |INTEGER      |No          |Foreign key, references (Media)id.
+&nbsp;
 
 ### Entity model
 - The entities used in the client application are based on the structure of the database.
@@ -178,16 +195,16 @@ These types are uniquely identifiable by their name or title fields, so if there
 - Selected fields are editable. Columns which are not editable will be locked.
 - Must be in format of Excel exports.
 
-#### Media Item Import process
-![Media item Excel import process](img/media_item_excel_parse.jpg)
+The import process is based on a series of steps:
+1. Excel worksheet is validated. It must be in the same format as the exports.
+2. Each data row is read. If the id column is empty, it is interpreted as a new row. If it is not empty, it is interpreted as an item to be updated, in which case the data must be in a valid format for all fields, otherwise the entire row is skipped.
+3. Each row is then imported or updated in the database.
 
-### Book Import process
+#### Book imports
 Author entries must be in the format: `Firstname Lastname; Firstname Lastname`.
-![Book Excel import process part1](img/book_excel_parse1.jpg)
-![Book Excel import process part2](img/book_excel_parse2.jpg)
 
-### User interface
+#### User interface
 ![Import Excel dialog design](img/import_excel_dialog_design.png)
 
-### Test cases
+#### Test cases
 ![Import update media items Excel test case](img/import_update_media_items_test_case.png)
