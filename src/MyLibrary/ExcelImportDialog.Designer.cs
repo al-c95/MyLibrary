@@ -29,6 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExcelImportDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
@@ -63,6 +64,8 @@ namespace MyLibrary
             // closeButton
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.closeButton.Image = ((System.Drawing.Image)(resources.GetObject("closeButton.Image")));
+            this.closeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.closeButton.Location = new System.Drawing.Point(706, 488);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(135, 28);
@@ -102,6 +105,8 @@ namespace MyLibrary
             // browseButton
             // 
             this.browseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.browseButton.Image = ((System.Drawing.Image)(resources.GetObject("browseButton.Image")));
+            this.browseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.browseButton.Location = new System.Drawing.Point(706, 62);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(135, 25);
@@ -121,6 +126,8 @@ namespace MyLibrary
             // startButton
             // 
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.startButton.Image = ((System.Drawing.Image)(resources.GetObject("startButton.Image")));
+            this.startButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startButton.Location = new System.Drawing.Point(15, 488);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(135, 28);
@@ -167,6 +174,7 @@ namespace MyLibrary
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExcelImportDialog";
             this.Text = "Import Excel";
             this.ResumeLayout(false);
