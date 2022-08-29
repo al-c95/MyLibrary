@@ -50,6 +50,8 @@ namespace MyLibrary
             this.typesDropDown.Items.Add(ItemType.BluRay);
             this.typesDropDown.Items.Add(ItemType.Vhs);
             this.typesDropDown.Items.Add(ItemType.Vinyl);
+            this.typesDropDown.Items.Add("Flash Drive");
+            this.typesDropDown.Items.Add("Floppy Disk");
             this.typesDropDown.Items.Add(ItemType.Other);
             this.typesDropDown.SelectedIndex = 0;
 
@@ -131,8 +133,7 @@ namespace MyLibrary
 
             WishlistItem item = new WishlistItem();
             DataGridViewRow selectedRow = dataGrid.SelectedRows[0];
-            ItemType type;
-            Enum.TryParse(selectedRow.Cells["Type"].Value.ToString(), out type);
+            ItemType type = Item.ParseType(selectedRow.Cells["Type"].Value.ToString());
             item.Type = type;
             item.Id = int.Parse(selectedRow.Cells["Id"].Value.ToString());
             item.Title = selectedRow.Cells["Title"].Value.ToString();
@@ -200,8 +201,7 @@ namespace MyLibrary
         {
             get
             {
-                ItemType type;
-                Enum.TryParse(this.typesDropDown.SelectedItem.ToString(), out type);
+                ItemType type = Item.ParseType(this.typesDropDown.SelectedItem.ToString());
 
                 return type;
             }
@@ -226,7 +226,7 @@ namespace MyLibrary
             {
                 dt.Rows.Add(
                     item.Id,
-                    item.Type,
+                    Item.GetTypeString(item.Type),
                     item.Title,
                     item.Notes
                     );

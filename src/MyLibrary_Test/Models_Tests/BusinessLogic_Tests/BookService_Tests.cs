@@ -225,8 +225,9 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             Assert.IsTrue(exists);
         }
 
-        [Test]
-        public async Task Update_Test()
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task Update_Test(bool updateImage)
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -242,10 +243,10 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             Book book = new Book { Id = 1, Title = "test_book" };
 
             // act
-            await service.UpdateAsync(book);
+            await service.UpdateAsync(book, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(book)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.Update(book, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 

@@ -155,7 +155,7 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.SaveSelectedClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeService.Update(modifiedItem)).MustHaveHappened();
+            A.CallTo(() => fakeService.Update(modifiedItem, false)).MustHaveHappened();
             A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }

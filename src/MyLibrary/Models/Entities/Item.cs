@@ -105,5 +105,40 @@ namespace MyLibrary.Models.Entities
 
             return builder.ToString();
         }
+
+        public static ItemType ParseType(string type)
+        {
+            if (type.Equals("Flash Drive"))
+            {
+                return ItemType.FlashDrive;
+            }
+            else if (type.Equals("Floppy Disk"))
+            {
+                return ItemType.FloppyDisk;
+            }
+            else
+            {
+                if (Enum.TryParse(type, out ItemType parsed))
+                    return parsed;
+                else
+                    throw new FormatException("Cannot parse type: " + type);
+            }
+        }
+
+        public static string GetTypeString(ItemType type)
+        {
+            if (type == ItemType.FlashDrive)
+            {
+                return "Flash Drive";
+            }
+            else if (type == ItemType.FloppyDisk)
+            {
+                return "Floppy Disk";
+            }
+            else
+            {
+                return type.ToString();
+            }
+        }
     }//class
 }

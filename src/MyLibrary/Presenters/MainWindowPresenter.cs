@@ -245,7 +245,6 @@ namespace MyLibrary.Presenters
 
             if (this._view.CategoryDropDownSelectedIndex == 0)
             {
-
                 this._view.SelectedItem = await this._bookService.GetByIdAsync(selectedItemId);
             }
             else
@@ -281,11 +280,11 @@ namespace MyLibrary.Presenters
             {
                 if (this._view.CategoryDropDownSelectedIndex == 0)
                 {
-                    await this._bookService.UpdateAsync((Book)this._view.SelectedItem);
+                    await this._bookService.UpdateAsync((Book)this._view.SelectedItem, true);
                 }
                 else
                 {
-                    await this._mediaItemService.UpdateAsync((MediaItem)this._view.SelectedItem);
+                    await this._mediaItemService.UpdateAsync((MediaItem)this._view.SelectedItem, true);
                 }
             }
             catch (Exception ex)
@@ -453,7 +452,7 @@ namespace MyLibrary.Presenters
                 dt.Rows.Add(
                     item.Id,
                     item.Title,
-                    item.Type,
+                    Item.GetTypeString(item.Type),
                     item.Number,
                     item.RunningTime,
                     item.ReleaseYear,
@@ -507,6 +506,18 @@ namespace MyLibrary.Presenters
             else if (categorySelectionIndex == 1)
             {
                 await DisplayMediaItems();
+            }
+            else if (categorySelectionIndex == 7)
+            {
+                await DisplayMediaItems(ItemType.FlashDrive);
+            }
+            else if (categorySelectionIndex == 8)
+            {
+                await DisplayMediaItems(ItemType.FloppyDisk);
+            }
+            else if (categorySelectionIndex == 9)
+            {
+                await DisplayMediaItems(ItemType.Other);
             }
             else
             {

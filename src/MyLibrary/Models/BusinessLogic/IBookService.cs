@@ -37,7 +37,7 @@ namespace MyLibrary.Models.BusinessLogic
         Task<IEnumerable<Book>> GetAllAsync();
         Task<Book> GetByIdAsync(int id);
         Task<int> GetIdByTitleAsync(string title);
-        Task UpdateAsync(Book book);
+        Task UpdateAsync(Book book, bool includeImage);
         Task DeleteByIdAsync(int id);
         Task UpdateTagsAsync(ItemTagsDto dto);
     }

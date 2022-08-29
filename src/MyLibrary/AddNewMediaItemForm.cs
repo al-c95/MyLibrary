@@ -48,6 +48,8 @@ namespace MyLibrary
             this.mediaTypesOptions.Items.Add(ItemType.BluRay);
             this.mediaTypesOptions.Items.Add(ItemType.Vhs);
             this.mediaTypesOptions.Items.Add(ItemType.Vinyl);
+            this.mediaTypesOptions.Items.Add("Flash Drive");
+            this.mediaTypesOptions.Items.Add("Floppy Disk");
             this.mediaTypesOptions.Items.Add(ItemType.Other);
             this.mediaTypesOptions.SelectedIndex = 0;
 

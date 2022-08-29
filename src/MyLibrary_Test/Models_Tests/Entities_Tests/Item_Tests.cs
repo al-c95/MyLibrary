@@ -115,6 +115,52 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
+        [TestCase("Flash Drive", ItemType.FlashDrive)]
+        [TestCase("Floppy Disk", ItemType.FloppyDisk)]
+        [TestCase("Other", ItemType.Other)]
+        [TestCase("Vhs", ItemType.Vhs)]
+        [TestCase("Vinyl", ItemType.Vinyl)]
+        [TestCase("BluRay", ItemType.BluRay)]
+        [TestCase("Dvd", ItemType.Dvd)]
+        [TestCase("Cd", ItemType.Cd)]
+        [TestCase("Book", ItemType.Book)]
+        public void ParseType_Test_ParseSuccessful(string type, ItemType expectedResult)
+        {
+            // act
+            ItemType actualResult = Item.ParseType(type);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public void ParseType_Test_Invalid()
+        {
+            // arrange
+            string type = "bogus_type";
+
+            // act/assert
+            Assert.Throws<FormatException>(() => Item.ParseType(type));
+        }
+
+        [TestCase(ItemType.FlashDrive, "Flash Drive")]
+        [TestCase(ItemType.FloppyDisk, "Floppy Disk")]
+        [TestCase(ItemType.Other, "Other")]
+        [TestCase(ItemType.Vhs, "Vhs")]
+        [TestCase(ItemType.Vinyl, "Vinyl")]
+        [TestCase(ItemType.BluRay, "BluRay")]
+        [TestCase(ItemType.Dvd, "Dvd")]
+        [TestCase(ItemType.Cd, "Cd")]
+        [TestCase(ItemType.Book, "Book")]
+        public void GetTypeString_Test(ItemType input, string expectedResult)
+        {
+            // act
+            string actualResult = Item.GetTypeString(input);
+
+            // assert
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
         class MockItem : Item
         {
             public override ItemType Type { get; set; }

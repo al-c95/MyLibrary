@@ -83,7 +83,7 @@ namespace MyLibrary.Presenters.Excel
                     {
                         item.Id,
                         item.Title,
-                        item.Type,
+                        Item.GetTypeString(item.Type),
                         item.Number,
                         item.RunningTime,
                         item.ReleaseYear,

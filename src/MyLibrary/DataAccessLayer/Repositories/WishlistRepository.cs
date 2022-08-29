@@ -56,7 +56,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
             return this._uow.Connection.Query<WishlistItem>(SQL);
         }
 
-        public override void Update(WishlistItem toUpdate)
+        public override void Update(WishlistItem toUpdate, bool includeImage = false)
         {
             const string SQL = "UPDATE Wishlist SET notes = @notes WHERE id = @id;";
 

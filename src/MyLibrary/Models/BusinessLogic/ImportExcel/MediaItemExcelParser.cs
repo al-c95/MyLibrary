@@ -128,7 +128,18 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                 }
                 // process Type
                 ItemType type;
-                if (!Enum.TryParse<ItemType>(typeEntry, out type) || typeEntry.Equals("Book"))
+                if (typeEntry.Equals("Cd") || 
+                    typeEntry.Equals("Dvd") ||
+                    typeEntry.Equals("BluRay") ||
+                    typeEntry.Equals("Vhs") ||
+                    typeEntry.Equals("Vinyl") ||
+                    typeEntry.Equals("Other") ||
+                    typeEntry.Equals("Floppy Disk") ||
+                    typeEntry.Equals("Flash Drive"))
+                {
+                    type = Item.ParseType(typeEntry);
+                }
+                else
                 {
                     yield return new ExcelRowResult
                     {

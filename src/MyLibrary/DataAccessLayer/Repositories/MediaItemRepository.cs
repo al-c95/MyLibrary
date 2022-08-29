@@ -192,45 +192,49 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// Update image and/or notes, number, running time fields of media item record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
-        public override void Update(MediaItem toUpdate)
+        public override void Update(MediaItem toUpdate, bool includeImage)
         {
-            // update image
-            // delete old Images table record, if it exists
-            var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Media WHERE id=@id", new
-            {
-                id = toUpdate.Id
-            });
-            if (imageId != null)
-            {
-                const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
-                this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
+            if (includeImage)
+            { 
+                // update image
+                // delete old Images table record, if it exists
+                var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Media WHERE id=@id", new
                 {
-                    oldImageId = imageId
+                    id = toUpdate.Id
                 });
-            }
-            if (toUpdate.Image != null)
-            {
-                // item has new image
-                // insert new Images table record
-                this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
-                int newImageId = this._uow.Connection.QuerySingleOrDefault<int>("SELECT last_insert_rowid();");
-                // update foreign key
-                this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
+                if (imageId != null)
                 {
-                    id = toUpdate.Id,
-                    imageId = newImageId
-                });
-            }
-            else
-            {
-                // item has removed image
-                // set the foreign key to null
-                int? nullInt = null;
-                this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new 
+                    const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
+                    this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
+                    {
+                        oldImageId = imageId
+                    });
+                }
+            
+                if (toUpdate.Image != null)
                 {
-                    id = toUpdate.Id,
-                    imageId = nullInt
-                });
+                    // item has new image
+                    // insert new Images table record
+                    this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
+                    int newImageId = this._uow.Connection.QuerySingleOrDefault<int>("SELECT last_insert_rowid();");
+                    // update foreign key
+                    this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
+                    {
+                        id = toUpdate.Id,
+                        imageId = newImageId
+                    });
+                }
+                else
+                {
+                    // item has removed image
+                    // set the foreign key to null
+                    int? nullInt = null;
+                    this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
+                    {
+                        id = toUpdate.Id,
+                        imageId = nullInt
+                    });
+                }
             }
 
             // update notes, running time and number fields in Media table record

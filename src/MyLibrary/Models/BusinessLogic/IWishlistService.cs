@@ -14,6 +14,6 @@ namespace MyLibrary.Models.BusinessLogic
         Task<bool> ExistsWithTitle(string title);
         Task<IEnumerable<WishlistItem>> GetAll();
         Task<IEnumerable<WishlistItem>> GetByType(ItemType type);
-        Task Update(WishlistItem item);
+        Task Update(WishlistItem item, bool includeImage);
     }
 }

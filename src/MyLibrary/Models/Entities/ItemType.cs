@@ -39,6 +39,8 @@ namespace MyLibrary.Models.Entities
         BluRay,
         Vhs,
         Vinyl,
-        Other
+        Other,
+        FlashDrive,
+        FloppyDisk
     }
 }

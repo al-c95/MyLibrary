@@ -28,8 +28,8 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             MediaItem item1 = new MediaItem 
             { 
                 Id = 1, 
-                Title = "funny movie",
-                Type = ItemType.Dvd,
+                Title = "funny movie on a flash drive",
+                Type = ItemType.FlashDrive,
                 Number = 0123456789,
                 RunningTime = 100,
                 ReleaseYear = 1995,
@@ -67,8 +67,8 @@ namespace MyLibrary_Test.Presenters_Tests.Excel_Tests
             Assert.AreEqual("Tags", excel.Worksheet.Cells["G6"].GetValue<string>());
             Assert.AreEqual("Notes", excel.Worksheet.Cells["H6"].GetValue<string>());
             Assert.AreEqual(1, excel.Worksheet.Cells["A7"].GetValue<int>());
-            Assert.AreEqual("funny movie", excel.Worksheet.Cells["B7"].GetValue<string>());
-            Assert.AreEqual("Dvd", excel.Worksheet.Cells["C7"].GetValue<string>());
+            Assert.AreEqual("funny movie on a flash drive", excel.Worksheet.Cells["B7"].GetValue<string>());
+            Assert.AreEqual("Flash Drive", excel.Worksheet.Cells["C7"].GetValue<string>());
             Assert.AreEqual(0123456789, excel.Worksheet.Cells["D7"].GetValue<int>());
             Assert.AreEqual(100, excel.Worksheet.Cells["E7"].GetValue<int>());
             Assert.AreEqual(1995, excel.Worksheet.Cells["F7"].GetValue<int>());

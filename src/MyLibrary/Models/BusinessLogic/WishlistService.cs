@@ -103,13 +103,13 @@ namespace MyLibrary.Models.BusinessLogic
             return allItems.Any(i => i.Id == id);
         }
 
-        public async Task Update(WishlistItem item)
+        public async Task Update(WishlistItem item, bool includeImage)
         {
             await Task.Run(() =>
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IWishlistRepository repo = this._repoProvider.Get(uow);
-                repo.Update(item);
+                repo.Update(item, includeImage);
                 uow.Dispose();
             });
         }

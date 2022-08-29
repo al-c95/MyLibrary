@@ -235,45 +235,49 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// Update image and other fields of book record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
-        public override void Update(Book toUpdate)
+        public override void Update(Book toUpdate, bool includeImage)
         {
-            // update image
-            // delete old Images table record, if it exists
-            var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Books WHERE id=@id", new
+            if (includeImage)
             {
-                id = toUpdate.Id
-            });
-            if (imageId != null)
-            {
-                const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
-                this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
+                // update image
+                // delete old Images table record, if it exists
+                var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Books WHERE id=@id", new
                 {
-                    oldImageId = imageId
+                    id = toUpdate.Id
                 });
-            }
-            if (toUpdate.Image != null)
-            {
-                // item has new image
-                // insert new Images table record
-                this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
-                int newImageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
-                // update foreign key
-                this._uow.Connection.Execute("UPDATE Books SET imageId = @imageId WHERE id = @id;", new 
+                if (imageId != null)
                 {
-                    id = toUpdate.Id,
-                    imageId = newImageId
-                });
-            }
-            else
-            {
-                // item has removed image
-                // set the foreign key to null
-                int? nullInt = null;
-                this._uow.Connection.Execute("UPDATE Books SET imageId = @imageId WHERE id = @id;", new 
-                { 
-                    id = toUpdate.Id,
-                    imageId=nullInt 
-                });
+                    const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
+                    this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
+                    {
+                        oldImageId = imageId
+                    });
+                }
+            
+                if (toUpdate.Image != null)
+                {
+                    // item has new image
+                    // insert new Images table record
+                    this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
+                    int newImageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+                    // update foreign key
+                    this._uow.Connection.Execute("UPDATE Books SET imageId = @imageId WHERE id = @id;", new
+                    {
+                        id = toUpdate.Id,
+                        imageId = newImageId
+                    });
+                }
+                else
+                {
+                    // item has removed image
+                    // set the foreign key to null
+                    int? nullInt = null;
+                    this._uow.Connection.Execute("UPDATE Books SET imageId = @imageId WHERE id = @id;", new
+                    {
+                        id = toUpdate.Id,
+                        imageId = nullInt
+                    });
+                }
             }
 
             const string UPDATE_BOOK_SQL = "UPDATE Books SET notes = @notes, deweyDecimal = @deweyDecimal, msrp = @msrp," +

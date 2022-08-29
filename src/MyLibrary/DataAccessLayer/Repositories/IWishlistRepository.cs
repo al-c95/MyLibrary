@@ -30,6 +30,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
         void Create(WishlistItem entity);
         void DeleteById(int id);
         IEnumerable<WishlistItem> ReadAll();
-        void Update(WishlistItem toUpdate);
+        void Update(WishlistItem toUpdate, bool includeImage);
     }
 }
