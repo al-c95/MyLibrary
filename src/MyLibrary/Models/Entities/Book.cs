@@ -53,10 +53,18 @@ namespace MyLibrary.Models.Entities
             get => this._isbn;
             set
             {
-                if (Regex.IsMatch(value, ISBN_10_PATTERN) || string.IsNullOrWhiteSpace(value))
+                if (value is null || string.IsNullOrWhiteSpace(value))
+                {
+                    this._isbn = "";
+                }
+                else if (Regex.IsMatch(value, ISBN_10_PATTERN))
+                {
                     this._isbn = value;
+                }
                 else
+                {
                     throw new FormatException("Isbn: " + value + " has incorrect format.");
+                }
             } 
         }
 
@@ -76,7 +84,7 @@ namespace MyLibrary.Models.Entities
                 }
                 else
                 {
-                    throw new FormatException("Isbn: " + value + " has incorrect format.");
+                    throw new FormatException("Isbn13: " + value + " has incorrect format.");
                 }
             } 
         }
