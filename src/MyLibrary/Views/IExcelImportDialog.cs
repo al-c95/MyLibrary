@@ -45,6 +45,7 @@ namespace MyLibrary.Views
         void AddWarning(string message);
         void AddError(string message);
         string ShowFileBrowserDialog();
+        void ShowErrorDialog(Exception exception);
 
         event EventHandler BrowseButtonClicked;
         event EventHandler FileFieldTextChanged;

@@ -163,6 +163,11 @@ namespace MyLibrary
             return null;
         }
 
+        public void ShowErrorDialog(Exception exception)
+        {
+            System.Windows.Forms.MessageBox.Show(exception.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+        }
+
         #region UI event handlers
         private void CloseButton_Click(object sender, EventArgs e)
         {
