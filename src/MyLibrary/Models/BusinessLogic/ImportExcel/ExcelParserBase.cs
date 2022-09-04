@@ -79,6 +79,9 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
 
         protected string ReadCellAsString(ExcelPackage pck, string worksheet, string address)
         {
+            if (!pck.Workbook.Worksheets.Any(ws => ws.Name.Equals(worksheet)))
+                throw new FormatException("Expected worksheet not found: " + worksheet);
+
             return pck.Workbook.Worksheets[worksheet].Cells[address].GetValue<string>();
         }
     }//class

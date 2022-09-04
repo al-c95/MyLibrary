@@ -106,22 +106,38 @@ namespace MyLibrary.Presenters
 
             if (this._view.BookChecked && !this._view.MediaItemChecked)
             {
-                await Task.Run(() =>
+                try
                 {
-                    BookExcelParser excelParser = new BookExcelParser(excel, Configuration.APP_VERSION);
-
-                    foreach (var result in excelParser.Run())
+                    await Task.Run(() =>
                     {
-                        if (result.Status == ExcelRowResultStatus.Success)
+                        BookExcelParser excelParser = new BookExcelParser(excel, Configuration.APP_VERSION);
+
+                        foreach (var result in excelParser.Run())
                         {
-                            parseResults.Add(result);
+                            if (result.Status == ExcelRowResultStatus.Success)
+                            {
+                                parseResults.Add(result);
+                            }
+                            else
+                            {
+                                ((IProgress<ExcelRowResult>)parseProgress).Report(result);
+                            }
                         }
-                        else
-                        {
-                            ((IProgress<ExcelRowResult>)parseProgress).Report(result);
-                        }    
-                    }
-                });
+                    });
+                }
+                catch (FormatException e)
+                {
+                    this._view.ShowErrorDialog(e);
+
+                    this._view.Label1Text = "Task aborted.";
+                    this._view.Label2Text = "";
+                    this._view.CloseButtonEnabled = true;
+                    this._view.BrowseButtonEnabled = true;
+                    this._view.FileFieldEnabled = true;
+                    this._view.RadioButtonsEnabled = true;
+
+                    return;
+                }
 
                 this._view.Label1Text = "Updating database...";
                 BookService service = new BookService();
@@ -162,22 +178,38 @@ namespace MyLibrary.Presenters
             }
             else if (this._view.MediaItemChecked && !this._view.BookChecked)
             {
-                await Task.Run(() =>
+                try
                 {
-                    MediaItemExcelParser excelParser = new MediaItemExcelParser(excel, Configuration.APP_VERSION);
-
-                    foreach (var result in excelParser.Run())
+                    await Task.Run(() =>
                     {
-                        if (result.Status == ExcelRowResultStatus.Success)
+                        MediaItemExcelParser excelParser = new MediaItemExcelParser(excel, Configuration.APP_VERSION);
+
+                        foreach (var result in excelParser.Run())
                         {
-                            parseResults.Add(result);
+                            if (result.Status == ExcelRowResultStatus.Success)
+                            {
+                                parseResults.Add(result);
+                            }
+                            else
+                            {
+                                ((IProgress<ExcelRowResult>)parseProgress).Report(result);
+                            }
                         }
-                        else
-                        {
-                            ((IProgress<ExcelRowResult>)parseProgress).Report(result);
-                        }
-                    }
-                });
+                    });
+                }
+                catch (FormatException e)
+                {
+                    this._view.ShowErrorDialog(e);
+
+                    this._view.Label1Text = "Task aborted.";
+                    this._view.Label2Text = "";
+                    this._view.CloseButtonEnabled = true;
+                    this._view.BrowseButtonEnabled = true;
+                    this._view.FileFieldEnabled = true;
+                    this._view.RadioButtonsEnabled = true;
+
+                    return;
+                }
 
                 this._view.Label1Text = "Updating database...";
                 MediaItemService service = new MediaItemService();

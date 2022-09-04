@@ -138,6 +138,17 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportExcel_Tests
         }
 
         [Test]
+        public void Constructor_Test_ExpectedWorksheetNotFound()
+        {
+            // arrange
+            ExcelPackage pck = new ExcelPackage();
+            ExcelWorksheet ws = pck.Workbook.Worksheets.Add("bogus");
+
+            // act/assert
+            Assert.Throws<FormatException>(() => new BookExcelParser(pck, new MyLibrary.Models.ValueObjects.AppVersion(1, 3, 0)));
+        }
+
+        [Test]
         public void Run_Test()
         {
             // arrange
