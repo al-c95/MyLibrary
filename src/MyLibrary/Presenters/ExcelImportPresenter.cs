@@ -143,21 +143,18 @@ namespace MyLibrary.Presenters
                 BookService service = new BookService();
                 foreach (var result in parseResults)
                 {
-                    if (await service.AddIfNotExistsAsync((Book)result.Item))
+                    Book book = (Book)result.Item;
+                    if (await service.AddIfNotExistsAsync(book))
                     {
                         importCount++;
                     }
                     else
                     {
-                        // deal with rows for pre-existing titles without Id
-                        int id = result.Item.Id;
-                        if (id == default(int))
-                            id = await service.GetIdByTitleAsync(result.Item.Title);
+                        int id = await service.GetIdByTitleAsync(book.Title);
 
-                        // update non-tag fields
-                        await service.UpdateAsync((Book)result.Item, false);
+                        book.Id = id;
+                        await service.UpdateAsync(book, false);
 
-                        // update tags
                         IEnumerable<Tag> currentTags = (await service.GetByIdAsync(id)).Tags;
                         List<string> currentTagNames = new List<string>();
                         foreach (Tag tag in currentTags)
@@ -215,21 +212,18 @@ namespace MyLibrary.Presenters
                 MediaItemService service = new MediaItemService();
                 foreach (var result in parseResults)
                 {
-                    if (await service.AddIfNotExistsAsync((MediaItem)result.Item))
+                    MediaItem item = (MediaItem)result.Item;
+                    if (await service.AddIfNotExistsAsync(item))
                     {
                         importCount++;
                     }
                     else
                     {
-                        // deal with rows for pre-existing titles without Id
-                        int id = result.Item.Id;
-                        if (id == default(int))
-                            id = await service.GetIdByTitleAsync(result.Item.Title);
+                        int id = await service.GetIdByTitleAsync(item.Title);
 
-                        // update non-tag fields
-                        await service.UpdateAsync((MediaItem)result.Item, false);
+                        item.Id = id;
+                        await service.UpdateAsync(item, false);
 
-                        // update tags
                         IEnumerable<Tag> currentTags = (await service.GetByIdAsync(id)).Tags;
                         List<string> currentTagNames = new List<string>();
                         foreach (Tag tag in currentTags)
