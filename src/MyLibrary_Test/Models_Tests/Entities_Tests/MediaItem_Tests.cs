@@ -73,7 +73,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
             MediaItem item = new MediaItem();
             item.Id = 1;
             item.Title = "Test item";
-            item.Type = ItemType.Dvd;
+            item.Type = ItemType.FloppyDisk;
             item.Number = 123;
             item.ReleaseYear = 1999;
             string expectedResult = "Id: " + "\r\n" +
@@ -83,7 +83,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
                 "Test item" + "\r\n" +
                 "" + "\r\n" +
                 "Type: " + "\r\n" +
-                "Dvd" + "\r\n" +
+                "Floppy Disk" + "\r\n" +
                 "" + "\r\n" +
                 "Number: " + "\r\n" +
                 "123" + "\r\n" +
