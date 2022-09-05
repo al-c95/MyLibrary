@@ -101,7 +101,7 @@ namespace MyLibrary.Models.Entities
             ToStringAppendField(builder, "Id: ", this.Id.ToString());
             ToStringAppendField(builder, "Title: ", this.Title);
             builder.AppendLine("Type: ");
-            builder.Append(this.Type.ToString());
+            builder.Append(GetTypeString(this.Type));
 
             return builder.ToString();
         }
