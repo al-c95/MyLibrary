@@ -239,6 +239,15 @@ namespace MyLibrary
                     this.tagsList.Items.Add(tag.Name);
                 }
             }
+
+            if (this.tagsList.Items.Count > 0)
+            {
+                this.deleteSelectedTagButton.Enabled = this.tagsList.SelectedItems.Count > 0;
+            }
+            else
+            {
+                this.deleteSelectedTagButton.Enabled = false;
+            }
         }//FilterTags
 
         public event EventHandler TagsUpdated;

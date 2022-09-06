@@ -6,6 +6,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 ## [1.3.0] - unreleased
 ### Fixed
 - bug with filtering in manage tags for item dialog
+- bug with delete selected tag button remaining enabled if filtering returns no results in manage tags dialog
 ### Added
 - support for Flash Drives and Floppy Disks
 - support for importing/updating book and media item worksheets
