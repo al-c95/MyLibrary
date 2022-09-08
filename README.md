@@ -45,7 +45,7 @@ All notable changes to this project are documented in `CHANGELOG.md`.
 WinForms application connected to a bundled Sqlite database. For more information, refer to `docs\design\detailed_design.md`.
 
 ## Usage
-Some instructions or a manual may be provided as part of a future release.
+A user manual is provided in `docs\user`.
 
 ## Known Issues and Solutions
 Described in user manual. 
