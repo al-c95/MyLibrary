@@ -179,6 +179,10 @@ namespace MyLibrary
             {
                 new AboutBox().ShowDialog();
             });
+            this.manualToolStripMenuItem.Click += ((sender, args) =>
+            {
+                System.Diagnostics.Process.Start("MyLibrary.pdf");
+            });
             this.booksToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 0);
             this.mediaItemsAllCategoriesToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 1);
             this.cdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 2);

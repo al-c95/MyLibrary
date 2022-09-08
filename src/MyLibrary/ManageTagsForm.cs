@@ -239,7 +239,7 @@ namespace MyLibrary
                     this.tagsList.Items.Add(tag.Name);
                 }
             }
-
+            throw new Exception("error");
             if (this.tagsList.Items.Count > 0)
             {
                 this.deleteSelectedTagButton.Enabled = this.tagsList.SelectedItems.Count > 0;

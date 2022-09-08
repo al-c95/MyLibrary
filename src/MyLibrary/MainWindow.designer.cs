@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +61,8 @@ namespace MyLibrary
             this.bluRaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vhssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vinylsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flashDriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.floppyDiskStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,8 +99,7 @@ namespace MyLibrary
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tagsButton = new System.Windows.Forms.ToolStripButton();
             this.wishlistButton = new System.Windows.Forms.ToolStripButton();
-            this.flashDriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.floppyDiskStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -144,19 +145,19 @@ namespace MyLibrary
             // newBookToolStripMenuItem
             // 
             this.newBookToolStripMenuItem.Name = "newBookToolStripMenuItem";
-            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newBookToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.newBookToolStripMenuItem.Text = "New Book";
             // 
             // newMediaItemToolStripMenuItem
             // 
             this.newMediaItemToolStripMenuItem.Name = "newMediaItemToolStripMenuItem";
-            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newMediaItemToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.newMediaItemToolStripMenuItem.Text = "New Media Item";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // importToolStripMenuItem
             // 
@@ -164,7 +165,7 @@ namespace MyLibrary
             this.cSVToolStripMenuItem,
             this.XLSXtoolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // cSVToolStripMenuItem
@@ -211,7 +212,7 @@ namespace MyLibrary
             this.mediaItemsToolStripMenuItem,
             this.exportWishlistMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // tagsToolStripMenuItem
@@ -253,12 +254,12 @@ namespace MyLibrary
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitMenuItem.Size = new System.Drawing.Size(202, 26);
             this.exitMenuItem.Text = "Exit";
             // 
             // viewMenu
@@ -333,6 +334,18 @@ namespace MyLibrary
             this.vinylsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.vinylsToolStripMenuItem.Text = "Vinyls";
             // 
+            // flashDriveToolStripMenuItem
+            // 
+            this.flashDriveToolStripMenuItem.Name = "flashDriveToolStripMenuItem";
+            this.flashDriveToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.flashDriveToolStripMenuItem.Text = "Flash drives";
+            // 
+            // floppyDiskStripMenuItem
+            // 
+            this.floppyDiskStripMenuItem.Name = "floppyDiskStripMenuItem";
+            this.floppyDiskStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.floppyDiskStripMenuItem.Text = "Floppy disks";
+            // 
             // otherToolStripMenuItem
             // 
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
@@ -342,7 +355,8 @@ namespace MyLibrary
             // helpMenu
             // 
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.manualToolStripMenuItem});
             this.helpMenu.Name = "helpMenu";
             this.helpMenu.Size = new System.Drawing.Size(55, 24);
             this.helpMenu.Text = "Help";
@@ -350,7 +364,7 @@ namespace MyLibrary
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // dataGrid
@@ -363,14 +377,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid.Location = new System.Drawing.Point(485, 37);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -789,17 +803,11 @@ namespace MyLibrary
             this.wishlistButton.Text = "toolStripButton5";
             this.wishlistButton.ToolTipText = "Wishlist";
             // 
-            // flashDriveToolStripMenuItem
+            // manualToolStripMenuItem
             // 
-            this.flashDriveToolStripMenuItem.Name = "flashDriveToolStripMenuItem";
-            this.flashDriveToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.flashDriveToolStripMenuItem.Text = "Flash drives";
-            // 
-            // floppyDiskStripMenuItem
-            // 
-            this.floppyDiskStripMenuItem.Name = "floppyDiskStripMenuItem";
-            this.floppyDiskStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.floppyDiskStripMenuItem.Text = "Floppy disks";
+            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.manualToolStripMenuItem.Text = "Manual";
             // 
             // MainWindow
             // 
@@ -807,6 +815,7 @@ namespace MyLibrary
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1349, 841);
             this.Controls.Add(this.toolStripContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainWindow";
@@ -906,6 +915,7 @@ namespace MyLibrary
         private System.Windows.Forms.ToolStripMenuItem XLSXtoolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flashDriveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem floppyDiskStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem;
     }
 }
 
