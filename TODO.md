@@ -14,7 +14,7 @@
 - maintain/refactor code and unit tests (WIP)
 - support manage copies (DONE)
 - support loaning
-- add icons
+- add icons (DONE)
 
 https://stackoverflow.com/questions/8766794/how-to-create-generic-data-access-object-dao-crud-methods-with-linq-to-sql
 https://softwareengineering.stackexchange.com/questions/171024/never-do-in-code-what-you-can-get-the-sql-server-to-do-well-for-you-is-this

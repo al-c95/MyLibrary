@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
-## [1.3.0] - unreleased
+## [1.3.0] - 8-9-2022
 ### Fixed
 - bug with filtering in manage tags for item dialog
 - bug with delete selected tag button remaining enabled if filtering returns no results in manage tags dialog
@@ -11,6 +11,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 - support for Flash Drives and Floppy Disks
 - support for importing/updating book and media item worksheets
 - various icons for dialogs and toolstrip
+- application icon
 - support for author names with composite and apostrophied last names
 ### Changed
 - replaced buttons below menustrip with toolstrip
