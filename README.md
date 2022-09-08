@@ -17,7 +17,7 @@ root
 |     |
 |     +--design // Requirements and design of the application. Detailed design is a living document describing the current design and architecture of the application.
 |     |
-|     +--user // documentation intended for users (TODO)
+|     +--user // documentation intended for users
 |
 +--src // source code - Visual Studio solution
 |    |
@@ -39,7 +39,7 @@ All notable changes to this project are documented in `CHANGELOG.md`.
 ## Installation and Setup
 1. Clone the repo: `git clone https://github.com/Alc2110/MyLibrary.git`.
 2. Compile.
-3. Set the `dbPath` in `app.config` to the path of the database (`library.db`).
+3. Set the `dbPath` in `app.config` to the path of the database (`database.db`).
 
 ## Architecture
 WinForms application connected to a bundled Sqlite database. For more information, refer to `docs\design\detailed_design.md`.
@@ -48,8 +48,7 @@ WinForms application connected to a bundled Sqlite database. For more informatio
 Some instructions or a manual may be provided as part of a future release.
 
 ## Known Issues and Solutions
-### Item selection in main list different to item data displayed
-Sometimes, when selecting items quickly one after another, there is a small chance that the item data displayed will not match the selected item in the list. Presently, the solution is to select the item again. 
+Described in user manual. 
 
 ## Attributions
 - Icons by Yusuke Kamiyamane: https://p.yusukekamiyamane.com/
