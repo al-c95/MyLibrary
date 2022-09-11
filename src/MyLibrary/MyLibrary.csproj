@@ -329,6 +329,12 @@
     <Compile Include="ShowStatsDialog.Designer.cs">
       <DependentUpon>ShowStatsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="TipOfTheDayDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipOfTheDayDialog.Designer.cs">
+      <DependentUpon>TipOfTheDayDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\CancellationTokenSourceWrapper.cs" />
     <Compile Include="Utils\ICancellationTokenSource.cs" />
     <Compile Include="Utils\IImageFileReader.cs" />
@@ -404,6 +410,9 @@
     </Compile>
     <EmbeddedResource Include="ShowStatsDialog.resx">
       <DependentUpon>ShowStatsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipOfTheDayDialog.resx">
+      <DependentUpon>TipOfTheDayDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WishlistDialog.resx">
       <DependentUpon>WishlistDialog.cs</DependentUpon>
