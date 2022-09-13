@@ -320,6 +320,7 @@
     <Compile Include="Presenters\ServiceProviders\IApiServiceProvider.cs" />
     <Compile Include="Presenters\ServiceProviders\IAuthorServiceProvider.cs" />
     <Compile Include="Presenters\StatsPresenter.cs" />
+    <Compile Include="Presenters\TipOfTheDayPresenter.cs" />
     <Compile Include="Presenters\WishlistPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,6 +354,7 @@
     <Compile Include="Views\INewTagOrPublisher.cs" />
     <Compile Include="Views\ISearchByIsbn.cs" />
     <Compile Include="Views\IShowStats.cs" />
+    <Compile Include="Views\ITipOfTheDay.cs" />
     <Compile Include="Views\IWishlistForm.cs" />
     <Compile Include="WishlistDialog.cs">
       <SubType>Form</SubType>

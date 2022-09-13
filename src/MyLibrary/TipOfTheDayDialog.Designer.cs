@@ -43,9 +43,9 @@ namespace MyLibrary
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(466, 69);
+            this.okButton.Location = new System.Drawing.Point(467, 69);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(83, 28);
+            this.okButton.Size = new System.Drawing.Size(98, 28);
             this.okButton.TabIndex = 0;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
@@ -54,22 +54,24 @@ namespace MyLibrary
             // nextButton
             // 
             this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nextButton.Location = new System.Drawing.Point(466, 103);
+            this.nextButton.Location = new System.Drawing.Point(467, 103);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(83, 28);
+            this.nextButton.Size = new System.Drawing.Size(98, 28);
             this.nextButton.TabIndex = 1;
             this.nextButton.Text = "Next";
             this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
             // showAllButton
             // 
             this.showAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.showAllButton.Location = new System.Drawing.Point(466, 237);
+            this.showAllButton.Location = new System.Drawing.Point(467, 236);
             this.showAllButton.Name = "showAllButton";
-            this.showAllButton.Size = new System.Drawing.Size(83, 71);
+            this.showAllButton.Size = new System.Drawing.Size(98, 71);
             this.showAllButton.TabIndex = 2;
             this.showAllButton.Text = "Show All";
             this.showAllButton.UseVisualStyleBackColor = true;
+            this.showAllButton.Click += new System.EventHandler(this.showAllButton_Click);
             // 
             // tipsTextBox
             // 
@@ -80,14 +82,14 @@ namespace MyLibrary
             this.tipsTextBox.Multiline = true;
             this.tipsTextBox.Name = "tipsTextBox";
             this.tipsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tipsTextBox.Size = new System.Drawing.Size(448, 239);
+            this.tipsTextBox.Size = new System.Drawing.Size(449, 238);
             this.tipsTextBox.TabIndex = 3;
             // 
             // showTipsCheckBox
             // 
             this.showTipsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.showTipsCheckBox.AutoSize = true;
-            this.showTipsCheckBox.Location = new System.Drawing.Point(12, 318);
+            this.showTipsCheckBox.Location = new System.Drawing.Point(12, 313);
             this.showTipsCheckBox.Name = "showTipsCheckBox";
             this.showTipsCheckBox.Size = new System.Drawing.Size(143, 20);
             this.showTipsCheckBox.TabIndex = 4;
@@ -117,7 +119,7 @@ namespace MyLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(562, 350);
+            this.ClientSize = new System.Drawing.Size(578, 381);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.label1);

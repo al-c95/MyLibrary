@@ -31,6 +31,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
+using System.Configuration;
 using System.Windows.Forms;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
@@ -439,8 +440,12 @@ namespace MyLibrary
         {
             WindowCreated?.Invoke(this, null);
 
-            TipOfTheDayDialog tips = new TipOfTheDayDialog();
-            tips.Show(); 
+            if (ConfigurationManager.AppSettings.Get("showTipsOnStartup").Equals("true"))
+            {
+                TipOfTheDayDialog tipsDialog = new TipOfTheDayDialog();
+                TipOfTheDayPresenter tipsPresenter = new TipOfTheDayPresenter(tipsDialog, Configuration.TIPS);
+                tipsDialog.Show();
+            } 
         }
 
         public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
