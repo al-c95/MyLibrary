@@ -438,6 +438,9 @@ namespace MyLibrary
         public void LoadWindow()
         {
             WindowCreated?.Invoke(this, null);
+
+            TipOfTheDayDialog tips = new TipOfTheDayDialog();
+            tips.Show(); 
         }
 
         public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
