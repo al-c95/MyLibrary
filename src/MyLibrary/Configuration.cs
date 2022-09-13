@@ -66,5 +66,14 @@ namespace MyLibrary
         }
 
         public const string APP_COPYRIGHT = "License: MIT";
+
+        public static readonly string[] TIPS = new string[]
+        {
+            "You can add new rows to an Excel workbook exported from MyLibrary which will create new records of books and media items.",
+            "When scan mode is enabled while searching online for book data by ISBN, the search will start immediately after a valid ISBN is entered.",
+            "Database statistics can be viewed by clicking on the View -> Database statistics menu item.",
+            "You can store information about multiple copies of the same item. Click the 'Manage Copies' button after selecting an item in the main window.",
+            "You can import data in CSV format for tags, authors, and publishers, via File -> Import -> CSV"
+        };
     }//class
 }
