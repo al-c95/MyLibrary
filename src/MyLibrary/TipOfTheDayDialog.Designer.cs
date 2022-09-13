@@ -49,6 +49,7 @@ namespace MyLibrary
             this.okButton.TabIndex = 0;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // nextButton
             // 
@@ -86,9 +87,9 @@ namespace MyLibrary
             // 
             this.showTipsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.showTipsCheckBox.AutoSize = true;
-            this.showTipsCheckBox.Location = new System.Drawing.Point(12, 317);
+            this.showTipsCheckBox.Location = new System.Drawing.Point(12, 318);
             this.showTipsCheckBox.Name = "showTipsCheckBox";
-            this.showTipsCheckBox.Size = new System.Drawing.Size(154, 21);
+            this.showTipsCheckBox.Size = new System.Drawing.Size(143, 20);
             this.showTipsCheckBox.TabIndex = 4;
             this.showTipsCheckBox.Text = "Show tips at startup";
             this.showTipsCheckBox.UseVisualStyleBackColor = true;
@@ -98,7 +99,7 @@ namespace MyLibrary
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(64, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 17);
+            this.label1.Size = new System.Drawing.Size(96, 16);
             this.label1.TabIndex = 5;
             this.label1.Text = "Did you know...";
             // 
