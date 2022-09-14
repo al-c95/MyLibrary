@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.4.0] - unreleased
+### Added
+- tip of the day dialog
+
 ## [1.3.0] - 8-9-2022
 ### Fixed
 - bug with filtering in manage tags for item dialog
