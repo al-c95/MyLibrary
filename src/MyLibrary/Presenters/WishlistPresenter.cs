@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -58,6 +59,8 @@ namespace MyLibrary.Presenters
             });
             this._view.NewItemFieldsUpdated += NewItemFieldsUpdated;
             this._view.SelectedItemFieldsUpdated += SelectedItemFieldsUpdated;
+
+            EventAggregator.GetInstance().Subscribe<WishlistUpdatedEvent>(async m => await LoadData());
         }
 
         public async Task LoadData()
@@ -100,7 +103,7 @@ namespace MyLibrary.Presenters
             var service = this._serviceProvider.Get();
             await service.Update(this._view.ModifiedItem, false);
 
-            this._view.DisplayItems(await service.GetAll());
+            EventAggregator.GetInstance().Publish(new WishlistUpdatedEvent());
 
             this._view.StatusText = "Ready.";
         }
@@ -117,7 +120,7 @@ namespace MyLibrary.Presenters
             var service = this._serviceProvider.Get();
             await service.DeleteById(this._view.SelectedItem.Id);
 
-            this._view.DisplayItems(await service.GetAll());
+            EventAggregator.GetInstance().Publish(new WishlistUpdatedEvent());
 
             this._view.StatusText = "Ready.";
         }
@@ -140,7 +143,7 @@ namespace MyLibrary.Presenters
 
             await service.Add(this._view.NewItem);
 
-            this._view.DisplayItems(await service.GetAll());
+            EventAggregator.GetInstance().Publish(new WishlistUpdatedEvent());
 
             this._view.NewItemTitle = string.Empty;
             this._view.NewNotes = string.Empty;
@@ -152,7 +155,6 @@ namespace MyLibrary.Presenters
         {
             if (string.IsNullOrWhiteSpace(this._view.NewItemTitle))
             {
-                // empty title field
                 this._view.SaveNewButtonEnabled = false;
             }
             else

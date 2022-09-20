@@ -32,6 +32,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 using MyLibrary.Utils;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -143,7 +144,6 @@ namespace MyLibrary.Presenters
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
 
-                    // re-enable save and cancel buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -157,7 +157,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error checking title.", ex.Message);
 
-                // re-enable save and cancel buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 
@@ -170,7 +169,6 @@ namespace MyLibrary.Presenters
             MediaItem item = new MediaItem
             {
                 Title = this._view.TitleFieldText,
-                //Type = (ItemType)Enum.Parse(typeof(ItemType), selectedCategory),
                 Type = Item.ParseType(selectedCategory),
                 Number = long.Parse(this._view.NumberFieldText),
                 ReleaseYear = int.Parse(this._view.YearFieldEntry),
@@ -204,7 +202,6 @@ namespace MyLibrary.Presenters
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
 
-                    // re-enable save and cancel buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -216,7 +213,8 @@ namespace MyLibrary.Presenters
             try
             {
                 await this._mediaItemService.AddAsync(item);
-                this._view.ItemAddedFinished();
+
+                EventAggregator.GetInstance().Publish(new MediaItemsUpdatedEvent());
             }
             catch (Exception ex)
             {
@@ -224,7 +222,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error creating item", ex.Message);
 
-                // re-enable save and cancel buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 

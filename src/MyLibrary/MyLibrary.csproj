@@ -196,6 +196,13 @@
     <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\WishlistRepositoryProvider.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
+    <Compile Include="Events\BooksUpdatedEvent.cs" />
+    <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\IAppEvent.cs" />
+    <Compile Include="Events\IEventAggregator.cs" />
+    <Compile Include="Events\MediaItemsUpdatedEvent.cs" />
+    <Compile Include="Events\TagsUpdatedEvent.cs" />
+    <Compile Include="Events\WishlistUpdatedEvent.cs" />
     <Compile Include="ExportDialog.cs">
       <SubType>Form</SubType>
     </Compile>

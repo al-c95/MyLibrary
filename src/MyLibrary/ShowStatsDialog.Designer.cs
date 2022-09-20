@@ -65,7 +65,7 @@ namespace MyLibrary
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(109, 263);
+            this.okButton.Location = new System.Drawing.Point(119, 263);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 28);
             this.okButton.TabIndex = 2;

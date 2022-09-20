@@ -33,6 +33,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Presenters.ServiceProviders;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -115,8 +116,12 @@ namespace MyLibrary.Presenters
                 var form = new ManageCopiesDialog(this._view.SelectedItem);
                 ManageCopiesPresenter presenter = new ManageCopiesPresenter(form, this._view.SelectedItem, new CopyServiceFactory());
                 await presenter.LoadData(sender, args);
-                form.ShowDialog();
+                form.Show();
             });
+
+            EventAggregator.GetInstance().Subscribe<TagsUpdatedEvent>(async m => await DisplayItems());
+            EventAggregator.GetInstance().Subscribe<MediaItemsUpdatedEvent>(async m => await DisplayItems());
+            EventAggregator.GetInstance().Subscribe<BooksUpdatedEvent>(async m => await DisplayItems());
         }
 
         #region View event handlers
@@ -125,7 +130,7 @@ namespace MyLibrary.Presenters
             var form = new WishlistDialog();
             WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
             await presenter.LoadData();
-            form.ShowDialog();
+            form.Show();
         }
 
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
@@ -257,7 +262,6 @@ namespace MyLibrary.Presenters
 
             this._view.SelectedItemDetailsBoxEntry = this._view.SelectedItem.ToString();
 
-            // update status bar
             this._view.StatusText = "Ready.";
             this._view.ItemsDisplayedText = SetItemsDisplayedStatusText(this._view.NumberOfItemsSelected, this._view.DisplayedItems.Rows.Count, this._allItems.Rows.Count);
 
@@ -337,26 +341,27 @@ namespace MyLibrary.Presenters
         private async Task ShowAddNewBook()
         {
             this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
-                this._addBookView, new ImageFileReader());
+            var addBookPresenter = new AddBookPresenter(this._bookService, 
+                this._tagService, this._authorService, 
+                this._publisherService,
+                this._addBookView, 
+                new ImageFileReader());
             await addBookPresenter.PopulateTagsList();
             await addBookPresenter.PopulateAuthorsList();
             await addBookPresenter.PopulatePublishersList();
 
-            this._addBookView.ItemAdded += (async (sender, args) => { await DisplayItems(); });
-            ((AddNewBookForm)this._addBookView).ShowDialog();
+            ((AddNewBookForm)this._addBookView).Show();
         }
 
         private async Task ShowAddNewMediaItem()
         {
             this._addMediaItemView = new AddNewMediaItemForm();
-            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, this._tagService,
-                this._addMediaItemView,
-                new ImageFileReader(),
+            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, 
+                this._tagService, 
+                this._addMediaItemView, 
+                new ImageFileReader(), 
                 new NewTagOrPublisherInputBoxProvider());
             await addItemPresenter.PopulateTagsList();
-
-            this._addMediaItemView.ItemAdded += (async (sender, args) => { await DisplayItems(); });
 
             int categoryIndexToSelect;
             if (this._view.CategoryDropDownSelectedIndex > 2)
@@ -369,7 +374,7 @@ namespace MyLibrary.Presenters
             }
             this._addMediaItemView.SelectedCategoryIndex = categoryIndexToSelect;
 
-            ((AddNewMediaItemForm)this._addMediaItemView).ShowDialog();
+            ((AddNewMediaItemForm)this._addMediaItemView).Show();
         }
         
         public async Task SearchByIsbnClicked()
@@ -523,7 +528,7 @@ namespace MyLibrary.Presenters
             {
                 await DisplayMediaItems((ItemType)categorySelectionIndex - 1);
             }
-            // filter items
+
             PerformFilter(null,null);
 
             UpdateStatusBarAndSelectedItemDetails();
