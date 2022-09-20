@@ -108,7 +108,7 @@ namespace MyLibrary
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 17);
+            this.label1.Size = new System.Drawing.Size(36, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Title:";
             // 
@@ -117,7 +117,7 @@ namespace MyLibrary
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 17);
+            this.label2.Size = new System.Drawing.Size(69, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "Long Title:";
             // 
@@ -150,7 +150,7 @@ namespace MyLibrary
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(413, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 17);
+            this.label3.Size = new System.Drawing.Size(41, 16);
             this.label3.TabIndex = 6;
             this.label3.Text = "ISBN:";
             // 
@@ -159,7 +159,7 @@ namespace MyLibrary
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(413, 46);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 17);
+            this.label4.Size = new System.Drawing.Size(55, 16);
             this.label4.TabIndex = 7;
             this.label4.Text = "ISBN13:";
             // 
@@ -214,7 +214,7 @@ namespace MyLibrary
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(8, 154);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(43, 17);
+            this.label21.Size = new System.Drawing.Size(39, 16);
             this.label21.TabIndex = 41;
             this.label21.Text = "Filter:";
             // 
@@ -284,7 +284,7 @@ namespace MyLibrary
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(8, 124);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(43, 17);
+            this.label20.Size = new System.Drawing.Size(39, 16);
             this.label20.TabIndex = 39;
             this.label20.Text = "Filter:";
             // 
@@ -353,7 +353,7 @@ namespace MyLibrary
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(17, 518);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(45, 17);
+            this.label5.Size = new System.Drawing.Size(43, 16);
             this.label5.TabIndex = 13;
             this.label5.Text = "Notes";
             // 
@@ -370,7 +370,7 @@ namespace MyLibrary
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(414, 296);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(108, 17);
+            this.label6.Size = new System.Drawing.Size(102, 16);
             this.label6.TabIndex = 15;
             this.label6.Text = "Date Published:";
             // 
@@ -387,7 +387,7 @@ namespace MyLibrary
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(414, 358);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 17);
+            this.label7.Size = new System.Drawing.Size(51, 16);
             this.label7.TabIndex = 17;
             this.label7.Text = "Edition:";
             // 
@@ -404,7 +404,7 @@ namespace MyLibrary
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(414, 386);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(108, 17);
+            this.label8.Size = new System.Drawing.Size(105, 16);
             this.label8.TabIndex = 19;
             this.label8.Text = "Dewey Decimal:";
             // 
@@ -421,7 +421,7 @@ namespace MyLibrary
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(414, 417);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(56, 17);
+            this.label9.Size = new System.Drawing.Size(52, 16);
             this.label9.TabIndex = 21;
             this.label9.Text = "Format:";
             // 
@@ -438,7 +438,7 @@ namespace MyLibrary
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(414, 448);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(85, 17);
+            this.label10.Size = new System.Drawing.Size(81, 16);
             this.label10.TabIndex = 23;
             this.label10.Text = "Dimensions:";
             // 
@@ -487,7 +487,7 @@ namespace MyLibrary
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(12, 295);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 17);
+            this.label11.Size = new System.Drawing.Size(66, 16);
             this.label11.TabIndex = 29;
             this.label11.Text = "Overview:";
             // 
@@ -496,7 +496,7 @@ namespace MyLibrary
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(13, 326);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(51, 17);
+            this.label12.Size = new System.Drawing.Size(49, 16);
             this.label12.TabIndex = 30;
             this.label12.Text = "MSRP:";
             // 
@@ -505,7 +505,7 @@ namespace MyLibrary
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(12, 358);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(52, 17);
+            this.label13.Size = new System.Drawing.Size(50, 16);
             this.label13.TabIndex = 31;
             this.label13.Text = "Pages:";
             // 
@@ -514,7 +514,7 @@ namespace MyLibrary
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(12, 388);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(69, 17);
+            this.label14.Size = new System.Drawing.Size(66, 16);
             this.label14.TabIndex = 32;
             this.label14.Text = "Synopsis:";
             // 
@@ -523,7 +523,7 @@ namespace MyLibrary
             this.v.AutoSize = true;
             this.v.Location = new System.Drawing.Point(12, 419);
             this.v.Name = "v";
-            this.v.Size = new System.Drawing.Size(59, 17);
+            this.v.Size = new System.Drawing.Size(55, 16);
             this.v.TabIndex = 33;
             this.v.Text = "Excerpt:";
             // 
@@ -597,7 +597,7 @@ namespace MyLibrary
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(11, 151);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(43, 17);
+            this.label16.Size = new System.Drawing.Size(39, 16);
             this.label16.TabIndex = 45;
             this.label16.Text = "Filter:";
             // 
@@ -614,7 +614,7 @@ namespace MyLibrary
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(12, 448);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(76, 17);
+            this.label15.Size = new System.Drawing.Size(71, 16);
             this.label15.TabIndex = 35;
             this.label15.Text = "Language:";
             // 
@@ -633,7 +633,7 @@ namespace MyLibrary
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(13, 486);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(72, 17);
+            this.label18.Size = new System.Drawing.Size(68, 16);
             this.label18.TabIndex = 37;
             this.label18.Text = "Image file:";
             // 
@@ -658,7 +658,7 @@ namespace MyLibrary
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(414, 327);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(136, 17);
+            this.label19.Size = new System.Drawing.Size(128, 16);
             this.label19.TabIndex = 40;
             this.label19.Text = "Place of Publication:";
             // 
@@ -713,7 +713,6 @@ namespace MyLibrary
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "AddNewBookForm";
             this.Text = "Add New Book";
             this.authorsGroup.ResumeLayout(false);

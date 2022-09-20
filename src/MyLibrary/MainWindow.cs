@@ -37,6 +37,8 @@ using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views;
+using System.Runtime.Remoting.Channels;
+using MyLibrary.Events;
 
 namespace MyLibrary
 {
@@ -196,31 +198,46 @@ namespace MyLibrary
             this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 9);
             this.XLSXtoolStripMenuItem.Click += ((sender, args) =>
             {
-                ExcelImportDialog dialog = new ExcelImportDialog();
-                ExcelImportPresenter presenter = new ExcelImportPresenter(dialog);
-                dialog.ShowDialog();
-                dialog.Dispose();
-
-                this.TagsUpdated?.Invoke(sender, args);
-                this.CategorySelectionChanged?.Invoke(sender, args);
+                using (var dialog = new ExcelImportDialog())
+                {
+                    ExcelImportPresenter presenter = new ExcelImportPresenter(dialog);
+                    dialog.ShowDialog();
+                }
+            });
+            this.Shown += ((sender, args) =>
+            {
+                if (ConfigurationManager.AppSettings.Get("showTipsOnStartup").Equals("true"))
+                {
+                    using (var tipsDialog = new TipOfTheDayDialog())
+                    {
+                        TipOfTheDayPresenter tipsPresenter = new TipOfTheDayPresenter(tipsDialog, Configuration.TIPS);
+                        tipsDialog.ShowDialog();
+                    }
+                }
             });
             // import CSV
             this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog("tag");
-                dialog.ShowDialog();
+                using (var dialog = new ImportDialog("tag"))
+                {
+                    dialog.ShowDialog();
+                }
 
-                this.TagsUpdated?.Invoke(sender, args);
+                EventAggregator.GetInstance().Publish(new TagsUpdatedEvent());
             });
             this.importAuthorsCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog("author");
-                dialog.ShowDialog();
+                using (var dialog = new ImportDialog("author"))
+                {
+                    dialog.ShowDialog();
+                }
             });
             this.importPublishersCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog("publisher");
-                dialog.ShowDialog();
+                using (var dialog = new ImportDialog("publisher"))
+                {
+                    dialog.ShowDialog();
+                }
             });
             // export XLSX
             this.tagsToolStripMenuItem.Click += ((sender, args) =>
@@ -324,9 +341,7 @@ namespace MyLibrary
             });
             this.clearFilterButton.Click += ((sender, args) =>
             {
-                // clear title filter field
                 this.TitleFilterText = null;
-                // uncheck filter tags
                 while (this.tagsList.CheckedIndices.Count > 0)
                 {
                     this.tagsList.SetItemChecked(this.tagsList.CheckedIndices[0], false);
@@ -342,7 +357,6 @@ namespace MyLibrary
             });
             this.selectImageButton.Click += ((sender, args) =>
             {
-                // load image from file
                 using (OpenFileDialog dialog = new OpenFileDialog())
                 {
                     dialog.Title = LOAD_IMAGE_DIALOG_TITLE;
@@ -365,22 +379,21 @@ namespace MyLibrary
             });
             this.tagsButton.Click += (async (sender, args) =>
             {
-                var form = await ManageTagsForm.CreateAsync();
-                form.TagsUpdated += ((s, a) =>
+                using (var tagsDialog = await ManageTagsForm.CreateAsync())
                 {
-                    this.TagsUpdated?.Invoke(s, a);
-                });
-                form.ShowDialog();
+                    tagsDialog.ShowDialog();
+                }
+
+                EventAggregator.GetInstance().Publish(new TagsUpdatedEvent());
             });
             this.manageItemTagsButton.Click += (async (sender, args) =>
             {
-                var form = await ManageTagsForItemDialog.CreateAsync(this.SelectedItem);
-                form.TagsUpdated += ((s, a) =>
+                using (var tagsDialog = await ManageTagsForItemDialog.CreateAsync(this.SelectedItem))
                 {
-                    this.TagsUpdated?.Invoke(s, a);
-                });
-                form.ShowDialog();
-                form.Dispose();
+                    tagsDialog.ShowDialog();
+                }
+
+                EventAggregator.GetInstance().Publish(new TagsUpdatedEvent());
             });
             this.manageItemCopiesButton.Click += ((sender, args) =>
             {
@@ -439,13 +452,6 @@ namespace MyLibrary
         public void LoadWindow()
         {
             WindowCreated?.Invoke(this, null);
-
-            if (ConfigurationManager.AppSettings.Get("showTipsOnStartup").Equals("true"))
-            {
-                TipOfTheDayDialog tipsDialog = new TipOfTheDayDialog();
-                TipOfTheDayPresenter tipsPresenter = new TipOfTheDayPresenter(tipsDialog, Configuration.TIPS);
-                tipsDialog.Show();
-            } 
         }
 
         public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
