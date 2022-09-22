@@ -68,6 +68,7 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsTrue(fakeView.SaveSelectedButtonEnabled);
             Assert.IsTrue(fakeView.DiscardChangesButtonEnabled);
             Assert.IsTrue(fakeView.DeleteSelectedButtonEnabled);
+            Assert.IsTrue(fakeView.AddToLibraryButtonEnabled);
         }
 
         [Test]
@@ -89,6 +90,7 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsFalse(fakeView.SaveSelectedButtonEnabled);
             Assert.IsFalse(fakeView.DiscardChangesButtonEnabled);
             Assert.IsFalse(fakeView.DeleteSelectedButtonEnabled);
+            Assert.IsFalse(fakeView.AddToLibraryButtonEnabled);
         }
 
         [Test]

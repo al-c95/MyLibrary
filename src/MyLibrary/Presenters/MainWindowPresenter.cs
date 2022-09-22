@@ -94,9 +94,9 @@ namespace MyLibrary.Presenters
             });
             this._view.FiltersUpdated += PerformFilter;
             this._view.ApplyFilterButtonClicked += PerformFilter;
-            this._view.DeleteButtonClicked += (async (sender, args) => 
-            { 
-                await HandleDeleteButtonClicked(sender, args); 
+            this._view.DeleteButtonClicked += (async (sender, args) =>
+            {
+                await HandleDeleteButtonClicked(sender, args);
             });
             this._view.UpdateSelectedItemButtonClicked += (async (sender, args) => { await HandleUpdateSelectedItemButtonClicked(); });
             this._view.SelectedItemModified += SelectedItemModified;
