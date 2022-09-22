@@ -148,6 +148,7 @@ namespace MyLibrary
         public string SelectedCategory
         {
             get => this.mediaTypesOptions.Text;
+            set => this.mediaTypesOptions.Text = value;
         }
 
         public int SelectedCategoryIndex
