@@ -29,6 +29,7 @@ using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Events;
+using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters
 {
@@ -55,7 +56,49 @@ namespace MyLibrary.Presenters
             });
             this._view.AddToLibraryClicked += (async (sender, args) =>
             {
+                WishlistItem selectedItem = this._view.SelectedItem;
 
+                if (selectedItem.Type == ItemType.Book)
+                {
+                    var addBookDialog = new AddNewBookForm();
+                    var addBookPresenter = new AddBookPresenter(new BookService(), 
+                        new TagService(), 
+                        new AuthorService(), 
+                        new PublisherService(), 
+                        addBookDialog, 
+                        new ImageFileReader());
+                    await addBookPresenter.PopulateTagsList();
+                    await addBookPresenter.PopulateAuthorsList();
+                    await addBookPresenter.PopulatePublishersList();
+                    addBookDialog.TitleFieldText = selectedItem.Title;
+                    addBookDialog.NotesFieldText = selectedItem.Notes;
+                    addBookDialog.ShowAsDialog();
+                }
+                else
+                {
+                    var addMediaItemDialog = new AddNewMediaItemForm();
+                    var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(),
+                        new TagService(), 
+                        addMediaItemDialog, 
+                        new ImageFileReader(), 
+                        new NewTagOrPublisherInputBoxProvider());
+                    await addMediaItemPresenter.PopulateTagsList();
+                    if (selectedItem.Type == ItemType.FlashDrive)
+                    {
+                        addMediaItemDialog.SelectedCategory = "Flash Drive";
+                    }
+                    else if (selectedItem.Type == ItemType.FloppyDisk)
+                    {
+                        addMediaItemDialog.SelectedCategory = "Floppy Disk";
+                    }
+                    else
+                    {
+                        addMediaItemDialog.SelectedCategory = (selectedItem.Type).ToString();
+                    }
+                    addMediaItemDialog.TitleFieldText = selectedItem.Title;
+                    addMediaItemDialog.NotesFieldText = selectedItem.Notes;
+                    addMediaItemDialog.ShowDialog();
+                }
             });
             this._view.SaveNewClicked += (async (sender, args) => 
             { 
