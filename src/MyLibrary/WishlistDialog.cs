@@ -26,6 +26,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -71,6 +72,10 @@ namespace MyLibrary
             this.deleteButton.Click += ((sender, args) =>
             {
                 this.DeleteClicked?.Invoke(sender, args);
+            });
+            this.addToLibraryButton.Click += ((sender, args) =>
+            {
+                this.AddToLibraryClicked?.Invoke(sender, args);
             });
             this.saveNewItemChangesButton.Click += ((sender, args) =>
             {
@@ -207,6 +212,12 @@ namespace MyLibrary
             }
         }
 
+        public bool AddToLibraryButtonEnabled 
+        {
+            get => this.addToLibraryButton.Enabled;
+            set => this.addToLibraryButton.Enabled = value;
+        }
+
         public event EventHandler ItemSelected;
         public event EventHandler SaveSelectedClicked;
         public event EventHandler DiscardChangesClicked;
@@ -214,6 +225,7 @@ namespace MyLibrary
         public event EventHandler SaveNewClicked;
         public event EventHandler NewItemFieldsUpdated;
         public event EventHandler SelectedItemFieldsUpdated;
+        public event EventHandler AddToLibraryClicked;
 
         public void DisplayItems(IEnumerable<WishlistItem> items)
         {

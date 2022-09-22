@@ -53,6 +53,10 @@ namespace MyLibrary.Presenters
             { 
                 await DeleteClicked(sender, args); 
             });
+            this._view.AddToLibraryClicked += (async (sender, args) =>
+            {
+
+            });
             this._view.SaveNewClicked += (async (sender, args) => 
             { 
                 await SaveNewClicked(sender, args); 
@@ -83,6 +87,7 @@ namespace MyLibrary.Presenters
                 this._view.SaveSelectedButtonEnabled = false;
                 this._view.DiscardChangesButtonEnabled = false;
                 this._view.DeleteSelectedButtonEnabled = false;
+                this._view.AddToLibraryButtonEnabled = false;
 
                 return;
             }
@@ -93,6 +98,7 @@ namespace MyLibrary.Presenters
                 this._view.SaveSelectedButtonEnabled = true;
                 this._view.DiscardChangesButtonEnabled = true;
                 this._view.DeleteSelectedButtonEnabled = true;
+                this._view.AddToLibraryButtonEnabled = true;
             }
         }
 
