@@ -31,6 +31,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 using MyLibrary.Utils;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -296,7 +297,6 @@ namespace MyLibrary.Presenters
                     // tell the user
                     this._view.ShowItemAlreadyExistsDialog(existingTitle);
 
-                    // re-enable buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -310,7 +310,6 @@ namespace MyLibrary.Presenters
                     // tell the user
                     this._view.ShowIsbnAlreadyExistsDialog(existingIsbn);
 
-                    // re-enable buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -324,7 +323,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error checking if title or ISBN exists.", ex.Message);
 
-                // re-enable buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 
@@ -383,7 +381,6 @@ namespace MyLibrary.Presenters
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
 
-                    // re-enable buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -395,7 +392,8 @@ namespace MyLibrary.Presenters
             try
             {
                 await this._bookService.AddAsync(book);
-                this._view.ItemAddedFinished();
+
+                EventAggregator.GetInstance().Publish(new BooksUpdatedEvent());
             }
             catch (Exception ex)
             {
@@ -403,7 +401,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error creating book", ex.Message);
 
-                // re-enable buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 
@@ -517,7 +514,6 @@ namespace MyLibrary.Presenters
         // TODO: unit test
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
-            //string newPublisher = ShowNewPublisherDialog();
             string newPublisher = this._view.ShowNewPublisherDialog();
             if (!string.IsNullOrWhiteSpace(newPublisher))
             {

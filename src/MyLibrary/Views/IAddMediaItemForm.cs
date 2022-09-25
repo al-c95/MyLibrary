@@ -30,7 +30,7 @@ namespace MyLibrary.Views
 {
     public interface IAddMediaItemForm : IAddItemForm
     {
-        string SelectedCategory { get; }
+        string SelectedCategory { get; set; }
         int SelectedCategoryIndex { get; set; }
         string NumberFieldText { get; set; }
         string RunningTimeFieldEntry { get; set; }

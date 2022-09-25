@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 NOTE: all dates are in dd-mm-yyyy format.
 
 ## [1.4.0] - unreleased
+### Fixed
+- unique constraint on book long titles
 ### Added
 - tip of the day dialog
+### Changed
+- "Add New Book", "Add New Media Item", "Wishlist", and "Manage Copies" dialogs to modeless windows.
 
 ## [1.3.0] - 8-9-2022
 ### Fixed

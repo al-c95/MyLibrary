@@ -11,8 +11,7 @@ DROP TABLE IF EXISTS Images;
 CREATE TABLE "Books" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL UNIQUE,
-    "titleLong" TEXT 
-    UNIQUE,
+    "titleLong" TEXT,
     "isbn" TEXT,
     "isbn13"    TEXT,
     "deweyDecimal"  REAL,
