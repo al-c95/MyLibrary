@@ -32,6 +32,7 @@ using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.BusinessLogic.ImportExcel;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -172,6 +173,8 @@ namespace MyLibrary.Presenters
                         updateCount++;
                     }
                 }
+
+                EventAggregator.GetInstance().Publish(new BooksUpdatedEvent());
             }
             else if (this._view.MediaItemChecked && !this._view.BookChecked)
             {
@@ -241,7 +244,9 @@ namespace MyLibrary.Presenters
                         updateCount++;
                     }
                 }
-            }
+
+                EventAggregator.GetInstance().Publish(new MediaItemsUpdatedEvent());
+            }//if
 
             this._view.Label1Text = "Task complete.";
             this._view.Label2Text = errorCount + " errors. " + warningCount + " warnings. " + importCount + " imported, " + updateCount + " updated.";

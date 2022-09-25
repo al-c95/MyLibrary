@@ -72,6 +72,10 @@ namespace MyLibrary
             {
                 this.DeleteClicked?.Invoke(sender, args);
             });
+            this.addToLibraryButton.Click += ((sender, args) =>
+            {
+                this.AddToLibraryClicked?.Invoke(sender, args);
+            });
             this.saveNewItemChangesButton.Click += ((sender, args) =>
             {
                 this.SaveNewClicked?.Invoke(sender, args);
@@ -207,6 +211,12 @@ namespace MyLibrary
             }
         }
 
+        public bool AddToLibraryButtonEnabled 
+        {
+            get => this.addToLibraryButton.Enabled;
+            set => this.addToLibraryButton.Enabled = value;
+        }
+
         public event EventHandler ItemSelected;
         public event EventHandler SaveSelectedClicked;
         public event EventHandler DiscardChangesClicked;
@@ -214,6 +224,7 @@ namespace MyLibrary
         public event EventHandler SaveNewClicked;
         public event EventHandler NewItemFieldsUpdated;
         public event EventHandler SelectedItemFieldsUpdated;
+        public event EventHandler AddToLibraryClicked;
 
         public void DisplayItems(IEnumerable<WishlistItem> items)
         {
