@@ -47,6 +47,8 @@ WinForms application connected to a bundled Sqlite database. For more informatio
 ## Usage
 A user manual is provided in `docs\user`.
 
+NOTE: v1.3.0 has a bug with a null constraint on book long titles in the database - the long title field cannot be empty. This may be rectified in a future version by allowing long titles to be modified.
+
 ## Known Issues and Solutions
 Described in user manual. 
 
