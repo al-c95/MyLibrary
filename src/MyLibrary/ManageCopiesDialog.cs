@@ -263,6 +263,8 @@ namespace MyLibrary
             { 
                 this.CopySelected?.Invoke(this, args); 
             });
+
+            this.CenterToParent();
         }//ctor
 
         private void ResizeColumns()
