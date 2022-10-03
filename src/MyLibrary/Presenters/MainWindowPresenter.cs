@@ -34,6 +34,7 @@ using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Presenters.ServiceProviders;
 using MyLibrary.Events;
+using System.Windows.Forms;
 
 namespace MyLibrary.Presenters
 {
@@ -321,7 +322,7 @@ namespace MyLibrary.Presenters
 
         public async void TagsUpdated(object sender, EventArgs e)
         {
-            await DisplayTags();
+            await LoadTags();
             await DisplayItems();
         }
 
@@ -468,30 +469,17 @@ namespace MyLibrary.Presenters
             this._allItems = dt;
         }
 
-        private async Task DisplayTags()
+        private async Task LoadTags()
         {
-            Dictionary<string, bool> tagsAndCheckedStatuses = new Dictionary<string, bool>();
-
             var allTags = await this._tagService.GetAll();
-            IEnumerable<string> checkedTags = this._view.SelectedFilterTags;
-            foreach (var tagName in checkedTags)
+            List<string> allTagNames = new List<string>();
+            foreach (var tag in allTags)
             {
-                if (allTags.Any(t => t.Name == tagName))
-                {
-                    tagsAndCheckedStatuses.Add(tagName, true);
-                }
-            }
-            foreach (var tag in await this._tagService.GetAll())
-            {
-                string tagName = tag.Name;
-                if (!tagsAndCheckedStatuses.ContainsKey(tagName))
-                {
-                    tagsAndCheckedStatuses.Add(tagName, false);
-                }
+                allTagNames.Add(tag.Name);
             }
 
-            this._view.PopulateFilterTags(tagsAndCheckedStatuses);
-        }//DisplayTags
+            this._view.LoadFilterTags(allTagNames);
+        }//LoadTags
 
         private async Task DisplayItems()
         {
@@ -501,7 +489,7 @@ namespace MyLibrary.Presenters
 
             // update the view
             // tags
-            await DisplayTags();
+            await LoadTags();
             // items
             int categorySelectionIndex = this._view.CategoryDropDownSelectedIndex;
             if (categorySelectionIndex == 0)
