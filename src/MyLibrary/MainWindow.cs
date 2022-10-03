@@ -163,7 +163,14 @@ namespace MyLibrary
             this.categoryDropDown.Items.Add("Floppy Disk");
             this.categoryDropDown.Items.Add(ItemType.Other);
 
-            this.tagsList.CheckOnClick = true;
+            this.addFilterTagField.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.addFilterTagField.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.addTagFilterButton.Enabled = false;
+            this.removeFilterTagButton.Enabled = false;
+            this.filterTagsList.GridLines = true;
+            this.filterTagsList.Columns.Add("Tags");
+            this.filterTagsList.Scrollable = true;
+            this.filterTagsList.Columns[0].Width = this.filterTagsList.Width;
 
             this.detailsBox.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
             this.detailsBox.Text = "Item";
@@ -294,6 +301,28 @@ namespace MyLibrary
                     presenter.Dispose();
                 }
             });
+            this.filterTagsList.SelectedIndexChanged += ((sender, args) =>
+            {
+                if (this.filterTagsList.SelectedIndices.Count != 0)
+                {
+                    this.removeFilterTagButton.Enabled = true;
+                }
+                else
+                {
+                    this.removeFilterTagButton.Enabled = false;
+                }
+            });
+            this.addFilterTagField.TextChanged += ((sender, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.addFilterTagField.Text))
+                {
+                    this.addTagFilterButton.Enabled = true;
+                }
+                else
+                {
+                    this.addTagFilterButton.Enabled = false;
+                }
+            });
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
@@ -341,11 +370,9 @@ namespace MyLibrary
             });
             this.clearFilterButton.Click += ((sender, args) =>
             {
+                this.TitleFilterText = " ";
                 this.TitleFilterText = null;
-                while (this.tagsList.CheckedIndices.Count > 0)
-                {
-                    this.tagsList.SetItemChecked(this.tagsList.CheckedIndices[0], false);
-                }
+                this.filterTagsList.Items.Clear();
             });
             this.applyFilterButton.Click += ((sender, args) =>
             {
@@ -403,8 +430,28 @@ namespace MyLibrary
             {
                 this.WishlistButtonClicked?.Invoke(sender, args);
             });
-            this.tagsList.ItemCheck += (async (sender, args) =>
+            this.addTagFilterButton.Click += (async (sender, args) =>
             {
+                if (this.filterTagsList.FindItemWithText(this.addFilterTagField.Text) == null)
+                {
+                    this.filterTagsList.Items.Add(this.addFilterTagField.Text);
+                }
+
+                await Task.Delay(FILTER_DELAY);
+
+                FiltersUpdated?.Invoke(sender, args);
+            });
+            this.removeFilterTagButton.Click += (async (sender, args) =>
+            {
+                var selectedItems = this.filterTagsList.SelectedItems;
+                if (this.filterTagsList.SelectedIndices.Count != 0)
+                {
+                    for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    {
+                        this.filterTagsList.Items.Remove(selectedItems[i]);
+                    }
+                }
+
                 await Task.Delay(FILTER_DELAY);
 
                 FiltersUpdated?.Invoke(sender, args);
@@ -454,16 +501,11 @@ namespace MyLibrary
             WindowCreated?.Invoke(this, null);
         }
 
-        public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
+        public void LoadFilterTags(IEnumerable<string> tags)
         {
-            this.tagsList.Items.Clear();
-
-            foreach (var kvp in tagNamesAndCheckedStatuses)
+            foreach (var tag in tags)
             {
-                string tagName = kvp.Key;
-                bool isChecked = kvp.Value;
-
-                this.tagsList.Items.Add(tagName, isChecked);
+                this.addFilterTagField.Items.Add(tag);
             }
         }
 
@@ -631,8 +673,10 @@ namespace MyLibrary
         {
             get
             {
-                foreach (var tag in this.tagsList.CheckedItems)
-                    yield return tag.ToString();
+                for (int i = 0; i < this.filterTagsList.Items.Count; i++)
+                {
+                    yield return this.filterTagsList.Items[i].Text;
+                }
             }
         }
 
