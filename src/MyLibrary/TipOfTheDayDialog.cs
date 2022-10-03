@@ -47,6 +47,8 @@ namespace MyLibrary
             this.Activate();
 
             this.showTipsCheckBox.Checked = true;
+
+            this.CenterToParent();
         }
 
         public string TipsText 

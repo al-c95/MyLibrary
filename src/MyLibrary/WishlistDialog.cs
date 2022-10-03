@@ -100,6 +100,8 @@ namespace MyLibrary
             {
                 ResizeColumns();
             });
+
+            this.CenterToParent();
         }
 
         public string SelectedNotes
