@@ -7,6 +7,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 ### Fixed
 - unique constraint on book long titles
 ### Added
+- dialog to view item images
 - tip of the day dialog
 ### Changed
 - "Add New Book", "Add New Media Item", "Wishlist", and "Manage Copies" dialogs to modeless windows.

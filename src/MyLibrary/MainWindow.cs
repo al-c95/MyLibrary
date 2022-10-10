@@ -175,6 +175,8 @@ namespace MyLibrary
             this.detailsBox.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
             this.detailsBox.Text = "Item";
 
+            this.pictureBox.Cursor = Cursors.Hand;
+
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
             this.searchBooksButton.Click += ((sender, args) =>
@@ -803,6 +805,15 @@ namespace MyLibrary
         private void MainWindow_Resize(object sender, EventArgs e)
         {
             SetItemDetailsSpinnerPos();
+        }
+        
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            Image toDisplay = this.pictureBox.Image;
+            using (ImageWindow imageWindow = new ImageWindow(toDisplay))
+            {
+                imageWindow.ShowDialog();
+            }
         }
         #endregion
     }//class

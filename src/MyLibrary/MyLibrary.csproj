@@ -209,6 +209,12 @@
     <Compile Include="ExportDialog.Designer.cs">
       <DependentUpon>ExportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageWindow.Designer.cs">
+      <DependentUpon>ImageWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -383,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExportDialog.resx">
       <DependentUpon>ExportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageWindow.resx">
+      <DependentUpon>ImageWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportDialog.resx">
       <DependentUpon>ImportDialog.cs</DependentUpon>

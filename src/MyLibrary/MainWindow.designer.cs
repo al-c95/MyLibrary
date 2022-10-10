@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +73,7 @@ namespace MyLibrary
             this.itemsDisplayedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.categoryLabel = new System.Windows.Forms.Label();
             this.filterGroup = new System.Windows.Forms.GroupBox();
+            this.filterTagsList = new System.Windows.Forms.ListView();
             this.addFilterTagField = new System.Windows.Forms.ComboBox();
             this.removeFilterTagButton = new System.Windows.Forms.Button();
             this.addTagFilterButton = new System.Windows.Forms.Button();
@@ -102,7 +103,6 @@ namespace MyLibrary
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tagsButton = new System.Windows.Forms.ToolStripButton();
             this.wishlistButton = new System.Windows.Forms.ToolStripButton();
-            this.filterTagsList = new System.Windows.Forms.ListView();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -386,14 +386,14 @@ namespace MyLibrary
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid.Location = new System.Drawing.Point(485, 37);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
@@ -459,6 +459,18 @@ namespace MyLibrary
             this.filterGroup.TabIndex = 11;
             this.filterGroup.TabStop = false;
             this.filterGroup.Text = "Filter";
+            // 
+            // filterTagsList
+            // 
+            this.filterTagsList.FullRowSelect = true;
+            this.filterTagsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.filterTagsList.HideSelection = false;
+            this.filterTagsList.Location = new System.Drawing.Point(53, 88);
+            this.filterTagsList.Name = "filterTagsList";
+            this.filterTagsList.Size = new System.Drawing.Size(409, 95);
+            this.filterTagsList.TabIndex = 22;
+            this.filterTagsList.UseCompatibleStateImageBehavior = false;
+            this.filterTagsList.View = System.Windows.Forms.View.Details;
             // 
             // addFilterTagField
             // 
@@ -721,6 +733,7 @@ namespace MyLibrary
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 13;
             this.pictureBox.TabStop = false;
+            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
             // 
             // categoryDropDown
             // 
@@ -832,18 +845,6 @@ namespace MyLibrary
             this.wishlistButton.Size = new System.Drawing.Size(29, 24);
             this.wishlistButton.Text = "toolStripButton5";
             this.wishlistButton.ToolTipText = "Wishlist";
-            // 
-            // filterTagsList
-            // 
-            this.filterTagsList.FullRowSelect = true;
-            this.filterTagsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.filterTagsList.HideSelection = false;
-            this.filterTagsList.Location = new System.Drawing.Point(53, 88);
-            this.filterTagsList.Name = "filterTagsList";
-            this.filterTagsList.Size = new System.Drawing.Size(409, 95);
-            this.filterTagsList.TabIndex = 22;
-            this.filterTagsList.UseCompatibleStateImageBehavior = false;
-            this.filterTagsList.View = System.Windows.Forms.View.Details;
             // 
             // MainWindow
             // 
