@@ -188,9 +188,10 @@ namespace MyLibrary.Presenters.Excel
                     UnlockCell(i, EXCERPT_COL);
                     UnlockCell(i, SYNOPSYS_COL);
                     UnlockCell(i, NOTES_COL);
+                    UnlockCell(i, TITLE_LONG_COL);
 
                     // allow adding new rows
-                    if (i >= HEADER_ROW + count)
+                    if (i >= HEADER_ROW + count + 1)
                     {
                         UnlockCell(i, TITLE_COL);
                         UnlockCell(i, TITLE_LONG_COL);

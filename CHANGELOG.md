@@ -6,6 +6,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 ## [1.4.0] - unreleased
 ### Fixed
 - unique constraint on book long titles
+- bug with last row in book export Excels unprotected
 ### Added
 - dialog to view item images
 - tip of the day dialog
