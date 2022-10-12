@@ -505,6 +505,7 @@ namespace MyLibrary
 
         public void LoadFilterTags(IEnumerable<string> tags)
         {
+            this.addFilterTagField.Items.Clear();
             foreach (var tag in tags)
             {
                 this.addFilterTagField.Items.Add(tag);
