@@ -35,6 +35,9 @@ using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
+    /// <summary>
+    /// Contains most of the logic behind the add new book window.
+    /// </summary>
     public class AddBookPresenter
     {
         private IBookService _bookService;
@@ -192,7 +195,9 @@ namespace MyLibrary.Presenters
             foreach (var publisher in this._allPublishers)
             {
                 if (filterPattern.IsMatch(publisher))
+                {
                     filteredPublishers.Add(publisher);
+                }
             }
 
             // update the view
@@ -222,7 +227,9 @@ namespace MyLibrary.Presenters
             {
                 string tagName = tag.Name;
                 if (!this._allTags.ContainsKey(tagName))
+                {
                     this._allTags.Add(tag.Name, false);
+                }
             }
 
             // perform filtering and update the view
@@ -263,14 +270,6 @@ namespace MyLibrary.Presenters
                     titleExists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
-                if (!string.IsNullOrWhiteSpace(this._view.LongTitleFieldText))
-                {
-                    if (await this._bookService.ExistsWithLongTitleAsync(this._view.LongTitleFieldText))
-                    {
-                        titleExists = true;
-                        existingTitle = this._view.LongTitleFieldText;
-                    }          
-                }
 
                 string isbnEntry = this._view.IsbnFieldText;
                 if (await this._bookService.ExistsWithIsbnAsync(isbnEntry))
@@ -293,27 +292,21 @@ namespace MyLibrary.Presenters
 
                 if (titleExists)
                 {
-                    // title already exists
-                    // tell the user
                     this._view.ShowItemAlreadyExistsDialog(existingTitle);
 
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
-                    // nothing more to do
                     return;
                 }
 
                 if (isbnExists)
                 {
-                    // isbn already exists
-                    // tell the user
                     this._view.ShowIsbnAlreadyExistsDialog(existingIsbn);
 
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
-                    // nothing more to do
                     return;
                 }
             }

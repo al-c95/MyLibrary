@@ -40,6 +40,8 @@ namespace MyLibrary
 
             this.pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBox.Image = toDisplay;
+
+            this.CenterToParent();
         }
 
         #region UI event handlers

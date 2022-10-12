@@ -388,29 +388,6 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task SaveButtonClicked_Test_ItemWithLongTitleAlreadyExists()
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithLongTitleAsync("test book")).Returns(true);
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeAuthorService = A.Fake<IAuthorService>();
-            var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [Test]
         public async Task SaveButtonClicked_Test_ItemWithIsbn10AlreadyExists()
         {
             // arrange
@@ -463,10 +440,11 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
             Exception ex = new Exception("error");
-            A.CallTo(() => fakeBookRepo.ExistsWithLongTitleAsync("test book")).Throws(ex);
+            A.CallTo(() => fakeBookRepo.ExistsWithTitleAsync("test book")).Throws(ex);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
