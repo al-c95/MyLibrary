@@ -10,6 +10,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 ### Added
 - dialog to view item images
 - tip of the day dialog
+- support for updating book long titles via workbooks
 ### Changed
 - "Add New Book", "Add New Media Item", "Wishlist", and "Manage Copies" dialogs to modeless windows.
 - improved filtering by tags in main window
