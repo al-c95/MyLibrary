@@ -29,7 +29,6 @@ CREATE TABLE "Books" (
     "excerpt"   TEXT,
     "synopsys"  TEXT,
     "notes" TEXT,
-    UNIQUE("title", "titleLong"),
     FOREIGN KEY("publisherId") REFERENCES "Publishers"("id") ON DELETE SET NULL ON UPDATE NO ACTION
     FOREIGN KEY("imageId") REFERENCES "Images"("id") ON DELETE SET NULL ON UPDATE NO ACTION
 );

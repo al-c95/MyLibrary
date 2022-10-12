@@ -553,15 +553,19 @@ namespace MyLibrary
             this.ShowDialog();
         }
 
+        /// <summary>
+        /// Selects the specified publisher.
+        /// Adds the publisher to the list if it does not exist.
+        /// </summary>
+        /// <param name="publisher"></param>
+        /// <param name="selected"></param>
         public void SetPublisher(Publisher publisher, bool selected)
         {
             if (!(this.publishersList.Items.Cast<Object>().Any(p => p.ToString() == publisher.Name)))
             {
-                // publisher does not exist
-                // add it to the list
                 this.publishersList.Items.Add(publisher.Name);
             }
-            // select this publisher
+
             this.publishersList.SetSelected(this.publishersList.FindString(publisher.Name), true);
         }
 
