@@ -350,6 +350,7 @@
       <DependentUpon>TipOfTheDayDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\CancellationTokenSourceWrapper.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\ICancellationTokenSource.cs" />
     <Compile Include="Utils\IImageFileReader.cs" />
     <Compile Include="Utils\ImageFileReader.cs" />

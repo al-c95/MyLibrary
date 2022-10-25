@@ -134,7 +134,9 @@ namespace MyLibrary.Presenters
             catch (HttpRequestException ex)
             {
                 if (ex.InnerException.Message.Equals("The remote name could not be resolved: 'openlibrary.org'"))
+                {
                     this._view.ShowConnectionErrorDialog();
+                }
             }
             catch (Exception ex)
             {
