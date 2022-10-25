@@ -488,9 +488,7 @@ namespace MyLibrary.Presenters
             this._view.ItemsDisplayedText = null;
 
             // update the view
-            // tags
             await LoadTags();
-            // items
             int categorySelectionIndex = this._view.CategoryDropDownSelectedIndex;
             if (categorySelectionIndex == 0)
             {

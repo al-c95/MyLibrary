@@ -32,6 +32,8 @@ using System.Windows.Forms;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
+using static MyLibrary.Utils.Extensions;
+using System.Runtime.CompilerServices;
 
 namespace MyLibrary
 {
@@ -478,22 +480,14 @@ namespace MyLibrary
             ItemAdded?.Invoke(this, null);
         }
 
-        private void UncheckAll(CheckedListBox list)
-        {
-            while (list.CheckedIndices.Count > 0)
-            {
-                list.SetItemChecked(list.CheckedIndices[0], false);
-            }
-        }
-
         public void UncheckAllTags()
         {
-            UncheckAll(this.tagsList);
+            this.tagsList.UncheckAll();
         }
 
         public void UncheckAllAuthors()
         {
-            UncheckAll(this.authorsList);
+            this.authorsList.UncheckAll();
         }
 
         public void PopulateTagsList(IEnumerable<string> tagNames)

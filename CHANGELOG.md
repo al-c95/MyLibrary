@@ -5,6 +5,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 
 ## [1.4.0] - unreleased
 ### Fixed
+- bug with previous authors selected when prefilling add new book window
 - unique constraint on book long titles
 - bug with last row in book export Excels unprotected
 ### Added
