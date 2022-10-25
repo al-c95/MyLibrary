@@ -247,6 +247,42 @@ namespace MyLibrary
                     }
                 }
             });
+
+            // set tab order
+            this.titleField.TabIndex = 0;
+            this.longTitleField.TabIndex = 1;
+            this.IsbnField.TabIndex = 2;
+            this.Isbn13Field.TabIndex = 3;
+            this.filterAuthorsField.TabIndex = 0;
+            this.applyAuthorFilterButton.TabIndex = 1;
+            this.clearAuthorFilterButton.TabIndex = 2;
+            this.addNewAuthorButton.TabIndex = 3;
+            this.filterTagField.TabIndex = 0;
+            this.applyTagFilterButton.TabIndex = 1;
+            this.clearTagFilterButton.TabIndex = 2;
+            this.addNewTagButton.TabIndex = 3;
+            this.overviewField.TabIndex = 4;
+            this.MsrpField.TabIndex = 5;
+            this.pagesField.TabIndex = 6;
+            this.synopsisField.TabIndex = 7;
+            this.excerptField.TabIndex= 8;
+            this.languageField.TabIndex = 9;
+            this.imageFilePathField.TabIndex = 10;
+            this.browseImageButton.TabIndex = 11;
+            this.datePublishedField.TabIndex = 12;
+            this.placeOfPublicationField.TabIndex = 13;
+            this.editionField.TabIndex = 14;
+            this.deweyDecimalField.TabIndex = 15;
+            this.formatField.TabIndex = 16;
+            this.dimensionsField.TabIndex = 17;
+            this.notesField.TabIndex = 18;
+            this.filterPublishersField.TabIndex = 0;
+            this.addNewPublisherButton.TabIndex = 1;
+            this.applyPublisherFilterButton.TabIndex = 2;
+            this.clearPublisherFilterButton.TabIndex = 3;
+            this.saveButton.TabIndex = 19;
+            this.cancelButton.TabIndex = 20;
+            this.publishersList.TabStop = false;
         }
 
         public string ImageFilePathFieldText
