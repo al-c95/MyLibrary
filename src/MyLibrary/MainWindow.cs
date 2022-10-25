@@ -468,6 +468,24 @@ namespace MyLibrary
             this.itemDetailsSpinner.ProgressWidth = 10;
             this.itemDetailsSpinner.InnerWidth = 0;
             this.itemDetailsSpinner.InnerMargin = 2;
+
+            // set tab order
+            this.titleFilterField.TabIndex = 0;
+            this.addFilterTagField.TabIndex = 1;
+            this.filterTagsList.TabIndex = 2;
+            this.addTagFilterButton.TabStop = false;
+            this.removeFilterTagButton.TabStop = false;
+            this.applyFilterButton.TabStop = false;
+            this.clearFilterButton.TabStop = false;
+            this.manageItemTagsButton.TabIndex = 0;
+            this.manageItemCopiesButton.TabIndex = 1;
+            this.pictureBox.TabStop = false;
+            this.detailsBox.TabStop = false;
+            this.selectImageButton.TabIndex = 2;
+            this.removeImageButton.TabIndex = 3;
+            this.textBoxNotes.TabIndex = 4;
+            this.saveChangesButton.TabIndex = 5;
+            this.discardChangesButton.TabIndex = 6;
         }//ctor
 
         public static readonly string LOAD_IMAGE_DIALOG_TITLE = "Load Image";

@@ -102,6 +102,17 @@ namespace MyLibrary
             });
 
             this.CenterToParent();
+
+            // set tab order
+            this.selectedItemNotesBox.TabIndex = 0;
+            this.saveChangesButton.TabIndex = 1;
+            this.discardChangesButton.TabIndex = 2;
+            this.deleteButton.TabIndex = 3;
+            this.addToLibraryButton.TabIndex = 4;
+            this.newItemTitleField.TabIndex = 0;
+            this.newItemNotesBox.TabIndex = 1;
+            this.typesDropDown.TabIndex = 2;
+            this.saveNewItemChangesButton.TabIndex = 3;
         }
 
         public string SelectedNotes

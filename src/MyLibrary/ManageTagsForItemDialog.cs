@@ -204,6 +204,16 @@ namespace MyLibrary
                     this._checkedTags.Remove(tagsList.Items[args.Index].ToString());
                 }
             });
+
+            // set tab order
+            this.tagsList.TabStop = false;
+            this.newTagField.TabIndex = 0;
+            this.addNewTagButton.TabIndex = 1;
+            this.filterTagField.TabIndex = 0;
+            this.applyFilterButton.TabIndex = 1;
+            this.clearFilterButton.TabIndex = 2;
+            this.buttonSave.TabIndex = 3;
+            this.buttonCancel.TabIndex = 4;
         }
 
         private async Task FilterTags(string filterText)
