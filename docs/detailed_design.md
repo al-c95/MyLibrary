@@ -14,8 +14,8 @@ This document describes some of the detail of the data, architecture and user in
 |**Field**|**Data Type**|**Nullable**|**Comments/Description**|
 |---------|-------------|------------|---------------|
 |id       |INTEGER      |No          |Primary key, autoincremented.|
-|title    |TEXT         |No          |Unique constraint. Unique constraint on (title,titleLong)               |
-|titleLong|TEXT         |No          |Unique constraint on (title,titleLong)               |
+|title    |TEXT         |No          |Unique.               |
+|titleLong|TEXT         |No          |               |
 |isbn     |TEXT         |Yes         |               |
 |isbn13   |TEXT         |Yes         |               |
 |deweyDecimal|REAL      |Yes         |               |
@@ -54,7 +54,7 @@ This document describes some of the detail of the data, architecture and user in
 |**Field**|**Data Type**|**Nullable**|**Comments/Description**|
 |---------|-------------|------------|---------------|
 |id       |INTEGER      |No          |Primary key, autoincremented|
-|title    |TEXT         |No          |               |
+|title    |TEXT         |No          |Unique.               |
 |type     |INTEGER      |No          |Cd=1; Dvd=2; BluRay=3; Vhs=4; Vinyl=5; Other=6; Flash Drive=7; Floppy Disk=8               |
 |number   |INTEGER      |No          |               |
 |imageId    |INTEGER         |Yes         |Foreign key, references (Images)id.               |
