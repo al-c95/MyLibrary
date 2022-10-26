@@ -8,6 +8,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 - bug with previous authors selected when prefilling add new book window
 - unique constraint on book long titles
 - bug with last row in book export Excels unprotected
+- bug with last row in media item export Excels unprotected
 ### Added
 - dialog to view item images
 - tip of the day dialog
