@@ -233,7 +233,9 @@ namespace MyLibrary.Presenters
             {
                 string publisherName = publisher.Name;
                 if (!this._allPublishers.Contains(publisherName))
+                {
                     this._allPublishers.Add(publisher.Name);
+                }
             }
 
             FilterPublishers(null, null);
@@ -249,8 +251,7 @@ namespace MyLibrary.Presenters
             // check if item with title or ISBN already exists
             bool titleExists = false;
             string existingTitle = null;
-            bool isbnExists = false;
-            string existingIsbn = null;
+
             try
             {
                 if (await this._bookService.ExistsWithTitleAsync(this._view.TitleFieldText))
@@ -259,38 +260,9 @@ namespace MyLibrary.Presenters
                     existingTitle = this._view.TitleFieldText;
                 }
 
-                string isbnEntry = this._view.IsbnFieldText;
-                if (await this._bookService.ExistsWithIsbnAsync(isbnEntry))
-                {
-                    if (!string.IsNullOrWhiteSpace(isbnEntry))
-                    {
-                        isbnExists = true;
-                        existingIsbn = this._view.IsbnFieldText;
-                    }
-                }
-                string isbn13Entry = this._view.Isbn13FieldText;
-                if (await this._bookService.ExistsWithIsbnAsync(isbn13Entry))
-                {
-                    if (!string.IsNullOrWhiteSpace(isbn13Entry))
-                    {
-                        isbnExists = true;
-                        existingIsbn = this._view.Isbn13FieldText;
-                    }
-                }
-
                 if (titleExists)
                 {
                     this._view.ShowItemAlreadyExistsDialog(existingTitle);
-
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
-
-                    return;
-                }
-
-                if (isbnExists)
-                {
-                    this._view.ShowIsbnAlreadyExistsDialog(existingIsbn);
 
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;

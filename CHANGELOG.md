@@ -17,6 +17,7 @@ NOTE: all dates are in dd-mm-yyyy format.
 - "Add New Book", "Add New Media Item", "Wishlist", and "Manage Copies" dialogs to modeless windows.
 - improved filtering by tags in main window
 - tab order of controls
+- removed constraint on unique ISBNs
 
 ## [1.3.0] - 8-9-2022
 ### Fixed
