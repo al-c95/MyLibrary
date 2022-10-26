@@ -47,6 +47,7 @@ namespace MyLibrary.Views
 
         bool SaveSelectedButtonEnabled { get; set; }
         bool DeleteSelectedButtonEnabled { get; set; }
+        bool AddToLibraryButtonEnabled { get; set; }
         bool DiscardChangesButtonEnabled { get; set; }
         bool SaveNewButtonEnabled { get; set; }
 
@@ -58,6 +59,7 @@ namespace MyLibrary.Views
         event EventHandler SaveSelectedClicked;
         event EventHandler DiscardChangesClicked;
         event EventHandler DeleteClicked;
+        event EventHandler AddToLibraryClicked;
         event EventHandler SaveNewClicked;
         event EventHandler NewItemFieldsUpdated;
         event EventHandler SelectedItemFieldsUpdated;

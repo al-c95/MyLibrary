@@ -32,9 +32,13 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 using MyLibrary.Utils;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
+    /// <summary>
+    /// Contains most of the logic of the add new media item dialog.
+    /// </summary>
     public class AddMediaItemPresenter
     {
         private IMediaItemService _mediaItemService;
@@ -49,11 +53,10 @@ namespace MyLibrary.Presenters
         protected Dictionary<string, bool> _allTags;
 
         /// <summary>
-        /// Constructor with dependency injection.
         /// </summary>
         /// <param name="mediaItemService"></param>
         /// <param name="tagService"></param>
-        /// <param name="view"></param>
+        /// <param name="view">add media item window</param>
         /// <param name="imageFileReader"></param>
         public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, 
             IAddMediaItemForm view,
@@ -131,7 +134,6 @@ namespace MyLibrary.Presenters
 
         public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
-            // disable save and cancel buttons
             this._view.SaveButtonEnabled = false;
             this._view.CancelButtonEnabled = false;
 
@@ -140,14 +142,11 @@ namespace MyLibrary.Presenters
             {
                 if (await this._mediaItemService.ExistsWithTitleAsync(this._view.TitleFieldText))
                 {
-                    // tell the user
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
 
-                    // re-enable save and cancel buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
-                    // nothing more to do
                     return;
                 }
             }
@@ -157,7 +156,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error checking title.", ex.Message);
 
-                // re-enable save and cancel buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 
@@ -170,18 +168,15 @@ namespace MyLibrary.Presenters
             MediaItem item = new MediaItem
             {
                 Title = this._view.TitleFieldText,
-                //Type = (ItemType)Enum.Parse(typeof(ItemType), selectedCategory),
                 Type = Item.ParseType(selectedCategory),
                 Number = long.Parse(this._view.NumberFieldText),
                 ReleaseYear = int.Parse(this._view.YearFieldEntry),
                 Notes = this._view.NotesFieldText
             };
-            // running time
             if (!string.IsNullOrWhiteSpace(enteredRunningTime))
             {
                 item.RunningTime = int.Parse(enteredRunningTime);
             }
-            // tags
             foreach (var kvp in this._allTags)
             {
                 if (this._allTags[kvp.Key] == true)
@@ -189,7 +184,6 @@ namespace MyLibrary.Presenters
                     item.Tags.Add(new Tag { Name = kvp.Key });
                 }
             }
-            // image
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
                 try
@@ -204,7 +198,6 @@ namespace MyLibrary.Presenters
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
 
-                    // re-enable save and cancel buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -216,7 +209,8 @@ namespace MyLibrary.Presenters
             try
             {
                 await this._mediaItemService.AddAsync(item);
-                this._view.ItemAddedFinished();
+
+                EventAggregator.GetInstance().Publish(new MediaItemsUpdatedEvent());
             }
             catch (Exception ex)
             {
@@ -224,7 +218,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error creating item", ex.Message);
 
-                // re-enable save and cancel buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 

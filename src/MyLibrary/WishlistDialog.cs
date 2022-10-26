@@ -72,6 +72,10 @@ namespace MyLibrary
             {
                 this.DeleteClicked?.Invoke(sender, args);
             });
+            this.addToLibraryButton.Click += ((sender, args) =>
+            {
+                this.AddToLibraryClicked?.Invoke(sender, args);
+            });
             this.saveNewItemChangesButton.Click += ((sender, args) =>
             {
                 this.SaveNewClicked?.Invoke(sender, args);
@@ -96,6 +100,19 @@ namespace MyLibrary
             {
                 ResizeColumns();
             });
+
+            this.CenterToParent();
+
+            // set tab order
+            this.selectedItemNotesBox.TabIndex = 0;
+            this.saveChangesButton.TabIndex = 1;
+            this.discardChangesButton.TabIndex = 2;
+            this.deleteButton.TabIndex = 3;
+            this.addToLibraryButton.TabIndex = 4;
+            this.newItemTitleField.TabIndex = 0;
+            this.newItemNotesBox.TabIndex = 1;
+            this.typesDropDown.TabIndex = 2;
+            this.saveNewItemChangesButton.TabIndex = 3;
         }
 
         public string SelectedNotes
@@ -207,6 +224,12 @@ namespace MyLibrary
             }
         }
 
+        public bool AddToLibraryButtonEnabled 
+        {
+            get => this.addToLibraryButton.Enabled;
+            set => this.addToLibraryButton.Enabled = value;
+        }
+
         public event EventHandler ItemSelected;
         public event EventHandler SaveSelectedClicked;
         public event EventHandler DiscardChangesClicked;
@@ -214,6 +237,7 @@ namespace MyLibrary
         public event EventHandler SaveNewClicked;
         public event EventHandler NewItemFieldsUpdated;
         public event EventHandler SelectedItemFieldsUpdated;
+        public event EventHandler AddToLibraryClicked;
 
         public void DisplayItems(IEnumerable<WishlistItem> items)
         {

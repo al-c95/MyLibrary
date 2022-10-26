@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -22,39 +22,44 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace MyLibrary.Views
+namespace MyLibrary
 {
-    public interface IAddItemForm
+    public partial class ImageWindow : Form
     {
-        string TitleFieldText { get; set; }
-        string NotesFieldText { get; set; }
-        string ImageFilePathFieldText { get; set; }
+        public ImageWindow(Image toDisplay)
+        {
+            InitializeComponent();
 
-        IEnumerable<string> SelectedTags { get; }
-        string FilterTagsFieldEntry { get; set; }
-        IEnumerable<string> UnselectedTags { get; }
+            this.pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            this.pictureBox.Image = toDisplay;
 
-        bool SaveButtonEnabled { get; set; }
-        bool CancelButtonEnabled { get; set; }
+            this.CenterToParent();
+        }
 
-        void PopulateTagsList(IEnumerable<string> tagNames);
-        void CloseDialog();
-        void ShowItemAlreadyExistsDialog(string title);
-        void ItemAddedFinished();
-        void AddTags(Dictionary<string, bool> tags);
-        void ShowTagAlreadyExistsDialog(string tag);
-        void ShowErrorDialog(string title, string message);
-
-        bool AddNewTagButtonEnabled { get; set; }
-
-        event EventHandler InputFieldsUpdated;
-        event EventHandler SaveButtonClicked;
-        event EventHandler FilterTagsFieldUpdated;
-        event EventHandler AddNewTagButtonClicked;
-        event EventHandler TagCheckedChanged;
+        #region UI event handlers
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog() { Filter = @"PNG|*.png" })
+            {
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.pictureBox.Image.Save(saveDialog.FileName);
+                }
+            }
+        }
+        #endregion
     }
 }

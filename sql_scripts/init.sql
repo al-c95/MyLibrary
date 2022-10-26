@@ -11,8 +11,7 @@ DROP TABLE IF EXISTS Images;
 CREATE TABLE "Books" (
     "id"    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL UNIQUE,
-    "titleLong" TEXT 
-    UNIQUE,
+    "titleLong" TEXT,
     "isbn" TEXT,
     "isbn13"    TEXT,
     "deweyDecimal"  REAL,
@@ -30,7 +29,6 @@ CREATE TABLE "Books" (
     "excerpt"   TEXT,
     "synopsys"  TEXT,
     "notes" TEXT,
-    UNIQUE("title", "titleLong"),
     FOREIGN KEY("publisherId") REFERENCES "Publishers"("id") ON DELETE SET NULL ON UPDATE NO ACTION
     FOREIGN KEY("imageId") REFERENCES "Images"("id") ON DELETE SET NULL ON UPDATE NO ACTION
 );

@@ -48,7 +48,7 @@ namespace MyLibrary.Views
         string SelectedItemDetailsBoxEntry { get; set; }
 
         void LoadWindow();
-        void PopulateFilterTags(Dictionary<string, bool> tagNamesAndCheckedStatuses);
+        void LoadFilterTags(IEnumerable<string> tags);
         void ShowErrorDialog(string title, string message);
         bool ShowDeleteConfirmationDialog(string title);
 

@@ -50,9 +50,11 @@ namespace MyLibrary.Presenters
         /// Constructor with dependency injection.
         /// </summary>
         /// <param name="view"></param>
-        public SearchByIsbnPresenter(ISearchByIsbn view, IAddBookForm addBookView, IBookService bookService, IApiServiceProvider apiServiceProvider)
+        public SearchByIsbnPresenter(ISearchByIsbn view, 
+            IAddBookForm addBookView, 
+            IBookService bookService, 
+            IApiServiceProvider apiServiceProvider)
         {
-            // inject values
             this._view = view;
             this._addBookView = addBookView;
             this._bookService = bookService;
@@ -102,20 +104,7 @@ namespace MyLibrary.Presenters
             this._view.SearchButtonEnabled = false;
 
             string enteredIsbn = this._view.IsbnFieldText;
-            
-            // check if book with this ISBN already exists in database
-            if (await this._bookService.ExistsWithIsbnAsync(enteredIsbn))
-            {
-                // book already exists
-                // tell the user
-                this._view.ShowAlreadyExistsWithIsbnDialog(enteredIsbn);
 
-                Reset();
-
-                // nothing more to do
-                return;
-            }
-            
             Book book = null;
             try
             {
@@ -133,7 +122,9 @@ namespace MyLibrary.Presenters
             catch (HttpRequestException ex)
             {
                 if (ex.InnerException.Message.Equals("The remote name could not be resolved: 'openlibrary.org'"))
+                {
                     this._view.ShowConnectionErrorDialog();
+                }
             }
             catch (Exception ex)
             {

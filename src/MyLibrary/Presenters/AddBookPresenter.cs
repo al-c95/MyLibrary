@@ -31,9 +31,13 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 using MyLibrary.Utils;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
+    /// <summary>
+    /// Contains most of the logic behind the add new book window.
+    /// </summary>
     public class AddBookPresenter
     {
         private IBookService _bookService;
@@ -88,7 +92,6 @@ namespace MyLibrary.Presenters
         /// <param name="book"></param>
         public void Prefill(Book book)
         {
-            // clear fields
             this._view.TitleFieldText = "";
             this._view.LongTitleFieldText = "";
             this._view.IsbnFieldText = "";
@@ -108,8 +111,6 @@ namespace MyLibrary.Presenters
             this._view.UncheckAllAuthors();
             this._view.UncheckAllTags();
 
-            // now populate
-            // text/number input fields
             this._view.TitleFieldText = book.Title;
             this._view.LongTitleFieldText = book.TitleLong;
             this._view.IsbnFieldText = book.Isbn;
@@ -118,14 +119,18 @@ namespace MyLibrary.Presenters
             this._view.PlaceOfPublicationFieldText = book.PlaceOfPublication;
             this._view.PagesFieldText = book.Pages.ToString();
             this._view.LanguageFieldText = book.Language;
-            // publisher
+
             if (!this._allPublishers.Contains(book.Publisher.Name))
             {
                 this._allPublishers.Add(book.Publisher.Name);
             }
             FilterPublishers(null, null);
             this._view.SetPublisher(book.Publisher, true);
-            // authors
+
+            foreach (var key in this._allAuthors.Keys.ToList())
+            {
+                this._allAuthors[key] = false;
+            }
             foreach (var author in book.Authors)
             {
                 if (!this._allAuthors.ContainsKey(author.GetFullNameLastNameCommaFirstName()))
@@ -142,11 +147,9 @@ namespace MyLibrary.Presenters
 
         public void FilterTags(object sender, EventArgs args)
         {
-            // grab the filter
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
 
-            // perform filtering
             Dictionary<string, bool> filteredTags = new Dictionary<string, bool>();
             foreach (var kvp in this._allTags)
             {
@@ -156,17 +159,14 @@ namespace MyLibrary.Presenters
                 }
             }
 
-            // update the view
             this._view.AddTags(filteredTags);
         }//FilterTags
 
         public void FilterAuthors(object sender, EventArgs args)
         {
-            // grab the filter
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(this._view.FilterAuthorsFieldEntry, REGEX_OPTIONS);
 
-            // perform filtering
             Dictionary<string, bool> filteredAuthors = new Dictionary<string, bool>();
             foreach (var kvp in this._allAuthors)
             {
@@ -176,70 +176,68 @@ namespace MyLibrary.Presenters
                 }
             }
 
-            // update the view
             this._view.AddAuthors(filteredAuthors);
         }//FilterAuthors
 
         public void FilterPublishers(object sender, EventArgs args)
         {
-            // grab the filter
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(this._view.FilterPublishersFieldEntry, REGEX_OPTIONS);
 
-            // perform filtering
             List<string> filteredPublishers = new List<string>();
             foreach (var publisher in this._allPublishers)
             {
                 if (filterPattern.IsMatch(publisher))
+                {
                     filteredPublishers.Add(publisher);
+                }
             }
 
-            // update the view
             this._view.AddPublishers(filteredPublishers);
         }//FilterPublishers
 
         public async Task PopulateAuthorsList()
         {
-            // load all authors
             var allAuthors = await this._authorService.GetAll();
             foreach (var author in allAuthors)
             {
                 string authorName = author.GetFullNameLastNameCommaFirstName();
                 if (!this._allAuthors.ContainsKey(authorName))
+                {
                     this._allAuthors.Add(authorName, false);
+                }
             }
 
-            // perform filtering and update the view
             FilterAuthors(null, null);
         }//PopulateAuthorsList
         
         public async Task PopulateTagsList()
         {
-            // load all tags
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
                 string tagName = tag.Name;
                 if (!this._allTags.ContainsKey(tagName))
+                {
                     this._allTags.Add(tag.Name, false);
+                }
             }
 
-            // perform filtering and update the view
             FilterTags(null, null);
         }//PopulateTagsList
 
         public async Task PopulatePublishersList()
         {
-            // load all publishers
             var allPublishers = await this._publisherService.GetAll();
             foreach (var publisher in allPublishers)
             {
                 string publisherName = publisher.Name;
                 if (!this._allPublishers.Contains(publisherName))
+                {
                     this._allPublishers.Add(publisher.Name);
+                }
             }
 
-            // perform filtering and update the view
             FilterPublishers(null, null);
         }//PopulatePublishersList
 
@@ -253,8 +251,7 @@ namespace MyLibrary.Presenters
             // check if item with title or ISBN already exists
             bool titleExists = false;
             string existingTitle = null;
-            bool isbnExists = false;
-            string existingIsbn = null;
+
             try
             {
                 if (await this._bookService.ExistsWithTitleAsync(this._view.TitleFieldText))
@@ -262,59 +259,14 @@ namespace MyLibrary.Presenters
                     titleExists = true;
                     existingTitle = this._view.TitleFieldText;
                 }
-                if (!string.IsNullOrWhiteSpace(this._view.LongTitleFieldText))
-                {
-                    if (await this._bookService.ExistsWithLongTitleAsync(this._view.LongTitleFieldText))
-                    {
-                        titleExists = true;
-                        existingTitle = this._view.LongTitleFieldText;
-                    }          
-                }
-
-                string isbnEntry = this._view.IsbnFieldText;
-                if (await this._bookService.ExistsWithIsbnAsync(isbnEntry))
-                {
-                    if (!string.IsNullOrWhiteSpace(isbnEntry))
-                    {
-                        isbnExists = true;
-                        existingIsbn = this._view.IsbnFieldText;
-                    }
-                }
-                string isbn13Entry = this._view.Isbn13FieldText;
-                if (await this._bookService.ExistsWithIsbnAsync(isbn13Entry))
-                {
-                    if (!string.IsNullOrWhiteSpace(isbn13Entry))
-                    {
-                        isbnExists = true;
-                        existingIsbn = this._view.Isbn13FieldText;
-                    }
-                }
 
                 if (titleExists)
                 {
-                    // title already exists
-                    // tell the user
                     this._view.ShowItemAlreadyExistsDialog(existingTitle);
 
-                    // re-enable buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
-                    // nothing more to do
-                    return;
-                }
-
-                if (isbnExists)
-                {
-                    // isbn already exists
-                    // tell the user
-                    this._view.ShowIsbnAlreadyExistsDialog(existingIsbn);
-
-                    // re-enable buttons
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
-
-                    // nothing more to do
                     return;
                 }
             }
@@ -324,7 +276,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error checking if title or ISBN exists.", ex.Message);
 
-                // re-enable buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 
@@ -383,7 +334,6 @@ namespace MyLibrary.Presenters
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
 
-                    // re-enable buttons
                     this._view.SaveButtonEnabled = true;
                     this._view.CancelButtonEnabled = true;
 
@@ -395,7 +345,8 @@ namespace MyLibrary.Presenters
             try
             {
                 await this._bookService.AddAsync(book);
-                this._view.ItemAddedFinished();
+
+                EventAggregator.GetInstance().Publish(new BooksUpdatedEvent());
             }
             catch (Exception ex)
             {
@@ -403,7 +354,6 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error creating book", ex.Message);
 
-                // re-enable buttons
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
 
@@ -443,7 +393,6 @@ namespace MyLibrary.Presenters
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)
         {
-            //string newTag = ShowNewTagDialog();
             string newTag = this._view.ShowNewTagDialog();
             if (!string.IsNullOrWhiteSpace(newTag))
             {
@@ -517,7 +466,6 @@ namespace MyLibrary.Presenters
         // TODO: unit test
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
-            //string newPublisher = ShowNewPublisherDialog();
             string newPublisher = this._view.ShowNewPublisherDialog();
             if (!string.IsNullOrWhiteSpace(newPublisher))
             {

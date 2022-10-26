@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
+## [1.4.0] - 26-10-2022
+### Fixed
+- bug with previous authors selected when prefilling add new book window
+- unique constraint on book long titles
+- bug with last row in book export Excels unprotected
+- bug with last row in media item export Excels unprotected
+### Added
+- dialog to view item images
+- tip of the day dialog
+- support for updating book long titles via workbooks
+### Changed
+- "Add New Book", "Add New Media Item", "Wishlist", and "Manage Copies" dialogs to modeless windows.
+- improved filtering by tags in main window
+- tab order of controls
+- removed constraint on unique ISBNs
+
 ## [1.3.0] - 8-9-2022
 ### Fixed
 - bug with filtering in manage tags for item dialog

@@ -221,6 +221,14 @@ namespace MyLibrary
             {
                 this.filterTagField.Text = "";
             });
+
+            // set tab order
+            this.newTagText.TabIndex = 0;
+            this.addTagButton.TabIndex = 1;
+            this.filterTagField.TabIndex = 0;
+            this.tagsList.TabStop = false;
+            this.applyFilterButton.TabIndex = 1;
+            this.clearFilterButton.TabIndex = 2;
         }
 
         private async Task FilterTags(string filterText)
@@ -239,7 +247,7 @@ namespace MyLibrary
                     this.tagsList.Items.Add(tag.Name);
                 }
             }
-            throw new Exception("error");
+
             if (this.tagsList.Items.Count > 0)
             {
                 this.deleteSelectedTagButton.Enabled = this.tagsList.SelectedItems.Count > 0;
