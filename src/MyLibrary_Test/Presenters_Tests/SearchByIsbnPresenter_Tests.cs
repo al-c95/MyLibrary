@@ -94,25 +94,6 @@ namespace MyLibrary_Test.Presenters_Tests
             Assert.IsFalse(fakeSearchByIsbnDialog.SearchButtonEnabled);
             A.CallTo(() => fakeSearchByIsbnDialog.ClickSearchButton()).MustNotHaveHappened();
         }
-        
-        [Test]
-        public void SearchButtonClicked_Test_AlreadyExists()
-        {
-            // arrange
-            string isbn = "0123456789";
-            var fakeSearchByIsbnDialog = A.Fake<ISearchByIsbn>();
-            A.CallTo(() => fakeSearchByIsbnDialog.IsbnFieldText).Returns(isbn);
-            var fakeRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(true);
-            var presenter = new MockPresenter(fakeSearchByIsbnDialog, null, null, fakeRepo, null);
-            presenter.AddBookPresenter = this._addBookPresenter;
-
-            // act
-            presenter.SearchButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeSearchByIsbnDialog.ShowAlreadyExistsWithIsbnDialog(isbn)).MustHaveHappened();
-        }
 
         [Test]
         public void SearchButtonClicked_Test_BookNotFound()

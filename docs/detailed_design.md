@@ -14,8 +14,8 @@ This document describes some of the detail of the data, architecture and user in
 |**Field**|**Data Type**|**Nullable**|**Comments/Description**|
 |---------|-------------|------------|---------------|
 |id       |INTEGER      |No          |Primary key, autoincremented.|
-|title    |TEXT         |No          |               |
-|titleLong|TEXT         |No          |               |
+|title    |TEXT         |No          |Unique constraint. Unique constraint on (title,titleLong)               |
+|titleLong|TEXT         |No          |Unique constraint on (title,titleLong)               |
 |isbn     |TEXT         |Yes         |               |
 |isbn13   |TEXT         |Yes         |               |
 |deweyDecimal|REAL      |Yes         |               |

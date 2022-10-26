@@ -31,11 +31,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
+using System.Configuration;
 using System.Windows.Forms;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views;
+using System.Runtime.Remoting.Channels;
+using MyLibrary.Events;
 
 namespace MyLibrary
 {
@@ -160,10 +163,19 @@ namespace MyLibrary
             this.categoryDropDown.Items.Add("Floppy Disk");
             this.categoryDropDown.Items.Add(ItemType.Other);
 
-            this.tagsList.CheckOnClick = true;
+            this.addFilterTagField.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.addFilterTagField.AutoCompleteSource = AutoCompleteSource.ListItems;
+            this.addTagFilterButton.Enabled = false;
+            this.removeFilterTagButton.Enabled = false;
+            this.filterTagsList.GridLines = true;
+            this.filterTagsList.Columns.Add("Tags");
+            this.filterTagsList.Scrollable = true;
+            this.filterTagsList.Columns[0].Width = this.filterTagsList.Width;
 
             this.detailsBox.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
             this.detailsBox.Text = "Item";
+
+            this.pictureBox.Cursor = Cursors.Hand;
 
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
@@ -195,31 +207,46 @@ namespace MyLibrary
             this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 9);
             this.XLSXtoolStripMenuItem.Click += ((sender, args) =>
             {
-                ExcelImportDialog dialog = new ExcelImportDialog();
-                ExcelImportPresenter presenter = new ExcelImportPresenter(dialog);
-                dialog.ShowDialog();
-                dialog.Dispose();
-
-                this.TagsUpdated?.Invoke(sender, args);
-                this.CategorySelectionChanged?.Invoke(sender, args);
+                using (var dialog = new ExcelImportDialog())
+                {
+                    ExcelImportPresenter presenter = new ExcelImportPresenter(dialog);
+                    dialog.ShowDialog();
+                }
+            });
+            this.Shown += ((sender, args) =>
+            {
+                if (ConfigurationManager.AppSettings.Get("showTipsOnStartup").Equals("true"))
+                {
+                    using (var tipsDialog = new TipOfTheDayDialog())
+                    {
+                        TipOfTheDayPresenter tipsPresenter = new TipOfTheDayPresenter(tipsDialog, Configuration.TIPS);
+                        tipsDialog.ShowDialog();
+                    }
+                }
             });
             // import CSV
             this.importTagsCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog("tag");
-                dialog.ShowDialog();
+                using (var dialog = new ImportDialog("tag"))
+                {
+                    dialog.ShowDialog();
+                }
 
-                this.TagsUpdated?.Invoke(sender, args);
+                EventAggregator.GetInstance().Publish(new TagsUpdatedEvent());
             });
             this.importAuthorsCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog("author");
-                dialog.ShowDialog();
+                using (var dialog = new ImportDialog("author"))
+                {
+                    dialog.ShowDialog();
+                }
             });
             this.importPublishersCsvToolStripMenuItem.Click += ((sender, args) =>
             {
-                ImportDialog dialog = new ImportDialog("publisher");
-                dialog.ShowDialog();
+                using (var dialog = new ImportDialog("publisher"))
+                {
+                    dialog.ShowDialog();
+                }
             });
             // export XLSX
             this.tagsToolStripMenuItem.Click += ((sender, args) =>
@@ -276,6 +303,28 @@ namespace MyLibrary
                     presenter.Dispose();
                 }
             });
+            this.filterTagsList.SelectedIndexChanged += ((sender, args) =>
+            {
+                if (this.filterTagsList.SelectedIndices.Count != 0)
+                {
+                    this.removeFilterTagButton.Enabled = true;
+                }
+                else
+                {
+                    this.removeFilterTagButton.Enabled = false;
+                }
+            });
+            this.addFilterTagField.TextChanged += ((sender, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(this.addFilterTagField.Text))
+                {
+                    this.addTagFilterButton.Enabled = true;
+                }
+                else
+                {
+                    this.addTagFilterButton.Enabled = false;
+                }
+            });
             // fire the public event so the subscribed present can react
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
@@ -323,13 +372,9 @@ namespace MyLibrary
             });
             this.clearFilterButton.Click += ((sender, args) =>
             {
-                // clear title filter field
+                this.TitleFilterText = " ";
                 this.TitleFilterText = null;
-                // uncheck filter tags
-                while (this.tagsList.CheckedIndices.Count > 0)
-                {
-                    this.tagsList.SetItemChecked(this.tagsList.CheckedIndices[0], false);
-                }
+                this.filterTagsList.Items.Clear();
             });
             this.applyFilterButton.Click += ((sender, args) =>
             {
@@ -341,7 +386,6 @@ namespace MyLibrary
             });
             this.selectImageButton.Click += ((sender, args) =>
             {
-                // load image from file
                 using (OpenFileDialog dialog = new OpenFileDialog())
                 {
                     dialog.Title = LOAD_IMAGE_DIALOG_TITLE;
@@ -364,22 +408,21 @@ namespace MyLibrary
             });
             this.tagsButton.Click += (async (sender, args) =>
             {
-                var form = await ManageTagsForm.CreateAsync();
-                form.TagsUpdated += ((s, a) =>
+                using (var tagsDialog = await ManageTagsForm.CreateAsync())
                 {
-                    this.TagsUpdated?.Invoke(s, a);
-                });
-                form.ShowDialog();
+                    tagsDialog.ShowDialog();
+                }
+
+                EventAggregator.GetInstance().Publish(new TagsUpdatedEvent());
             });
             this.manageItemTagsButton.Click += (async (sender, args) =>
             {
-                var form = await ManageTagsForItemDialog.CreateAsync(this.SelectedItem);
-                form.TagsUpdated += ((s, a) =>
+                using (var tagsDialog = await ManageTagsForItemDialog.CreateAsync(this.SelectedItem))
                 {
-                    this.TagsUpdated?.Invoke(s, a);
-                });
-                form.ShowDialog();
-                form.Dispose();
+                    tagsDialog.ShowDialog();
+                }
+
+                EventAggregator.GetInstance().Publish(new TagsUpdatedEvent());
             });
             this.manageItemCopiesButton.Click += ((sender, args) =>
             {
@@ -389,8 +432,28 @@ namespace MyLibrary
             {
                 this.WishlistButtonClicked?.Invoke(sender, args);
             });
-            this.tagsList.ItemCheck += (async (sender, args) =>
+            this.addTagFilterButton.Click += (async (sender, args) =>
             {
+                if (this.filterTagsList.FindItemWithText(this.addFilterTagField.Text) == null)
+                {
+                    this.filterTagsList.Items.Add(this.addFilterTagField.Text);
+                }
+
+                await Task.Delay(FILTER_DELAY);
+
+                FiltersUpdated?.Invoke(sender, args);
+            });
+            this.removeFilterTagButton.Click += (async (sender, args) =>
+            {
+                var selectedItems = this.filterTagsList.SelectedItems;
+                if (this.filterTagsList.SelectedIndices.Count != 0)
+                {
+                    for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    {
+                        this.filterTagsList.Items.Remove(selectedItems[i]);
+                    }
+                }
+
                 await Task.Delay(FILTER_DELAY);
 
                 FiltersUpdated?.Invoke(sender, args);
@@ -405,6 +468,24 @@ namespace MyLibrary
             this.itemDetailsSpinner.ProgressWidth = 10;
             this.itemDetailsSpinner.InnerWidth = 0;
             this.itemDetailsSpinner.InnerMargin = 2;
+
+            // set tab order
+            this.titleFilterField.TabIndex = 0;
+            this.addFilterTagField.TabIndex = 1;
+            this.filterTagsList.TabIndex = 2;
+            this.addTagFilterButton.TabStop = false;
+            this.removeFilterTagButton.TabStop = false;
+            this.applyFilterButton.TabStop = false;
+            this.clearFilterButton.TabStop = false;
+            this.manageItemTagsButton.TabIndex = 0;
+            this.manageItemCopiesButton.TabIndex = 1;
+            this.pictureBox.TabStop = false;
+            this.detailsBox.TabStop = false;
+            this.selectImageButton.TabIndex = 2;
+            this.removeImageButton.TabIndex = 3;
+            this.textBoxNotes.TabIndex = 4;
+            this.saveChangesButton.TabIndex = 5;
+            this.discardChangesButton.TabIndex = 6;
         }//ctor
 
         public static readonly string LOAD_IMAGE_DIALOG_TITLE = "Load Image";
@@ -440,16 +521,12 @@ namespace MyLibrary
             WindowCreated?.Invoke(this, null);
         }
 
-        public void PopulateFilterTags(Dictionary<string,bool> tagNamesAndCheckedStatuses)
+        public void LoadFilterTags(IEnumerable<string> tags)
         {
-            this.tagsList.Items.Clear();
-
-            foreach (var kvp in tagNamesAndCheckedStatuses)
+            this.addFilterTagField.Items.Clear();
+            foreach (var tag in tags)
             {
-                string tagName = kvp.Key;
-                bool isChecked = kvp.Value;
-
-                this.tagsList.Items.Add(tagName, isChecked);
+                this.addFilterTagField.Items.Add(tag);
             }
         }
 
@@ -617,8 +694,10 @@ namespace MyLibrary
         {
             get
             {
-                foreach (var tag in this.tagsList.CheckedItems)
-                    yield return tag.ToString();
+                for (int i = 0; i < this.filterTagsList.Items.Count; i++)
+                {
+                    yield return this.filterTagsList.Items[i].Text;
+                }
             }
         }
 
@@ -745,6 +824,15 @@ namespace MyLibrary
         private void MainWindow_Resize(object sender, EventArgs e)
         {
             SetItemDetailsSpinnerPos();
+        }
+        
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            Image toDisplay = this.pictureBox.Image;
+            using (ImageWindow imageWindow = new ImageWindow(toDisplay))
+            {
+                imageWindow.ShowDialog();
+            }
         }
         #endregion
     }//class

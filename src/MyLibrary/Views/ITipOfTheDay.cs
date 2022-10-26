@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -28,33 +28,14 @@ using System.Threading.Tasks;
 
 namespace MyLibrary.Views
 {
-    public interface IAddItemForm
+    public interface ITipOfTheDay
     {
-        string TitleFieldText { get; set; }
-        string NotesFieldText { get; set; }
-        string ImageFilePathFieldText { get; set; }
+        string TipsText { get; set; }
+        string ShowAllButtonText { get; set; }
+        bool ShowNextButtonEnabled { get; set; }
+        bool ShowTipsAtStartupChecked { get; set; }
 
-        IEnumerable<string> SelectedTags { get; }
-        string FilterTagsFieldEntry { get; set; }
-        IEnumerable<string> UnselectedTags { get; }
-
-        bool SaveButtonEnabled { get; set; }
-        bool CancelButtonEnabled { get; set; }
-
-        void PopulateTagsList(IEnumerable<string> tagNames);
-        void CloseDialog();
-        void ShowItemAlreadyExistsDialog(string title);
-        void ItemAddedFinished();
-        void AddTags(Dictionary<string, bool> tags);
-        void ShowTagAlreadyExistsDialog(string tag);
-        void ShowErrorDialog(string title, string message);
-
-        bool AddNewTagButtonEnabled { get; set; }
-
-        event EventHandler InputFieldsUpdated;
-        event EventHandler SaveButtonClicked;
-        event EventHandler FilterTagsFieldUpdated;
-        event EventHandler AddNewTagButtonClicked;
-        event EventHandler TagCheckedChanged;
+        event EventHandler NextClicked;
+        event EventHandler ShowAllClicked;
     }
 }

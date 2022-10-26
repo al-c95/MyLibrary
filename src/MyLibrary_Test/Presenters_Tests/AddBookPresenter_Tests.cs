@@ -388,110 +388,15 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task SaveButtonClicked_Test_ItemWithLongTitleAlreadyExists()
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithLongTitleAsync("test book")).Returns(true);
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeAuthorService = A.Fake<IAuthorService>();
-            var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [Test]
-        public async Task SaveButtonClicked_Test_ItemWithIsbn10AlreadyExists()
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
-            A.CallTo(() => fakeView.IsbnFieldText).Returns("0123456789");
-            var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithIsbnAsync("0123456789")).Returns(true);
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeAuthorService = A.Fake<IAuthorService>();
-            var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowIsbnAlreadyExistsDialog("0123456789")).MustHaveHappened();
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [Test]
-        public async Task SaveButtonClicked_Test_ItemWithIsbn13AlreadyExists()
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
-            A.CallTo(() => fakeView.Isbn13FieldText).Returns("0123456789012");
-            var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithIsbnAsync("0123456789012")).Returns(true);
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeAuthorService = A.Fake<IAuthorService>();
-            var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowIsbnAlreadyExistsDialog("0123456789012")).MustHaveHappened();
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [Test]
         public async Task SaveButtonClicked_Test_ErrorWhileCheckingIfTitleAlreadyExists()
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
+            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
             var fakeBookRepo = A.Fake<IBookService>();
             Exception ex = new Exception("error");
-            A.CallTo(() => fakeBookRepo.ExistsWithLongTitleAsync("test book")).Throws(ex);
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeAuthorService = A.Fake<IAuthorService>();
-            var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowErrorDialog("Error checking if title or ISBN exists.", "error"));
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [Test]
-        public async Task SaveButtonClicked_Test_ErrorWhileCheckingIfIsbnAlreadyExists()
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
-            A.CallTo(() => fakeView.IsbnFieldText).Returns("0123456789");
-            var fakeBookRepo = A.Fake<IBookService>();
-            Exception ex = new Exception("error");
-            A.CallTo(() => fakeBookRepo.ExistsWithIsbnAsync("0123456789")).Throws(ex);
+            A.CallTo(() => fakeBookRepo.ExistsWithTitleAsync("test book")).Throws(ex);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();

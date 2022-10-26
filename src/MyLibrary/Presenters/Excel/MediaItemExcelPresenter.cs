@@ -122,7 +122,7 @@ namespace MyLibrary.Presenters.Excel
                     UnlockCell(i, NOTES_COL);
 
                     // allow adding new rows
-                    if (i >= HEADER_ROW + count)
+                    if (i >= HEADER_ROW + count + 1)
                     {
                         UnlockCell(i, TITLE_COL);
                         UnlockCell(i, TYPE_COL);

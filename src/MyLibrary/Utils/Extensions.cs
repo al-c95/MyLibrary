@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -25,36 +25,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace MyLibrary.Views
+namespace MyLibrary.Utils
 {
-    public interface IAddItemForm
+    public static class Extensions
     {
-        string TitleFieldText { get; set; }
-        string NotesFieldText { get; set; }
-        string ImageFilePathFieldText { get; set; }
-
-        IEnumerable<string> SelectedTags { get; }
-        string FilterTagsFieldEntry { get; set; }
-        IEnumerable<string> UnselectedTags { get; }
-
-        bool SaveButtonEnabled { get; set; }
-        bool CancelButtonEnabled { get; set; }
-
-        void PopulateTagsList(IEnumerable<string> tagNames);
-        void CloseDialog();
-        void ShowItemAlreadyExistsDialog(string title);
-        void ItemAddedFinished();
-        void AddTags(Dictionary<string, bool> tags);
-        void ShowTagAlreadyExistsDialog(string tag);
-        void ShowErrorDialog(string title, string message);
-
-        bool AddNewTagButtonEnabled { get; set; }
-
-        event EventHandler InputFieldsUpdated;
-        event EventHandler SaveButtonClicked;
-        event EventHandler FilterTagsFieldUpdated;
-        event EventHandler AddNewTagButtonClicked;
-        event EventHandler TagCheckedChanged;
-    }
+        public static void UncheckAll(this CheckedListBox list)
+        {
+            while (list.CheckedIndices.Count > 0)
+            {
+                list.SetItemChecked(list.CheckedIndices[0], false);
+            }
+        }
+    }//class
 }

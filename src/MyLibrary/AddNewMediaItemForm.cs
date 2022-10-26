@@ -58,21 +58,21 @@ namespace MyLibrary
             this.CenterToParent();
 
             // set tab order of controls
-            this.titleField.TabIndex = 0;
-            this.numberField.TabIndex = 1;
-            this.runningTimeField.TabIndex = 2;
-            this.yearField.TabIndex = 3;
-            this.notesField.TabIndex = 4;
-            this.browseImageButton.TabIndex = 5;
-            this.saveButton.TabIndex = 6;
-            this.cancelButton.TabIndex = 7;
-            this.tagsGroup.TabStop = false;
+            this.mediaTypesOptions.TabIndex = 0;
+            this.titleField.TabIndex = 1;
+            this.numberField.TabIndex = 2;
+            this.runningTimeField.TabIndex = 3;
+            this.yearField.TabIndex = 4;
             this.tagsList.TabStop = false;
-            this.filterTagField.TabStop = false;
-            this.applyFilterButton.TabStop = false;
-            this.clearFilterButton.TabStop = false;
-            this.addNewTagButton.TabStop = false;
-            this.imageFilePathField.TabStop = false;
+            this.filterTagField.TabIndex = 0;
+            this.applyFilterButton.TabIndex = 1;
+            this.clearFilterButton.TabIndex = 2;
+            this.addNewTagButton.TabIndex = 3;
+            this.imageFilePathField.TabIndex = 5;
+            this.browseImageButton.TabIndex = 6;
+            this.notesField.TabIndex = 7;
+            this.saveButton.TabIndex = 8;
+            this.cancelButton.TabIndex = 9;
 
             this.addNewTagButton.Enabled = true;
 
@@ -148,6 +148,7 @@ namespace MyLibrary
         public string SelectedCategory
         {
             get => this.mediaTypesOptions.Text;
+            set => this.mediaTypesOptions.Text = value;
         }
 
         public int SelectedCategoryIndex

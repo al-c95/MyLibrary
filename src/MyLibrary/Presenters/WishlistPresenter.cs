@@ -28,6 +28,8 @@ using System.Threading.Tasks;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
+using MyLibrary.Events;
+using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters
 {
@@ -52,12 +54,60 @@ namespace MyLibrary.Presenters
             { 
                 await DeleteClicked(sender, args); 
             });
+            this._view.AddToLibraryClicked += (async (sender, args) =>
+            {
+                WishlistItem selectedItem = this._view.SelectedItem;
+
+                if (selectedItem.Type == ItemType.Book)
+                {
+                    var addBookDialog = new AddNewBookForm();
+                    var addBookPresenter = new AddBookPresenter(new BookService(), 
+                        new TagService(), 
+                        new AuthorService(), 
+                        new PublisherService(), 
+                        addBookDialog, 
+                        new ImageFileReader());
+                    await addBookPresenter.PopulateTagsList();
+                    await addBookPresenter.PopulateAuthorsList();
+                    await addBookPresenter.PopulatePublishersList();
+                    addBookDialog.TitleFieldText = selectedItem.Title;
+                    addBookDialog.NotesFieldText = selectedItem.Notes;
+                    addBookDialog.ShowAsDialog();
+                }
+                else
+                {
+                    var addMediaItemDialog = new AddNewMediaItemForm();
+                    var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(),
+                        new TagService(), 
+                        addMediaItemDialog, 
+                        new ImageFileReader(), 
+                        new NewTagOrPublisherInputBoxProvider());
+                    await addMediaItemPresenter.PopulateTagsList();
+                    if (selectedItem.Type == ItemType.FlashDrive)
+                    {
+                        addMediaItemDialog.SelectedCategory = "Flash Drive";
+                    }
+                    else if (selectedItem.Type == ItemType.FloppyDisk)
+                    {
+                        addMediaItemDialog.SelectedCategory = "Floppy Disk";
+                    }
+                    else
+                    {
+                        addMediaItemDialog.SelectedCategory = (selectedItem.Type).ToString();
+                    }
+                    addMediaItemDialog.TitleFieldText = selectedItem.Title;
+                    addMediaItemDialog.NotesFieldText = selectedItem.Notes;
+                    addMediaItemDialog.ShowDialog();
+                }
+            });
             this._view.SaveNewClicked += (async (sender, args) => 
             { 
                 await SaveNewClicked(sender, args); 
             });
             this._view.NewItemFieldsUpdated += NewItemFieldsUpdated;
             this._view.SelectedItemFieldsUpdated += SelectedItemFieldsUpdated;
+
+            EventAggregator.GetInstance().Subscribe<WishlistUpdatedEvent>(async m => await LoadData());
         }
 
         public async Task LoadData()
@@ -80,6 +130,7 @@ namespace MyLibrary.Presenters
                 this._view.SaveSelectedButtonEnabled = false;
                 this._view.DiscardChangesButtonEnabled = false;
                 this._view.DeleteSelectedButtonEnabled = false;
+                this._view.AddToLibraryButtonEnabled = false;
 
                 return;
             }
@@ -90,6 +141,7 @@ namespace MyLibrary.Presenters
                 this._view.SaveSelectedButtonEnabled = true;
                 this._view.DiscardChangesButtonEnabled = true;
                 this._view.DeleteSelectedButtonEnabled = true;
+                this._view.AddToLibraryButtonEnabled = true;
             }
         }
 
@@ -100,7 +152,7 @@ namespace MyLibrary.Presenters
             var service = this._serviceProvider.Get();
             await service.Update(this._view.ModifiedItem, false);
 
-            this._view.DisplayItems(await service.GetAll());
+            EventAggregator.GetInstance().Publish(new WishlistUpdatedEvent());
 
             this._view.StatusText = "Ready.";
         }
@@ -117,7 +169,7 @@ namespace MyLibrary.Presenters
             var service = this._serviceProvider.Get();
             await service.DeleteById(this._view.SelectedItem.Id);
 
-            this._view.DisplayItems(await service.GetAll());
+            EventAggregator.GetInstance().Publish(new WishlistUpdatedEvent());
 
             this._view.StatusText = "Ready.";
         }
@@ -140,7 +192,7 @@ namespace MyLibrary.Presenters
 
             await service.Add(this._view.NewItem);
 
-            this._view.DisplayItems(await service.GetAll());
+            EventAggregator.GetInstance().Publish(new WishlistUpdatedEvent());
 
             this._view.NewItemTitle = string.Empty;
             this._view.NewNotes = string.Empty;
@@ -152,7 +204,6 @@ namespace MyLibrary.Presenters
         {
             if (string.IsNullOrWhiteSpace(this._view.NewItemTitle))
             {
-                // empty title field
                 this._view.SaveNewButtonEnabled = false;
             }
             else

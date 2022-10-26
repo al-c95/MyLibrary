@@ -282,7 +282,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
             const string UPDATE_BOOK_SQL = "UPDATE Books SET notes = @notes, deweyDecimal = @deweyDecimal, msrp = @msrp," +
                 " format = @format, datePublished = @datePublished, placeOfPublication = @placeOfPublication, edition = @edition, dimensions = @dimensions," +
-                " overview = @overview, excerpt = @excerpt, synopsys = @synopsys" +
+                " overview = @overview, excerpt = @excerpt, synopsys = @synopsys, titleLong = @titleLong" +
                 " WHERE id = @id;";
             this._uow.Connection.Execute(UPDATE_BOOK_SQL, new
             {
@@ -297,7 +297,8 @@ namespace MyLibrary.DataAccessLayer.Repositories
                 dimensions = toUpdate.Dimensions,
                 overview = toUpdate.Overview,
                 excerpt = toUpdate.Excerpt,
-                synopsys = toUpdate.Synopsys
+                synopsys = toUpdate.Synopsys,
+                titleLong = toUpdate.TitleLong
             });
         }//Update
     }//class
