@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 NOTE: all dates are in dd-mm-yyyy format.
 
-## [1.4.0] - unreleased
+## [1.4.0] - 26-10-2022
 ### Fixed
 - bug with previous authors selected when prefilling add new book window
 - unique constraint on book long titles
