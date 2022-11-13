@@ -35,9 +35,9 @@ using MyLibrary.Views;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class WishlistDialog : Form, IWishlistForm
+    public partial class WishlistForm : Form, IWishlistForm
     {
-        public WishlistDialog()
+        public WishlistForm()
         {
             InitializeComponent();
 
