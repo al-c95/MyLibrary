@@ -6,6 +6,7 @@ A Windows desktop application for keeping track of books and other "library" ite
 ### Requirements
 - .NET Framework 4.7.2
 - Microsoft Visual Studio (for development)
+- RoboBooks framework has further requirements
 
 ![Main window screenshot](docs/img/main_window_design.PNG)
 
@@ -33,6 +34,9 @@ root
 |
 +--README.md
 +--.gitignore
+|
+|
++--RoboBooks // test automation and accessibility framework for the application
 ```
 All notable changes to this project are documented in `CHANGELOG.md`.
 

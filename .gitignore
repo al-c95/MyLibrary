@@ -6,3 +6,7 @@ src/DBTool/bin
 src/DBTool/obj
 src/.vs
 src/packages
+
+RoboBooks/src/@AutomationLog.txt
+RoboBooks/src/automation/@AutomationLog.txt
+RoboBooks/src/automation/__pycache__
