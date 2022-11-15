@@ -21,14 +21,11 @@
 //SOFTWARE
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
-using MyLibrary.DataAccessLayer.ServiceProviders;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -77,6 +74,24 @@ namespace MyLibrary.Presenters
             });
             this._view.NewCopyFieldsUpdated += NewCopyFieldsUpdated;
             this._view.SelectedCopyFieldsUpdated += SelectedCopyFieldsUpdated;
+            EventAggregator.GetInstance().Subscribe<BookCopiesUpdatedEvent>(async m =>
+            {
+                if (this._item.Type==ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+                {
+                    var copyService = this._serviceFactory.GetBookCopyService();
+                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                }
+            });
+            EventAggregator.GetInstance().Subscribe<MediaItemCopiesUpdatedEvent>(async m =>
+            {
+                if (this._item.Type != ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+                {
+                    var copyService = this._serviceFactory.GetMediaItemCopyService();
+                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                }
+            });
         }
 
         public async Task LoadData(object sender, EventArgs args)
@@ -139,7 +154,7 @@ namespace MyLibrary.Presenters
                 copy.BookId = this._item.Id;
                 await copyService.Update(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new BookCopiesUpdatedEvent(this._item.Title));
             }
             else if (this._item.GetType() == typeof(MediaItem))
             {
@@ -149,7 +164,7 @@ namespace MyLibrary.Presenters
                 copy.MediaItemId = this._item.Id;
                 await copyService.Update(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new MediaItemCopiesUpdatedEvent(this._item.Title));
             }
 
             this._view.StatusText = "Ready.";
@@ -170,14 +185,14 @@ namespace MyLibrary.Presenters
                 var copyService = this._serviceFactory.GetBookCopyService();
                 await copyService.DeleteById(this._view.SelectedCopy.Id);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new BookCopiesUpdatedEvent(this._item.Title));
             }
             else if (this._item.GetType() == typeof(MediaItem))
             {
                 var copyService = this._serviceFactory.GetMediaItemCopyService();
                 await copyService.DeleteById(this._view.SelectedCopy.Id);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new MediaItemCopiesUpdatedEvent(this._item.Title));
             }
 
             this._view.StatusText = "Ready.";
@@ -194,7 +209,7 @@ namespace MyLibrary.Presenters
                 BookCopy copy = (BookCopy)this._view.NewCopy;
                 await copyService.Create(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new BookCopiesUpdatedEvent(this._item.Title));
             }
             else if (this._item.GetType() == typeof(MediaItem))
             {
@@ -203,7 +218,7 @@ namespace MyLibrary.Presenters
                 MediaItemCopy copy = (MediaItemCopy)this._view.NewCopy;
                 await copyService.Create(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new MediaItemCopiesUpdatedEvent(this._item.Title));
             }
 
             this._view.NewDescription = "";

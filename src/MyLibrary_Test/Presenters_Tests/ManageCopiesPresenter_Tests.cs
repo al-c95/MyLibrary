@@ -14,6 +14,7 @@ using MyLibrary.ApiService;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Presenters.ServiceProviders;
+
 namespace MyLibrary_Test.Presenters_Tests
 {
     [TestFixture]
@@ -260,7 +261,6 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleSaveSelectedClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeView.DisplayCopies(copies)).MustHaveHappened();
             A.CallTo(() => fakeCopyService.Update(copy)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
@@ -314,7 +314,6 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleDeleteClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeView.DisplayCopies(copies)).MustHaveHappened();
             A.CallTo(() => fakeCopyService.DeleteById(1)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
@@ -341,7 +340,6 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleSaveNewClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeView.DisplayCopies(copies)).MustHaveHappened();
             A.CallTo(() => fakeCopyService.Create(copy)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
@@ -368,7 +366,6 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleSaveNewClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeView.DisplayCopies(copies)).MustHaveHappened();
             A.CallTo(() => fakeCopyService.Create(copy)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
