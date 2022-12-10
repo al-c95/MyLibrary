@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data;
@@ -34,7 +33,6 @@ using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Presenters.ServiceProviders;
 using MyLibrary.Events;
-using System.Windows.Forms;
 
 namespace MyLibrary.Presenters
 {

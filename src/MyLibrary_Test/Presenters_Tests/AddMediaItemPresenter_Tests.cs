@@ -252,8 +252,9 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
             A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
+            A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(true);
+            A.CallTo(() => fakeMediaItemService.AddIfNotExistsAsync(A<MediaItem>.That.Matches(i => i.Title == "title"))).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
@@ -263,50 +264,6 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // assert
             A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("title")).MustHaveHappened();
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [TestCase("", "", "")]
-        [TestCase("", "", @"C:\path\to\file.jpg")]
-        [TestCase("", "notes", @"C:\path\to\file.jpg")]
-        [TestCase("60", "notes", @"C:\path\to\file.jpg")]
-        [TestCase("60", "", @"C:\path\to\file.jpg")]
-        [TestCase("", "", @"C:\path\to\file.jpeg")]
-        [TestCase("", "notes", @"C:\path\to\file.jpeg")]
-        [TestCase("60", "notes", @"C:\path\to\file.jpeg")]
-        [TestCase("60", "", @"C:\path\to\file.jpeg")]
-        [TestCase("", "", @"C:\path\to\file.bmp")]
-        [TestCase("", "notes", @"C:\path\to\file.bmp")]
-        [TestCase("60", "notes", @"C:\path\to\file.bmp")]
-        [TestCase("60", "", @"C:\path\to\file.bmp")]
-        [TestCase("", "", @"C:\path\to\file.png")]
-        [TestCase("", "notes", @"C:\path\to\file.png")]
-        [TestCase("60", "notes", @"C:\path\to\file.png")]
-        [TestCase("60", "", @"C:\path\to\file.png")]
-        [TestCase("60", "notes", "")]
-        [TestCase("60", "", "")]
-        public async Task SaveButtonClicked_Test_ErrorWhenCheckingIfExists(string runningTimeFieldEntry, string notesFieldEntry, string imageFilePathFieldEntry)
-        {
-            // arrange
-            var fakeView = A.Fake<IAddMediaItemForm>();
-            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
-            A.CallTo(() => fakeView.NumberFieldText).Returns("0123456789");
-            A.CallTo(() => fakeView.RunningTimeFieldEntry).Returns(runningTimeFieldEntry);
-            A.CallTo(() => fakeView.YearFieldEntry).Returns("2021");
-            A.CallTo(() => fakeView.NotesFieldText).Returns(notesFieldEntry);
-            A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(imageFilePathFieldEntry);
-            var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Throws(new Exception("error"));
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeImageFileReader = A.Fake<IImageFileReader>();
-            MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowErrorDialog("Error checking title.", "error")).MustHaveHappened();
             Assert.IsTrue(fakeView.SaveButtonEnabled);
             Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
@@ -340,7 +297,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(false);
+            A.CallTo(() => fakeMediaItemService.AddIfNotExistsAsync(A<MediaItem>.That.Matches(i => i.Title == "title"))).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             A.CallTo(() => fakeImageFileReader.ReadBytes()).Throws(new System.IO.IOException("error"));
@@ -387,7 +344,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(false);
+            A.CallTo(() => fakeMediaItemService.AddIfNotExistsAsync(A<MediaItem>.That.Matches(i => i.Title == "title"))).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
@@ -396,7 +353,7 @@ namespace MyLibrary_Test.Presenters_Tests
             await presenter.HandleSaveButtonClicked(null, null);
 
             // assert
-            A.CallTo(() => fakeMediaItemService.AddAsync(A<MediaItem>.That.Matches(i => 
+            A.CallTo(() => fakeMediaItemService.AddIfNotExistsAsync(A<MediaItem>.That.Matches(i => 
             i.Title == "title" &&
             i.Number == 0123456789 &&
             i.ReleaseYear == 2021 &&
@@ -437,11 +394,10 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.SelectedCategory).Returns("Dvd");
             A.CallTo(() => fakeView.SelectedTags).Returns(new List<string> { "tag" });
             var fakeMediaItemService = A.Fake<IMediaItemService>();
-            A.CallTo(() => fakeMediaItemService.ExistsWithTitleAsync("title")).Returns(false);
+            A.CallTo(() => fakeMediaItemService.AddIfNotExistsAsync(A<MediaItem>.That.Matches(i => i.Title == "title"))).Throws(new Exception("error"));
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             MockPresenter presenter = new MockPresenter(fakeMediaItemService, fakeTagService, fakeView, fakeImageFileReader, null);
-            A.CallTo(() => fakeMediaItemService.AddAsync(A<MediaItem>.That.Matches(i => i.Title=="title"))).Throws(new Exception("error"));
 
             // act
             await presenter.HandleSaveButtonClicked(null, null);
