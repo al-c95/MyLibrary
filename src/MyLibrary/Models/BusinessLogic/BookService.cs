@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -176,7 +176,6 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
-                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository bookRepo = this._repoProvider.Get(uow);
                 IPublisherRepository publisherRepo = this._publisherRepoProvider.Get(uow);
@@ -188,46 +187,33 @@ namespace MyLibrary.Models.BusinessLogic
                 int publisherId = 0;
                 if (publisherRepo.ExistsWithName(book.Publisher.Name))
                 {
-                    // publisher exists
-                    // get the id
                     publisherId = publisherRepo.GetIdByName(book.Publisher.Name);
                 }
                 else
                 {
-                    // publisher does not exist
-                    // insert publisher
                     publisherRepo.Create(book.Publisher);
-                    // get the id
                     publisherId = publisherRepo.GetIdByName(book.Publisher.Name);
                 }
                 book.Publisher.Id = publisherId;
 
-                // insert Books table record
                 bookRepo.Create(book);
 
                 // handle tags
-                // get all tag Ids
                 List<int> tagIds = new List<int>();
                 foreach (var tag in book.Tags)
                 {
                     if (tagRepo.ExistsWithName(tag.Name))
                     {
-                        // tag exists
-                        // get the id
                         int tagId = tagRepo.GetIdByName(tag.Name);
                         tagIds.Add(tagId);
                     }
                     else
                     {
-                        // tag does not exist
-                        // insert tag
                         tagRepo.Create(tag);
-                        // get the id
                         int tagId = tagRepo.GetIdByName(tag.Name);
                         tagIds.Add(tagId);
                     }
                 }
-                // insert records in Book_Tag link table
                 int bookId = bookRepo.GetIdByTitle(book.Title);
                 foreach (int tagId in tagIds)
                 {
@@ -235,41 +221,32 @@ namespace MyLibrary.Models.BusinessLogic
                 }
 
                 // handle authors
-                // get all author Ids
                 List<int> authorIds = new List<int>();
                 foreach (var author in book.Authors)
                 {
                     if (authorRepo.AuthorExists(author.FirstName, author.LastName))
                     {
-                        // author exists
-                        // get the Id
                         int authorId = authorRepo.GetIdByName(author.FirstName, author.LastName);
                         authorIds.Add(authorId);
                     }
                     else
                     {
-                        // author does not exist
-                        // insert author
                         authorRepo.Create(author);
-                        // get the Id
                         int authorId = authorRepo.GetIdByName(author.FirstName, author.LastName);
                         authorIds.Add(authorId);
                     }
                 }
-                // insert records in Book_Author table
                 foreach (int authorId in authorIds)
                 {
                     authorRepo.LinkBook(bookId, authorId);
                 }
-                
-                // commit transaction
+
                 uow.Commit();
             });
         }
 
         public async Task<bool> AddIfNotExistsAsync(Book book)
         {
-            //if (await ExistsWithTitleAsync(book.Title) || await ExistsWithIsbnAsync(book.Isbn) || await ExistsWithIsbnAsync(book.Isbn13))
             if (await ExistsWithTitleAsync(book.Title))
             {
                 return false;
@@ -286,15 +263,13 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
-                // begin transaction
+
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
                 uow.Begin();
 
-                // do the work
                 repo.Update(book, includeImage);
 
-                // commit transaction
                 uow.Commit();
             });
         }
@@ -303,15 +278,12 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
-                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
                 uow.Begin();
 
-                // do the work
                 repo.DeleteById(id);
 
-                // commit transaction
                 uow.Commit();
             });
         }
@@ -320,49 +292,35 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
-                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository bookRepo = this._repoProvider.Get(uow);
                 ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
                 uow.Begin();
 
-                // add tags
                 foreach (var tag in dto.TagsToAdd)
                 {
                     if (tagRepo.ExistsWithName(tag))
                     {
-                        // tag exists
-                        // get the Id
                         int tagId = tagRepo.GetIdByName(tag);
-                        // insert record into link table
                         tagRepo.LinkBook(dto.Id, tagId);
                     }
                     else
                     {
-                        // tag does not exist
-                        // insert it
                         tagRepo.Create(new Tag { Name = tag });
-                        // get the id
                         int tagId = tagRepo.GetIdByName(tag);
-                        // insert record into link table
                         tagRepo.LinkBook(dto.Id, tagId);
                     }
                 }
 
-                // remove tags
                 foreach (var tag in dto.TagsToRemove)
                 {
                     if (tagRepo.ExistsWithName(tag))
                     {
-                        // tag exists
-                        // get the id
                         int tagId = tagRepo.GetIdByName(tag);
-                        // delete record from link table
                         tagRepo.UnlinkBook(dto.Id, tagId);
                     }
                 }
 
-                // commit transaction
                 uow.Commit();
             });
         }

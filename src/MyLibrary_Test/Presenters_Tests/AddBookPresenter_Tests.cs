@@ -370,12 +370,15 @@ namespace MyLibrary_Test.Presenters_Tests
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
             A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookRepo.ExistsWithTitleAsync("test book")).Returns(true);
+            A.CallTo(() => fakeView.SelectedPublisher).Returns("publisher");
+            A.CallTo(() => fakeView.PagesFieldText).Returns("100");
+            A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
+            var fakeBookService = A.Fake<IBookService>();
+            A.CallTo(() => fakeBookService.AddIfNotExistsAsync(A<Book>.That.Matches(i => i.Title == "test book"))).Returns(false);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
+            MockBookPresenter presenter = new MockBookPresenter(fakeBookService, fakeTagService, fakeAuthorService, fakePublisherService,
                 fakeView,null);
 
             // act
@@ -383,31 +386,6 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // assert
             A.CallTo(() => fakeView.ShowItemAlreadyExistsDialog("test book")).MustHaveHappened();
-            Assert.IsTrue(fakeView.SaveButtonEnabled);
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
-        }
-
-        [Test]
-        public async Task SaveButtonClicked_Test_ErrorWhileCheckingIfTitleAlreadyExists()
-        {
-            // arrange
-            var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
-            A.CallTo(() => fakeView.LongTitleFieldText).Returns("test book");
-            var fakeBookRepo = A.Fake<IBookService>();
-            Exception ex = new Exception("error");
-            A.CallTo(() => fakeBookRepo.ExistsWithTitleAsync("test book")).Throws(ex);
-            var fakeTagService = A.Fake<ITagService>();
-            var fakeAuthorService = A.Fake<IAuthorService>();
-            var fakePublisherService = A.Fake<IPublisherService>();
-            MockBookPresenter presenter = new MockBookPresenter(fakeBookRepo, fakeTagService, fakeAuthorService, fakePublisherService,
-                fakeView,null);
-
-            // act
-            await presenter.HandleSaveButtonClicked(null, null);
-
-            // assert
-            A.CallTo(() => fakeView.ShowErrorDialog("Error checking if title or ISBN exists.", "error"));
             Assert.IsTrue(fakeView.SaveButtonEnabled);
             Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
@@ -511,7 +489,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IAddBookForm>();
-            A.CallTo(() => fakeView.TitleFieldText).Returns("title");
+            A.CallTo(() => fakeView.TitleFieldText).Returns("test book");
             A.CallTo(() => fakeView.LongTitleFieldText).Returns(longTitle);
             A.CallTo(() => fakeView.LanguageFieldText).Returns("English");
             A.CallTo(() => fakeView.PagesFieldText).Returns("60");
@@ -521,6 +499,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
             var fakeBookService = A.Fake<IBookService>();
+            A.CallTo(() => fakeBookService.AddIfNotExistsAsync(A<Book>.That.Matches(i => i.Title == "test book"))).Returns(true);
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -541,8 +520,8 @@ namespace MyLibrary_Test.Presenters_Tests
             {
                 deweyDecimal = null;
             }
-            A.CallTo(() => fakeBookService.AddAsync(A<Book>.That.Matches(b =>
-            b.Title == "title" &&
+            A.CallTo(() => fakeBookService.AddIfNotExistsAsync(A<Book>.That.Matches(b =>
+            b.Title == "test book" &&
             b.TitleLong == longTitle &&
             b.Language == "English" &&
             b.Pages == 60 &&
@@ -550,7 +529,6 @@ namespace MyLibrary_Test.Presenters_Tests
             b.Isbn13 == isbn13FieldText &&
             b.DeweyDecimal == deweyDecimal))).MustHaveHappened();
             A.CallTo(() => fakeView.CloseDialog()).MustHaveHappened();
-            Assert.IsTrue(fakeView.CancelButtonEnabled);
         }
 
         [TestCase("", "", "", "500.0", ".bmp")]
@@ -632,7 +610,7 @@ namespace MyLibrary_Test.Presenters_Tests
             A.CallTo(() => fakeView.DeweyDecimalFieldText).Returns(deweyDecimalFieldText);
             A.CallTo(() => fakeView.ImageFilePathFieldText).Returns(@"C:\path\to\file." + ext);
             var fakeBookService = A.Fake<IBookService>();
-            A.CallTo(() => fakeBookService.AddAsync(A<Book>.That.Matches(b => b.Title == "title"))).Throws(new Exception("error"));
+            A.CallTo(() => fakeBookService.AddIfNotExistsAsync(A<Book>.That.Matches(b => b.Title == "title"))).Throws(new Exception("error"));
             var fakeTagService = A.Fake<ITagService>();
             var fakeAuthorService = A.Fake<IAuthorService>();
             var fakePublisherService = A.Fake<IPublisherService>();
@@ -653,7 +631,7 @@ namespace MyLibrary_Test.Presenters_Tests
             {
                 deweyDecimal = null;
             }
-            A.CallTo(() => fakeBookService.AddAsync(A<Book>.That.Matches(b => 
+            A.CallTo(() => fakeBookService.AddIfNotExistsAsync(A<Book>.That.Matches(b => 
             b.Title == "title" &&
             b.TitleLong == longTitle &&
             b.Language == "English" &&
@@ -661,7 +639,7 @@ namespace MyLibrary_Test.Presenters_Tests
             b.Isbn == isbnFieldText &&
             b.Isbn13 == isbn13FieldText &&
             b.DeweyDecimal == deweyDecimal))).MustHaveHappened();
-            A.CallTo(() => fakeView.ShowErrorDialog("Error creating book", "error")).MustHaveHappened(); 
+            A.CallTo(() => fakeView.ShowErrorDialog("Error creating item", "error")).MustHaveHappened(); 
             Assert.IsTrue(fakeView.SaveButtonEnabled);
             Assert.IsTrue(fakeView.CancelButtonEnabled);
         }

@@ -1,7 +1,7 @@
 ﻿
 //MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -164,13 +164,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public void Add(MediaItem item)
         {
-            // begin transaction
             IUnitOfWork uow = this._uowProvider.Get();
             IMediaItemRepository itemRepo = this._repoProvider.Get(uow);
             ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
             uow.Begin();
 
-            // insert Media table record
             itemRepo.Create(item);
 
             // handle tags
@@ -180,29 +178,23 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 if (tagRepo.ExistsWithName(tag.Name))
                 {
-                    // tag exists
-                    // get the Id
                     int tagId = tagRepo.GetIdByName(tag.Name);
                     tagIds.Add(tagId);
                 }
                 else
                 {
-                    // tag does not exist
-                    // insert tag
                     tagRepo.Create(tag);
-                    // get the Id
                     int tagId = tagRepo.GetIdByName(tag.Name);
                     tagIds.Add(tagId);
                 }
             }
-            // insert record(s) in Media_Tag link table
+
             int itemId = itemRepo.GetIdByTitle(item.Title);
             foreach (int tagId in tagIds)
             {
                 tagRepo.LinkMediaItem(itemId, tagId);
             }
 
-            // commit transaction
             uow.Commit();
         }
 
@@ -218,30 +210,24 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
-                // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemRepository repo = this._repoProvider.Get(uow);
                 uow.Begin();
                 
-                // do the work
                 repo.DeleteById(id);
 
-                // commit transaction
                 uow.Commit();
             });
         }
 
         public void Update(MediaItem item, bool includeImage)
         {
-            // begin transaction
             IUnitOfWork uow = this._uowProvider.Get();
             IMediaItemRepository repo = this._repoProvider.Get(uow);
             uow.Begin();
 
-            // do the work
             repo.Update(item, includeImage);
 
-            // commit transaction
             uow.Commit();
         }
 
@@ -255,7 +241,6 @@ namespace MyLibrary.Models.BusinessLogic
 
         public void UpdateTags(ItemTagsDto dto)
         {
-            // begin transaction
             IUnitOfWork uow = this._uowProvider.Get();
             IMediaItemRepository itemRepo = this._repoProvider.Get(uow);
             ITagRepository tagRepo = this._tagRepoProvider.Get(uow);
@@ -266,20 +251,13 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 if (tagRepo.ExistsWithName(tag))
                 {
-                    // tag exists
-                    // get the Id
                     int tagId = tagRepo.GetIdByName(tag);
-                    // insert record into link table
                     tagRepo.LinkMediaItem(dto.Id, tagId);
                 }
                 else
                 {
-                    // tag does not exist
-                    // insert it
                     tagRepo.Create(new Tag { Name = tag });
-                    // get the id
                     int tagId = tagRepo.GetIdByName(tag);
-                    // insert record into link table
                     tagRepo.LinkMediaItem(dto.Id, tagId);
                 }
             }
@@ -289,15 +267,11 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 if (tagRepo.ExistsWithName(tag))
                 {
-                    // tag exists
-                    // get the id
                     int tagId = tagRepo.GetIdByName(tag);
-                    // delete record from link table
                     tagRepo.UnlinkMediaItem(dto.Id, tagId);
                 }
             }
 
-            // commit transaction
             uow.Commit();
         }
 
