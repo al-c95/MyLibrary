@@ -30,7 +30,7 @@ using MyLibrary.Utils;
 
 namespace MyLibrary.Presenters
 {
-    public class WishlistPresenter
+    public class WishlistPresenter : IDisposable
     {
         private IWishlistForm _view;
         private IWishlistServiceProvider _serviceProvider;
@@ -214,5 +214,10 @@ namespace MyLibrary.Presenters
          
         }
         #endregion
+
+        public void Dispose()
+        {
+            EventAggregator.GetInstance().Unsubscribe<WishlistUpdatedEvent>(async m => await LoadData());
+        }
     }//class
 }
