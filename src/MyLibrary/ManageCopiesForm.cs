@@ -30,7 +30,7 @@ using MyLibrary.Models.Entities;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class ManageCopiesDialog : Form, IManageCopiesForm
+    public partial class ManageCopiesForm : Form, IManageCopiesForm
     {
         private readonly Item _item;
 
@@ -212,7 +212,7 @@ namespace MyLibrary
             set => this.selectedCopyNotesBox.Enabled = value; 
         }
 
-        public ManageCopiesDialog(Item item)
+        public ManageCopiesForm(Item item)
         {
             InitializeComponent();
 
@@ -261,11 +261,6 @@ namespace MyLibrary
             this.CenterToParent();
         }//ctor
 
-        private void ResizeColumns()
-        {
-            this.dataGrid.Columns[0].Width = dataGrid.Width / 40;
-        }
-
         public void DisplayCopies(IEnumerable<Copy> copies)
         {
             DataTable dt = new DataTable();
@@ -282,7 +277,6 @@ namespace MyLibrary
             }
             this.dataGrid.DataSource = dt;
             this.dataGrid.Columns["Notes"].Visible = false;
-            //ResizeColumns();
         }
     }//class
 }

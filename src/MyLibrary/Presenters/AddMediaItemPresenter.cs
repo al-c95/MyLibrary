@@ -83,20 +83,17 @@ namespace MyLibrary.Presenters
 
         public async Task PopulateTagsList()
         {
-            // load all tags
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
                 this._allTags.Add(tag.Name, false);
             }
 
-            // perform filtering and update the view
             FilterTags(null,null);
         }//PopulateTagsList
 
         public void FilterTags(object sender, EventArgs args)
         {
-            // grab the filter
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
 
@@ -265,7 +262,7 @@ namespace MyLibrary.Presenters
         private string ShowNewTagDialog()
         {
             var dialog = this._newTagDialogProvider.Get();
-            NewTagOrPublisherInputPresenter presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
+            var presenter = new NewTagOrPublisherInputPresenter(dialog, NewTagOrPublisherInputPresenter.InputBoxMode.Tag);
 
             return dialog.ShowAsDialog();
         }

@@ -29,7 +29,7 @@ using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
-    public class ManageCopiesPresenter
+    public class ManageCopiesPresenter : IDisposable
     {
         private IManageCopiesForm _view;
         private Item _item;
@@ -76,22 +76,32 @@ namespace MyLibrary.Presenters
             this._view.SelectedCopyFieldsUpdated += SelectedCopyFieldsUpdated;
             EventAggregator.GetInstance().Subscribe<BookCopiesUpdatedEvent>(async m =>
             {
-                if (this._item.Type==ItemType.Book &&
-                    this._item.Title.Equals(m.Title))
-                {
-                    var copyService = this._serviceFactory.GetBookCopyService();
-                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
-                }
+                await HandleBookCopiesUpdated(m);
             });
             EventAggregator.GetInstance().Subscribe<MediaItemCopiesUpdatedEvent>(async m =>
             {
-                if (this._item.Type != ItemType.Book &&
-                    this._item.Title.Equals(m.Title))
-                {
-                    var copyService = this._serviceFactory.GetMediaItemCopyService();
-                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
-                }
+                await HandleMediaItemCopiesUpdated(m);
             });
+        }
+
+        private async Task HandleBookCopiesUpdated(BookCopiesUpdatedEvent m)
+        {
+            if (this._item.Type == ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+            {
+                var copyService = this._serviceFactory.GetBookCopyService();
+                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+            }
+        }
+
+        private async Task HandleMediaItemCopiesUpdated(MediaItemCopiesUpdatedEvent m)
+        {
+            if (this._item.Type != ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+            {
+                var copyService = this._serviceFactory.GetMediaItemCopyService();
+                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+            }
         }
 
         public async Task LoadData(object sender, EventArgs args)
@@ -261,5 +271,17 @@ namespace MyLibrary.Presenters
             }
         }
         #endregion
+
+        public void Dispose()
+        {
+            EventAggregator.GetInstance().Unsubscribe<MediaItemCopiesUpdatedEvent>(async m =>
+            {
+                await HandleMediaItemCopiesUpdated(m);
+            });
+            EventAggregator.GetInstance().Unsubscribe<BookCopiesUpdatedEvent>(async m =>
+            {
+                await HandleBookCopiesUpdated(m);
+            });
+        }
     }//class
 }
