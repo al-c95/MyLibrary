@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021-2022
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -263,8 +263,8 @@ namespace MyLibrary
 
         private void ResizeColumns()
         {
-            this.dataGrid.Columns["Id"].Width = this.dataGrid.Width / 8;
-            this.dataGrid.Columns["Type"].Width = this.dataGrid.Width / 8;
+            this.dataGrid.Columns["Id"].Width = 40;
+            this.dataGrid.Columns["Type"].Width = 90;
 
             this.dataGrid.Columns["Title"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
