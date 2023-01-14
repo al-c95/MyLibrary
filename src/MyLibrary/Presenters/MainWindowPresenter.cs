@@ -33,7 +33,6 @@ using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Presenters.ServiceProviders;
 using MyLibrary.Events;
-using System.Windows.Forms;
 
 namespace MyLibrary.Presenters
 {
@@ -137,11 +136,9 @@ namespace MyLibrary.Presenters
 
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
-            // ask user for confirmation
             if (!this._view.ShowDeleteConfirmationDialog(this._view.SelectedItem.Title))
                 return;
 
-            // delete the item
             try
             {
                 int selectedItemId = this._view.SelectedItemId;
@@ -168,11 +165,9 @@ namespace MyLibrary.Presenters
 
         public void PerformFilter(object sender, EventArgs e)
         {
-            // grab the filters
             string filterByTitle = this._view.TitleFilterText;
             IEnumerable<string> filterByTags = this._view.SelectedFilterTags;
 
-            // perform filtering
             DataTable filteredTable = this._allItems.Copy();
             if (!string.IsNullOrWhiteSpace(filterByTitle))
             {
@@ -183,7 +178,6 @@ namespace MyLibrary.Presenters
                 filteredTable = FilterByTags(filteredTable, filterByTags);
             }
 
-            // update the view
             this._view.DisplayedItems = filteredTable;
             UpdateStatusBarAndSelectedItemDetails();
         }

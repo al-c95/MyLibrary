@@ -22,21 +22,32 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using MyLibrary.Models.Entities;
 
 namespace MyLibrary.Views
 {
     public interface IWishlistForm
     {
+        string TitleFilterText { get; set; }
+        bool BookFilterSelected { get; set; }
+        bool CdFilterSelected { get; set; }
+        bool DvdFilterSelected { get; set; }
+        bool BlurayFilterSelected { get; set; }
+        bool VhsFilterSelected { get; set; }
+        bool VinylFilterSelected { get; set; }
+        bool FloppyDiskFilterSelected { get; set; }
+        bool FlashDriveFilterSelected { get; set; }
+        bool OtherFilterSelected { get; set; }
+       
         string SelectedNotes { get; set; }
         string NewNotes { get; set; }
 
         string StatusText { get; set; }
 
-        void DisplayItems(IEnumerable<WishlistItem> items);
-
         void ShowItemAlreadyExistsDialog(string title);
 
+        DataTable DisplayedItems { get; set; }
         WishlistItem SelectedItem { get; }
         WishlistItem ModifiedItem { get; }
         WishlistItem NewItem { get; }
@@ -52,6 +63,9 @@ namespace MyLibrary.Views
 
         ItemType NewItemType { get; }
 
+        event EventHandler WindowCreated;
+        event EventHandler ApplyFilters;
+        event EventHandler ClearTitleFilterButtonClicked;
         event EventHandler ItemSelected;
         event EventHandler SaveSelectedClicked;
         event EventHandler DiscardChangesClicked;

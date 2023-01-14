@@ -34,6 +34,21 @@ namespace MyLibrary
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.otherCheckBox = new System.Windows.Forms.CheckBox();
+            this.floppyDiskCheckBox = new System.Windows.Forms.CheckBox();
+            this.flashDriveCheckBox = new System.Windows.Forms.CheckBox();
+            this.vinylCheckBox = new System.Windows.Forms.CheckBox();
+            this.vhsCheckBox = new System.Windows.Forms.CheckBox();
+            this.blurayCheckBox = new System.Windows.Forms.CheckBox();
+            this.dvdCheckBox = new System.Windows.Forms.CheckBox();
+            this.cdCheckBox = new System.Windows.Forms.CheckBox();
+            this.bookCheckBox = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.clearTitleFilterButton = new System.Windows.Forms.Button();
+            this.applyFiltersButton = new System.Windows.Forms.Button();
+            this.titleFilterField = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.typesDropDown = new System.Windows.Forms.ComboBox();
@@ -43,17 +58,18 @@ namespace MyLibrary
             this.saveNewItemChangesButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.addToLibraryButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.discardChangesButton = new System.Windows.Forms.Button();
             this.selectedItemNotesBox = new System.Windows.Forms.TextBox();
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.notesLabel = new System.Windows.Forms.Label();
             this.dataGrid = new System.Windows.Forms.DataGridView();
-            this.addToLibraryButton = new System.Windows.Forms.Button();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
@@ -68,16 +84,17 @@ namespace MyLibrary
             // 
             // toolStripContainer.ContentPanel
             // 
+            this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox3);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox2);
             this.toolStripContainer.ContentPanel.Controls.Add(this.groupBox1);
             this.toolStripContainer.ContentPanel.Controls.Add(this.dataGrid);
             this.toolStripContainer.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1137, 597);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(1242, 762);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer.Name = "toolStripContainer";
-            this.toolStripContainer.Size = new System.Drawing.Size(1137, 648);
+            this.toolStripContainer.Size = new System.Drawing.Size(1242, 813);
             this.toolStripContainer.TabIndex = 0;
             this.toolStripContainer.Text = "toolStripContainer1";
             // 
@@ -89,7 +106,7 @@ namespace MyLibrary
             this.toolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1137, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1242, 26);
             this.statusStrip1.TabIndex = 0;
             // 
             // toolStripStatusLabel
@@ -97,6 +114,166 @@ namespace MyLibrary
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(53, 20);
             this.toolStripStatusLabel.Text = "Ready.";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.otherCheckBox);
+            this.groupBox3.Controls.Add(this.floppyDiskCheckBox);
+            this.groupBox3.Controls.Add(this.flashDriveCheckBox);
+            this.groupBox3.Controls.Add(this.vinylCheckBox);
+            this.groupBox3.Controls.Add(this.vhsCheckBox);
+            this.groupBox3.Controls.Add(this.blurayCheckBox);
+            this.groupBox3.Controls.Add(this.dvdCheckBox);
+            this.groupBox3.Controls.Add(this.cdCheckBox);
+            this.groupBox3.Controls.Add(this.bookCheckBox);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.clearTitleFilterButton);
+            this.groupBox3.Controls.Add(this.applyFiltersButton);
+            this.groupBox3.Controls.Add(this.titleFilterField);
+            this.groupBox3.Location = new System.Drawing.Point(15, 14);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(516, 155);
+            this.groupBox3.TabIndex = 30;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Filter";
+            // 
+            // otherCheckBox
+            // 
+            this.otherCheckBox.AutoSize = true;
+            this.otherCheckBox.Location = new System.Drawing.Point(448, 116);
+            this.otherCheckBox.Name = "otherCheckBox";
+            this.otherCheckBox.Size = new System.Drawing.Size(61, 20);
+            this.otherCheckBox.TabIndex = 26;
+            this.otherCheckBox.Text = "Other";
+            this.otherCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // floppyDiskCheckBox
+            // 
+            this.floppyDiskCheckBox.AutoSize = true;
+            this.floppyDiskCheckBox.Location = new System.Drawing.Point(312, 129);
+            this.floppyDiskCheckBox.Name = "floppyDiskCheckBox";
+            this.floppyDiskCheckBox.Size = new System.Drawing.Size(101, 20);
+            this.floppyDiskCheckBox.TabIndex = 25;
+            this.floppyDiskCheckBox.Text = "Floppy Disk";
+            this.floppyDiskCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // flashDriveCheckBox
+            // 
+            this.flashDriveCheckBox.AutoSize = true;
+            this.flashDriveCheckBox.Location = new System.Drawing.Point(312, 103);
+            this.flashDriveCheckBox.Name = "flashDriveCheckBox";
+            this.flashDriveCheckBox.Size = new System.Drawing.Size(97, 20);
+            this.flashDriveCheckBox.TabIndex = 24;
+            this.flashDriveCheckBox.Text = "Flash Drive";
+            this.flashDriveCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // vinylCheckBox
+            // 
+            this.vinylCheckBox.AutoSize = true;
+            this.vinylCheckBox.Location = new System.Drawing.Point(217, 129);
+            this.vinylCheckBox.Name = "vinylCheckBox";
+            this.vinylCheckBox.Size = new System.Drawing.Size(58, 20);
+            this.vinylCheckBox.TabIndex = 23;
+            this.vinylCheckBox.Text = "Vinyl";
+            this.vinylCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // vhsCheckBox
+            // 
+            this.vhsCheckBox.AutoSize = true;
+            this.vhsCheckBox.Location = new System.Drawing.Point(217, 103);
+            this.vhsCheckBox.Name = "vhsCheckBox";
+            this.vhsCheckBox.Size = new System.Drawing.Size(57, 20);
+            this.vhsCheckBox.TabIndex = 22;
+            this.vhsCheckBox.Text = "VHS";
+            this.vhsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // blurayCheckBox
+            // 
+            this.blurayCheckBox.AutoSize = true;
+            this.blurayCheckBox.Location = new System.Drawing.Point(107, 129);
+            this.blurayCheckBox.Name = "blurayCheckBox";
+            this.blurayCheckBox.Size = new System.Drawing.Size(73, 20);
+            this.blurayCheckBox.TabIndex = 21;
+            this.blurayCheckBox.Text = "BluRay";
+            this.blurayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dvdCheckBox
+            // 
+            this.dvdCheckBox.AutoSize = true;
+            this.dvdCheckBox.Location = new System.Drawing.Point(107, 103);
+            this.dvdCheckBox.Name = "dvdCheckBox";
+            this.dvdCheckBox.Size = new System.Drawing.Size(58, 20);
+            this.dvdCheckBox.TabIndex = 20;
+            this.dvdCheckBox.Text = "DVD";
+            this.dvdCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // cdCheckBox
+            // 
+            this.cdCheckBox.AutoSize = true;
+            this.cdCheckBox.Location = new System.Drawing.Point(11, 129);
+            this.cdCheckBox.Name = "cdCheckBox";
+            this.cdCheckBox.Size = new System.Drawing.Size(48, 20);
+            this.cdCheckBox.TabIndex = 19;
+            this.cdCheckBox.Text = "CD";
+            this.cdCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // bookCheckBox
+            // 
+            this.bookCheckBox.AutoSize = true;
+            this.bookCheckBox.Location = new System.Drawing.Point(11, 103);
+            this.bookCheckBox.Name = "bookCheckBox";
+            this.bookCheckBox.Size = new System.Drawing.Size(61, 20);
+            this.bookCheckBox.TabIndex = 18;
+            this.bookCheckBox.Text = "Book";
+            this.bookCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 16);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Category:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(34, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 16);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Title:";
+            // 
+            // clearTitleFilterButton
+            // 
+            this.clearTitleFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.clearTitleFilterButton.Location = new System.Drawing.Point(431, 18);
+            this.clearTitleFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clearTitleFilterButton.Name = "clearTitleFilterButton";
+            this.clearTitleFilterButton.Size = new System.Drawing.Size(75, 28);
+            this.clearTitleFilterButton.TabIndex = 15;
+            this.clearTitleFilterButton.Text = "Clear";
+            this.clearTitleFilterButton.UseVisualStyleBackColor = true;
+            // 
+            // applyFiltersButton
+            // 
+            this.applyFiltersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.applyFiltersButton.Location = new System.Drawing.Point(77, 48);
+            this.applyFiltersButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.applyFiltersButton.Name = "applyFiltersButton";
+            this.applyFiltersButton.Size = new System.Drawing.Size(348, 28);
+            this.applyFiltersButton.TabIndex = 14;
+            this.applyFiltersButton.Text = "Apply";
+            this.applyFiltersButton.UseVisualStyleBackColor = true;
+            // 
+            // titleFilterField
+            // 
+            this.titleFilterField.Location = new System.Drawing.Point(77, 21);
+            this.titleFilterField.Name = "titleFilterField";
+            this.titleFilterField.Size = new System.Drawing.Size(348, 22);
+            this.titleFilterField.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -108,11 +285,11 @@ namespace MyLibrary
             this.groupBox2.Controls.Add(this.newItemNotesBox);
             this.groupBox2.Controls.Add(this.saveNewItemChangesButton);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(15, 317);
+            this.groupBox2.Location = new System.Drawing.Point(15, 477);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(460, 272);
+            this.groupBox2.Size = new System.Drawing.Size(516, 272);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "New Item";
@@ -134,7 +311,7 @@ namespace MyLibrary
             this.typesDropDown.Location = new System.Drawing.Point(75, 207);
             this.typesDropDown.Margin = new System.Windows.Forms.Padding(4);
             this.typesDropDown.Name = "typesDropDown";
-            this.typesDropDown.Size = new System.Drawing.Size(377, 24);
+            this.typesDropDown.Size = new System.Drawing.Size(434, 24);
             this.typesDropDown.TabIndex = 30;
             // 
             // label1
@@ -152,7 +329,7 @@ namespace MyLibrary
             this.newItemTitleField.Location = new System.Drawing.Point(57, 22);
             this.newItemTitleField.Margin = new System.Windows.Forms.Padding(4);
             this.newItemTitleField.Name = "newItemTitleField";
-            this.newItemTitleField.Size = new System.Drawing.Size(393, 22);
+            this.newItemTitleField.Size = new System.Drawing.Size(452, 22);
             this.newItemTitleField.TabIndex = 30;
             // 
             // newItemNotesBox
@@ -163,7 +340,7 @@ namespace MyLibrary
             this.newItemNotesBox.Multiline = true;
             this.newItemNotesBox.Name = "newItemNotesBox";
             this.newItemNotesBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.newItemNotesBox.Size = new System.Drawing.Size(445, 126);
+            this.newItemNotesBox.Size = new System.Drawing.Size(502, 126);
             this.newItemNotesBox.TabIndex = 20;
             // 
             // saveNewItemChangesButton
@@ -198,14 +375,27 @@ namespace MyLibrary
             this.groupBox1.Controls.Add(this.selectedItemNotesBox);
             this.groupBox1.Controls.Add(this.saveChangesButton);
             this.groupBox1.Controls.Add(this.notesLabel);
-            this.groupBox1.Location = new System.Drawing.Point(15, 14);
+            this.groupBox1.Location = new System.Drawing.Point(15, 174);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(460, 299);
+            this.groupBox1.Size = new System.Drawing.Size(516, 299);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Item";
+            // 
+            // addToLibraryButton
+            // 
+            this.addToLibraryButton.Enabled = false;
+            this.addToLibraryButton.Image = ((System.Drawing.Image)(resources.GetObject("addToLibraryButton.Image")));
+            this.addToLibraryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addToLibraryButton.Location = new System.Drawing.Point(10, 259);
+            this.addToLibraryButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.addToLibraryButton.Name = "addToLibraryButton";
+            this.addToLibraryButton.Size = new System.Drawing.Size(155, 28);
+            this.addToLibraryButton.TabIndex = 29;
+            this.addToLibraryButton.Text = "Add to Library";
+            this.addToLibraryButton.UseVisualStyleBackColor = true;
             // 
             // deleteButton
             // 
@@ -226,7 +416,7 @@ namespace MyLibrary
             this.discardChangesButton.Enabled = false;
             this.discardChangesButton.Image = ((System.Drawing.Image)(resources.GetObject("discardChangesButton.Image")));
             this.discardChangesButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.discardChangesButton.Location = new System.Drawing.Point(298, 180);
+            this.discardChangesButton.Location = new System.Drawing.Point(355, 180);
             this.discardChangesButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.discardChangesButton.Name = "discardChangesButton";
             this.discardChangesButton.Size = new System.Drawing.Size(155, 28);
@@ -243,7 +433,7 @@ namespace MyLibrary
             this.selectedItemNotesBox.Multiline = true;
             this.selectedItemNotesBox.Name = "selectedItemNotesBox";
             this.selectedItemNotesBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.selectedItemNotesBox.Size = new System.Drawing.Size(445, 126);
+            this.selectedItemNotesBox.Size = new System.Drawing.Size(502, 126);
             this.selectedItemNotesBox.TabIndex = 20;
             // 
             // saveChangesButton
@@ -287,7 +477,7 @@ namespace MyLibrary
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGrid.Location = new System.Drawing.Point(480, 14);
+            this.dataGrid.Location = new System.Drawing.Point(537, 14);
             this.dataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
@@ -295,31 +485,18 @@ namespace MyLibrary
             this.dataGrid.RowHeadersWidth = 51;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(642, 576);
+            this.dataGrid.Size = new System.Drawing.Size(693, 735);
             this.dataGrid.TabIndex = 26;
             // 
-            // addToLibraryButton
-            // 
-            this.addToLibraryButton.Enabled = false;
-            this.addToLibraryButton.Image = ((System.Drawing.Image)(resources.GetObject("addToLibraryButton.Image")));
-            this.addToLibraryButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addToLibraryButton.Location = new System.Drawing.Point(10, 259);
-            this.addToLibraryButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.addToLibraryButton.Name = "addToLibraryButton";
-            this.addToLibraryButton.Size = new System.Drawing.Size(155, 28);
-            this.addToLibraryButton.TabIndex = 29;
-            this.addToLibraryButton.Text = "Add to Library";
-            this.addToLibraryButton.UseVisualStyleBackColor = true;
-            // 
-            // WishlistDialog
+            // WishlistForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1137, 648);
+            this.ClientSize = new System.Drawing.Size(1242, 813);
             this.Controls.Add(this.toolStripContainer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "WishlistDialog";
+            this.Name = "WishlistForm";
             this.Text = "Wishlist";
             this.toolStripContainer.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer.BottomToolStripPanel.PerformLayout();
@@ -328,6 +505,8 @@ namespace MyLibrary
             this.toolStripContainer.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -358,5 +537,20 @@ namespace MyLibrary
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox typesDropDown;
         private System.Windows.Forms.Button addToLibraryButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox titleFilterField;
+        private System.Windows.Forms.Button clearTitleFilterButton;
+        private System.Windows.Forms.Button applyFiltersButton;
+        private System.Windows.Forms.CheckBox vhsCheckBox;
+        private System.Windows.Forms.CheckBox blurayCheckBox;
+        private System.Windows.Forms.CheckBox dvdCheckBox;
+        private System.Windows.Forms.CheckBox cdCheckBox;
+        private System.Windows.Forms.CheckBox bookCheckBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox vinylCheckBox;
+        private System.Windows.Forms.CheckBox otherCheckBox;
+        private System.Windows.Forms.CheckBox floppyDiskCheckBox;
+        private System.Windows.Forms.CheckBox flashDriveCheckBox;
     }
 }

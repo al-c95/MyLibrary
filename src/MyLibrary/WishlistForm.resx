@@ -136,17 +136,17 @@
   </data>
   <data name="addToLibraryButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAB+ElEQVQ4T6XPy2sTURTH8WMW
-        aqU2mXFSoSKGidFCFZRAS8EHhWKxi1asL8TSLoqu6iZrV7px4SYLF4oPxErswiI2LmKIFFGrXJSSxKAk
-        NQkRAskfkFn9vOekTadFLOKFz3C4936HGQLwX4hiFtFzfzvN+iNaQlOb4DsRabiVR8yK7F/oK5wrXnXG
-        f12H25XK9DpjP6ec4NveAjfNF8zox4yVGFuecka+TcDt5MczYuP+6I9Jhxtp6ckupi4sX8OpLxdb+heG
-        9S82F8/us9HcJLiRlh6aTPHm8fcjLeE3gys5ZHafDX29BG6kpXsGU6eXLqM3NYTD8RPiwIs+1Go1lMtl
-        WA9CMO8HReejg+h+2Q9upKW7PqYG1Xn0vDqGRqOBUqmEbDaLXC6HfD6PYrGISqWCarUK47GNPbOHwI20
-        FPUyNfDpLOy5MDKZDNLp9B/jer0O45mN3XPd4EZautPB1JF3AzDngzBidtNTuxXz3Nqft2HFQ+BGWrq9
-        k6nAh6MwUvrCqri99tl6dp+ZqSC4kZZutTPVpXpgLOoLq5L22mfred2Zxo20dGMHS/g/hxxjSR+6vV6x
-        Yd+7GHC4kZb2eoimt0a2R82CTwUc47u+9Bdetc/ZFvUVuJFWL5M6toRp2HOTxj1JTW0iKXe54VavNq1T
-        6/pHuqG23ySD491wDqVsAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH4SURBVDhPpc/LaxNRFMfxYxZqpTaZcVKhIoaJ0UIV
+        lEBLwQeFYrGLVqwvxNIuiq7qJmtXunHhJgsXig/ESuzCIjYuYogUUatclJLEoCQ1CRECyR+QWf2856RN
+        p0Us4oXPcLj3focZAvBfiGIW0XN/O836I1pCU5vgOxFpuJVHzIrsX+grnCtedcZ/XYfblcr0OmM/p5zg
+        294CN80XzOjHjJUYW55yRr5NwO3kxzNi4/7oj0mHG2npyS6mLixfw6kvF1v6F4b1LzYXz+6z0dwkuJGW
+        HppM8ebx9yMt4TeDKzlkdp8Nfb0EbqSlewZTp5cuozc1hMPxE+LAiz7UajWUy2VYD0Iw7wdF56OD6H7Z
+        D26kpbs+pgbVefS8OoZGo4FSqYRsNotcLod8Po9isYhKpYJqtQrjsY09s4fAjbQU9TI18Oks7LkwMpkM
+        0un0H+N6vQ7jmY3dc93gRlq608HUkXcDMOeDMGJ201O7FfPc2p+3YcVD4EZaur2TqcCHozBS+sKquL32
+        2Xp2n5mpILiRlm61M9WlemAs6gurkvbaZ+t53ZnGjbR0YwdL+D+HHGNJH7q9XrFh37sYcLiRlvZ6iKa3
+        RrZHzYJPBRzju770F161z9kW9RW4kVYvkzq2hGnYc5PGPUlNbSIpd7nhVq82rVPr+ke6obbfJIPj3XAO
+        pWwAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="deleteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
