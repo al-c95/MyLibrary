@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.Encodings;
 using NUnit;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;

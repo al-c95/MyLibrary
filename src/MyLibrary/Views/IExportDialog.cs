@@ -32,7 +32,6 @@ namespace MyLibrary.Views
         string Path { get; set; }
         Boolean BrowseButtonEnabled { get; set; }
         Boolean StartButtonEnabled { get; set; }
-        Boolean CancelButtonEnabled { get; set; }
         Boolean CloseButtonEnabled { get; set; }
         Boolean PathFieldEnabled { get; set; }
 

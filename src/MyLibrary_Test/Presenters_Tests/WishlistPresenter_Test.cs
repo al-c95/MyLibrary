@@ -12,6 +12,8 @@ using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
+using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -32,6 +34,8 @@ namespace MyLibrary_Test.Presenters_Tests
             fakeView.FlashDriveFilterSelected = true;
             fakeView.FloppyDiskFilterSelected = true;
             fakeView.OtherFilterSelected = true;
+            fakeView.CassetteFilterSelected = true;
+            fakeView.UhdBlurayFilterSelected = true;
             var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
             var fakeService = A.Fake<IWishlistService>();
             A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
@@ -44,7 +48,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var displayedTable = fakeView.DisplayedItems;
 
             // assert
-            Assert.AreEqual(9, displayedTable.Rows.Count);
+            Assert.AreEqual(11, displayedTable.Rows.Count);
             Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("1"));
             Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Book"));
             Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
@@ -420,6 +424,60 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_UhdBluRayFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.UhdBlurayFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("10"));
+            //Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test 4k BluRay"));
+            //Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("4k BluRay"));
+            //Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            //Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_CassetteFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.CassetteFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("11"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Cassette"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Cassette"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
         public async Task ApplyFilters_Test_NoTitleFilter_BluRayFilter()
         {
             // arrange
@@ -647,6 +705,20 @@ namespace MyLibrary_Test.Presenters_Tests
                     Title="Test Other",
                     Notes="test",
                     Type=ItemType.Other
+                },
+                new WishlistItem
+                {
+                    Id=10,
+                    Title="Test 4k BluRay",
+                    Notes="test",
+                    Type=ItemType.UhdBluRay
+                },
+                new WishlistItem
+                {
+                    Id=11,
+                    Title="Test Cassette",
+                    Notes="test",
+                    Type=ItemType.Cassette
                 }
             };
         }

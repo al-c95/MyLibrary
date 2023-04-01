@@ -44,7 +44,7 @@ namespace MyLibrary
             {
                 this.StartButtonClicked?.Invoke(sender, args);
             });
-            this.cancelButton.Click += ((sender, args) =>
+            this.closeButton.Click += ((sender, args) =>
             {
                 this.Cancelled?.Invoke(sender, args);
             });
@@ -95,16 +95,18 @@ namespace MyLibrary
             set => this.startButton.Enabled = value; 
         }
 
-        public bool CancelButtonEnabled 
-        {
-            get => this.cancelButton.Enabled;
-            set => this.cancelButton.Enabled = value;
-        }
-
         public bool CloseButtonEnabled
         {
-            get => this.ControlBox;
-            set => this.ControlBox = value;
+            get
+            {
+                return this.ControlBox && this.closeButton.Enabled;
+            }
+
+            set
+            {
+                this.ControlBox = value;
+                this.closeButton.Enabled = value;
+            }
         }
 
         public bool PathFieldEnabled

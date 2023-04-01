@@ -67,7 +67,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("H", "Notes");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             // write data
             var allItems = await this._mediaItemService.GetAllAsync();
