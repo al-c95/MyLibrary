@@ -92,7 +92,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("U", "Notes");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             // write data
             int count = 0;
@@ -101,12 +101,6 @@ namespace MyLibrary.Presenters.Excel
             {
                 foreach (var item in allItems)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     // now write the data
                     WriteEntityRow(new object[]
                     {
@@ -166,12 +160,6 @@ namespace MyLibrary.Presenters.Excel
                 SetWorksheetProtectionAttributes();
                 for (int i = HEADER_ROW + 1; i <= 65000; i++)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     UnlockCell(i, DEWEY_DECIMAL_COL);
                     UnlockCell(i, TAGS_COL);
                     UnlockCell(i, FORMAT_COL);

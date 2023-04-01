@@ -54,7 +54,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("D", "Notes");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allItems = await this._wishlistService.GetAll();
 
@@ -63,12 +63,6 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var item in allItems)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     WriteEntityRow(new object[]
                     {
                         item.Id,

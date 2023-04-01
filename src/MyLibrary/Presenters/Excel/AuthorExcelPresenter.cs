@@ -52,7 +52,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("C", "Last Name");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allAuthors = await this._authorService.GetAll();
 
@@ -61,12 +61,6 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var author in allAuthors)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     WriteEntityRow(new object[]
                     {
                         author.Id,
