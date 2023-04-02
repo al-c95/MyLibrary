@@ -137,7 +137,9 @@ namespace MyLibrary.Presenters
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
             if (!this._view.ShowDeleteConfirmationDialog(this._view.SelectedItem.Title))
+            {
                 return;
+            }
 
             try
             {
@@ -295,7 +297,6 @@ namespace MyLibrary.Presenters
                 return;
             }
 
-            // update the view
             await DisplayItems();
         }
 
@@ -358,17 +359,15 @@ namespace MyLibrary.Presenters
                 new ImageFileReader(), 
                 new NewTagOrPublisherInputBoxProvider());
             await addItemPresenter.PopulateTagsList();
-
-            int categoryIndexToSelect;
-            if (this._view.CategoryDropDownSelectedIndex > 2)
+            int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
+            if (selectedCategoryIndex==1)
             {
-                categoryIndexToSelect = this._view.CategoryDropDownSelectedIndex - 2;
+                this._addMediaItemView.SelectedCategoryIndex = 0;
             }
             else
             {
-                categoryIndexToSelect = 0;
+                this._addMediaItemView.SelectedCategoryIndex = this._view.CategoryDropDownSelectedIndex - 2;
             }
-            this._addMediaItemView.SelectedCategoryIndex = categoryIndexToSelect;
 
             ((AddNewMediaItemForm)this._addMediaItemView).Show();
         }
@@ -493,21 +492,45 @@ namespace MyLibrary.Presenters
             {
                 await DisplayMediaItems();
             }
+            else if (categorySelectionIndex == 2)
+            {
+                await DisplayMediaItems(ItemType.Cassette);
+            }
+            else if (categorySelectionIndex == 3)
+            {
+                await DisplayMediaItems(ItemType.Cd);
+            }
+            else if (categorySelectionIndex == 4)
+            {
+                await DisplayMediaItems(ItemType.Dvd);
+            }
+            else if (categorySelectionIndex == 5)
+            {
+                await DisplayMediaItems(ItemType.BluRay);
+            }
+            else if (categorySelectionIndex == 6)
+            {
+                await DisplayMediaItems(ItemType.UhdBluRay);
+            }
             else if (categorySelectionIndex == 7)
             {
-                await DisplayMediaItems(ItemType.FlashDrive);
+                await DisplayMediaItems(ItemType.Vhs);
             }
             else if (categorySelectionIndex == 8)
             {
-                await DisplayMediaItems(ItemType.FloppyDisk);
+                await DisplayMediaItems(ItemType.Vinyl);
             }
             else if (categorySelectionIndex == 9)
             {
-                await DisplayMediaItems(ItemType.Other);
+                await DisplayMediaItems(ItemType.FlashDrive);
             }
-            else
+            else if (categorySelectionIndex == 10)
             {
-                await DisplayMediaItems((ItemType)categorySelectionIndex - 1);
+                await DisplayMediaItems(ItemType.FloppyDisk);
+            }
+            else if (categorySelectionIndex == 11)
+            {
+                await DisplayMediaItems(ItemType.Other);
             }
 
             PerformFilter(null,null);

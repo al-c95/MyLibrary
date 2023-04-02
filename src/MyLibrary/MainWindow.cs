@@ -34,6 +34,7 @@ using MyLibrary.Presenters.Excel;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.Events;
+using System.Runtime.Remoting.Channels;
 
 namespace MyLibrary
 {
@@ -149,9 +150,11 @@ namespace MyLibrary
             // populate "Category" combo box
             this.categoryDropDown.Items.Add(ItemType.Book);
             this.categoryDropDown.Items.Add("Media Items (all types)");
+            this.categoryDropDown.Items.Add("Cassette");
             this.categoryDropDown.Items.Add(ItemType.Cd);
             this.categoryDropDown.Items.Add(ItemType.Dvd);
             this.categoryDropDown.Items.Add(ItemType.BluRay);
+            this.categoryDropDown.Items.Add("4k BluRay");
             this.categoryDropDown.Items.Add(ItemType.Vhs);
             this.categoryDropDown.Items.Add(ItemType.Vinyl);
             this.categoryDropDown.Items.Add("Flash Drive");
@@ -190,14 +193,16 @@ namespace MyLibrary
             });
             this.booksToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 0);
             this.mediaItemsAllCategoriesToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 1);
-            this.cdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 2);
-            this.dvdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 3);
-            this.bluRaysToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 4);
-            this.vhssToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 5);
-            this.vinylsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 6);
-            this.flashDriveToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
-            this.floppyDiskStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 8);
-            this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 9);
+            this.cassettesToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex=2);
+            this.cdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 3);
+            this.dvdsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 4);
+            this.bluRaysToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 5);
+            this.uhdBluRayToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex=6);
+            this.vhssToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 7);
+            this.vinylsToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 8);
+            this.flashDriveToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 9);
+            this.floppyDiskStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 10);
+            this.otherToolStripMenuItem.Click += ((sender, args) => this.categoryDropDown.SelectedIndex = 11);
             this.XLSXtoolStripMenuItem.Click += ((sender, args) =>
             {
                 using (var dialog = new ExcelImportDialog())

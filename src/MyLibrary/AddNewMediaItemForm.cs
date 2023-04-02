@@ -38,9 +38,11 @@ namespace MyLibrary
             InitializeComponent();
 
             // populate item types drop-down
+            this.mediaTypesOptions.Items.Add(ItemType.Cassette);
             this.mediaTypesOptions.Items.Add(ItemType.Cd);
             this.mediaTypesOptions.Items.Add(ItemType.Dvd);
             this.mediaTypesOptions.Items.Add(ItemType.BluRay);
+            this.mediaTypesOptions.Items.Add("4k BluRay");
             this.mediaTypesOptions.Items.Add(ItemType.Vhs);
             this.mediaTypesOptions.Items.Add(ItemType.Vinyl);
             this.mediaTypesOptions.Items.Add("Flash Drive");

@@ -30,10 +30,12 @@ namespace MyLibrary.Views
     public interface IWishlistForm
     {
         string TitleFilterText { get; set; }
+        bool CassetteFilterSelected { get; set; }
         bool BookFilterSelected { get; set; }
         bool CdFilterSelected { get; set; }
         bool DvdFilterSelected { get; set; }
         bool BlurayFilterSelected { get; set; }
+        bool UhdBlurayFilterSelected { get; set; }
         bool VhsFilterSelected { get; set; }
         bool VinylFilterSelected { get; set; }
         bool FloppyDiskFilterSelected { get; set; }

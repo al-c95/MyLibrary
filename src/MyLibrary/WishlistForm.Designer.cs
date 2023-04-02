@@ -65,6 +65,8 @@ namespace MyLibrary
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.notesLabel = new System.Windows.Forms.Label();
             this.dataGrid = new System.Windows.Forms.DataGridView();
+            this.uhdBluRayCheckBox = new System.Windows.Forms.CheckBox();
+            this.cassetteCheckBox = new System.Windows.Forms.CheckBox();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
@@ -117,6 +119,8 @@ namespace MyLibrary
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cassetteCheckBox);
+            this.groupBox3.Controls.Add(this.uhdBluRayCheckBox);
             this.groupBox3.Controls.Add(this.otherCheckBox);
             this.groupBox3.Controls.Add(this.floppyDiskCheckBox);
             this.groupBox3.Controls.Add(this.flashDriveCheckBox);
@@ -141,7 +145,7 @@ namespace MyLibrary
             // otherCheckBox
             // 
             this.otherCheckBox.AutoSize = true;
-            this.otherCheckBox.Location = new System.Drawing.Point(448, 116);
+            this.otherCheckBox.Location = new System.Drawing.Point(328, 110);
             this.otherCheckBox.Name = "otherCheckBox";
             this.otherCheckBox.Size = new System.Drawing.Size(61, 20);
             this.otherCheckBox.TabIndex = 26;
@@ -151,7 +155,7 @@ namespace MyLibrary
             // floppyDiskCheckBox
             // 
             this.floppyDiskCheckBox.AutoSize = true;
-            this.floppyDiskCheckBox.Location = new System.Drawing.Point(312, 129);
+            this.floppyDiskCheckBox.Location = new System.Drawing.Point(104, 126);
             this.floppyDiskCheckBox.Name = "floppyDiskCheckBox";
             this.floppyDiskCheckBox.Size = new System.Drawing.Size(101, 20);
             this.floppyDiskCheckBox.TabIndex = 25;
@@ -161,7 +165,7 @@ namespace MyLibrary
             // flashDriveCheckBox
             // 
             this.flashDriveCheckBox.AutoSize = true;
-            this.flashDriveCheckBox.Location = new System.Drawing.Point(312, 103);
+            this.flashDriveCheckBox.Location = new System.Drawing.Point(328, 84);
             this.flashDriveCheckBox.Name = "flashDriveCheckBox";
             this.flashDriveCheckBox.Size = new System.Drawing.Size(97, 20);
             this.flashDriveCheckBox.TabIndex = 24;
@@ -171,7 +175,7 @@ namespace MyLibrary
             // vinylCheckBox
             // 
             this.vinylCheckBox.AutoSize = true;
-            this.vinylCheckBox.Location = new System.Drawing.Point(217, 129);
+            this.vinylCheckBox.Location = new System.Drawing.Point(104, 100);
             this.vinylCheckBox.Name = "vinylCheckBox";
             this.vinylCheckBox.Size = new System.Drawing.Size(58, 20);
             this.vinylCheckBox.TabIndex = 23;
@@ -181,7 +185,7 @@ namespace MyLibrary
             // vhsCheckBox
             // 
             this.vhsCheckBox.AutoSize = true;
-            this.vhsCheckBox.Location = new System.Drawing.Point(217, 103);
+            this.vhsCheckBox.Location = new System.Drawing.Point(105, 75);
             this.vhsCheckBox.Name = "vhsCheckBox";
             this.vhsCheckBox.Size = new System.Drawing.Size(57, 20);
             this.vhsCheckBox.TabIndex = 22;
@@ -191,7 +195,7 @@ namespace MyLibrary
             // blurayCheckBox
             // 
             this.blurayCheckBox.AutoSize = true;
-            this.blurayCheckBox.Location = new System.Drawing.Point(107, 129);
+            this.blurayCheckBox.Location = new System.Drawing.Point(227, 100);
             this.blurayCheckBox.Name = "blurayCheckBox";
             this.blurayCheckBox.Size = new System.Drawing.Size(73, 20);
             this.blurayCheckBox.TabIndex = 21;
@@ -201,7 +205,7 @@ namespace MyLibrary
             // dvdCheckBox
             // 
             this.dvdCheckBox.AutoSize = true;
-            this.dvdCheckBox.Location = new System.Drawing.Point(107, 103);
+            this.dvdCheckBox.Location = new System.Drawing.Point(227, 75);
             this.dvdCheckBox.Name = "dvdCheckBox";
             this.dvdCheckBox.Size = new System.Drawing.Size(58, 20);
             this.dvdCheckBox.TabIndex = 20;
@@ -211,7 +215,7 @@ namespace MyLibrary
             // cdCheckBox
             // 
             this.cdCheckBox.AutoSize = true;
-            this.cdCheckBox.Location = new System.Drawing.Point(11, 129);
+            this.cdCheckBox.Location = new System.Drawing.Point(11, 100);
             this.cdCheckBox.Name = "cdCheckBox";
             this.cdCheckBox.Size = new System.Drawing.Size(48, 20);
             this.cdCheckBox.TabIndex = 19;
@@ -221,7 +225,7 @@ namespace MyLibrary
             // bookCheckBox
             // 
             this.bookCheckBox.AutoSize = true;
-            this.bookCheckBox.Location = new System.Drawing.Point(11, 103);
+            this.bookCheckBox.Location = new System.Drawing.Point(11, 75);
             this.bookCheckBox.Name = "bookCheckBox";
             this.bookCheckBox.Size = new System.Drawing.Size(61, 20);
             this.bookCheckBox.TabIndex = 18;
@@ -231,7 +235,7 @@ namespace MyLibrary
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 78);
+            this.label5.Location = new System.Drawing.Point(8, 54);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 16);
             this.label5.TabIndex = 17;
@@ -260,10 +264,10 @@ namespace MyLibrary
             // applyFiltersButton
             // 
             this.applyFiltersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.applyFiltersButton.Location = new System.Drawing.Point(77, 48);
+            this.applyFiltersButton.Location = new System.Drawing.Point(431, 121);
             this.applyFiltersButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.applyFiltersButton.Name = "applyFiltersButton";
-            this.applyFiltersButton.Size = new System.Drawing.Size(348, 28);
+            this.applyFiltersButton.Size = new System.Drawing.Size(75, 28);
             this.applyFiltersButton.TabIndex = 14;
             this.applyFiltersButton.Text = "Apply";
             this.applyFiltersButton.UseVisualStyleBackColor = true;
@@ -488,6 +492,26 @@ namespace MyLibrary
             this.dataGrid.Size = new System.Drawing.Size(693, 735);
             this.dataGrid.TabIndex = 26;
             // 
+            // uhdBluRayCheckBox
+            // 
+            this.uhdBluRayCheckBox.AutoSize = true;
+            this.uhdBluRayCheckBox.Location = new System.Drawing.Point(227, 126);
+            this.uhdBluRayCheckBox.Name = "uhdBluRayCheckBox";
+            this.uhdBluRayCheckBox.Size = new System.Drawing.Size(90, 20);
+            this.uhdBluRayCheckBox.TabIndex = 27;
+            this.uhdBluRayCheckBox.Text = "4k BluRay";
+            this.uhdBluRayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // cassetteCheckBox
+            // 
+            this.cassetteCheckBox.AutoSize = true;
+            this.cassetteCheckBox.Location = new System.Drawing.Point(11, 126);
+            this.cassetteCheckBox.Name = "cassetteCheckBox";
+            this.cassetteCheckBox.Size = new System.Drawing.Size(82, 20);
+            this.cassetteCheckBox.TabIndex = 28;
+            this.cassetteCheckBox.Text = "Cassette";
+            this.cassetteCheckBox.UseVisualStyleBackColor = true;
+            // 
             // WishlistForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -552,5 +576,7 @@ namespace MyLibrary
         private System.Windows.Forms.CheckBox otherCheckBox;
         private System.Windows.Forms.CheckBox floppyDiskCheckBox;
         private System.Windows.Forms.CheckBox flashDriveCheckBox;
+        private System.Windows.Forms.CheckBox cassetteCheckBox;
+        private System.Windows.Forms.CheckBox uhdBluRayCheckBox;
     }
 }

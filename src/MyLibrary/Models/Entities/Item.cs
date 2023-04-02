@@ -113,6 +113,10 @@ namespace MyLibrary.Models.Entities
             {
                 return ItemType.FloppyDisk;
             }
+            else if (type.Equals("4k BluRay"))
+            {
+                return ItemType.UhdBluRay;
+            }
             else
             {
                 if (Enum.TryParse(type, out ItemType parsed))
@@ -131,6 +135,10 @@ namespace MyLibrary.Models.Entities
             else if (type == ItemType.FloppyDisk)
             {
                 return "Floppy Disk";
+            }
+            else if (type == ItemType.UhdBluRay)
+            {
+                return "4k BluRay";
             }
             else
             {

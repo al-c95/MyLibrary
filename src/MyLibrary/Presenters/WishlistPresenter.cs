@@ -150,10 +150,12 @@ namespace MyLibrary.Presenters
         public void ApplyFilters(object sender, EventArgs args)
         {
             string filterByTitle = this._view.TitleFilterText;
+            bool cassetteChecked = this._view.CassetteFilterSelected;
             bool bookChecked = this._view.BookFilterSelected;
             bool cdChecked = this._view.CdFilterSelected;
             bool dvdChecked = this._view.DvdFilterSelected;
             bool blurayChecked = this._view.BlurayFilterSelected;
+            bool uhdBlurayChecked = this._view.UhdBlurayFilterSelected;
             bool vhsChecked = this._view.VhsFilterSelected;
             bool vinylChecked = this._view.VinylFilterSelected;
             bool flashDriveChecked = this._view.FlashDriveFilterSelected;
@@ -167,7 +169,7 @@ namespace MyLibrary.Presenters
             }
             
             filteredTable = FilterWishlistByType(filteredTable,
-                bookChecked, cdChecked, dvdChecked, blurayChecked, vhsChecked, vinylChecked, flashDriveChecked, floppyDiskChecked, otherChecked);
+                cassetteChecked, bookChecked, cdChecked, dvdChecked, blurayChecked, uhdBlurayChecked, vhsChecked, vinylChecked, flashDriveChecked, floppyDiskChecked, otherChecked);
             
             this._view.DisplayedItems = filteredTable;
 
@@ -190,12 +192,20 @@ namespace MyLibrary.Presenters
         }
 
         private DataTable FilterWishlistByType(DataTable originalTable, 
-            bool bookChecked, bool cdChecked, bool dvdChecked, bool blurayChecked, bool vhsChecked, bool vinylChecked, bool flashDriveChecked, bool floppyDiskChecked, bool otherChecked)
+            bool cassetteChecked, bool bookChecked, bool cdChecked, bool dvdChecked, bool blurayChecked, bool uhdBlurayChecked, bool vhsChecked, bool vinylChecked, bool flashDriveChecked, bool floppyDiskChecked, bool otherChecked)
         {
             DataTable filteredTable = originalTable.Clone();
             var rows = originalTable.AsEnumerable();
             foreach (var row in rows)
             {
+                if (cassetteChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Cassette"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
                 if (bookChecked)
                 {
                     if (row.Field<string>("Type").Equals("Book"))
@@ -223,6 +233,14 @@ namespace MyLibrary.Presenters
                 if (blurayChecked)
                 {
                     if (row.Field<string>("Type").Equals("BluRay"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (uhdBlurayChecked)
+                {
+                    if (row.Field<string>("Type").Equals("4k BluRay"))
                     {
                         filteredTable.ImportRow(row);
                     }

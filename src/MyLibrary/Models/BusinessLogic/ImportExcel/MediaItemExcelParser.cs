@@ -126,7 +126,9 @@ namespace MyLibrary.Models.BusinessLogic.ImportExcel
                     typeEntry.Equals("Vinyl") ||
                     typeEntry.Equals("Other") ||
                     typeEntry.Equals("Floppy Disk") ||
-                    typeEntry.Equals("Flash Drive"))
+                    typeEntry.Equals("Flash Drive") ||
+                    typeEntry.Equals("4k BluRay") ||
+                    typeEntry.Equals("Cassette"))
                 {
                     type = Item.ParseType(typeEntry);
                 }
