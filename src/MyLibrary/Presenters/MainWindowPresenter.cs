@@ -126,7 +126,7 @@ namespace MyLibrary.Presenters
         #region View event handlers
         public async Task HandleWishlistButtonClicked(object sender, EventArgs args)
         {
-            var form = new WishlistDialog();
+            var form = new WishlistForm();
             WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
             await presenter.LoadData();
             form.Show();

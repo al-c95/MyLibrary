@@ -370,11 +370,11 @@
     <Compile Include="Views\IShowStats.cs" />
     <Compile Include="Views\ITipOfTheDay.cs" />
     <Compile Include="Views\IWishlistForm.cs" />
-    <Compile Include="WishlistDialog.cs">
+    <Compile Include="WishlistForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WishlistDialog.Designer.cs">
-      <DependentUpon>WishlistDialog.cs</DependentUpon>
+    <Compile Include="WishlistForm.Designer.cs">
+      <DependentUpon>WishlistForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
@@ -433,8 +433,8 @@
     <EmbeddedResource Include="TipOfTheDayDialog.resx">
       <DependentUpon>TipOfTheDayDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WishlistDialog.resx">
-      <DependentUpon>WishlistDialog.cs</DependentUpon>
+    <EmbeddedResource Include="WishlistForm.resx">
+      <DependentUpon>WishlistForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="MyLibrary.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
