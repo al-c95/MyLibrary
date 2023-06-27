@@ -1,0 +1,1 @@
+2022-11-09 23:59:28.959 MyLibraryAutomation.py[43] click_toolbar_button -> Find Control Timeout: {name: 'toolStripButton1', ControlType: ButtonControl}
