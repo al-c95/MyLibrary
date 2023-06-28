@@ -54,7 +54,7 @@ namespace MyLibrary.Presenters
         /// <param name="tagService"></param>
         /// <param name="view">add media item window</param>
         /// <param name="imageFileReader"></param>
-        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, 
+        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService,
             IAddMediaItemForm view,
             IImageFileReader imageFileReader,
             INewTagOrPublisherInputBoxProvider newTagDialogProvider)
@@ -63,7 +63,7 @@ namespace MyLibrary.Presenters
             this._tagService = tagService;
 
             this._view = view;
-            
+
             this._imageFileReader = imageFileReader;
 
             this._allTags = new Dictionary<string, bool>();
@@ -71,7 +71,7 @@ namespace MyLibrary.Presenters
             this._newTagDialogProvider = newTagDialogProvider;
 
             // subscribe to the view's events
-            this._view.SaveButtonClicked += (async (sender, args) => 
+            this._view.SaveButtonClicked += (async (sender, args) =>
             {
                 await HandleSaveButtonClicked(sender, args);
             });
@@ -91,7 +91,7 @@ namespace MyLibrary.Presenters
             }
 
             // perform filtering and update the view
-            FilterTags(null,null);
+            FilterTags(null, null);
         }//PopulateTagsList
 
         public void FilterTags(object sender, EventArgs args)
@@ -133,32 +133,6 @@ namespace MyLibrary.Presenters
             this._view.SaveButtonEnabled = false;
             this._view.CancelButtonEnabled = false;
 
-            // check if item with title already exists
-            try
-            {
-                if (await this._mediaItemService.ExistsWithTitleAsync(this._view.TitleFieldText))
-                {
-                    this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
-
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
-
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                // something bad happened
-                // notify the user
-                this._view.ShowErrorDialog("Error checking title.", ex.Message);
-
-                this._view.SaveButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
-
-                return;
-            }
-
-            // create item object
             string selectedCategory = this._view.SelectedCategory;
             string enteredRunningTime = this._view.RunningTimeFieldEntry;
             MediaItem item = new MediaItem
@@ -190,7 +164,7 @@ namespace MyLibrary.Presenters
                 }
                 catch (System.IO.IOException ex)
                 {
-                    // I/O error
+                    // error reading the image
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
 
@@ -200,13 +174,22 @@ namespace MyLibrary.Presenters
                     return;
                 }
             }
-            
-            // add new item
             try
             {
-                await this._mediaItemService.AddAsync(item);
+                bool added = await this._mediaItemService.AddIfNotExistsAsync(item);
+                if (!added)
+                {
+                    this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
 
-                EventAggregator.GetInstance().Publish(new MediaItemsUpdatedEvent());
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
+
+                    return;
+                }
+                else
+                {
+                    EventAggregator.GetInstance().Publish(new MediaItemsUpdatedEvent());
+                }
             }
             catch (Exception ex)
             {
@@ -226,9 +209,7 @@ namespace MyLibrary.Presenters
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
             bool sane = true;
-            // title field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
-            // number field mandatory, must be an integer
             if (!string.IsNullOrWhiteSpace(this._view.NumberFieldText))
             {
                 long number;
@@ -238,13 +219,11 @@ namespace MyLibrary.Presenters
             {
                 sane = false;
             }
-            // running time field must be either blank or an integer
             if (!string.IsNullOrWhiteSpace(this._view.RunningTimeFieldEntry))
             {
                 int runningTime;
                 sane = sane && int.TryParse(this._view.RunningTimeFieldEntry, out runningTime);
             }
-            // year field mandatory, must be an integer
             if (!string.IsNullOrWhiteSpace(this._view.YearFieldEntry))
             {
                 int year;
@@ -254,7 +233,6 @@ namespace MyLibrary.Presenters
             {
                 sane = false;
             }
-            // image file path field must be either blank or a valid file path with supported extension
             string imageFilePath = this._view.ImageFilePathFieldText;
             sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
 
