@@ -263,8 +263,8 @@ namespace MyLibrary
 
         private void ResizeColumns()
         {
-            this.dataGrid.Columns["Id"].Width = this.dataGrid.Width / 8;
-            this.dataGrid.Columns["Type"].Width = this.dataGrid.Width / 8;
+            this.dataGrid.Columns["Id"].Width = 40;
+            this.dataGrid.Columns["Type"].Width = 90;
 
             this.dataGrid.Columns["Title"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }

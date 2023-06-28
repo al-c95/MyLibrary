@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ using System.IO;
 using System.Configuration;
 using System.Windows.Forms;
 using MyLibrary.Presenters;
+using MyLibrary.Presenters.Excel;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.Events;
@@ -79,10 +80,10 @@ namespace MyLibrary
             }
         }
 
-        public bool AddItemEnabled 
+        public bool AddItemEnabled
         {
             get => this.addButton.Enabled && this.newBookToolStripMenuItem.Enabled && this.newMediaItemToolStripMenuItem.Enabled;
-            set 
+            set
             {
                 this.addButton.Enabled = value;
                 this.newBookToolStripMenuItem.Enabled = value;
@@ -90,31 +91,31 @@ namespace MyLibrary
             }
         }
 
-        public bool SearchBooksButtonEnabled 
+        public bool SearchBooksButtonEnabled
         {
             get => this.searchBooksButton.Enabled;
             set => this.searchBooksButton.Enabled = value;
         }
 
-        public bool TagsButtonEnabled 
+        public bool TagsButtonEnabled
         {
             get => this.tagsButton.Enabled;
             set => this.tagsButton.Enabled = value;
         }
 
-        public bool WishlistButtonEnabled 
+        public bool WishlistButtonEnabled
         {
             get => this.wishlistButton.Enabled;
             set => this.wishlistButton.Enabled = value;
         }
 
-        public bool ViewStatisticsEnabled 
+        public bool ViewStatisticsEnabled
         {
             get => this.databaseStatisticsToolStripMenuItem.Enabled;
             set => this.databaseStatisticsToolStripMenuItem.Enabled = value;
         }
 
-        public bool ShowAboutBoxEnabled 
+        public bool ShowAboutBoxEnabled
         {
             get => this.aboutToolStripMenuItem.Enabled;
             set => this.aboutToolStripMenuItem.Enabled = value;
@@ -128,7 +129,7 @@ namespace MyLibrary
             InitializeComponent();
 
             this.Text = Configuration.APP_NAME + " " + Configuration.APP_VERSION;
-            
+
             // show the spinner
             // but the other controls are visible while loading the form, so hide them for now
             this.ItemDetailsSpinner = false;
@@ -171,12 +172,10 @@ namespace MyLibrary
 
             this.pictureBox.Cursor = Cursors.Hand;
 
+            this.MinimumSize = new Size(800, 700);
+
             // register event handlers
             this.exitMenuItem.Click += ((sender, args) => Application.Exit());
-            this.searchBooksButton.Click += ((sender, args) =>
-            {
-                SearchByIsbnClicked?.Invoke(sender, args);
-            });
             this.Resize += ((sender, args) =>
             {
                 ResizeColumns();
@@ -247,54 +246,60 @@ namespace MyLibrary
             {
                 using (var dialog = new ExportDialog())
                 {
-                    Presenters.Excel.TagExcelPresenter presenter = new Presenters.Excel.TagExcelPresenter(dialog, new Views.Excel.Excel());
-                    dialog.ShowDialog();
-                    presenter.Dispose();
+                    using (var presenter = new TagExcelPresenter(dialog, new Views.Excel.Excel()))
+                    {
+                        dialog.ShowDialog();
+                    }
                 }
             });
             this.booksToolStripMenuItem1.Click += ((sender, args) =>
             {
                 using (var dialog = new ExportDialog())
                 {
-                    Presenters.Excel.BookExcelPresenter presenter = new Presenters.Excel.BookExcelPresenter(dialog, new Views.Excel.Excel());
-                    dialog.ShowDialog();
-                    presenter.Dispose();
+                    using (var presenter = new BookExcelPresenter(dialog, new Views.Excel.Excel()))
+                    {
+                        dialog.ShowDialog();
+                    }
                 }
             });
             this.authorsToolStripMenuItem.Click += ((sender, args) =>
             {
                 using (var dialog = new ExportDialog())
                 {
-                    Presenters.Excel.AuthorExcelPresenter presenter = new Presenters.Excel.AuthorExcelPresenter(dialog, new Views.Excel.Excel());
-                    dialog.ShowDialog();
-                    presenter.Dispose();
+                    using (var presenter = new AuthorExcelPresenter(dialog, new Views.Excel.Excel()))
+                    {
+                        dialog.ShowDialog();
+                    }
                 }
             });
             this.mediaItemsToolStripMenuItem.Click += ((sender, args) =>
             {
                 using (var dialog = new ExportDialog())
                 {
-                    Presenters.Excel.MediaItemExcelPresenter presenter = new Presenters.Excel.MediaItemExcelPresenter(dialog, new Views.Excel.Excel());
-                    dialog.ShowDialog();
-                    presenter.Dispose();
+                    using (var presenter = new MediaItemExcelPresenter(dialog, new Views.Excel.Excel()))
+                    {
+                        dialog.ShowDialog();
+                    }
                 }
             });
             this.publishersToolStripMenuItem.Click += ((sender, args) =>
             {
                 using (var dialog = new ExportDialog())
                 {
-                    Presenters.Excel.PublisherExcelPresenter presenter = new Presenters.Excel.PublisherExcelPresenter(dialog, new Views.Excel.Excel());
-                    dialog.ShowDialog();
-                    presenter.Dispose();
+                    using (var presenter = new PublisherExcelPresenter(dialog, new Views.Excel.Excel()))
+                    {
+                        dialog.ShowDialog();
+                    }
                 }
             });
             this.exportWishlistMenuItem.Click += ((sender, args) =>
             {
                 using (var dialog = new ExportDialog())
                 {
-                    Presenters.Excel.WishlistExcelPresenter presenter = new Presenters.Excel.WishlistExcelPresenter(dialog, new Views.Excel.Excel());
-                    dialog.ShowDialog();
-                    presenter.Dispose();
+                    using (var presenter = new WishlistExcelPresenter(dialog, new Views.Excel.Excel()))
+                    {
+                        dialog.ShowDialog();
+                    }
                 }
             });
             this.filterTagsList.SelectedIndexChanged += ((sender, args) =>
@@ -320,6 +325,10 @@ namespace MyLibrary
                 }
             });
             // fire the public event so the subscribed present can react
+            this.searchBooksButton.Click += ((sender, args) =>
+            {
+                SearchByIsbnClicked?.Invoke(sender, args);
+            });
             this.databaseStatisticsToolStripMenuItem.Click += ((sender, args) =>
             {
                 ShowStatsClicked?.Invoke(sender, args);
@@ -442,9 +451,9 @@ namespace MyLibrary
                 var selectedItems = this.filterTagsList.SelectedItems;
                 if (this.filterTagsList.SelectedIndices.Count != 0)
                 {
-                    for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    for (int index = selectedItems.Count - 1; index >= 0; index--)
                     {
-                        this.filterTagsList.Items.Remove(selectedItems[i]);
+                        this.filterTagsList.Items.Remove(selectedItems[index]);
                     }
                 }
 
@@ -488,12 +497,20 @@ namespace MyLibrary
         private void ResizeColumns()
         {
             // resize DataGridView columns nicely
-            this.dataGrid.Columns[0].Width = this.dataGrid.Width / 20; // Id
             this.dataGrid.Columns[1].Width = this.dataGrid.Width / 4; // title
+            this.dataGrid.Columns[0].Width = 40; // Id
             if (this.categoryDropDown.SelectedIndex == 0)
             {
                 // books displayed
-                this.dataGrid.Columns[2].Width = this.dataGrid.Width / 9; // ISBN
+                this.dataGrid.Columns[2].Width = 120; // ISBN
+            }
+            else
+            {
+                // media items displayed
+                this.dataGrid.Columns[2].Width = 90; // type
+                this.dataGrid.Columns[3].Width = 120; // number
+                this.dataGrid.Columns[4].Width = 90; // run time
+                this.dataGrid.Columns[5].Width = 100; // release year
             }
         }
 
@@ -538,7 +555,7 @@ namespace MyLibrary
             {
                 if (this.dataGrid.SelectedRows.Count == 0)
                     return 0;
-                
+
                 // this is always an integer in the first col
                 return int.Parse(this.dataGrid.SelectedRows[0].Cells[0].Value.ToString());
             }
@@ -566,7 +583,7 @@ namespace MyLibrary
                 {
                     temp.Image = null;
                 }
-                
+
                 return temp;
             }
 
@@ -594,7 +611,7 @@ namespace MyLibrary
 
                     return;
                 }
-                
+
                 this._selectedItem = value;
                 this.textBoxNotes.Text = this._selectedItem.Notes;
                 Image itemImage = ReadImage(this._selectedItem.Image);
@@ -609,7 +626,7 @@ namespace MyLibrary
 
                 Task.Delay(100);
                 this.dataGrid.Enabled = true;
-            } 
+            }
         }
 
         private void SetNoItemImage()
@@ -660,10 +677,10 @@ namespace MyLibrary
             set => this.categoryDropDown.SelectedIndex = value;
         }
 
-        public string StatusText 
+        public string StatusText
         {
             get => this.statusLabel.Text;
-            set => this.statusLabel.Text = value; 
+            set => this.statusLabel.Text = value;
         }
 
         public string ItemsDisplayedText
@@ -811,7 +828,7 @@ namespace MyLibrary
 
         private void SetItemDetailsSpinnerPos()
         {
-            this.itemDetailsSpinner.Location = new Point((this.pictureBox.Location.X + this.detailsGroup.Width / 4) + 15, this.pictureBox.Location.Y+10);
+            this.itemDetailsSpinner.Location = new Point((this.pictureBox.Location.X + this.detailsGroup.Width / 4) + 15, this.pictureBox.Location.Y + 10);
         }
 
         #region UI event handlers
@@ -819,7 +836,7 @@ namespace MyLibrary
         {
             SetItemDetailsSpinnerPos();
         }
-        
+
         private void pictureBox_Click(object sender, EventArgs e)
         {
             Image toDisplay = this.pictureBox.Image;

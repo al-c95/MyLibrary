@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2022
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -70,9 +70,9 @@ namespace MyLibrary.Presenters
             this._allPublishers = new List<string>();
 
             // subscribe to the view's events
-            this._view.SaveButtonClicked += (async (sender, args) => 
-            { 
-                await HandleSaveButtonClicked(sender, args); 
+            this._view.SaveButtonClicked += (async (sender, args) =>
+            {
+                await HandleSaveButtonClicked(sender, args);
             });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
             this._view.FilterTagsFieldUpdated += FilterTags;
@@ -209,7 +209,7 @@ namespace MyLibrary.Presenters
 
             FilterAuthors(null, null);
         }//PopulateAuthorsList
-        
+
         public async Task PopulateTagsList()
         {
             var allTags = await this._tagService.GetAll();
@@ -243,46 +243,9 @@ namespace MyLibrary.Presenters
         #region View event handlers
         public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
-            // disable buttons
             this._view.SaveButtonEnabled = false;
             this._view.CancelButtonEnabled = false;
 
-            // check if item with title or ISBN already exists
-            bool titleExists = false;
-            string existingTitle = null;
-
-            try
-            {
-                if (await this._bookService.ExistsWithTitleAsync(this._view.TitleFieldText))
-                {
-                    titleExists = true;
-                    existingTitle = this._view.TitleFieldText;
-                }
-
-                if (titleExists)
-                {
-                    this._view.ShowItemAlreadyExistsDialog(existingTitle);
-
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
-
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                // something bad happened
-                // notify the user
-                this._view.ShowErrorDialog("Error checking if title or ISBN exists.", ex.Message);
-
-                this._view.SaveButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
-
-                return;
-            }
-
-            // create item
-            // authors
             List<Author> authors = new List<Author>();
             foreach (var kvp in this._allAuthors)
             {
@@ -293,7 +256,7 @@ namespace MyLibrary.Presenters
                     authors.Add(author);
                 }
             }
-            Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText, 
+            Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText,
                 new Publisher { Name = this._view.SelectedPublisher }, this._view.LanguageFieldText, int.Parse(this._view.PagesFieldText))
                 .WithAuthors(authors)
                 .WithIsbn(this._view.IsbnFieldText)
@@ -310,7 +273,6 @@ namespace MyLibrary.Presenters
                     .Get();
             book.Notes = this._view.NotesFieldText;
             book.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
-            // tags
             foreach (var kvp in this._allTags)
             {
                 if (this._allTags[kvp.Key] == true)
@@ -318,7 +280,6 @@ namespace MyLibrary.Presenters
                     book.Tags.Add(new Tag { Name = kvp.Key });
                 }
             }
-            // image
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
                 try
@@ -329,7 +290,7 @@ namespace MyLibrary.Presenters
                 }
                 catch (System.IO.IOException ex)
                 {
-                    // I/O error
+                    // I/O error reading image file
                     // alert the user
                     this._view.ShowErrorDialog("Image file error", ex.Message);
 
@@ -340,18 +301,28 @@ namespace MyLibrary.Presenters
                 }
             }
 
-            // add item
             try
             {
-                await this._bookService.AddAsync(book);
+                bool added = await this._bookService.AddIfNotExistsAsync(book);
+                if (!added)
+                {
+                    this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
 
-                EventAggregator.GetInstance().Publish(new BooksUpdatedEvent());
+                    this._view.SaveButtonEnabled = true;
+                    this._view.CancelButtonEnabled = true;
+
+                    return;
+                }
+                else
+                {
+                    EventAggregator.GetInstance().Publish(new BooksUpdatedEvent());
+                }
             }
             catch (Exception ex)
             {
                 // something bad happened
                 // notify the user
-                this._view.ShowErrorDialog("Error creating book", ex.Message);
+                this._view.ShowErrorDialog("Error creating item", ex.Message);
 
                 this._view.SaveButtonEnabled = true;
                 this._view.CancelButtonEnabled = true;
@@ -359,33 +330,23 @@ namespace MyLibrary.Presenters
                 return;
             }
 
-            this._view.CancelButtonEnabled = true;
-            
             this._view.CloseDialog();
         }//HandleSaveButtonClicked
 
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
             bool sane = true;
-            // title field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
-            // language field mandatory
             sane = sane && !string.IsNullOrWhiteSpace(this._view.LanguageFieldText);
-            // number of pages field mandatory, must be an integer
             sane = sane && !string.IsNullOrWhiteSpace(this._view.PagesFieldText);
             int pages;
             sane = sane && (int.TryParse(this._view.PagesFieldText, out pages));
-            // publisher selection mandatory
             sane = sane && this._view.SelectedPublisher != null;
-            // ISBN fields must be either blank or have the appropriate pattern of digits
             sane = sane && (Regex.IsMatch(this._view.IsbnFieldText, Book.ISBN_10_PATTERN) || string.IsNullOrWhiteSpace(this._view.IsbnFieldText));
             sane = sane && (Regex.IsMatch(this._view.Isbn13FieldText, Book.ISBN_13_PATTERN) || string.IsNullOrWhiteSpace(this._view.Isbn13FieldText));
-            // dewey decimal field must be either blank or have the appropriate pattern
             sane = sane && (Regex.IsMatch(this._view.DeweyDecimalFieldText, Book.DEWEY_DECIMAL_PATTERN) || string.IsNullOrWhiteSpace(this._view.DeweyDecimalFieldText));
-            // image file path field must be either blank or a valid file path with supported extension
             string imageFilePath = this._view.ImageFilePathFieldText;
             sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
-            // don't care about the other fields
 
             this._view.SaveButtonEnabled = sane;
         }//InputFieldsUpdated
@@ -415,7 +376,6 @@ namespace MyLibrary.Presenters
         // TODO: unit test
         public void HandleAddNewAuthorClicked(object sender, EventArgs args)
         {
-            //var result = ShowNewAuthorDialog();
             var result = this._view.ShowNewAuthorDialog();
             if (result is null)
             {
