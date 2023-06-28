@@ -112,9 +112,10 @@ namespace MyLibrary.Presenters
             });
             this._view.ManageCopiesButtonClicked += (async (sender, args) =>
             {
-                var form = new ManageCopiesDialog(this._view.SelectedItem);
+                var form = new ManageCopiesForm(this._view.SelectedItem);
                 ManageCopiesPresenter presenter = new ManageCopiesPresenter(form, this._view.SelectedItem, new CopyServiceFactory());
                 await presenter.LoadData(sender, args);
+                form.FormClosed += ((s, a) => { presenter.Dispose(); });
                 form.Show();
             });
 

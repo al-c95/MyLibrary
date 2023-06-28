@@ -30,7 +30,7 @@ using MyLibrary.Models.Entities;
 namespace MyLibrary
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class ManageCopiesDialog : Form, IManageCopiesForm
+    public partial class ManageCopiesForm : Form, IManageCopiesForm
     {
         private readonly Item _item;
 
@@ -212,7 +212,7 @@ namespace MyLibrary
             set => this.selectedCopyNotesBox.Enabled = value; 
         }
 
-        public ManageCopiesDialog(Item item)
+        public ManageCopiesForm(Item item)
         {
             InitializeComponent();
 

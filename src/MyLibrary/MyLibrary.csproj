@@ -230,11 +230,11 @@
     <Compile Include="ExcelImportDialog.Designer.cs">
       <DependentUpon>ExcelImportDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManageCopiesDialog.cs">
+    <Compile Include="ManageCopiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ManageCopiesDialog.Designer.cs">
-      <DependentUpon>ManageCopiesDialog.cs</DependentUpon>
+    <Compile Include="ManageCopiesForm.Designer.cs">
+      <DependentUpon>ManageCopiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessLogic\AuthorService.cs" />
     <Compile Include="Models\BusinessLogic\BookCopyService.cs" />
@@ -406,8 +406,8 @@
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ManageCopiesDialog.resx">
-      <DependentUpon>ManageCopiesDialog.cs</DependentUpon>
+    <EmbeddedResource Include="ManageCopiesForm.resx">
+      <DependentUpon>ManageCopiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageTagsForItemDialog.resx">
       <DependentUpon>ManageTagsForItemDialog.cs</DependentUpon>

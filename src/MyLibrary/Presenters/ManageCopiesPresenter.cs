@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
-    public class ManageCopiesPresenter
+    public class ManageCopiesPresenter : IDisposable
     {
         private IManageCopiesForm _view;
         private Item _item;
@@ -41,7 +41,7 @@ namespace MyLibrary.Presenters
         /// <param name="view"></param>
         /// <param name="item"></param>
         /// <param name="serviceFactory"></param>
-        public ManageCopiesPresenter(IManageCopiesForm view, 
+        public ManageCopiesPresenter(IManageCopiesForm view,
             Item item, ICopyServiceFactory serviceFactory)
         {
             this._view = view;
@@ -59,39 +59,49 @@ namespace MyLibrary.Presenters
 
             // register event handlers
             this._view.CopySelected += CopySelected;
-            this._view.SaveSelectedClicked += (async (sender, args) => 
-            { 
-                await HandleSaveSelectedClicked(sender, args); 
+            this._view.SaveSelectedClicked += (async (sender, args) =>
+            {
+                await HandleSaveSelectedClicked(sender, args);
             });
             this._view.DiscardChangesClicked += DiscardChangesClicked;
-            this._view.DeleteClicked += (async (sender, args) => 
-            { 
-                await HandleDeleteClicked(sender, args); 
+            this._view.DeleteClicked += (async (sender, args) =>
+            {
+                await HandleDeleteClicked(sender, args);
             });
-            this._view.SaveNewClicked += (async (sender, args) => 
-            { 
+            this._view.SaveNewClicked += (async (sender, args) =>
+            {
                 await HandleSaveNewClicked(sender, args);
             });
             this._view.NewCopyFieldsUpdated += NewCopyFieldsUpdated;
             this._view.SelectedCopyFieldsUpdated += SelectedCopyFieldsUpdated;
             EventAggregator.GetInstance().Subscribe<BookCopiesUpdatedEvent>(async m =>
             {
-                if (this._item.Type == ItemType.Book &&
-                    this._item.Title.Equals(m.Title))
-                {
-                    var copyService = this._serviceFactory.GetBookCopyService();
-                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
-                }
+                await HandleBookCopiesUpdated(m);
             });
-            EventAggregator.GetInstance().Subscribe<MediaItemCopiesUpdatedEvent>(async m => 
+            EventAggregator.GetInstance().Subscribe<MediaItemCopiesUpdatedEvent>(async m =>
             {
-                if (this._item.Type != ItemType.Book &&
-                    this._item.Title.Equals(m.Title))
-                {
-                    var copyService = this._serviceFactory.GetMediaItemCopyService();
-                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
-                }
+                await HandleMediaItemCopiesUpdated(m);
             });
+        }
+
+        private async Task HandleBookCopiesUpdated(BookCopiesUpdatedEvent m)
+        {
+            if (this._item.Type == ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+            {
+                var copyService = this._serviceFactory.GetBookCopyService();
+                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+            }
+        }
+
+        private async Task HandleMediaItemCopiesUpdated(MediaItemCopiesUpdatedEvent m)
+        {
+            if (this._item.Type != ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+            {
+                var copyService = this._serviceFactory.GetMediaItemCopyService();
+                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+            }
         }
 
         public async Task LoadData(object sender, EventArgs args)
@@ -154,7 +164,7 @@ namespace MyLibrary.Presenters
                 copy.BookId = this._item.Id;
                 await copyService.Update(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new BookCopiesUpdatedEvent(this._item.Title));
             }
             else if (this._item.GetType() == typeof(MediaItem))
             {
@@ -164,7 +174,7 @@ namespace MyLibrary.Presenters
                 copy.MediaItemId = this._item.Id;
                 await copyService.Update(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new MediaItemCopiesUpdatedEvent(this._item.Title));
             }
 
             this._view.StatusText = "Ready.";
@@ -185,14 +195,14 @@ namespace MyLibrary.Presenters
                 var copyService = this._serviceFactory.GetBookCopyService();
                 await copyService.DeleteById(this._view.SelectedCopy.Id);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new BookCopiesUpdatedEvent(this._item.Title));
             }
             else if (this._item.GetType() == typeof(MediaItem))
             {
                 var copyService = this._serviceFactory.GetMediaItemCopyService();
                 await copyService.DeleteById(this._view.SelectedCopy.Id);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new MediaItemCopiesUpdatedEvent(this._item.Title));
             }
 
             this._view.StatusText = "Ready.";
@@ -209,7 +219,7 @@ namespace MyLibrary.Presenters
                 BookCopy copy = (BookCopy)this._view.NewCopy;
                 await copyService.Create(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new BookCopiesUpdatedEvent(this._item.Title));
             }
             else if (this._item.GetType() == typeof(MediaItem))
             {
@@ -218,7 +228,7 @@ namespace MyLibrary.Presenters
                 MediaItemCopy copy = (MediaItemCopy)this._view.NewCopy;
                 await copyService.Create(copy);
 
-                this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                EventAggregator.GetInstance().Publish(new MediaItemCopiesUpdatedEvent(this._item.Title));
             }
 
             this._view.NewDescription = "";
@@ -261,5 +271,17 @@ namespace MyLibrary.Presenters
             }
         }
         #endregion
+
+        public void Dispose()
+        {
+            EventAggregator.GetInstance().Unsubscribe<MediaItemCopiesUpdatedEvent>(async m =>
+            {
+                await HandleMediaItemCopiesUpdated(m);
+            });
+            EventAggregator.GetInstance().Unsubscribe<BookCopiesUpdatedEvent>(async m =>
+            {
+                await HandleBookCopiesUpdated(m);
+            });
+        }
     }//class
 }

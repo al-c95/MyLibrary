@@ -1,7 +1,7 @@
 ﻿
 namespace MyLibrary
 {
-    partial class ManageCopiesDialog
+    partial class ManageCopiesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace MyLibrary
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageCopiesDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageCopiesForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
