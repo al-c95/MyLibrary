@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
+using MyLibrary.Events;
 
 namespace MyLibrary.Presenters
 {
@@ -73,6 +74,24 @@ namespace MyLibrary.Presenters
             });
             this._view.NewCopyFieldsUpdated += NewCopyFieldsUpdated;
             this._view.SelectedCopyFieldsUpdated += SelectedCopyFieldsUpdated;
+            EventAggregator.GetInstance().Subscribe<BookCopiesUpdatedEvent>(async m =>
+            {
+                if (this._item.Type == ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+                {
+                    var copyService = this._serviceFactory.GetBookCopyService();
+                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                }
+            });
+            EventAggregator.GetInstance().Subscribe<MediaItemCopiesUpdatedEvent>(async m => 
+            {
+                if (this._item.Type != ItemType.Book &&
+                    this._item.Title.Equals(m.Title))
+                {
+                    var copyService = this._serviceFactory.GetMediaItemCopyService();
+                    this._view.DisplayCopies(await copyService.GetByItemId(this._item.Id));
+                }
+            });
         }
 
         public async Task LoadData(object sender, EventArgs args)
