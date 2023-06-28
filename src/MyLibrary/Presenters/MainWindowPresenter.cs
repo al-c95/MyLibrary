@@ -130,6 +130,7 @@ namespace MyLibrary.Presenters
             var form = new WishlistForm();
             WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
             await presenter.LoadData();
+            form.FormClosed += (s, a) => { presenter.Dispose(); };
             form.Show();
         }
 
