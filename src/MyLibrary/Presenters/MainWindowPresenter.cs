@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -136,11 +136,11 @@ namespace MyLibrary.Presenters
 
         public async Task HandleDeleteButtonClicked(object sender, EventArgs args)
         {
-            // ask user for confirmation
             if (!this._view.ShowDeleteConfirmationDialog(this._view.SelectedItem.Title))
+            {
                 return;
+            }
 
-            // delete the item
             try
             {
                 int selectedItemId = this._view.SelectedItemId;
@@ -167,11 +167,9 @@ namespace MyLibrary.Presenters
 
         public void PerformFilter(object sender, EventArgs e)
         {
-            // grab the filters
             string filterByTitle = this._view.TitleFilterText;
             IEnumerable<string> filterByTags = this._view.SelectedFilterTags;
 
-            // perform filtering
             DataTable filteredTable = this._allItems.Copy();
             if (!string.IsNullOrWhiteSpace(filterByTitle))
             {
@@ -182,7 +180,6 @@ namespace MyLibrary.Presenters
                 filteredTable = FilterByTags(filteredTable, filterByTags);
             }
 
-            // update the view
             this._view.DisplayedItems = filteredTable;
             UpdateStatusBarAndSelectedItemDetails();
         }
@@ -300,7 +297,6 @@ namespace MyLibrary.Presenters
                 return;
             }
 
-            // update the view
             await DisplayItems();
         }
 
@@ -329,7 +325,7 @@ namespace MyLibrary.Presenters
         public async void HandleAddNewItemButtonClicked(object sender, EventArgs args)
         {
             int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
-            if (selectedCategoryIndex==0)
+            if (selectedCategoryIndex == 0)
             {
                 await ShowAddNewBook();
             }
@@ -342,10 +338,10 @@ namespace MyLibrary.Presenters
         private async Task ShowAddNewBook()
         {
             this._addBookView = new AddNewBookForm();
-            var addBookPresenter = new AddBookPresenter(this._bookService, 
-                this._tagService, this._authorService, 
+            var addBookPresenter = new AddBookPresenter(this._bookService,
+                this._tagService, this._authorService,
                 this._publisherService,
-                this._addBookView, 
+                this._addBookView,
                 new ImageFileReader());
             await addBookPresenter.PopulateTagsList();
             await addBookPresenter.PopulateAuthorsList();
@@ -357,27 +353,25 @@ namespace MyLibrary.Presenters
         private async Task ShowAddNewMediaItem()
         {
             this._addMediaItemView = new AddNewMediaItemForm();
-            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService, 
-                this._tagService, 
-                this._addMediaItemView, 
-                new ImageFileReader(), 
+            var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService,
+                this._tagService,
+                this._addMediaItemView,
+                new ImageFileReader(),
                 new NewTagOrPublisherInputBoxProvider());
             await addItemPresenter.PopulateTagsList();
-
-            int categoryIndexToSelect;
-            if (this._view.CategoryDropDownSelectedIndex > 2)
+            int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
+            if (selectedCategoryIndex == 1)
             {
-                categoryIndexToSelect = this._view.CategoryDropDownSelectedIndex - 2;
+                this._addMediaItemView.SelectedCategoryIndex = 0;
             }
             else
             {
-                categoryIndexToSelect = 0;
+                this._addMediaItemView.SelectedCategoryIndex = this._view.CategoryDropDownSelectedIndex - 2;
             }
-            this._addMediaItemView.SelectedCategoryIndex = categoryIndexToSelect;
 
             ((AddNewMediaItemForm)this._addMediaItemView).Show();
         }
-        
+
         public async Task SearchByIsbnClicked()
         {
             SearchByIsbnDialog searchDialog = new SearchByIsbnDialog();
@@ -417,15 +411,15 @@ namespace MyLibrary.Presenters
             foreach (var book in allBooks)
             {
                 dt.Rows.Add(
-                    book.Id, 
-                    book.Title, 
-                    book.GetIsbn(), 
-                    book.Publisher.Name, 
-                    book.GetAuthorList(), 
+                    book.Id,
+                    book.Title,
+                    book.GetIsbn(),
+                    book.Publisher.Name,
+                    book.GetAuthorList(),
                     book.GetCommaDelimitedTags()
                     );
             }
-            
+
             this._allItems = dt;
         }
 
@@ -498,24 +492,48 @@ namespace MyLibrary.Presenters
             {
                 await DisplayMediaItems();
             }
+            else if (categorySelectionIndex == 2)
+            {
+                await DisplayMediaItems(ItemType.Cassette);
+            }
+            else if (categorySelectionIndex == 3)
+            {
+                await DisplayMediaItems(ItemType.Cd);
+            }
+            else if (categorySelectionIndex == 4)
+            {
+                await DisplayMediaItems(ItemType.Dvd);
+            }
+            else if (categorySelectionIndex == 5)
+            {
+                await DisplayMediaItems(ItemType.BluRay);
+            }
+            else if (categorySelectionIndex == 6)
+            {
+                await DisplayMediaItems(ItemType.UhdBluRay);
+            }
             else if (categorySelectionIndex == 7)
             {
-                await DisplayMediaItems(ItemType.FlashDrive);
+                await DisplayMediaItems(ItemType.Vhs);
             }
             else if (categorySelectionIndex == 8)
             {
-                await DisplayMediaItems(ItemType.FloppyDisk);
+                await DisplayMediaItems(ItemType.Vinyl);
             }
             else if (categorySelectionIndex == 9)
             {
+                await DisplayMediaItems(ItemType.FlashDrive);
+            }
+            else if (categorySelectionIndex == 10)
+            {
+                await DisplayMediaItems(ItemType.FloppyDisk);
+            }
+            else if (categorySelectionIndex == 11)
+            {
                 await DisplayMediaItems(ItemType.Other);
             }
-            else
-            {
-                await DisplayMediaItems((ItemType)categorySelectionIndex - 1);
-            }
 
-            PerformFilter(null,null);
+            PerformFilter(null, null);
 
             UpdateStatusBarAndSelectedItemDetails();
         }//DisplayItems

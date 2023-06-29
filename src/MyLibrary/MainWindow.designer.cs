@@ -103,6 +103,8 @@ namespace MyLibrary
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tagsButton = new System.Windows.Forms.ToolStripButton();
             this.wishlistButton = new System.Windows.Forms.ToolStripButton();
+            this.cassettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uhdBluRayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -272,9 +274,11 @@ namespace MyLibrary
             this.toolStripSeparator2,
             this.booksToolStripMenuItem,
             this.mediaItemsAllCategoriesToolStripMenuItem,
+            this.cassettesToolStripMenuItem,
             this.cdsToolStripMenuItem,
             this.dvdsToolStripMenuItem,
             this.bluRaysToolStripMenuItem,
+            this.uhdBluRayToolStripMenuItem,
             this.vhssToolStripMenuItem,
             this.vinylsToolStripMenuItem,
             this.flashDriveToolStripMenuItem,
@@ -311,13 +315,13 @@ namespace MyLibrary
             // 
             this.cdsToolStripMenuItem.Name = "cdsToolStripMenuItem";
             this.cdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.cdsToolStripMenuItem.Text = "Cds";
+            this.cdsToolStripMenuItem.Text = "CDs";
             // 
             // dvdsToolStripMenuItem
             // 
             this.dvdsToolStripMenuItem.Name = "dvdsToolStripMenuItem";
             this.dvdsToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.dvdsToolStripMenuItem.Text = "Dvds";
+            this.dvdsToolStripMenuItem.Text = "DVDs";
             // 
             // bluRaysToolStripMenuItem
             // 
@@ -329,7 +333,7 @@ namespace MyLibrary
             // 
             this.vhssToolStripMenuItem.Name = "vhssToolStripMenuItem";
             this.vhssToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
-            this.vhssToolStripMenuItem.Text = "Vhss";
+            this.vhssToolStripMenuItem.Text = "VHSs";
             // 
             // vinylsToolStripMenuItem
             // 
@@ -380,8 +384,8 @@ namespace MyLibrary
             // 
             this.dataGrid.AllowUserToAddRows = false;
             this.dataGrid.AllowUserToDeleteRows = false;
-            this.dataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -544,7 +548,7 @@ namespace MyLibrary
             // 
             // titleFilterField
             // 
-            this.titleFilterField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.titleFilterField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.titleFilterField.Location = new System.Drawing.Point(53, 21);
             this.titleFilterField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -554,7 +558,7 @@ namespace MyLibrary
             // 
             // detailsGroup
             // 
-            this.detailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.detailsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.detailsGroup.Controls.Add(this.itemDetailsSpinner);
             this.detailsGroup.Controls.Add(this.manageItemCopiesButton);
@@ -624,7 +628,7 @@ namespace MyLibrary
             // 
             // detailsBox
             // 
-            this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.detailsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.detailsBox.Location = new System.Drawing.Point(9, 169);
             this.detailsBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -681,7 +685,7 @@ namespace MyLibrary
             // 
             // textBoxNotes
             // 
-            this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNotes.Location = new System.Drawing.Point(12, 387);
             this.textBoxNotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -722,8 +726,8 @@ namespace MyLibrary
             // 
             // pictureBox
             // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
             this.pictureBox.Location = new System.Drawing.Point(9, 50);
@@ -846,6 +850,18 @@ namespace MyLibrary
             this.wishlistButton.Text = "toolStripButton5";
             this.wishlistButton.ToolTipText = "Wishlist";
             // 
+            // cassettesToolStripMenuItem
+            // 
+            this.cassettesToolStripMenuItem.Name = "cassettesToolStripMenuItem";
+            this.cassettesToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.cassettesToolStripMenuItem.Text = "Cassettes";
+            // 
+            // uhdBluRayToolStripMenuItem
+            // 
+            this.uhdBluRayToolStripMenuItem.Name = "uhdBluRayToolStripMenuItem";
+            this.uhdBluRayToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.uhdBluRayToolStripMenuItem.Text = "UHD BluRays";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -956,6 +972,8 @@ namespace MyLibrary
         private System.Windows.Forms.Button addTagFilterButton;
         private System.Windows.Forms.ComboBox addFilterTagField;
         private System.Windows.Forms.ListView filterTagsList;
+        private System.Windows.Forms.ToolStripMenuItem cassettesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uhdBluRayToolStripMenuItem;
     }
 }
 

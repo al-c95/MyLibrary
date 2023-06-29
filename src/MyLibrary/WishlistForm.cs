@@ -42,9 +42,11 @@ namespace MyLibrary
 
             // populate "Types" combo box
             this.typesDropDown.Items.Add(ItemType.Book);
+            this.typesDropDown.Items.Add(ItemType.Cassette);
             this.typesDropDown.Items.Add(ItemType.Cd);
             this.typesDropDown.Items.Add(ItemType.Dvd);
             this.typesDropDown.Items.Add(ItemType.BluRay);
+            this.typesDropDown.Items.Add("4k BluRay");
             this.typesDropDown.Items.Add(ItemType.Vhs);
             this.typesDropDown.Items.Add(ItemType.Vinyl);
             this.typesDropDown.Items.Add("Flash Drive");
@@ -101,6 +103,10 @@ namespace MyLibrary
             {
                 await ApplyFiltersWithDelay(sender, args);
             });
+            this.cassetteCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
             this.dvdCheckBox.CheckedChanged += (async (sender, args) =>
             {
                 await ApplyFiltersWithDelay(sender, args);
@@ -110,6 +116,10 @@ namespace MyLibrary
                 await ApplyFiltersWithDelay(sender, args);
             });
             this.blurayCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.uhdBluRayCheckBox.CheckedChanged += (async (sender, args) =>
             {
                 await ApplyFiltersWithDelay(sender, args);
             });
@@ -161,10 +171,12 @@ namespace MyLibrary
 
             this.TitleFilterText = String.Empty;
             // select all categories for filter by default
+            this.CassetteFilterSelected = true;
             this.BookFilterSelected = true;
             this.DvdFilterSelected = true;
             this.CdFilterSelected = true;
             this.BlurayFilterSelected = true;
+            this.UhdBlurayFilterSelected = true;
             this.VhsFilterSelected = true;
             this.VinylFilterSelected = true;
             this.FlashDriveFilterSelected = true;
@@ -302,6 +314,12 @@ namespace MyLibrary
             set => this.titleFilterField.Text = value;
         }
 
+        public bool CassetteFilterSelected
+        {
+            get => this.cassetteCheckBox.Checked;
+            set => this.cassetteCheckBox.Checked = value;
+        }
+
         public bool BookFilterSelected
         {
             get => this.bookCheckBox.Checked;
@@ -324,6 +342,12 @@ namespace MyLibrary
         {
             get => this.blurayCheckBox.Checked;
             set => this.blurayCheckBox.Checked = value;
+        }
+
+        public bool UhdBlurayFilterSelected
+        {
+            get => this.uhdBluRayCheckBox.Checked;
+            set => this.uhdBluRayCheckBox.Checked = value;
         }
 
         public bool VhsFilterSelected
