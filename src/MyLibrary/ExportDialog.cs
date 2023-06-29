@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ namespace MyLibrary
             {
                 this.StartButtonClicked?.Invoke(sender, args);
             });
-            this.cancelButton.Click += ((sender, args) =>
+            this.closeButton.Click += ((sender, args) =>
             {
                 this.Cancelled?.Invoke(sender, args);
             });
@@ -71,40 +71,42 @@ namespace MyLibrary
             set => this.label1.Text = value;
         }
 
-        public string Label2 
+        public string Label2
         {
             get => this.label2.Text;
-            set => this.label2.Text = value; 
+            set => this.label2.Text = value;
         }
 
-        public string Path 
+        public string Path
         {
             get => this.pathField.Text;
-            set => this.pathField.Text=value; 
+            set => this.pathField.Text = value;
         }
 
-        public bool BrowseButtonEnabled 
+        public bool BrowseButtonEnabled
         {
             get => this.browseButton.Enabled;
-            set => this.browseButton.Enabled = value; 
+            set => this.browseButton.Enabled = value;
         }
 
-        public bool StartButtonEnabled 
+        public bool StartButtonEnabled
         {
             get => this.startButton.Enabled;
-            set => this.startButton.Enabled = value; 
-        }
-
-        public bool CancelButtonEnabled 
-        {
-            get => this.cancelButton.Enabled;
-            set => this.cancelButton.Enabled = value;
+            set => this.startButton.Enabled = value;
         }
 
         public bool CloseButtonEnabled
         {
-            get => this.ControlBox;
-            set => this.ControlBox = value;
+            get
+            {
+                return this.ControlBox && this.closeButton.Enabled;
+            }
+
+            set
+            {
+                this.ControlBox = value;
+                this.closeButton.Enabled = value;
+            }
         }
 
         public bool PathFieldEnabled

@@ -51,7 +51,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("B", "Tag");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allTags = await this._tagService.GetAll();
 
@@ -60,12 +60,6 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var tag in allTags)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     WriteEntityRow(new object[]
                     {
                         tag.Id,

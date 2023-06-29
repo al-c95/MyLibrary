@@ -21,7 +21,6 @@
 //SOFTWARE
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Views.Excel;
@@ -51,7 +50,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("B", "Publisher");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allPublishers = await this._publisherService.GetAll();
 
@@ -60,12 +59,6 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var publisher in allPublishers)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     WriteEntityRow(new object[]
                     {
                         publisher.Id,

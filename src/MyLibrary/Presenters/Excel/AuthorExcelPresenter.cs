@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -33,14 +33,14 @@ namespace MyLibrary.Presenters.Excel
         protected readonly IAuthorService _authorService;
 
         public AuthorExcelPresenter(IAuthorService authorService, IExcelFile file, Views.IExportDialog dialog, Views.Excel.Excel excel)
-            :base("Author",file,dialog,excel)
+            : base("Author", file, dialog, excel)
         {
             this._authorService = authorService;
             WriteHeaders();
         }
 
         public AuthorExcelPresenter(Views.IExportDialog dialog, Views.Excel.Excel excel)
-            :base("Author",new ExcelFile(),dialog, new Views.Excel.Excel())
+            : base("Author", new ExcelFile(), dialog, new Views.Excel.Excel())
         {
             this._authorService = new AuthorService();
             WriteHeaders();
@@ -52,7 +52,7 @@ namespace MyLibrary.Presenters.Excel
             WriteHeaderCell("C", "Last Name");
         }
 
-        protected async override Task RenderExcel(IProgress<int> numberExported, CancellationToken token)
+        protected async override Task RenderExcel(IProgress<int> numberExported)
         {
             var allAuthors = await this._authorService.GetAll();
 
@@ -61,12 +61,6 @@ namespace MyLibrary.Presenters.Excel
                 int count = 0;
                 foreach (var author in allAuthors)
                 {
-                    // check for cancellation
-                    if (token.IsCancellationRequested)
-                    {
-                        throw new OperationCanceledException();
-                    }
-
                     WriteEntityRow(new object[]
                     {
                         author.Id,

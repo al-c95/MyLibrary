@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -46,10 +46,6 @@ namespace MyLibrary.Presenters.Excel
 
         protected readonly string _type;
 
-        public bool IsRunning { get; set; }
-
-        protected CancellationTokenSource _cts = null;
-
         /// <summary>
         /// Constructor. Writes metadata and Id column header to Excel.
         /// </summary>
@@ -59,8 +55,6 @@ namespace MyLibrary.Presenters.Excel
             this._file = file;
 
             this._type = type;
-
-            this.IsRunning = false;
 
             this._dialog.Title = "Export " + this._type + "s";
             this._dialog.Label1 = string.Empty;
@@ -108,7 +102,7 @@ namespace MyLibrary.Presenters.Excel
             {
                 await HandleStartButtonClicked(sender, args);
             });
-            this._dialog.Cancelled += CancelButtonClicked;
+            this._dialog.Cancelled += CloseButtonClicked;
         }
 
         public void BrowseButtonClicked(object sender, EventArgs e)
@@ -129,10 +123,6 @@ namespace MyLibrary.Presenters.Excel
         #region UI view event handlers
         public async Task HandleStartButtonClicked(object sender, EventArgs args)
         {
-            this._cts = new CancellationTokenSource();
-            var token = this._cts.Token;
-
-            this.IsRunning = true;
             this._dialog.CloseButtonEnabled = false;
 
             string path = this._dialog.Path;
@@ -150,7 +140,7 @@ namespace MyLibrary.Presenters.Excel
                     this._dialog.Label2 = p + " rows exported";
                 });
 
-                await this.RenderExcel(numberExported, token);
+                await this.RenderExcel(numberExported);
             }
             catch (Exception ex)
             {
@@ -168,9 +158,6 @@ namespace MyLibrary.Presenters.Excel
             }
             finally
             {
-                this.IsRunning = false;
-                this._cts.Dispose();
-
                 this._dialog.CloseButtonEnabled = true;
             }
 
@@ -178,17 +165,10 @@ namespace MyLibrary.Presenters.Excel
             this._dialog.Label1 = "Task complete.";
         }
 
-        public void CancelButtonClicked(object sender, EventArgs e)
+        public void CloseButtonClicked(object sender, EventArgs e)
         {
-            if (IsRunning)
-            {
-                this._cts.Cancel();
-            }
-            else
-            {
-                this._dialog.CloseDialog();
-                this.Dispose();
-            }
+            this._dialog.CloseDialog();
+            this.Dispose();
         }
         #endregion
 
@@ -273,7 +253,7 @@ namespace MyLibrary.Presenters.Excel
         /// </summary>
         /// <param name="numberExported"></param>
         /// <returns></returns>
-        protected abstract Task RenderExcel(IProgress<int> numberExported, CancellationToken token);
+        protected abstract Task RenderExcel(IProgress<int> numberExported);
 
         public void Dispose()
         {
