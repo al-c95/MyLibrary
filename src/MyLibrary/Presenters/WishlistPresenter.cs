@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,8 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Data;
+using System.Text.RegularExpressions;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
@@ -35,6 +37,10 @@ namespace MyLibrary.Presenters
         private IWishlistForm _view;
         private IWishlistServiceProvider _serviceProvider;
 
+        private DataTable _allItems;
+
+        private const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
+
         public WishlistPresenter(IWishlistForm view, IWishlistServiceProvider serviceProvider)
         {
             this._view = view;
@@ -47,9 +53,9 @@ namespace MyLibrary.Presenters
                 await SaveSelectedClicked(sender, args);
             });
             this._view.DiscardChangesClicked += DiscardChangesClicked;
-            this._view.DeleteClicked += (async (sender, args) => 
-            { 
-                await DeleteClicked(sender, args); 
+            this._view.DeleteClicked += (async (sender, args) =>
+            {
+                await DeleteClicked(sender, args);
             });
             this._view.AddToLibraryClicked += (async (sender, args) =>
             {
@@ -58,11 +64,11 @@ namespace MyLibrary.Presenters
                 if (selectedItem.Type == ItemType.Book)
                 {
                     var addBookDialog = new AddNewBookForm();
-                    var addBookPresenter = new AddBookPresenter(new BookService(), 
-                        new TagService(), 
-                        new AuthorService(), 
-                        new PublisherService(), 
-                        addBookDialog, 
+                    var addBookPresenter = new AddBookPresenter(new BookService(),
+                        new TagService(),
+                        new AuthorService(),
+                        new PublisherService(),
+                        addBookDialog,
                         new ImageFileReader());
                     await addBookPresenter.PopulateTagsList();
                     await addBookPresenter.PopulateAuthorsList();
@@ -75,9 +81,9 @@ namespace MyLibrary.Presenters
                 {
                     var addMediaItemDialog = new AddNewMediaItemForm();
                     var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(),
-                        new TagService(), 
-                        addMediaItemDialog, 
-                        new ImageFileReader(), 
+                        new TagService(),
+                        addMediaItemDialog,
+                        new ImageFileReader(),
                         new NewTagOrPublisherInputBoxProvider());
                     await addMediaItemPresenter.PopulateTagsList();
                     if (selectedItem.Type == ItemType.FlashDrive)
@@ -97,12 +103,20 @@ namespace MyLibrary.Presenters
                     addMediaItemDialog.ShowDialog();
                 }
             });
-            this._view.SaveNewClicked += (async (sender, args) => 
-            { 
-                await SaveNewClicked(sender, args); 
+            this._view.SaveNewClicked += (async (sender, args) =>
+            {
+                await SaveNewClicked(sender, args);
             });
             this._view.NewItemFieldsUpdated += NewItemFieldsUpdated;
             this._view.SelectedItemFieldsUpdated += SelectedItemFieldsUpdated;
+            this._view.ApplyFilters += ((sender, args) =>
+            {
+                ApplyFilters(sender, args);
+            });
+            this._view.WindowCreated += (async (sender, args) =>
+            {
+                await LoadData();
+            });
 
             EventAggregator.GetInstance().Subscribe<WishlistUpdatedEvent>(async m => await LoadData());
         }
@@ -112,12 +126,152 @@ namespace MyLibrary.Presenters
             this._view.StatusText = "Please Wait...";
 
             var service = this._serviceProvider.Get();
-            this._view.DisplayItems(await service.GetAll());
+            var allItems = await service.GetAll();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("Title");
+            dt.Columns.Add("Type");
+            dt.Columns.Add("Notes");
+            foreach (var item in allItems)
+            {
+                dt.Rows.Add(item.Id,
+                            item.Title,
+                            Item.GetTypeString(item.Type),
+                            item.Notes);
+            }
+            this._allItems = dt;
+
+            ApplyFilters(null, null);
 
             this._view.StatusText = "Ready.";
         }
 
         #region view event handlers
+        public void ApplyFilters(object sender, EventArgs args)
+        {
+            string filterByTitle = this._view.TitleFilterText;
+            bool bookChecked = this._view.BookFilterSelected;
+            bool cdChecked = this._view.CdFilterSelected;
+            bool dvdChecked = this._view.DvdFilterSelected;
+            bool blurayChecked = this._view.BlurayFilterSelected;
+            bool vhsChecked = this._view.VhsFilterSelected;
+            bool vinylChecked = this._view.VinylFilterSelected;
+            bool flashDriveChecked = this._view.FlashDriveFilterSelected;
+            bool floppyDiskChecked = this._view.FloppyDiskFilterSelected;
+            bool otherChecked = this._view.OtherFilterSelected;
+
+            DataTable filteredTable = this._allItems.Copy();
+            if (!string.IsNullOrWhiteSpace(filterByTitle))
+            {
+                filteredTable = FilterByTitle(filteredTable, filterByTitle);
+            }
+
+            filteredTable = FilterWishlistByType(filteredTable,
+                bookChecked, cdChecked, dvdChecked, blurayChecked, vhsChecked, vinylChecked, flashDriveChecked, floppyDiskChecked, otherChecked);
+
+            this._view.DisplayedItems = filteredTable;
+
+            this._view.StatusText = "Ready.";
+        }
+
+        private DataTable FilterByTitle(DataTable originalTable, string filterByTitle)
+        {
+            Regex filterPattern = new Regex(filterByTitle, REGEX_OPTIONS);
+
+            DataTable filteredTable = originalTable.Clone();
+            var rows = originalTable.AsEnumerable()
+                .Where(row => filterPattern.IsMatch(row.Field<string>("Title")));
+            foreach (var row in rows)
+            {
+                filteredTable.ImportRow(row);
+            }
+
+            return filteredTable;
+        }
+
+        private DataTable FilterWishlistByType(DataTable originalTable,
+            bool bookChecked, bool cdChecked, bool dvdChecked, bool blurayChecked, bool vhsChecked, bool vinylChecked, bool flashDriveChecked, bool floppyDiskChecked, bool otherChecked)
+        {
+            DataTable filteredTable = originalTable.Clone();
+            var rows = originalTable.AsEnumerable();
+            foreach (var row in rows)
+            {
+                if (bookChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Book"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (dvdChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Dvd"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (cdChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Cd"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (blurayChecked)
+                {
+                    if (row.Field<string>("Type").Equals("BluRay"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (vhsChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Vhs"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (vinylChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Vinyl"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (floppyDiskChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Floppy Disk"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (flashDriveChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Flash Drive"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+
+                if (otherChecked)
+                {
+                    if (row.Field<string>("Type").Equals("Other"))
+                    {
+                        filteredTable.ImportRow(row);
+                    }
+                }
+            }
+
+            return filteredTable;
+        }//FilterWishlistByType
+
         public void ItemSelected(object sender, EventArgs args)
         {
             if (this._view.SelectedItem is null)
@@ -211,7 +365,7 @@ namespace MyLibrary.Presenters
 
         public void SelectedItemFieldsUpdated(object sender, EventArgs args)
         {
-         
+
         }
         #endregion
 

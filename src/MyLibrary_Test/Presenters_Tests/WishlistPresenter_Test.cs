@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Data;
-using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
-using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
+
 namespace MyLibrary_Test.Presenters_Tests
 {
     [TestFixture]
@@ -23,22 +18,64 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IWishlistForm>();
-            WishlistItem item = new WishlistItem { Id = 1 };
+            fakeView.BookFilterSelected = true;
+            fakeView.DvdFilterSelected = true;
+            fakeView.CdFilterSelected = true;
+            fakeView.BlurayFilterSelected = true;
+            fakeView.VinylFilterSelected = true;
+            fakeView.VhsFilterSelected = true;
+            fakeView.FlashDriveFilterSelected = true;
+            fakeView.FloppyDiskFilterSelected = true;
+            fakeView.OtherFilterSelected = true;
             var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
             var fakeService = A.Fake<IWishlistService>();
             A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
-            List<WishlistItem> items = new List<WishlistItem>
-            {
-                new WishlistItem{Id=1}
-            };
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
             A.CallTo(() => fakeService.GetAll()).Returns(items);
             WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
 
             // act
             await presenter.LoadData();
+            var displayedTable = fakeView.DisplayedItems;
 
             // assert
-            A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
+            Assert.AreEqual(9, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("1"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Book"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Book"));
+            Assert.IsTrue(displayedTable.Rows[1].Field<string>("Id").Equals("2"));
+            Assert.IsTrue(displayedTable.Rows[1].Field<string>("Title").Equals("Test Dvd"));
+            Assert.IsTrue(displayedTable.Rows[1].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[1].Field<string>("Type").Equals("Dvd"));
+            Assert.IsTrue(displayedTable.Rows[2].Field<string>("Id").Equals("3"));
+            Assert.IsTrue(displayedTable.Rows[2].Field<string>("Title").Equals("Test Cd"));
+            Assert.IsTrue(displayedTable.Rows[2].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[2].Field<string>("Type").Equals("Cd"));
+            Assert.IsTrue(displayedTable.Rows[3].Field<string>("Id").Equals("4"));
+            Assert.IsTrue(displayedTable.Rows[3].Field<string>("Title").Equals("Test BluRay"));
+            Assert.IsTrue(displayedTable.Rows[3].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[3].Field<string>("Type").Equals("BluRay"));
+            Assert.IsTrue(displayedTable.Rows[4].Field<string>("Id").Equals("5"));
+            Assert.IsTrue(displayedTable.Rows[4].Field<string>("Title").Equals("Test Vhs"));
+            Assert.IsTrue(displayedTable.Rows[4].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[4].Field<string>("Type").Equals("Vhs"));
+            Assert.IsTrue(displayedTable.Rows[5].Field<string>("Id").Equals("6"));
+            Assert.IsTrue(displayedTable.Rows[5].Field<string>("Title").Equals("Test Vinyl"));
+            Assert.IsTrue(displayedTable.Rows[5].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[5].Field<string>("Type").Equals("Vinyl"));
+            Assert.IsTrue(displayedTable.Rows[6].Field<string>("Id").Equals("7"));
+            Assert.IsTrue(displayedTable.Rows[6].Field<string>("Title").Equals("Test Flash Drive"));
+            Assert.IsTrue(displayedTable.Rows[6].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[6].Field<string>("Type").Equals("Flash Drive"));
+            Assert.IsTrue(displayedTable.Rows[7].Field<string>("Id").Equals("8"));
+            Assert.IsTrue(displayedTable.Rows[7].Field<string>("Title").Equals("Test Floppy Disk"));
+            Assert.IsTrue(displayedTable.Rows[7].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[7].Field<string>("Type").Equals("Floppy Disk"));
+            Assert.IsTrue(displayedTable.Rows[8].Field<string>("Id").Equals("9"));
+            Assert.IsTrue(displayedTable.Rows[8].Field<string>("Title").Equals("Test Other"));
+            Assert.IsTrue(displayedTable.Rows[8].Field<string>("Notes").Equals("test"));
+            Assert.IsTrue(displayedTable.Rows[8].Field<string>("Type").Equals("Other"));
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
 
@@ -117,7 +154,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [TestCase("", false)]
-        [TestCase("test",true)]
+        [TestCase("test", true)]
         public void NewItemFieldsUpdated_Test(string title, bool expectedSaveNewButtonEnabled)
         {
             // arrange
@@ -158,7 +195,6 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // assert
             A.CallTo(() => fakeService.Update(modifiedItem, false)).MustHaveHappened();
-            A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
         }
 
@@ -167,6 +203,7 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IWishlistForm>();
+            fakeView.BookFilterSelected = true;
             WishlistItem newItem = new WishlistItem
             {
                 Id = 1,
@@ -184,10 +221,10 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // act
             await presenter.SaveNewClicked(null, null);
+            var displayedTable = fakeView.DisplayedItems;
 
             // assert
             A.CallTo(() => fakeService.Add(newItem)).MustHaveHappened();
-            A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
             Assert.AreEqual("", fakeView.NewNotes);
             Assert.AreEqual("", fakeView.NewItemTitle);
@@ -224,7 +261,7 @@ namespace MyLibrary_Test.Presenters_Tests
         }
 
         [Test]
-        public async Task DeleteClicked_Test() 
+        public async Task DeleteClicked_Test()
         {
             // arrange
             var fakeView = A.Fake<IWishlistForm>();
@@ -248,8 +285,365 @@ namespace MyLibrary_Test.Presenters_Tests
 
             // assert
             A.CallTo(() => fakeService.DeleteById(1)).MustHaveHappened();
-            A.CallTo(() => fakeView.DisplayItems(items)).MustHaveHappened();
             Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_TitleFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.BookFilterSelected = true;
+            fakeView.DvdFilterSelected = true;
+            fakeView.TitleFilterText = "Dvd";
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = new List<WishlistItem>
+            {
+                new WishlistItem
+                {
+                    Id=1,
+                    Title="Test Book",
+                    Notes="test",
+                    Type=ItemType.Book
+                },
+                new WishlistItem
+                {
+                    Id=2,
+                    Title="Test Dvd",
+                    Notes="test",
+                    Type=ItemType.Dvd
+                }
+            };
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("2"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Dvd"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Dvd"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_BookFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.BookFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("1"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Book"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Book"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_DvdFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.DvdFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("2"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Dvd"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Dvd"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_CdFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.CdFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("3"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Cd"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Cd"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_BluRayFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.BlurayFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("4"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test BluRay"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("BluRay"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_VhsFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.VhsFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("5"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Vhs"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Vhs"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_VinylFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.VinylFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("6"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Vinyl"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Vinyl"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_FlashDriveFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.FlashDriveFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("7"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Flash Drive"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Flash Drive"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_FloppyDiskFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.FloppyDiskFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("8"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Floppy Disk"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Floppy Disk"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        [Test]
+        public async Task ApplyFilters_Test_NoTitleFilter_OtherFilter()
+        {
+            // arrange
+            var fakeView = A.Fake<IWishlistForm>();
+            fakeView.OtherFilterSelected = true;
+            var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
+            var fakeService = A.Fake<IWishlistService>();
+            List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();
+            A.CallTo(() => fakeService.GetAll()).Returns(items);
+            A.CallTo(() => fakeServiceFactory.Get()).Returns(fakeService);
+            WishlistPresenter presenter = new WishlistPresenter(fakeView, fakeServiceFactory);
+
+            // act
+            await presenter.LoadData();
+            presenter.ApplyFilters(null, null);
+            var displayedTable = fakeView.DisplayedItems;
+
+            // assert
+            Assert.AreEqual(1, displayedTable.Rows.Count);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("9"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test Other"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("Other"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
+        }
+
+        private List<WishlistItem> GetCollectionOfAllTypesOfWishlistItems()
+        {
+            return new List<WishlistItem>
+            {
+                new WishlistItem
+                {
+                    Id=1,
+                    Title="Test Book",
+                    Notes="test",
+                    Type=ItemType.Book
+                },
+                new WishlistItem
+                {
+                    Id=2,
+                    Title="Test Dvd",
+                    Notes="test",
+                    Type=ItemType.Dvd
+                },
+                new WishlistItem
+                {
+                    Id=3,
+                    Title="Test Cd",
+                    Notes="test",
+                    Type=ItemType.Cd
+                },
+                new WishlistItem
+                {
+                    Id=4,
+                    Title="Test BluRay",
+                    Notes="test",
+                    Type=ItemType.BluRay
+                },
+                new WishlistItem
+                {
+                    Id=5,
+                    Title="Test Vhs",
+                    Notes="test",
+                    Type=ItemType.Vhs
+                },
+                new WishlistItem
+                {
+                    Id=6,
+                    Title="Test Vinyl",
+                    Notes="test",
+                    Type=ItemType.Vinyl
+                },
+                new WishlistItem
+                {
+                    Id=7,
+                    Title="Test Flash Drive",
+                    Notes="test",
+                    Type=ItemType.FlashDrive
+                },
+                new WishlistItem
+                {
+                    Id=8,
+                    Title="Test Floppy Disk",
+                    Notes="test",
+                    Type=ItemType.FloppyDisk
+                },
+                new WishlistItem
+                {
+                    Id=9,
+                    Title="Test Other",
+                    Notes="test",
+                    Type=ItemType.Other
+                }
+            };
         }
     }//class
 }

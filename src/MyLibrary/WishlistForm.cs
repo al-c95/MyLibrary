@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.Remoting.Channels;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
@@ -91,6 +93,54 @@ namespace MyLibrary
             {
                 this.SelectedItemFieldsUpdated?.Invoke(sender, args);
             });
+            this.titleFilterField.TextChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.bookCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.dvdCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.cdCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.blurayCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.vhsCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.vinylCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.flashDriveCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.floppyDiskCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.otherCheckBox.CheckedChanged += (async (sender, args) =>
+            {
+                await ApplyFiltersWithDelay(sender, args);
+            });
+            this.clearTitleFilterButton.Click += ((sender, args) =>
+            {
+                this.titleFilterField.Text = String.Empty;
+            });
+            this.applyFiltersButton.Click += ((sender, args) =>
+            {
+                this.ApplyFilters?.Invoke(sender, args);
+            });
             this.Resize += ((sender, args) =>
             {
                 ResizeColumns();
@@ -108,6 +158,27 @@ namespace MyLibrary
             this.newItemNotesBox.TabIndex = 1;
             this.typesDropDown.TabIndex = 2;
             this.saveNewItemChangesButton.TabIndex = 3;
+
+            this.TitleFilterText = String.Empty;
+            // select all categories for filter by default
+            this.BookFilterSelected = true;
+            this.DvdFilterSelected = true;
+            this.CdFilterSelected = true;
+            this.BlurayFilterSelected = true;
+            this.VhsFilterSelected = true;
+            this.VinylFilterSelected = true;
+            this.FlashDriveFilterSelected = true;
+            this.FloppyDiskFilterSelected = true;
+            this.OtherFilterSelected = true;
+
+            this.WindowCreated?.Invoke(null, null);
+        }
+
+        private async Task ApplyFiltersWithDelay(object sender, EventArgs args)
+        {
+            await Task.Delay(MainWindow.FILTER_DELAY);
+
+            this.ApplyFilters?.Invoke(sender, args);
         }
 
         public string SelectedNotes
@@ -161,8 +232,8 @@ namespace MyLibrary
             return item;
         }
 
-        public WishlistItem NewItem 
-        { 
+        public WishlistItem NewItem
+        {
             get
             {
                 WishlistItem item = new WishlistItem();
@@ -189,7 +260,7 @@ namespace MyLibrary
         public bool DeleteSelectedButtonEnabled
         {
             get => this.deleteButton.Enabled;
-            set => this.deleteButton.Enabled = value; 
+            set => this.deleteButton.Enabled = value;
         }
 
         public bool DiscardChangesButtonEnabled
@@ -219,12 +290,75 @@ namespace MyLibrary
             }
         }
 
-        public bool AddToLibraryButtonEnabled 
+        public bool AddToLibraryButtonEnabled
         {
             get => this.addToLibraryButton.Enabled;
             set => this.addToLibraryButton.Enabled = value;
         }
 
+        public string TitleFilterText
+        {
+            get => this.titleFilterField.Text;
+            set => this.titleFilterField.Text = value;
+        }
+
+        public bool BookFilterSelected
+        {
+            get => this.bookCheckBox.Checked;
+            set => this.bookCheckBox.Checked = value;
+        }
+
+        public bool CdFilterSelected
+        {
+            get => this.cdCheckBox.Checked;
+            set => this.cdCheckBox.Checked = value;
+        }
+
+        public bool DvdFilterSelected
+        {
+            get => this.dvdCheckBox.Checked;
+            set => this.dvdCheckBox.Checked = value;
+        }
+
+        public bool BlurayFilterSelected
+        {
+            get => this.blurayCheckBox.Checked;
+            set => this.blurayCheckBox.Checked = value;
+        }
+
+        public bool VhsFilterSelected
+        {
+            get => this.vhsCheckBox.Checked;
+            set => this.vhsCheckBox.Checked = value;
+        }
+
+        public bool VinylFilterSelected
+        {
+            get => this.vinylCheckBox.Checked;
+            set => this.vinylCheckBox.Checked = value;
+        }
+
+        public bool FloppyDiskFilterSelected
+        {
+            get => this.floppyDiskCheckBox.Checked;
+            set => this.floppyDiskCheckBox.Checked = value;
+        }
+
+        public bool FlashDriveFilterSelected
+        {
+            get => this.flashDriveCheckBox.Checked;
+            set => this.flashDriveCheckBox.Checked = value;
+        }
+
+        public bool OtherFilterSelected
+        {
+            get => this.otherCheckBox.Checked;
+            set => this.otherCheckBox.Checked = value;
+        }
+
+        public event EventHandler WindowCreated;
+        public event EventHandler ApplyFilters;
+        public event EventHandler ClearTitleFilterButtonClicked;
         public event EventHandler ItemSelected;
         public event EventHandler SaveSelectedClicked;
         public event EventHandler DiscardChangesClicked;
@@ -234,26 +368,20 @@ namespace MyLibrary
         public event EventHandler SelectedItemFieldsUpdated;
         public event EventHandler AddToLibraryClicked;
 
-        public void DisplayItems(IEnumerable<WishlistItem> items)
+        public DataTable DisplayedItems
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Id");
-            dt.Columns.Add("Type");
-            dt.Columns.Add("Title");
-            dt.Columns.Add("Notes");
-            foreach (var item in items)
+            get
             {
-                dt.Rows.Add(
-                    item.Id,
-                    Item.GetTypeString(item.Type),
-                    item.Title,
-                    item.Notes
-                    );
+                return this.dataGrid.DataSource as DataTable;
             }
-            this.dataGrid.DataSource = dt;
-            this.dataGrid.Columns["Notes"].Visible = false;
 
-            ResizeColumns();
+            set
+            {
+                this.dataGrid.DataSource = value;
+                this.dataGrid.Columns["Notes"].Visible = false;
+
+                ResizeColumns();
+            }
         }
 
         public void ShowItemAlreadyExistsDialog(string title)
