@@ -6,6 +6,8 @@ NOTE: all dates are in dd-mm-yyyy format.
 ## [1.5.0] - unreleased
 ### Fixed
 - bug with updating manage copies windows
+### Added
+- wishlist filtering
 
 ## [1.4.0] - 26-10-2022
 ### Fixed
