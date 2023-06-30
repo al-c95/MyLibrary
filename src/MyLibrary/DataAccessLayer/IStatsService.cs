@@ -20,29 +20,16 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-using System.Windows.Forms;
-using MyLibrary.Views;
+using System.Threading.Tasks;
 
-namespace MyLibrary
+namespace MyLibrary.DataAccessLayer
 {
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public partial class ShowStatsDialog : Form, IShowStats
+    public interface IStatsService
     {
-        public ShowStatsDialog()
-        {
-            InitializeComponent();
-
-            this.StartPosition = FormStartPosition.CenterParent;
-        }
-
-        public string StatsBoxTest { get => this.statsBox.Text; set => this.statsBox.Text=value; }
-
-        public string StatusLabelText { get => this.statusLabel.Text; set => this.statusLabel.Text=value; }
-
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-    }//class
+        Task<int> GetAuthorsCountAsync();
+        Task<int> GetBooksCountAsync();
+        Task<int> GetPublishersCountAsync();
+        Task<int> GetMediaItemsCountAsync();
+        Task<int> GetTagsCountAsync();
+    }
 }

@@ -43,17 +43,15 @@ namespace MyLibrary.Presenters
     {
         private IBookService _bookService;
         private IMediaItemService _mediaItemService;
-
         private ITagService _tagService;
-
         private IAuthorService _authorService;
-
         private IPublisherService _publisherService;
 
         private IMainWindow _view;
-
         private IAddMediaItemForm _addMediaItemView;
         private IAddBookForm _addBookView;
+
+        private readonly StatsPresenter _statsPresenter;
 
         protected DataTable _allItems;
 
@@ -387,11 +385,12 @@ namespace MyLibrary.Presenters
 
         public async void ShowStatsClicked(object sender, EventArgs e)
         {
-            ShowStatsDialog statsDialog = new ShowStatsDialog();
-            StatsPresenter statsPresenter = new StatsPresenter(statsDialog, this._bookService, this._mediaItemService, this._tagService, this._publisherService, this._authorService);
-            await statsPresenter.ShowStats();
-            statsDialog.ShowDialog();
-            statsDialog.Dispose();
+            using (var statsDialog = new ShowStatsDialog())
+            {
+                StatsPresenter statsPresenter = new StatsPresenter(statsDialog, new DataAccessLayer.StatsService());
+                await statsPresenter.LoadDataAsync();
+                statsDialog.ShowDialog();
+            }
         }
         #endregion
 

@@ -178,6 +178,7 @@
     <Compile Include="ApiService\SearchByIsbnDialog.Designer.cs">
       <DependentUpon>SearchByIsbnDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataAccessLayer\IStatsService.cs" />
     <Compile Include="DataAccessLayer\IUnitOfWork.cs" />
     <Compile Include="DataAccessLayer\Repositories\AuthorRepository.cs" />
     <Compile Include="DataAccessLayer\Repositories\BookCopyRepository.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="DataAccessLayer\ServiceProviders\TagRepositoryServiceProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\UnitOfWorkProvider.cs" />
     <Compile Include="DataAccessLayer\ServiceProviders\WishlistRepositoryProvider.cs" />
+    <Compile Include="DataAccessLayer\StatsService.cs" />
     <Compile Include="DataAccessLayer\UnitOfWork.cs" />
     <Compile Include="Events\BooksUpdatedEvent.cs" />
     <Compile Include="Events\BookCopiesUpdatedEvent.cs" />
