@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -19,6 +19,9 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
+
+using System;
+using System.IO;
 
 namespace MyLibrary.Utils
 {
@@ -39,6 +42,29 @@ namespace MyLibrary.Utils
         public byte[] ReadBytes()
         {
             return System.IO.File.ReadAllBytes(this.Path);
+        }
+
+        public static bool ValidateFilePath(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                return false;
+            }
+
+            char[] invalidChars = System.IO.Path.GetInvalidPathChars();
+            if (filePath.IndexOfAny(invalidChars) >= 0)
+            {
+                return false;
+            }
+
+            string extension = System.IO.Path.GetExtension(filePath);
+            if (!string.IsNullOrEmpty(extension))
+            {
+                string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".bmp" };
+                return Array.Exists(allowedExtensions, ext => ext.Equals(extension, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return false;
         }
     }//class
 }

@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,9 @@ namespace MyLibrary.Models.Entities
             set
             {
                 if (value == ItemType.Book)
+                {
                     throw new InvalidOperationException("Cannot set MediaItem.Type to ItemType.Book");
+                }
 
                 this._type = value;
             } 

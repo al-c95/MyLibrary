@@ -20,31 +20,14 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-
-namespace MyLibrary.Models.Entities
+namespace MyLibrary.Models.Entities.Builders
 {
-    public abstract class ItemBase : Entity
+    public interface IMediaItemBuilder
     {
-        public abstract ItemType Type { get; set; }
-
-        private string _title;
-        public string Title
-        {
-            get => this._title;
-            set
-            {
-                if (value == null || string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentNullException("Can't have an empty title.");
-                }
-                else
-                {
-                    _title = value;
-                }
-            }
-        }
-
-        public string Notes { get; set; }
-    }//class
+        MediaItem Build();
+        IMediaItemBuilder WithNumber(object value);
+        IMediaItemBuilder WithRunningTime(object value);
+        IMediaItemBuilder WithTitle(string title);
+        IMediaItemBuilder WithYear(object value);
+    }
 }

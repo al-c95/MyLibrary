@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,13 @@
 //SOFTWARE
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Events;
@@ -39,6 +41,8 @@ namespace MyLibrary.Presenters
     {
         private IMediaItemService _mediaItemService;
         private ITagService _tagService;
+        private IMediaItemBuilder _newItemBuilder;
+        private MediaItem _newItem;
 
         private IAddMediaItemForm _view;
 
@@ -54,13 +58,15 @@ namespace MyLibrary.Presenters
         /// <param name="tagService"></param>
         /// <param name="view">add media item window</param>
         /// <param name="imageFileReader"></param>
-        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService,
+        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, IMediaItemBuilder newItemBuilder,
             IAddMediaItemForm view,
             IImageFileReader imageFileReader,
             INewTagOrPublisherInputBoxProvider newTagDialogProvider)
         {
             this._mediaItemService = mediaItemService;
             this._tagService = tagService;
+            this._newItemBuilder = newItemBuilder;
+            this._newItem = new MediaItem();
 
             this._view = view;
 
@@ -81,7 +87,7 @@ namespace MyLibrary.Presenters
             this._view.TagCheckedChanged += HandleTagCheckedChanged;
         }//ctor
 
-        public async Task PopulateTagsList()
+        public async Task PopulateTagsAsync()
         {
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
@@ -97,7 +103,6 @@ namespace MyLibrary.Presenters
             const RegexOptions REGEX_OPTIONS = RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
             Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
 
-            // perform filtering
             Dictionary<string, bool> filteredTags = new Dictionary<string, bool>();
             foreach (var kvp in this._allTags)
             {
@@ -107,7 +112,6 @@ namespace MyLibrary.Presenters
                 }
             }
 
-            // update the view
             this._view.AddTags(filteredTags);
         }//FilterTags
 
@@ -130,25 +134,14 @@ namespace MyLibrary.Presenters
             this._view.SaveButtonEnabled = false;
             this._view.CancelButtonEnabled = false;
 
-            string selectedCategory = this._view.SelectedCategory;
-            string enteredRunningTime = this._view.RunningTimeFieldEntry;
-            MediaItem item = new MediaItem
-            {
-                Title = this._view.TitleFieldText,
-                Type = Item.ParseType(selectedCategory),
-                Number = long.Parse(this._view.NumberFieldText),
-                ReleaseYear = int.Parse(this._view.YearFieldEntry),
-                Notes = this._view.NotesFieldText
-            };
-            if (!string.IsNullOrWhiteSpace(enteredRunningTime))
-            {
-                item.RunningTime = int.Parse(enteredRunningTime);
-            }
             foreach (var kvp in this._allTags)
             {
                 if (this._allTags[kvp.Key] == true)
                 {
-                    item.Tags.Add(new Tag { Name = kvp.Key });
+                    this._newItem.Tags.Add(new Tag
+                    {
+                        Name = kvp.Key
+                    });
                 }
             }
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
@@ -157,9 +150,9 @@ namespace MyLibrary.Presenters
                 {
                     this._imageFileReader.Path = this._view.ImageFilePathFieldText;
                     byte[] imageBytes = this._imageFileReader.ReadBytes();
-                    item.Image = imageBytes;
+                    this._newItem.Image = imageBytes;
                 }
-                catch (System.IO.IOException ex)
+                catch (IOException ex)
                 {
                     // error reading the image
                     // alert the user
@@ -173,7 +166,7 @@ namespace MyLibrary.Presenters
             }
             try
             {
-                bool added = await this._mediaItemService.AddIfNotExistsAsync(item);
+                bool added = await this._mediaItemService.AddIfNotExistsAsync(this._newItem);
                 if (!added)
                 {
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
@@ -205,35 +198,27 @@ namespace MyLibrary.Presenters
 
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
-            bool sane = true;
-            sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
-            if (!string.IsNullOrWhiteSpace(this._view.NumberFieldText))
+            try
             {
-                long number;
-                sane = sane && long.TryParse(this._view.NumberFieldText, out number);
-            }
-            else
-            {
-                sane = false;
-            }
-            if (!string.IsNullOrWhiteSpace(this._view.RunningTimeFieldEntry))
-            {
-                int runningTime;
-                sane = sane && int.TryParse(this._view.RunningTimeFieldEntry, out runningTime);
-            }
-            if (!string.IsNullOrWhiteSpace(this._view.YearFieldEntry))
-            {
-                int year;
-                sane = sane && int.TryParse(this._view.YearFieldEntry, out year);
-            }
-            else
-            {
-                sane = false;
-            }
-            string imageFilePath = this._view.ImageFilePathFieldText;
-            sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
+                this._newItem = this._newItemBuilder
+                    .WithTitle(this._view.TitleFieldText)
+                    .WithNumber(this._view.NumberFieldText)
+                    .WithYear(this._view.YearFieldEntry)
+                    .WithRunningTime(this._view.RunningTimeFieldEntry)
+                        .Build();
+                this._newItem.Type = Item.ParseType(this._view.SelectedCategory);
 
-            this._view.SaveButtonEnabled = sane;
+                this._view.SaveButtonEnabled = true;
+
+                if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
+                {
+                    this._view.SaveButtonEnabled = ImageFileReader.ValidateFilePath(this._view.ImageFilePathFieldText);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                this._view.SaveButtonEnabled = false;
+            }
         }//InputFieldsUpdated
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)

@@ -33,6 +33,7 @@ using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Presenters.ServiceProviders;
 using MyLibrary.Events;
+using MyLibrary.Models.Entities.Builders;
 
 namespace MyLibrary.Presenters
 {
@@ -353,10 +354,11 @@ namespace MyLibrary.Presenters
             this._addMediaItemView = new AddNewMediaItemForm();
             var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService,
                 this._tagService,
+                new MediaItemBuilder(),
                 this._addMediaItemView,
                 new ImageFileReader(),
                 new NewTagOrPublisherInputBoxProvider());
-            await addItemPresenter.PopulateTagsList();
+            await addItemPresenter.PopulateTagsAsync();
             int selectedCategoryIndex = this._view.CategoryDropDownSelectedIndex;
             if (selectedCategoryIndex == 1)
             {

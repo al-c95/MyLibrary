@@ -29,6 +29,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Events;
 using MyLibrary.Utils;
+using MyLibrary.Models.Entities.Builders;
 
 namespace MyLibrary.Presenters
 {
@@ -82,10 +83,11 @@ namespace MyLibrary.Presenters
                     var addMediaItemDialog = new AddNewMediaItemForm();
                     var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(),
                         new TagService(),
+                        new MediaItemBuilder(),
                         addMediaItemDialog,
                         new ImageFileReader(),
                         new NewTagOrPublisherInputBoxProvider());
-                    await addMediaItemPresenter.PopulateTagsList();
+                    await addMediaItemPresenter.PopulateTagsAsync();
                     if (selectedItem.Type == ItemType.FlashDrive)
                     {
                         addMediaItemDialog.SelectedCategory = "Flash Drive";
