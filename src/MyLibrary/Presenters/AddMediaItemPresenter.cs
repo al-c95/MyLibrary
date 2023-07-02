@@ -115,6 +115,46 @@ namespace MyLibrary.Presenters
             this._view.AddTags(filteredTags);
         }//FilterTags
 
+        private void AddSelectedTags()
+        {
+            foreach (var kvp in this._allTags)
+            {
+                if (this._allTags[kvp.Key])
+                {
+                    this._newItem.Tags.Add(new Tag
+                    {
+                        Name = kvp.Key
+                    });
+                }
+            }
+        }
+
+        private void EnableButtons(bool save, bool cancel)
+        {
+            this._view.SaveButtonEnabled = save;
+            this._view.CancelButtonEnabled = cancel;
+        }
+
+        private void HandleImageFile()
+        {
+            try
+            {
+                this._imageFileReader.Path = this._view.ImageFilePathFieldText;
+                byte[] imageBytes = this._imageFileReader.ReadBytes();
+                this._newItem.Image = imageBytes;
+            }
+            catch (IOException ex)
+            {
+                // error reading the image
+                // alert the user
+                this._view.ShowErrorDialog("Image file error", ex.Message);
+
+                EnableButtons(true, true);
+
+                return;
+            }
+        }
+
         #region View event handlers
         public void HandleTagCheckedChanged(object sender, EventArgs args)
         {
@@ -131,39 +171,15 @@ namespace MyLibrary.Presenters
 
         public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
-            this._view.SaveButtonEnabled = false;
-            this._view.CancelButtonEnabled = false;
+            EnableButtons(false, false);
 
-            foreach (var kvp in this._allTags)
-            {
-                if (this._allTags[kvp.Key] == true)
-                {
-                    this._newItem.Tags.Add(new Tag
-                    {
-                        Name = kvp.Key
-                    });
-                }
-            }
+            AddSelectedTags();
+
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
-                try
-                {
-                    this._imageFileReader.Path = this._view.ImageFilePathFieldText;
-                    byte[] imageBytes = this._imageFileReader.ReadBytes();
-                    this._newItem.Image = imageBytes;
-                }
-                catch (IOException ex)
-                {
-                    // error reading the image
-                    // alert the user
-                    this._view.ShowErrorDialog("Image file error", ex.Message);
-
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
-
-                    return;
-                }
+                HandleImageFile();
             }
+
             try
             {
                 bool added = await this._mediaItemService.AddIfNotExistsAsync(this._newItem);
@@ -171,8 +187,7 @@ namespace MyLibrary.Presenters
                 {
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
 
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
+                    EnableButtons(true, true);
 
                     return;
                 }
@@ -187,8 +202,7 @@ namespace MyLibrary.Presenters
                 // notify the user
                 this._view.ShowErrorDialog("Error creating item", ex.Message);
 
-                this._view.SaveButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
+                EnableButtons(true, true);
 
                 return;
             }
@@ -242,6 +256,7 @@ namespace MyLibrary.Presenters
                 return;
             }
         }//HandleAddNewTagClicked
+        #endregion
 
         private string ShowNewTagDialog()
         {
@@ -250,6 +265,5 @@ namespace MyLibrary.Presenters
 
             return dialog.ShowAsDialog();
         }
-        #endregion
     }//class
 }
