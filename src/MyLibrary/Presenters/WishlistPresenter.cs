@@ -64,45 +64,41 @@ namespace MyLibrary.Presenters
 
                 if (selectedItem.Type == ItemType.Book)
                 {
-                    var addBookDialog = new AddNewBookForm();
-                    var addBookPresenter = new AddBookPresenter(new BookService(),
+                    using (var addBookDialog = new AddNewBookForm())
+                    {
+                        addBookDialog.TitleFieldText = selectedItem.Title;
+                        addBookDialog.NotesFieldText = selectedItem.Notes;
+
+                        var addBookPresenter = new AddBookPresenter(new BookService(),
                         new TagService(),
                         new AuthorService(),
                         new PublisherService(),
                         addBookDialog,
                         new ImageFileReader());
-                    await addBookPresenter.PopulateTagsList();
-                    await addBookPresenter.PopulateAuthorsList();
-                    await addBookPresenter.PopulatePublishersList();
-                    addBookDialog.TitleFieldText = selectedItem.Title;
-                    addBookDialog.NotesFieldText = selectedItem.Notes;
-                    addBookDialog.ShowAsDialog();
+                        await addBookPresenter.PopulateTagsList();
+                        await addBookPresenter.PopulateAuthorsList();
+                        await addBookPresenter.PopulatePublishersList();
+
+                        addBookDialog.ShowDialog();
+                    }
                 }
                 else
                 {
-                    var addMediaItemDialog = new AddNewMediaItemForm();
-                    var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(),
-                        new TagService(),
+                    using (var addItemDialog = new AddNewMediaItemForm())
+                    {
+                        addItemDialog.TitleFieldText = selectedItem.Title;
+                        addItemDialog.NotesFieldText = selectedItem.Notes;
+                        addItemDialog.SelectedCategory = Item.GetTypeString(selectedItem.Type);
+
+                        var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(), new TagService(),
                         new MediaItemBuilder(),
-                        addMediaItemDialog,
+                        addItemDialog,
                         new ImageFileReader(),
                         new NewTagOrPublisherInputBoxProvider());
-                    await addMediaItemPresenter.PopulateTagsAsync();
-                    if (selectedItem.Type == ItemType.FlashDrive)
-                    {
-                        addMediaItemDialog.SelectedCategory = "Flash Drive";
+                        await addMediaItemPresenter.PopulateTagsAsync();
+
+                        addItemDialog.ShowDialog();
                     }
-                    else if (selectedItem.Type == ItemType.FloppyDisk)
-                    {
-                        addMediaItemDialog.SelectedCategory = "Floppy Disk";
-                    }
-                    else
-                    {
-                        addMediaItemDialog.SelectedCategory = (selectedItem.Type).ToString();
-                    }
-                    addMediaItemDialog.TitleFieldText = selectedItem.Title;
-                    addMediaItemDialog.NotesFieldText = selectedItem.Notes;
-                    addMediaItemDialog.ShowDialog();
                 }
             });
             this._view.SaveNewClicked += (async (sender, args) =>
@@ -148,39 +144,60 @@ namespace MyLibrary.Presenters
             this._view.StatusText = "Ready.";
         }
 
+        private void EnableSelectedItemButtons(bool saveSelected, bool discardChanges, bool deleteSelected, bool addToLibrary)
+        {
+            this._view.SaveSelectedButtonEnabled = saveSelected;
+            this._view.DiscardChangesButtonEnabled = discardChanges;
+            this._view.DeleteSelectedButtonEnabled = deleteSelected;
+            this._view.AddToLibraryButtonEnabled = addToLibrary;
+        }
+
+        private bool GetFilterSelected(ItemType itemType)
+        {
+            switch (itemType)
+            {
+                case ItemType.Book:
+                    return this._view.BookFilterSelected;
+                case ItemType.Cd:
+                    return this._view.CdFilterSelected;
+                case ItemType.Dvd:
+                    return this._view.DvdFilterSelected;
+                case ItemType.BluRay:
+                    return this._view.BlurayFilterSelected;
+                case ItemType.UhdBluRay:
+                    return this._view.UhdBlurayFilterSelected;
+                case ItemType.Vhs:
+                    return this._view.VhsFilterSelected;
+                case ItemType.Vinyl:
+                    return this._view.VinylFilterSelected;
+                case ItemType.Cassette:
+                    return this._view.CassetteFilterSelected;
+                case ItemType.FlashDrive:
+                    return this._view.FlashDriveFilterSelected;
+                case ItemType.FloppyDisk:
+                    return this._view.FloppyDiskFilterSelected;
+                default:
+                    return this._view.OtherFilterSelected;
+            }
+        }
+
         #region view event handlers
         public void ApplyFilters(object sender, EventArgs args)
         {
-            string filterByTitle = this._view.TitleFilterText;
-            bool cassetteChecked = this._view.CassetteFilterSelected;
-            bool bookChecked = this._view.BookFilterSelected;
-            bool cdChecked = this._view.CdFilterSelected;
-            bool dvdChecked = this._view.DvdFilterSelected;
-            bool blurayChecked = this._view.BlurayFilterSelected;
-            bool uhdBlurayChecked = this._view.UhdBlurayFilterSelected;
-            bool vhsChecked = this._view.VhsFilterSelected;
-            bool vinylChecked = this._view.VinylFilterSelected;
-            bool flashDriveChecked = this._view.FlashDriveFilterSelected;
-            bool floppyDiskChecked = this._view.FloppyDiskFilterSelected;
-            bool otherChecked = this._view.OtherFilterSelected;
-
             DataTable filteredTable = this._allItems.Copy();
-            if (!string.IsNullOrWhiteSpace(filterByTitle))
+            if (!string.IsNullOrWhiteSpace(this._view.TitleFilterText))
             {
-                filteredTable = FilterByTitle(filteredTable, filterByTitle);
+                filteredTable = FilterByTitle(filteredTable);
             }
-
-            filteredTable = FilterWishlistByType(filteredTable,
-                cassetteChecked, bookChecked, cdChecked, dvdChecked, blurayChecked, uhdBlurayChecked, vhsChecked, vinylChecked, flashDriveChecked, floppyDiskChecked, otherChecked);
-
+            filteredTable = FilterByType(filteredTable);
             this._view.DisplayedItems = filteredTable;
 
             this._view.StatusText = "Ready.";
         }
 
-        private DataTable FilterByTitle(DataTable originalTable, string filterByTitle)
+        private DataTable FilterByTitle(DataTable originalTable)
         {
-            Regex filterPattern = new Regex(filterByTitle, REGEX_OPTIONS);
+            Regex filterPattern = new Regex(this._view.TitleFilterText, REGEX_OPTIONS);
 
             DataTable filteredTable = originalTable.Clone();
             var rows = originalTable.AsEnumerable()
@@ -193,104 +210,24 @@ namespace MyLibrary.Presenters
             return filteredTable;
         }
 
-        private DataTable FilterWishlistByType(DataTable originalTable,
-            bool cassetteChecked, bool bookChecked, bool cdChecked, bool dvdChecked, bool blurayChecked, bool uhdBlurayChecked, bool vhsChecked, bool vinylChecked, bool flashDriveChecked, bool floppyDiskChecked, bool otherChecked)
+        private DataTable FilterByType(DataTable originalTable)
         {
             DataTable filteredTable = originalTable.Clone();
             var rows = originalTable.AsEnumerable();
             foreach (var row in rows)
             {
-                if (cassetteChecked)
+                foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
                 {
-                    if (row.Field<string>("Type").Equals("Cassette"))
+                    if (GetFilterSelected(itemType))
                     {
-                        filteredTable.ImportRow(row);
+                        if (row.Field<string>("Type").Equals(Item.GetTypeString(itemType)))
+                            filteredTable.ImportRow(row);
                     }
                 }
-
-                if (bookChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Book"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (dvdChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Dvd"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (cdChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Cd"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (blurayChecked)
-                {
-                    if (row.Field<string>("Type").Equals("BluRay"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (uhdBlurayChecked)
-                {
-                    if (row.Field<string>("Type").Equals("4k BluRay"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (vhsChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Vhs"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (vinylChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Vinyl"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (floppyDiskChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Floppy Disk"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (flashDriveChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Flash Drive"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-
-                if (otherChecked)
-                {
-                    if (row.Field<string>("Type").Equals("Other"))
-                    {
-                        filteredTable.ImportRow(row);
-                    }
-                }
-            }
+            }     
 
             return filteredTable;
-        }//FilterWishlistByType
+        }
 
         public void ItemSelected(object sender, EventArgs args)
         {
@@ -298,10 +235,7 @@ namespace MyLibrary.Presenters
             {
                 this._view.SelectedNotes = "";
 
-                this._view.SaveSelectedButtonEnabled = false;
-                this._view.DiscardChangesButtonEnabled = false;
-                this._view.DeleteSelectedButtonEnabled = false;
-                this._view.AddToLibraryButtonEnabled = false;
+                EnableSelectedItemButtons(false, false, false, false);
 
                 return;
             }
@@ -309,10 +243,7 @@ namespace MyLibrary.Presenters
             {
                 this._view.SelectedNotes = this._view.SelectedItem.Notes;
 
-                this._view.SaveSelectedButtonEnabled = true;
-                this._view.DiscardChangesButtonEnabled = true;
-                this._view.DeleteSelectedButtonEnabled = true;
-                this._view.AddToLibraryButtonEnabled = true;
+                EnableSelectedItemButtons(true, true, true, true);
             }
         }
 

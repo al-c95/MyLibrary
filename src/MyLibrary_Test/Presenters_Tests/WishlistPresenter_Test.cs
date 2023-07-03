@@ -1,19 +1,34 @@
-﻿using System;
+﻿//MIT License
+
+//Copyright (c) 2021-2023
+
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE
+
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Data;
-using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
-using OfficeOpenXml;
-using OfficeOpenXml.ConditionalFormatting;
 
 namespace MyLibrary_Test.Presenters_Tests
 {
@@ -444,10 +459,10 @@ namespace MyLibrary_Test.Presenters_Tests
             // assert
             Assert.AreEqual(1, displayedTable.Rows.Count);
             Assert.IsTrue(displayedTable.Rows[0].Field<string>("Id").Equals("10"));
-            //Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test 4k BluRay"));
-            //Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("4k BluRay"));
-            //Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
-            //Assert.AreEqual("Ready.", fakeView.StatusText);
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Title").Equals("Test 4k BluRay"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Type").Equals("4k BluRay"));
+            Assert.IsTrue(displayedTable.Rows[0].Field<string>("Notes").Equals("test"));
+            Assert.AreEqual("Ready.", fakeView.StatusText);
         }
 
         [Test]
@@ -617,7 +632,18 @@ namespace MyLibrary_Test.Presenters_Tests
         {
             // arrange
             var fakeView = A.Fake<IWishlistForm>();
-            fakeView.OtherFilterSelected = true;
+            A.CallTo(() => fakeView.OtherFilterSelected).Returns(true);
+            A.CallTo(() => fakeView.UhdBlurayFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.BlurayFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.DvdFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.CdFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.FloppyDiskFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.FlashDriveFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.CassetteFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.VhsFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.VinylFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.BookFilterSelected).Returns(false);
+            A.CallTo(() => fakeView.TitleFilterText).Returns("");
             var fakeServiceFactory = A.Fake<IWishlistServiceProvider>();
             var fakeService = A.Fake<IWishlistService>();
             List<WishlistItem> items = GetCollectionOfAllTypesOfWishlistItems();

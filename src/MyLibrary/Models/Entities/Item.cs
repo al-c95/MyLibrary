@@ -136,7 +136,7 @@ namespace MyLibrary.Models.Entities
             {
                 return "Floppy Disk";
             }
-            else if (type == ItemType.BluRay)
+            else if (type == ItemType.UhdBluRay)
             {
                 return "4k BluRay";
             }
