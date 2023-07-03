@@ -106,7 +106,6 @@ namespace MyLibrary.Presenters
                 await SaveNewClicked(sender, args);
             });
             this._view.NewItemFieldsUpdated += NewItemFieldsUpdated;
-            this._view.SelectedItemFieldsUpdated += SelectedItemFieldsUpdated;
             this._view.ApplyFilters += ((sender, args) =>
             {
                 ApplyFilters(sender, args);
@@ -312,11 +311,6 @@ namespace MyLibrary.Presenters
             {
                 this._view.SaveNewButtonEnabled = true;
             }
-        }
-
-        public void SelectedItemFieldsUpdated(object sender, EventArgs args)
-        {
-
         }
         #endregion
 
