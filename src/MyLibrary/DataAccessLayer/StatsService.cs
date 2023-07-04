@@ -27,27 +27,23 @@ namespace MyLibrary.DataAccessLayer
 {
     public class StatsService : IStatsService
     {
-        IUnitOfWork _uow;
-
         public StatsService()
         {
-            this._uow = new UnitOfWork();
-        }
 
-        public StatsService(IUnitOfWork unitOfWork)
-        {
-            this._uow = unitOfWork;
         }
 
         private async Task<int> GetCount(string entity)
         {
-            int count = 0;
-            await Task.Run(() =>
+            using (UnitOfWork uow = new UnitOfWork())
             {
-                count = this._uow.Connection.QuerySingle<int>($"SELECT COUNT(*) FROM {entity};");
-            });
+                int count = 0;
+                await Task.Run(() =>
+                {
+                    count = uow.Connection.QuerySingle<int>($"SELECT COUNT(*) FROM {entity};");
+                });
 
-            return count;
+                return count;
+            }
         }
 
         public async Task<int> GetBooksCountAsync()
