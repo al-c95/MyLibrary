@@ -29,7 +29,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Events;
 using MyLibrary.Utils;
-using MyLibrary.Models.Entities.Builders;
+using MyLibrary.Models.Entities.Factories;
 
 namespace MyLibrary.Presenters
 {
@@ -91,7 +91,7 @@ namespace MyLibrary.Presenters
                         addItemDialog.SelectedCategory = Item.GetTypeString(selectedItem.Type);
 
                         var addMediaItemPresenter = new AddMediaItemPresenter(new MediaItemService(), new TagService(),
-                        new MediaItemBuilder(),
+                        new MediaItemFactory(),
                         addItemDialog,
                         new ImageFileReader(),
                         new NewTagOrPublisherInputBoxProvider());

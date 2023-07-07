@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -70,10 +70,17 @@ namespace MyLibrary.Models.BusinessLogic
             IEnumerable<WishlistItem> allItems = null;
             await Task.Run(() =>
             {
+                /*
                 IUnitOfWork uow = this._uowProvider.Get();
                 IWishlistRepository repo = this._repoProvider.Get(uow);
                 allItems = repo.ReadAll();
                 uow.Dispose();
+                */
+                using (IUnitOfWork uow = this._uowProvider.Get())
+                {
+                    IWishlistRepository repo = this._repoProvider.Get(uow);
+                    allItems = repo.ReadAll();
+                }
             });
 
             return allItems;

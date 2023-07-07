@@ -20,15 +20,23 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System.Data.SQLite;
+using MyLibrary.Models.Entities.Builders;
+using System.Collections.Generic;
 
-namespace MyLibrary.DataAccessLayer.ServiceProviders
+namespace MyLibrary.Models.Entities.Factories
 {
-    public class UnitOfWorkProvider : IUnitOfWorkProvider
+    public class MediaItemFactory : IMediaItemFactory
     {
-        public IUnitOfWork Get()
+        MediaItemBuilder _builder;
+
+        public MediaItemFactory()
         {
-            return new UnitOfWork(new SQLiteConnection(Configuration.CONNECTION_STRING));
+            this._builder = new MediaItemBuilder();
+        }
+
+        public MediaItem Create(string title, string number, string year, string runningTime, IEnumerable<string> tags)
+        {
+            return this._builder.WithTitle(title).WithNumber(number).WithYear(year).WithRunningTime(runningTime).WithTags(tags).Build();
         }
     }//class
 }

@@ -27,10 +27,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Builders;
+using MyLibrary.Models.Entities.Factories;
 using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Events;
+using System.Linq;
 
 namespace MyLibrary.Presenters
 {
@@ -41,8 +42,12 @@ namespace MyLibrary.Presenters
     {
         private IMediaItemService _mediaItemService;
         private ITagService _tagService;
-        private IMediaItemBuilder _newItemBuilder;
-        private MediaItem _newItem;
+        private IMediaItemFactory _itemFactory;
+        public MediaItem NewItem
+        {
+            get;
+            set;
+        }
 
         private IAddMediaItemForm _view;
 
@@ -50,7 +55,7 @@ namespace MyLibrary.Presenters
 
         private INewTagOrPublisherInputBoxProvider _newTagDialogProvider;
 
-        protected Dictionary<string, bool> _allTags;
+        public Dictionary<string, bool> AllTags;
 
         /// <summary>
         /// </summary>
@@ -58,21 +63,21 @@ namespace MyLibrary.Presenters
         /// <param name="tagService"></param>
         /// <param name="view">add media item window</param>
         /// <param name="imageFileReader"></param>
-        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, IMediaItemBuilder newItemBuilder,
+        public AddMediaItemPresenter(IMediaItemService mediaItemService, ITagService tagService, IMediaItemFactory newItemFactory,
             IAddMediaItemForm view,
             IImageFileReader imageFileReader,
             INewTagOrPublisherInputBoxProvider newTagDialogProvider)
         {
             this._mediaItemService = mediaItemService;
             this._tagService = tagService;
-            this._newItemBuilder = newItemBuilder;
-            this._newItem = new MediaItem();
+            this._itemFactory = newItemFactory;
+            this.NewItem = new MediaItem();
 
             this._view = view;
 
             this._imageFileReader = imageFileReader;
 
-            this._allTags = new Dictionary<string, bool>();
+            this.AllTags = new Dictionary<string, bool>();
 
             this._newTagDialogProvider = newTagDialogProvider;
 
@@ -83,8 +88,16 @@ namespace MyLibrary.Presenters
             });
             this._view.InputFieldsUpdated += InputFieldsUpdated;
             this._view.FilterTagsFieldUpdated += FilterTags;
-            this._view.AddNewTagButtonClicked += HandleAddNewTagClicked;
-            this._view.TagCheckedChanged += HandleTagCheckedChanged;
+            this._view.AddNewTagButtonClicked += ((sender, args) => 
+            {
+                HandleAddNewTagClicked(sender,args);
+                InputFieldsUpdated(sender, args);
+            }); 
+            this._view.TagCheckedChanged += ((sender, args) => 
+            {
+                HandleTagCheckedChanged(sender, args);
+                InputFieldsUpdated(sender, args);
+            });            
         }//ctor
 
         public async Task PopulateTagsAsync()
@@ -92,7 +105,7 @@ namespace MyLibrary.Presenters
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
-                this._allTags.Add(tag.Name, false);
+                this.AllTags.Add(tag.Name, false);
             }
 
             FilterTags(null, null);
@@ -104,7 +117,7 @@ namespace MyLibrary.Presenters
             Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
 
             Dictionary<string, bool> filteredTags = new Dictionary<string, bool>();
-            foreach (var kvp in this._allTags)
+            foreach (var kvp in this.AllTags)
             {
                 if (filterPattern.IsMatch(kvp.Key))
                 {
@@ -115,16 +128,13 @@ namespace MyLibrary.Presenters
             this._view.AddTags(filteredTags);
         }//FilterTags
 
-        private void AddSelectedTags()
+        private IEnumerable<string> GetSelectedTags()
         {
-            foreach (var kvp in this._allTags)
+            foreach (var kvp in this.AllTags)
             {
-                if (this._allTags[kvp.Key])
+                if (this.AllTags[kvp.Key])
                 {
-                    this._newItem.Tags.Add(new Tag
-                    {
-                        Name = kvp.Key
-                    });
+                    yield return kvp.Key;
                 }
             }
         }
@@ -141,14 +151,11 @@ namespace MyLibrary.Presenters
             {
                 this._imageFileReader.Path = this._view.ImageFilePathFieldText;
                 byte[] imageBytes = this._imageFileReader.ReadBytes();
-                this._newItem.Image = imageBytes;
+                this.NewItem.Image = imageBytes;
             }
             catch (IOException ex)
             {
-                // error reading the image
-                // alert the user
                 this._view.ShowErrorDialog("Image file error", ex.Message);
-
                 EnableButtons(true, true);
 
                 return;
@@ -160,20 +167,18 @@ namespace MyLibrary.Presenters
         {
             foreach (var selectedTag in this._view.SelectedTags)
             {
-                this._allTags[selectedTag] = true;
+                this.AllTags[selectedTag] = true;
             }
 
             foreach (var unselectedTag in this._view.UnselectedTags)
             {
-                this._allTags[unselectedTag] = false;
+                this.AllTags[unselectedTag] = false;
             }
         }
 
         public async Task HandleSaveButtonClicked(object sender, EventArgs e)
         {
             EnableButtons(false, false);
-
-            AddSelectedTags();
 
             if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
             {
@@ -182,11 +187,10 @@ namespace MyLibrary.Presenters
 
             try
             {
-                bool added = await this._mediaItemService.AddIfNotExistsAsync(this._newItem);
+                bool added = await this._mediaItemService.AddIfNotExistsAsync(this.NewItem);
                 if (!added)
                 {
-                    this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
-
+                    this._view.ShowItemAlreadyExistsDialog(this.NewItem.Title);
                     EnableButtons(true, true);
 
                     return;
@@ -201,7 +205,6 @@ namespace MyLibrary.Presenters
                 // something bad happened
                 // notify the user
                 this._view.ShowErrorDialog("Error creating item", ex.Message);
-
                 EnableButtons(true, true);
 
                 return;
@@ -214,13 +217,11 @@ namespace MyLibrary.Presenters
         {
             try
             {
-                this._newItem = this._newItemBuilder
-                    .WithTitle(this._view.TitleFieldText)
-                    .WithNumber(this._view.NumberFieldText)
-                    .WithYear(this._view.YearFieldEntry)
-                    .WithRunningTime(this._view.RunningTimeFieldEntry)
-                        .Build();
-                this._newItem.Type = Item.ParseType(this._view.SelectedCategory);
+                var selectedTags = GetSelectedTags().ToList();
+                this.NewItem = this._itemFactory.Create(this._view.TitleFieldText, this._view.NumberFieldText, this._view.YearFieldEntry, this._view.RunningTimeFieldEntry,
+                    selectedTags);
+                this.NewItem.Type = Item.ParseType(this._view.SelectedCategory);
+                this.NewItem.Notes = this._view.NotesFieldText;
 
                 this._view.SaveButtonEnabled = true;
 
@@ -240,9 +241,9 @@ namespace MyLibrary.Presenters
             string newTag = ShowNewTagDialog();
             if (!string.IsNullOrWhiteSpace(newTag))
             {
-                if (!this._allTags.ContainsKey(newTag))
+                if (!this.AllTags.ContainsKey(newTag))
                 {
-                    this._allTags.Add(newTag, true);
+                    this.AllTags.Add(newTag, true);
 
                     FilterTags(null, null);
                 }

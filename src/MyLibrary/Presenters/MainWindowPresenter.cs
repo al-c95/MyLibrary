@@ -33,7 +33,7 @@ using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Presenters.ServiceProviders;
 using MyLibrary.Events;
-using MyLibrary.Models.Entities.Builders;
+using MyLibrary.Models.Entities.Factories;
 
 namespace MyLibrary.Presenters
 {
@@ -114,7 +114,11 @@ namespace MyLibrary.Presenters
                 var form = new ManageCopiesForm(this._view.SelectedItem);
                 ManageCopiesPresenter presenter = new ManageCopiesPresenter(form, this._view.SelectedItem, new CopyServiceFactory());
                 await presenter.LoadData(sender, args);
-                form.FormClosed += ((s, a) => { presenter.Dispose(); });
+                form.FormClosed += ((s, a) => 
+                {
+                    form.Dispose();
+                    presenter.Dispose(); 
+                });
                 form.Show();
             });
 
@@ -129,7 +133,11 @@ namespace MyLibrary.Presenters
             var form = new WishlistForm();
             WishlistPresenter presenter = new WishlistPresenter(form, new WishlistServiceProvider());
             await presenter.LoadData();
-            form.FormClosed += (s, a) => { presenter.Dispose(); };
+            form.FormClosed += (s, a) => 
+            {
+                form.Dispose();
+                presenter.Dispose(); 
+            };
             form.Show();
         }
 
@@ -354,7 +362,7 @@ namespace MyLibrary.Presenters
             this._addMediaItemView = new AddNewMediaItemForm();
             var addItemPresenter = new AddMediaItemPresenter(this._mediaItemService,
                 this._tagService,
-                new MediaItemBuilder(),
+                new MediaItemFactory(),
                 this._addMediaItemView,
                 new ImageFileReader(),
                 new NewTagOrPublisherInputBoxProvider());

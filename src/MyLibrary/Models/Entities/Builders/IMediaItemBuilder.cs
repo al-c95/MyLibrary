@@ -20,6 +20,8 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
+using System.Collections.Generic;
+
 namespace MyLibrary.Models.Entities.Builders
 {
     public interface IMediaItemBuilder
@@ -29,5 +31,6 @@ namespace MyLibrary.Models.Entities.Builders
         IMediaItemBuilder WithRunningTime(object value);
         IMediaItemBuilder WithTitle(string title);
         IMediaItemBuilder WithYear(object value);
+        IMediaItemBuilder WithTags(IEnumerable<string> tags);
     }
 }

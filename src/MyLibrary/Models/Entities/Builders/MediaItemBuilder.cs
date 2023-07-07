@@ -21,6 +21,8 @@
 //SOFTWARE
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyLibrary.Models.Entities.Builders
 {
@@ -52,8 +54,8 @@ namespace MyLibrary.Models.Entities.Builders
                 throw new InvalidOperationException("Number cannot be null.");
             }
 
-            int number = 0;
-            if (!int.TryParse(value.ToString(), out number))
+            long number = 0;
+            if (!long.TryParse(value.ToString(), out number))
             {
                 throw new InvalidOperationException($"Could not parse number value: {value.ToString()}");
             }
@@ -102,6 +104,27 @@ namespace MyLibrary.Models.Entities.Builders
             return this;
         }
 
+        public IMediaItemBuilder WithTags(IEnumerable<string> tags)
+        {
+            foreach (var tag in tags)
+            {
+                if (!string.IsNullOrWhiteSpace (tag))
+                {
+                    if (!this._item.Tags.Any(t => t.Name == tag))
+                    {
+                        this._item.Tags.Add(new Tag
+                        { 
+                            Name = tag 
+                        });
+                    }
+                }
+            }
+
+            return this;
+        }
+
         public MediaItem Build() => this._item;
+
+        public static implicit operator MediaItem(MediaItemBuilder builder) => builder.Build();
     }//class
 }

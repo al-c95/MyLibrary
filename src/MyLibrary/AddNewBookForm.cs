@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using static MyLibrary.Utils.Extensions;
+using System.Runtime.Remoting.Channels;
 
 namespace MyLibrary
 {
@@ -179,6 +180,10 @@ namespace MyLibrary
                 this.AuthorCheckedChanged?.Invoke(sender, args);
             });
             this.publishersList.SelectedIndexChanged += ((sender, args) =>
+            {
+                this.InputFieldsUpdated?.Invoke(sender, args);
+            });
+            this.imageFilePathField.TextChanged += ((sender, args) =>
             {
                 this.InputFieldsUpdated?.Invoke(sender, args);
             });

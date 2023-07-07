@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -83,10 +83,17 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
+                /*
                 IUnitOfWork uow = this._uowProvider.Get();
                 IAuthorRepository repo = this._repoProvider.Get(uow);
                 repo.Create(entity);
                 uow.Dispose();
+                */
+                using (IUnitOfWork uow = this._uowProvider.Get())
+                {
+                    IAuthorRepository repo = this._repoProvider.Get(uow);
+                    repo.Create(entity);
+                }
             });
         }
     }//class

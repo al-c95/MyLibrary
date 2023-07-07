@@ -21,9 +21,11 @@
 //SOFTWARE
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
+using System.Linq;
 
 namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
 {
@@ -117,6 +119,27 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
             MediaItemBuilder builder = new MediaItemBuilder();
 
             Assert.Throws<InvalidOperationException>(() => builder.WithRunningTime("bogus running time").Build());
+        }
+
+        [Test]
+        public void WithTags_Test()
+        {
+            MediaItemBuilder builder = new MediaItemBuilder();
+            List<string> tags = new List<string>
+            {
+                "tag1",
+                "tag2",
+                "tag2",
+                "tag3",
+                ""
+            };
+
+            MediaItem item = builder.WithTags(tags).Build();
+
+            Assert.AreEqual(3, item.Tags.Count);
+            Assert.IsTrue(item.Tags.Any(t => t.Name == "tag1"));
+            Assert.IsTrue(item.Tags.Any(t => t.Name == "tag2"));
+            Assert.IsTrue(item.Tags.Any(t => t.Name == "tag3"));
         }
     }
 }

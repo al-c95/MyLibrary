@@ -20,15 +20,12 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System.Data.SQLite;
+using System.Collections.Generic;
 
-namespace MyLibrary.DataAccessLayer.ServiceProviders
+namespace MyLibrary.Models.Entities.Factories
 {
-    public class UnitOfWorkProvider : IUnitOfWorkProvider
+    public interface IMediaItemFactory
     {
-        public IUnitOfWork Get()
-        {
-            return new UnitOfWork(new SQLiteConnection(Configuration.CONNECTION_STRING));
-        }
-    }//class
+        MediaItem Create(string title, string number, string year, string runningTime, IEnumerable<string> tags);
+    }
 }

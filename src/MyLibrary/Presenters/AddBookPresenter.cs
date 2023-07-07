@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021-2022
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@ using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Events;
+using System.IO;
 
 namespace MyLibrary.Presenters
 {
@@ -43,6 +44,7 @@ namespace MyLibrary.Presenters
         private ITagService _tagService;
         private IAuthorService _authorService;
         private IPublisherService _publisherService;
+        private Book _newBook;
 
         private IAddBookForm _view;
 
@@ -256,54 +258,48 @@ namespace MyLibrary.Presenters
                     authors.Add(author);
                 }
             }
-            Book book = BookBuilder.CreateBook(this._view.TitleFieldText, this._view.LongTitleFieldText,
-                new Publisher { Name = this._view.SelectedPublisher }, this._view.LanguageFieldText, int.Parse(this._view.PagesFieldText))
-                .WithAuthors(authors)
-                .WithIsbn(this._view.IsbnFieldText)
-                .WithIsbn13(this._view.Isbn13FieldText)
-                .WithOverview(this._view.OverviewFieldText)
-                .WithMsrp(this._view.MsrpFieldText)
-                .WithSynopsys(this._view.SynopsysFieldText)
-                .WithExcerpt(this._view.ExcerptFieldText)
-                .Edition(this._view.EditionFieldText)
-                .WithDeweyDecimal(this._view.DeweyDecimalFieldText)
-                .PublishedIn(this._view.DatePublishedFieldText)
-                .InFormat(this._view.FormatFieldText)
-                .Sized(this._view.DimensionsFieldText)
-                    .Get();
-            book.Notes = this._view.NotesFieldText;
-            book.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
+            this._newBook.Authors = authors;
+            this._newBook.Overview = this._view.OverviewFieldText;
+            this._newBook.Msrp = this._view.MsrpFieldText;
+            this._newBook.Synopsys = this._view.SynopsysFieldText;
+            this._newBook.Excerpt = this._view.ExcerptFieldText;
+            this._newBook.Edition = this._view.EditionFieldText;
+            this._newBook.Format = this._view.FormatFieldText;
+            this._newBook.Dimensions = this._view.DimensionsFieldText;
+            this._newBook.Notes = this._view.NotesFieldText;
+            this._newBook.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
             foreach (var kvp in this._allTags)
             {
                 if (this._allTags[kvp.Key] == true)
                 {
-                    book.Tags.Add(new Tag { Name = kvp.Key });
-                }
-            }
-            if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
-            {
-                try
-                {
-                    this._imageFileReader.Path = this._view.ImageFilePathFieldText;
-                    byte[] imageBytes = this._imageFileReader.ReadBytes();
-                    book.Image = imageBytes;
-                }
-                catch (System.IO.IOException ex)
-                {
-                    // I/O error reading image file
-                    // alert the user
-                    this._view.ShowErrorDialog("Image file error", ex.Message);
-
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
-
-                    return;
+                    this._newBook.Tags.Add(new Tag 
+                    { 
+                        Name = kvp.Key 
+                    });
                 }
             }
 
             try
             {
-                bool added = await this._bookService.AddIfNotExistsAsync(book);
+                this._imageFileReader.Path = this._view.ImageFilePathFieldText;
+                byte[] imageBytes = this._imageFileReader.ReadBytes();
+                this._newBook.Image = imageBytes;
+            }
+            catch (IOException ex)
+            {
+                // error reading the image
+                // alert the user
+                this._view.ShowErrorDialog("Image file error", ex.Message);
+
+                this._view.SaveButtonEnabled = true;
+                this._view.CancelButtonEnabled = true;
+
+                return;
+            }
+
+            try
+            {
+                bool added = await this._bookService.AddIfNotExistsAsync(this._newBook);
                 if (!added)
                 {
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
@@ -315,7 +311,7 @@ namespace MyLibrary.Presenters
                 }
                 else
                 {
-                    EventAggregator.GetInstance().Publish(new BooksUpdatedEvent());
+                    EventAggregator.GetInstance().Publish(new MediaItemsUpdatedEvent());
                 }
             }
             catch (Exception ex)
@@ -335,20 +331,30 @@ namespace MyLibrary.Presenters
 
         public void InputFieldsUpdated(object sender, EventArgs e)
         {
-            bool sane = true;
-            sane = sane && !string.IsNullOrWhiteSpace(this._view.TitleFieldText);
-            sane = sane && !string.IsNullOrWhiteSpace(this._view.LanguageFieldText);
-            sane = sane && !string.IsNullOrWhiteSpace(this._view.PagesFieldText);
-            int pages;
-            sane = sane && (int.TryParse(this._view.PagesFieldText, out pages));
-            sane = sane && this._view.SelectedPublisher != null;
-            sane = sane && (Regex.IsMatch(this._view.IsbnFieldText, Book.ISBN_10_PATTERN) || string.IsNullOrWhiteSpace(this._view.IsbnFieldText));
-            sane = sane && (Regex.IsMatch(this._view.Isbn13FieldText, Book.ISBN_13_PATTERN) || string.IsNullOrWhiteSpace(this._view.Isbn13FieldText));
-            sane = sane && (Regex.IsMatch(this._view.DeweyDecimalFieldText, Book.DEWEY_DECIMAL_PATTERN) || string.IsNullOrWhiteSpace(this._view.DeweyDecimalFieldText));
-            string imageFilePath = this._view.ImageFilePathFieldText;
-            sane = sane && (Item.IsValidImageFileType(imageFilePath) || string.IsNullOrWhiteSpace(imageFilePath));
+            try
+            {
+                BookBuilder builder = new BookBuilder();
+                this._newBook = builder
+                    .WithTitles(this._view.TitleFieldText, this._view.LongTitleFieldText)
+                    .InLanguage(this._view.LanguageFieldText)
+                    .WithIsbns(this._view.IsbnFieldText, this._view.Isbn13FieldText)
+                    .WithPages(this._view.PagesFieldText)
+                    .WithDeweyDecimal(this._view.DeweyDecimalFieldText)
+                    .PublishedBy(this._view.SelectedPublisher)
+                    .Build();
 
-            this._view.SaveButtonEnabled = sane;
+                bool enableSave = true;
+                if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
+                {
+                    enableSave = enableSave && ImageFileReader.ValidateFilePath(this._view.ImageFilePathFieldText);
+                }
+
+                this._view.SaveButtonEnabled = enableSave;
+            }
+            catch (ArgumentException) 
+            {
+                this._view.SaveButtonEnabled=false;
+            }
         }//InputFieldsUpdated
 
         public void HandleAddNewTagClicked(object sender, EventArgs args)

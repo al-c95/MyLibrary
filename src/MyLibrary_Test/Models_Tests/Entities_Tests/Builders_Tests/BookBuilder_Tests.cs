@@ -1,7 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿//MIT License
+
+//Copyright (c) 2021-2023
+
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE
+
+using System;
 using NUnit;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;
@@ -13,278 +32,143 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
     public class BookBuilder_Tests
     {
         [Test]
-        public void WithIsbn_Test_Valid()
+        public void WithTitles_Test_Valid()
         {
-            // arrange/act
-            string isbn = "0123456789";
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn(isbn)
-                    .Get();
+            string title = "book";
+            string longTitle = "a very long book";
+            BookBuilder builder = new BookBuilder();
 
-            // assert
-            Assert.AreEqual(isbn, book.GetIsbn());
-        }
+            Book result = builder.WithTitles(title, longTitle).Build();
 
-        [TestCase("fhkjgh")]
-        [TestCase("01234h6789")]
-        [TestCase("01234567890")]
-        public void WithIsbn_Test_Invalid(string isbn)
-        {
-            Assert.Throws<FormatException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn(isbn));
-        }
-
-        [Test]
-        public void WithIsbn13_Test_Valid()
-        {
-            // arrange/act
-            string isbn = "0123456789012";
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn13(isbn)
-                    .Get();
-
-            // assert
-            Assert.AreEqual(isbn, book.GetIsbn());
-        }
-
-        [TestCase("fhkjgh")]
-        [TestCase("01234h6789012")]
-        [TestCase("01234567890")]
-        public void WithIsbn13_Test_Invalid(string isbn)
-        {
-            Assert.Throws<FormatException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithIsbn13(isbn));
-        }
-
-        [Test]
-        public void WithTags_Test()
-        {
-            // arrange/act
-            List<Tag> tags = new List<Tag>
-            {
-                new Tag
-                {
-                    Name = "tag1"
-                },
-                new Tag
-                {
-                    Name = "tag2"
-                }
-            };
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithTags(tags)
-                    .Get();
-            var tagsResult = (List<Tag>)(book.Tags);
-
-            // assert
-            Assert.IsTrue(tagsResult.Count == 2);
-            Assert.IsTrue(tagsResult.Any(t => t.Name == "tag1"));
-            Assert.IsTrue(tagsResult.Any(t => t.Name == "tag1"));
+            Assert.AreEqual(title, result.Title);
+            Assert.AreEqual(longTitle, result.TitleLong);
         }
 
         [TestCase("")]
         [TestCase(null)]
-        public void WithDeweyDecimal_Test_Null(string dewey)
+        public void WithTitles_Test_Invalid(string title)
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithDeweyDecimal(dewey)
-                    .Get();
+            string longTitle = "a very long book";
+            BookBuilder builder = new BookBuilder();
 
-            // assert
-            Assert.AreEqual(null, book.DeweyDecimal);
+            Assert.Throws<ArgumentException>(() => builder.WithTitles(title, longTitle).Build());
         }
 
-        [TestCase("1")]
-        [TestCase("1.0")]
-        public void WithDeweyDecimal_Test_CorrectFormat(string dewey)
+        [TestCase("", "")]
+        [TestCase("012345X789", "")]
+        [TestCase("012345X789", "012345X789012")]
+        [TestCase("", "012345X789012")]
+        public void WithIsbns_Test_BothValid(string isbn10, string isbn13)
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithDeweyDecimal(dewey)
-                    .Get();
+            BookBuilder builder = new BookBuilder();
 
-            // assert
-            Assert.AreEqual(1m, book.DeweyDecimal);
+            Book result = builder.WithIsbns(isbn10, isbn13).Build();
+
+            Assert.AreEqual(isbn10, result.Isbn);
+            Assert.AreEqual(isbn13, result.Isbn13);
         }
 
-        [Test]
-        public void WithDeweyDecimal_Test_IncorrectFormat()
+        [TestCase("012345X789", "bogus_isbn13")]
+        [TestCase("", "bogus_isbn13")]
+        [TestCase("bogus_isbn10", "")]
+        [TestCase("bogus_isbn10", "012345X789012")]
+        public void WithIsbns_Test_OneInvalid(string isbn10, string isbn13)
         {
-            string dewey = "bogus";
-            Assert.Throws<FormatException>(() => BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithDeweyDecimal(dewey)
-                    .Get());
-        }
-
-        [Test]
-        public void InFormat_Test()
-        {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .InFormat("Hardcover")
-                    .Get();
-
-            // assert
-            Assert.AreEqual("Hardcover", book.Format);
+            BookBuilder builder = new BookBuilder();
         }
 
         [Test]
-        public void PublishedIn_Test()
+        public void WithIsbns_Test_BothInvalid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .PublishedIn("2020")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
 
-            // assert
-            Assert.AreEqual("2020", book.DatePublished);
+            Assert.Throws<ArgumentException>(() => builder.WithIsbns("bogus_isbn10", "bogus_isbn13"));
         }
 
         [Test]
-        public void Edition_Test()
+        public void WithPages_Test_Valid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .Edition("First Edition")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
+            int pages = 100;
 
-            // assert
-            Assert.AreEqual("First Edition", book.Edition);
+            Book result = builder.WithPages(pages).Build();
+
+            Assert.AreEqual(result.Pages, pages);
         }
 
         [Test]
-        public void Pages_Test()
+        public void WithPages_Test_Invalid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .Pages(100)
-                    .Get();
+            BookBuilder builder = new BookBuilder();
+            string pages = "bogus_pages";
 
-            // assert
-            Assert.AreEqual(100, book.Pages);
+            Assert.Throws<ArgumentException>(() => builder.WithPages(pages));
         }
 
         [Test]
-        public void Sized_Test()
+        public void InLanguage_Test_Valid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .Sized("big")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
+            string language = "English";
 
-            // assert
-            Assert.AreEqual("big", book.Dimensions);
+            Book result = builder.InLanguage(language).Build();
+
+            Assert.AreEqual(language, result.Language);
         }
 
         [Test]
-        public void WithOverview_Test()
+        public void InLanguage_Test_Invalid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithOverview("overview")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
 
-            // assert
-            Assert.AreEqual("overview", book.Overview);
+            Assert.Throws<ArgumentException>(() => builder.InLanguage("").Build());
         }
 
         [Test]
-        public void WithMsrp_Test()
+        public void PublishedBy_Test_Valid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithMsrp("5.95")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
+            string publisher = "publisher";
 
-            // assert
-            Assert.AreEqual("5.95", book.Msrp);
+            Book result = builder.PublishedBy(publisher).Build();
+
+            Assert.AreEqual(publisher, result.Publisher.Name);
         }
 
         [Test]
-        public void WithExcerpt_Test()
+        public void PublishedBy_Test_Invalid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithExcerpt("excerpt")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
+            string publisher = "";
 
-            // assert
-            Assert.AreEqual("excerpt", book.Excerpt);
+            Assert.Throws<ArgumentException>(() => builder.PublishedBy(publisher));
         }
 
         [Test]
-        public void WithSynopsys_Test()
+        public void WithDeweyDecimal_Test_Valid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithSynopsys("synopsys")
-                    .Get();
+            BookBuilder builder = new BookBuilder();
+            string deweyDecimal1 = "100";
+            string deweyDecimal2 = "100.5";
+            string deweyDecimal3 = "";
 
-            // assert
-            Assert.AreEqual("synopsys", book.Synopsys);
+            Book result1 = builder.WithDeweyDecimal(deweyDecimal1).Build();
+            builder = new BookBuilder();
+            Book result2 = builder.WithDeweyDecimal(deweyDecimal2).Build();
+            builder = new BookBuilder();
+            Book result3 = builder.WithDeweyDecimal(deweyDecimal3).Build();
+
+            Assert.AreEqual(100, result1.DeweyDecimal);
+            Assert.AreEqual(100.5m, result2.DeweyDecimal);
+            Assert.AreEqual(null, result3.DeweyDecimal);
         }
 
         [Test]
-        public void WrittenBy_Test()
+        public void WithDeweyDecimal_Test_Invalid()
         {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WrittenBy(new Author { FirstName="John", LastName="Smith"})
-                    .Get();
+            BookBuilder builder = new BookBuilder();
 
-            // assert
-            Assert.IsTrue(book.Authors.Any(a => a.FirstName.Equals("John") || a.LastName.Equals("Smith")));
-        }
-
-        [Test]
-        public void PublishedBy_Test()
-        {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .PublishedBy(new Publisher { Name="some_publisher" })
-                    .Get();
-
-            // assert
-            Assert.AreEqual("some_publisher", book.Publisher.Name);
-        }
-
-        [Test]
-        public void PublishedAt_Test()
-        {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .PublishedAt("AU")
-                    .Get();
-
-            // assert
-            Assert.AreEqual("AU", book.PlaceOfPublication);
-        }
-
-        [Test]
-        public void WrittenInLanguage_Test()
-        {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WrittenInLanguage("English")
-                    .Get();
-
-            // assert
-            Assert.AreEqual("English", book.Language);
-        }
-
-        [Test]
-        public void WithAuthors_Test()
-        {
-            // arrange/act
-            Book book = BookBuilder.CreateBook("test", "test book", null, "English", 100)
-                .WithAuthors(new List<Author> { new Author { FirstName = "John", LastName = "Smith" },
-                                                new Author { FirstName = "Jane", LastName = "Doe"} })
-                    .Get();
-
-            // assert
-            Assert.IsTrue(book.Authors.Any(a => a.FirstName.Equals("John") || a.LastName.Equals("Smith")));
-            Assert.IsTrue(book.Authors.Any(a => a.FirstName.Equals("Jane") || a.LastName.Equals("Doe")));
+            Assert.Throws<ArgumentException>(() => builder.WithDeweyDecimal("bogus_Dewey_decimal").Build());
         }
     }//class
 }
