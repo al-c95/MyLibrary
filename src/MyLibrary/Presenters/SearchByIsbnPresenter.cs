@@ -135,9 +135,9 @@ namespace MyLibrary.Presenters
             if (book != null)
             {
                 // show add new book dialog and prefill with data
-                await this.AddBookPresenter.PopulateTagsList();
-                await this.AddBookPresenter.PopulateAuthorsList();
-                await this.AddBookPresenter.PopulatePublishersList();
+                await this.AddBookPresenter.PopulateTagsAsync();
+                await this.AddBookPresenter.PopulateAuthorsAsync();
+                await this.AddBookPresenter.PopulatePublishersAsync();
                 this.AddBookPresenter.Prefill(book);
                 this._addBookView.ShowAsDialog();
             }

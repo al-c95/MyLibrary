@@ -73,11 +73,12 @@ namespace MyLibrary.Presenters
                         new TagService(),
                         new AuthorService(),
                         new PublisherService(),
+                        new BookFactory(),
                         addBookDialog,
                         new ImageFileReader());
-                        await addBookPresenter.PopulateTagsList();
-                        await addBookPresenter.PopulateAuthorsList();
-                        await addBookPresenter.PopulatePublishersList();
+                        await addBookPresenter.PopulateTagsAsync();
+                        await addBookPresenter.PopulateAuthorsAsync();
+                        await addBookPresenter.PopulatePublishersAsync();
 
                         addBookDialog.ShowDialog();
                     }

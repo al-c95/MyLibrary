@@ -27,7 +27,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Builders;
+using MyLibrary.Models.Entities.Factories;
 using MyLibrary.Views;
 using MyLibrary.Utils;
 using MyLibrary.Events;
@@ -44,17 +44,22 @@ namespace MyLibrary.Presenters
         private ITagService _tagService;
         private IAuthorService _authorService;
         private IPublisherService _publisherService;
-        private Book _newBook;
+        private IBookFactory _bookFactory;
+        public Book NewBook
+        {
+            get; set;
+        }
 
         private IAddBookForm _view;
 
         private IImageFileReader _imageFileReader;
 
-        protected Dictionary<string, bool> _allTags;
-        protected Dictionary<string, bool> _allAuthors;
-        protected List<string> _allPublishers;
+        public Dictionary<string, bool> AllTags;
+        public Dictionary<string, bool> AllAuthors;
+        public List<string> AllPublishers;
 
         public AddBookPresenter(IBookService bookService, ITagService tagService, IAuthorService authorService, IPublisherService publisherService,
+            IBookFactory bookFactory,
             IAddBookForm view,
             IImageFileReader imageFileReader)
         {
@@ -62,14 +67,16 @@ namespace MyLibrary.Presenters
             this._tagService = tagService;
             this._authorService = authorService;
             this._publisherService = publisherService;
+            this._bookFactory = bookFactory;
+            this.NewBook = new Book();
 
             this._view = view;
 
             this._imageFileReader = imageFileReader;
 
-            this._allTags = new Dictionary<string, bool>();
-            this._allAuthors = new Dictionary<string, bool>();
-            this._allPublishers = new List<string>();
+            this.AllTags = new Dictionary<string, bool>();
+            this.AllAuthors = new Dictionary<string, bool>();
+            this.AllPublishers = new List<string>();
 
             // subscribe to the view's events
             this._view.SaveButtonClicked += (async (sender, args) =>
@@ -80,11 +87,28 @@ namespace MyLibrary.Presenters
             this._view.FilterTagsFieldUpdated += FilterTags;
             this._view.FilterAuthorsFieldUpdated += FilterAuthors;
             this._view.FilterPublishersFieldUpdated += FilterPublishers;
-            this._view.AddNewTagButtonClicked += HandleAddNewTagClicked;
-            this._view.AddNewAuthorButtonClicked += HandleAddNewAuthorClicked;
+            this._view.AddNewTagButtonClicked += ((sender, args) => 
+            {
+                HandleAddNewTagClicked(sender, args);
+                InputFieldsUpdated(sender, args);
+            });
+
+            this._view.AddNewAuthorButtonClicked += ((sender, args) =>
+            {
+                HandleAddNewAuthorClicked(sender, args);
+                InputFieldsUpdated(sender, args);
+            }); 
             this._view.AddNewPublisherButtonClicked += HandleAddNewPublisherClicked;
-            this._view.TagCheckedChanged += HandleTagCheckedChanged;
-            this._view.AuthorCheckedChanged += HandleAuthorCheckedChanged;
+            this._view.TagCheckedChanged += ((sender, args) =>
+            {
+                HandleTagCheckedChanged(sender, args);
+                InputFieldsUpdated(sender, args);
+            });
+            this._view.AuthorCheckedChanged += ((sender, args) =>
+            {
+                HandleAuthorCheckedChanged(sender, args);
+                InputFieldsUpdated(sender, args);
+            });
         }
 
         /// <summary>
@@ -121,26 +145,26 @@ namespace MyLibrary.Presenters
             this._view.PagesFieldText = book.Pages.ToString();
             this._view.LanguageFieldText = book.Language;
 
-            if (!this._allPublishers.Contains(book.Publisher.Name))
+            if (!this.AllPublishers.Contains(book.Publisher.Name))
             {
-                this._allPublishers.Add(book.Publisher.Name);
+                this.AllPublishers.Add(book.Publisher.Name);
             }
             FilterPublishers(null, null);
             this._view.SetPublisher(book.Publisher, true);
 
-            foreach (var key in this._allAuthors.Keys.ToList())
+            foreach (var key in this.AllAuthors.Keys.ToList())
             {
-                this._allAuthors[key] = false;
+                this.AllAuthors[key] = false;
             }
             foreach (var author in book.Authors)
             {
-                if (!this._allAuthors.ContainsKey(author.GetFullNameLastNameCommaFirstName()))
+                if (!this.AllAuthors.ContainsKey(author.GetFullNameLastNameCommaFirstName()))
                 {
-                    this._allAuthors.Add(author.GetFullNameLastNameCommaFirstName(), true);
+                    this.AllAuthors.Add(author.GetFullNameLastNameCommaFirstName(), true);
                 }
                 else
                 {
-                    this._allAuthors[author.GetFullNameLastNameCommaFirstName()] = true;
+                    this.AllAuthors[author.GetFullNameLastNameCommaFirstName()] = true;
                 }
             }
             FilterAuthors(null, null);
@@ -152,7 +176,7 @@ namespace MyLibrary.Presenters
             Regex filterPattern = new Regex(this._view.FilterTagsFieldEntry, REGEX_OPTIONS);
 
             Dictionary<string, bool> filteredTags = new Dictionary<string, bool>();
-            foreach (var kvp in this._allTags)
+            foreach (var kvp in this.AllTags)
             {
                 if (filterPattern.IsMatch(kvp.Key))
                 {
@@ -169,7 +193,7 @@ namespace MyLibrary.Presenters
             Regex filterPattern = new Regex(this._view.FilterAuthorsFieldEntry, REGEX_OPTIONS);
 
             Dictionary<string, bool> filteredAuthors = new Dictionary<string, bool>();
-            foreach (var kvp in this._allAuthors)
+            foreach (var kvp in this.AllAuthors)
             {
                 if (filterPattern.IsMatch(kvp.Key))
                 {
@@ -186,7 +210,7 @@ namespace MyLibrary.Presenters
             Regex filterPattern = new Regex(this._view.FilterPublishersFieldEntry, REGEX_OPTIONS);
 
             List<string> filteredPublishers = new List<string>();
-            foreach (var publisher in this._allPublishers)
+            foreach (var publisher in this.AllPublishers)
             {
                 if (filterPattern.IsMatch(publisher))
                 {
@@ -197,115 +221,113 @@ namespace MyLibrary.Presenters
             this._view.AddPublishers(filteredPublishers);
         }//FilterPublishers
 
-        public async Task PopulateAuthorsList()
+        public async Task PopulateAuthorsAsync()
         {
             var allAuthors = await this._authorService.GetAll();
             foreach (var author in allAuthors)
             {
                 string authorName = author.GetFullNameLastNameCommaFirstName();
-                if (!this._allAuthors.ContainsKey(authorName))
+                if (!this.AllAuthors.ContainsKey(authorName))
                 {
-                    this._allAuthors.Add(authorName, false);
+                    this.AllAuthors.Add(authorName, false);
                 }
             }
 
             FilterAuthors(null, null);
         }//PopulateAuthorsList
 
-        public async Task PopulateTagsList()
+        public async Task PopulateTagsAsync()
         {
             var allTags = await this._tagService.GetAll();
             foreach (var tag in allTags)
             {
                 string tagName = tag.Name;
-                if (!this._allTags.ContainsKey(tagName))
+                if (!this.AllTags.ContainsKey(tagName))
                 {
-                    this._allTags.Add(tag.Name, false);
+                    this.AllTags.Add(tag.Name, false);
                 }
             }
 
             FilterTags(null, null);
         }//PopulateTagsList
 
-        public async Task PopulatePublishersList()
+        public async Task PopulatePublishersAsync()
         {
             var allPublishers = await this._publisherService.GetAll();
             foreach (var publisher in allPublishers)
             {
                 string publisherName = publisher.Name;
-                if (!this._allPublishers.Contains(publisherName))
+                if (!this.AllPublishers.Contains(publisherName))
                 {
-                    this._allPublishers.Add(publisher.Name);
+                    this.AllPublishers.Add(publisher.Name);
                 }
             }
 
             FilterPublishers(null, null);
         }//PopulatePublishersList
 
-        #region View event handlers
-        public async Task HandleSaveButtonClicked(object sender, EventArgs e)
+        private IEnumerable<string> GetSelectedTags()
         {
-            this._view.SaveButtonEnabled = false;
-            this._view.CancelButtonEnabled = false;
-
-            List<Author> authors = new List<Author>();
-            foreach (var kvp in this._allAuthors)
+            foreach (var kvp in this.AllTags)
             {
-                if (this._allAuthors[kvp.Key] == true)
+                if (this.AllTags[kvp.Key])
                 {
-                    Author author = new Author();
-                    author.SetFullNameFromCommaFormat(kvp.Key);
-                    authors.Add(author);
+                    yield return kvp.Key;
                 }
             }
-            this._newBook.Authors = authors;
-            this._newBook.Overview = this._view.OverviewFieldText;
-            this._newBook.Msrp = this._view.MsrpFieldText;
-            this._newBook.Synopsys = this._view.SynopsysFieldText;
-            this._newBook.Excerpt = this._view.ExcerptFieldText;
-            this._newBook.Edition = this._view.EditionFieldText;
-            this._newBook.Format = this._view.FormatFieldText;
-            this._newBook.Dimensions = this._view.DimensionsFieldText;
-            this._newBook.Notes = this._view.NotesFieldText;
-            this._newBook.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
-            foreach (var kvp in this._allTags)
+        }
+
+        private IEnumerable<string> GetSelectedAuthors()
+        {
+            foreach (var kvp in this.AllAuthors)
             {
-                if (this._allTags[kvp.Key] == true)
+                if (this.AllAuthors[kvp.Key])
                 {
-                    this._newBook.Tags.Add(new Tag 
-                    { 
-                        Name = kvp.Key 
-                    });
+                    yield return kvp.Key;
                 }
             }
+        }
 
+        private void EnableButtons(bool save, bool cancel)
+        {
+            this._view.SaveButtonEnabled = save;
+            this._view.CancelButtonEnabled = cancel;
+        }
+
+        private void HandleImageFile()
+        {
             try
             {
                 this._imageFileReader.Path = this._view.ImageFilePathFieldText;
                 byte[] imageBytes = this._imageFileReader.ReadBytes();
-                this._newBook.Image = imageBytes;
+                this.NewBook.Image = imageBytes;
             }
             catch (IOException ex)
             {
-                // error reading the image
-                // alert the user
                 this._view.ShowErrorDialog("Image file error", ex.Message);
-
-                this._view.SaveButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
+                EnableButtons(true, true);
 
                 return;
+            }
+        }
+
+        #region View event handlers
+        public async Task HandleSaveButtonClicked(object sender, EventArgs e)
+        {
+            EnableButtons(false, false);
+
+            if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
+            {
+                HandleImageFile();
             }
 
             try
             {
-                bool added = await this._bookService.AddIfNotExistsAsync(this._newBook);
+                bool added = await this._bookService.AddIfNotExistsAsync(this.NewBook);
                 if (!added)
                 {
                     this._view.ShowItemAlreadyExistsDialog(this._view.TitleFieldText);
-
-                    this._view.SaveButtonEnabled = true;
-                    this._view.CancelButtonEnabled = true;
+                    EnableButtons(true, true);
 
                     return;
                 }
@@ -319,9 +341,7 @@ namespace MyLibrary.Presenters
                 // something bad happened
                 // notify the user
                 this._view.ShowErrorDialog("Error creating item", ex.Message);
-
-                this._view.SaveButtonEnabled = true;
-                this._view.CancelButtonEnabled = true;
+                EnableButtons(true, true);
 
                 return;
             }
@@ -333,23 +353,28 @@ namespace MyLibrary.Presenters
         {
             try
             {
-                BookBuilder builder = new BookBuilder();
-                this._newBook = builder
-                    .WithTitles(this._view.TitleFieldText, this._view.LongTitleFieldText)
-                    .InLanguage(this._view.LanguageFieldText)
-                    .WithIsbns(this._view.IsbnFieldText, this._view.Isbn13FieldText)
-                    .WithPages(this._view.PagesFieldText)
-                    .WithDeweyDecimal(this._view.DeweyDecimalFieldText)
-                    .PublishedBy(this._view.SelectedPublisher)
-                    .Build();
+                var selectedTags = GetSelectedTags().ToList();
+                var selectedAuthors = GetSelectedAuthors().ToList();
+                this.NewBook = this._bookFactory.Create(new BookFactory.Titles { Title=this._view.TitleFieldText, LongTitle=this._view.LongTitleFieldText}, 
+                    new BookFactory.Isbns { Isbn10=this._view.IsbnFieldText, Isbn13=this._view.Isbn13FieldText},
+                    this._view.PagesFieldText, this._view.LanguageFieldText, this._view.SelectedPublisher, this._view.DeweyDecimalFieldText, selectedTags, selectedAuthors);
+                this.NewBook.Notes = this._view.NotesFieldText;
+                this.NewBook.Msrp = this._view.MsrpFieldText;
+                this.NewBook.Synopsys = this._view.SynopsysFieldText;
+                this.NewBook.Excerpt = this._view.ExcerptFieldText;
+                this.NewBook.DatePublished = this._view.DatePublishedFieldText;
+                this.NewBook.PlaceOfPublication = this._view.PlaceOfPublicationFieldText;
+                this.NewBook.Edition = this._view.EditionFieldText;
+                this.NewBook.Format = this._view.FormatFieldText;
+                this.NewBook.Dimensions = this._view.DimensionsFieldText;
+                this.NewBook.Overview = this._view.OverviewFieldText;
 
-                bool enableSave = true;
+                this._view.SaveButtonEnabled = true;
+
                 if (!string.IsNullOrWhiteSpace(this._view.ImageFilePathFieldText))
                 {
-                    enableSave = enableSave && ImageFileReader.ValidateFilePath(this._view.ImageFilePathFieldText);
+                    this._view.SaveButtonEnabled = ImageFileReader.ValidateFilePath(this._view.ImageFilePathFieldText);
                 }
-
-                this._view.SaveButtonEnabled = enableSave;
             }
             catch (ArgumentException) 
             {
@@ -362,9 +387,9 @@ namespace MyLibrary.Presenters
             string newTag = this._view.ShowNewTagDialog();
             if (!string.IsNullOrWhiteSpace(newTag))
             {
-                if (!this._allTags.ContainsKey(newTag))
+                if (!this.AllTags.ContainsKey(newTag))
                 {
-                    this._allTags.Add(newTag, true);
+                    this.AllTags.Add(newTag, true);
 
                     FilterTags(null, null);
                 }
@@ -379,7 +404,6 @@ namespace MyLibrary.Presenters
             }
         }//HandleAddNewTagClicked
 
-        // TODO: unit test
         public void HandleAddNewAuthorClicked(object sender, EventArgs args)
         {
             var result = this._view.ShowNewAuthorDialog();
@@ -390,9 +414,9 @@ namespace MyLibrary.Presenters
 
             dynamic author = new Author($"{result.FirstName} {result.LastName}");
             author = ((Author)author).GetFullNameLastNameCommaFirstName();
-            if (!this._allAuthors.ContainsKey(author))
+            if (!this.AllAuthors.ContainsKey(author))
             {
-                this._allAuthors.Add(author, true);
+                this.AllAuthors.Add(author, true);
 
                 FilterAuthors(null, null);
             }
@@ -406,12 +430,12 @@ namespace MyLibrary.Presenters
         {
             foreach (var selectedTag in this._view.SelectedTags)
             {
-                this._allTags[selectedTag] = true;
+                this.AllTags[selectedTag] = true;
             }
 
             foreach (var unselectedTag in this._view.UnselectedTags)
             {
-                this._allTags[unselectedTag] = false;
+                this.AllTags[unselectedTag] = false;
             }
         }//HandleTagCheckedChanged
 
@@ -419,24 +443,23 @@ namespace MyLibrary.Presenters
         {
             foreach (var selectedAuthor in this._view.SelectedAuthors)
             {
-                this._allAuthors[selectedAuthor] = true;
+                this.AllAuthors[selectedAuthor] = true;
             }
 
             foreach (var unselectedAuthor in this._view.UnselectedAuthors)
             {
-                this._allAuthors[unselectedAuthor] = false;
+                this.AllAuthors[unselectedAuthor] = false;
             }
         }//HandleAuthorCheckedChanged
 
-        // TODO: unit test
         public void HandleAddNewPublisherClicked(object sender, EventArgs args)
         {
             string newPublisher = this._view.ShowNewPublisherDialog();
             if (!string.IsNullOrWhiteSpace(newPublisher))
             {
-                if (!this._allPublishers.Contains(newPublisher))
+                if (!this.AllPublishers.Contains(newPublisher))
                 {
-                    this._allPublishers.Add(newPublisher);
+                    this.AllPublishers.Add(newPublisher);
 
                     FilterPublishers(null, null);
                 }

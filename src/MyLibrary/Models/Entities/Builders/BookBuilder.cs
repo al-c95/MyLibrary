@@ -21,7 +21,9 @@
 //SOFTWARE
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace MyLibrary.Models.Entities.Builders
 {
@@ -45,6 +47,21 @@ namespace MyLibrary.Models.Entities.Builders
             }
 
             throw new ArgumentException("Can't have an empty title.");
+        }
+
+        public BookBuilder WrittenBy(IEnumerable<string> authors) 
+        {
+            foreach (var a in authors)
+            {
+                Author author = new Author();
+                author.SetFullNameFromCommaFormat(a);
+                if (!this._book.Authors.Contains(author))
+                {
+                    this._book.Authors.Add(author);
+                }            
+            }
+
+            return this;
         }
 
         public BookBuilder WithIsbns(string isbn10, string isbn13)
@@ -121,6 +138,27 @@ namespace MyLibrary.Models.Entities.Builders
             throw new ArgumentException($"Dewey decimal: {value.ToString()} has invalid format.");
         }
 
+        public BookBuilder WithTags(IEnumerable<string> tags)
+        {
+            foreach (var tag in tags)
+            {
+                if (!string.IsNullOrWhiteSpace(tag))
+                {
+                    if (!this._book.Tags.Any(t => t.Name == tag))
+                    {
+                        this._book.Tags.Add(new Tag
+                        {
+                            Name = tag
+                        });
+                    }
+                }
+            }
+
+            return this;
+        }
+
         public Book Build() => this._book;
+
+        public static implicit operator Book(BookBuilder builder) => builder.Build();
     }//class
 }

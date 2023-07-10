@@ -268,7 +268,6 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<bool> AddIfNotExistsAsync(Book book)
         {
-            //if (await ExistsWithTitleAsync(book.Title) || await ExistsWithIsbnAsync(book.Isbn) || await ExistsWithIsbnAsync(book.Isbn13))
             if (await ExistsWithTitleAsync(book.Title))
             {
                 return false;

@@ -1,7 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit;
+﻿//MIT License
+
+//Copyright (c) 2021-2023
+
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE
+
+using System;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;
 
@@ -233,6 +252,41 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests
 
             // act/assert
             Assert.Throws<ArgumentException>(() => author.SetFullNameFromCommaFormat(name));
+        }
+
+        [Test]
+        public void Equals_Test_AreEqual()
+        {
+            string firstName = "John";
+            string lastName = "Smith";
+            Author author1 = new Author();
+            author1.FirstName = firstName;
+            author1.LastName = lastName;
+            Author author2 = new Author();
+            author2.FirstName = firstName;
+            author2.LastName = lastName;
+
+            bool result = author1.Equals(author2);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Equals_Test_AreNotEqual()
+        {
+            Author author1 = new Author();
+            author1.FirstName = "John";
+            author1.LastName = "Smith";
+            Author author2 = new Author();
+            author2.FirstName = "Jane";
+            author2.LastName = "Doe";
+            int bogusAuthor = 0;
+
+            bool result1 = author1.Equals(author2);
+            bool result2 = author1.Equals(bogusAuthor);
+
+            Assert.IsFalse(result1);
+            Assert.IsFalse(result2);
         }
     }//class
 }

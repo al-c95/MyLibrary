@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -141,6 +141,28 @@ namespace MyLibrary.Models.Entities
             else
             {
                 throw new ArgumentException("Invalid comma-format name: " + name);
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Author otherAuthor = (Author)obj;
+            return FirstName == otherAuthor.FirstName && LastName == otherAuthor.LastName;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + FirstName.GetHashCode();
+                hash = hash * 23 + LastName.GetHashCode();
+                return hash;
             }
         }
 

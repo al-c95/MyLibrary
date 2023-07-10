@@ -21,10 +21,12 @@
 //SOFTWARE
 
 using System;
+using System.Collections.Generic;
 using NUnit;
 using NUnit.Framework;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
+using System.Linq;
 
 namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
 {
@@ -75,6 +77,27 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         public void WithIsbns_Test_OneInvalid(string isbn10, string isbn13)
         {
             BookBuilder builder = new BookBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithIsbns(isbn10, isbn13));
+        }
+
+        [Test]
+        public void WrittenBy_Test()
+        {
+            BookBuilder builder = new BookBuilder();
+            string author1 = "Smith, John";
+            string author2 = "Doe, Jane";
+            List<string> authors = new List<string>
+            { author1,
+            author2,
+            author2
+            };
+
+            Book result = builder.WrittenBy(authors).Build();
+
+            Assert.AreEqual(2, result.Authors.Count);
+            Assert.IsTrue(result.Authors.Any(a => a.FirstName == "John" && a.LastName == "Smith"));
+            Assert.IsTrue(result.Authors.Any(a => a.FirstName == "Jane" && a.LastName == "Doe"));
         }
 
         [Test]

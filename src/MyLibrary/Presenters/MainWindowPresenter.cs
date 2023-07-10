@@ -348,11 +348,12 @@ namespace MyLibrary.Presenters
             var addBookPresenter = new AddBookPresenter(this._bookService,
                 this._tagService, this._authorService,
                 this._publisherService,
+                new BookFactory(),
                 this._addBookView,
                 new ImageFileReader());
-            await addBookPresenter.PopulateTagsList();
-            await addBookPresenter.PopulateAuthorsList();
-            await addBookPresenter.PopulatePublishersList();
+            await addBookPresenter.PopulateTagsAsync();
+            await addBookPresenter.PopulateAuthorsAsync();
+            await addBookPresenter.PopulatePublishersAsync();
 
             ((AddNewBookForm)this._addBookView).Show();
         }
@@ -386,6 +387,7 @@ namespace MyLibrary.Presenters
             this._addBookView = new AddNewBookForm();
             var searchPresenter = new SearchByIsbnPresenter(searchDialog, this._addBookView, new BookService(), new ApiServiceProvider());
             searchPresenter.AddBookPresenter = new AddBookPresenter(this._bookService, this._tagService, this._authorService, this._publisherService,
+                new BookFactory(),
                 this._addBookView, new ImageFileReader());
             searchDialog.ShowDialog();
             searchDialog.Dispose();
