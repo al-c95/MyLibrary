@@ -230,7 +230,7 @@ namespace MyLibrary.Presenters
                     this._view.SaveButtonEnabled = ImageFileReader.ValidateFilePath(this._view.ImageFilePathFieldText);
                 }
             }
-            catch (InvalidOperationException)
+            catch (ArgumentException)
             {
                 this._view.SaveButtonEnabled = false;
             }

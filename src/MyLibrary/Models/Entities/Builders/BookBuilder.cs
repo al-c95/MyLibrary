@@ -27,21 +27,19 @@ using System.Linq;
 
 namespace MyLibrary.Models.Entities.Builders
 {
-    public class BookBuilder
+    public class BookBuilder : ItemBuilderBase<Book>
     {
-        protected Book _book;
-
         public BookBuilder()
         {
-            this._book = new Book();
+            this._item = new Book();
         }
 
         public BookBuilder WithTitles(string title, string longTitle)
         {
             if (!string.IsNullOrWhiteSpace(title))
             {
-                this._book.Title = title;
-                this._book.TitleLong = longTitle;
+                this._item.Title = title;
+                this._item.TitleLong = longTitle;
 
                 return this;
             }
@@ -55,9 +53,9 @@ namespace MyLibrary.Models.Entities.Builders
             {
                 Author author = new Author();
                 author.SetFullNameFromCommaFormat(a);
-                if (!this._book.Authors.Contains(author))
+                if (!this._item.Authors.Contains(author))
                 {
-                    this._book.Authors.Add(author);
+                    this._item.Authors.Add(author);
                 }            
             }
 
@@ -73,7 +71,7 @@ namespace MyLibrary.Models.Entities.Builders
                     throw new ArgumentException($"ISBN: {isbn10} has invalid format.");
                 }
             }
-            this._book.Isbn = isbn10;
+            this._item.Isbn = isbn10;
 
             if (!string.IsNullOrWhiteSpace(isbn13))
             {
@@ -82,7 +80,7 @@ namespace MyLibrary.Models.Entities.Builders
                     throw new ArgumentException($"ISBN: {isbn13} has invalid format.");
                 }
             }
-            this._book.Isbn13 = isbn13;
+            this._item.Isbn13 = isbn13;
 
             return this;
         }
@@ -92,7 +90,7 @@ namespace MyLibrary.Models.Entities.Builders
             int pages;
             if (int.TryParse(value.ToString(), out pages))
             {
-                this._book.Pages = pages;
+                this._item.Pages = pages;
                 return this;
             }
 
@@ -106,7 +104,7 @@ namespace MyLibrary.Models.Entities.Builders
                 throw new ArgumentException("Language cannot be empty.");
             }
 
-            this._book.Language = language;
+            this._item.Language = language;
             return this;
         }
 
@@ -117,7 +115,7 @@ namespace MyLibrary.Models.Entities.Builders
                 throw new ArgumentException("Publisher cannot be empty.");
             }
 
-            this._book.Publisher = new Publisher(publisher);
+            this._item.Publisher = new Publisher(publisher);
             return this;
         }
 
@@ -125,39 +123,18 @@ namespace MyLibrary.Models.Entities.Builders
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                this._book.DeweyDecimal = null;
+                this._item.DeweyDecimal = null;
                 return this;
             }
 
             if (Regex.IsMatch((string)value, Book.DEWEY_DECIMAL_PATTERN))
             {
-                this._book.DeweyDecimal = decimal.Parse(value);
+                this._item.DeweyDecimal = decimal.Parse(value);
                 return this;
             }
 
             throw new ArgumentException($"Dewey decimal: {value.ToString()} has invalid format.");
         }
-
-        public BookBuilder WithTags(IEnumerable<string> tags)
-        {
-            foreach (var tag in tags)
-            {
-                if (!string.IsNullOrWhiteSpace(tag))
-                {
-                    if (!this._book.Tags.Any(t => t.Name == tag))
-                    {
-                        this._book.Tags.Add(new Tag
-                        {
-                            Name = tag
-                        });
-                    }
-                }
-            }
-
-            return this;
-        }
-
-        public Book Build() => this._book;
 
         public static implicit operator Book(BookBuilder builder) => builder.Build();
     }//class

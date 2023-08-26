@@ -26,12 +26,40 @@ using NUnit.Framework;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using System.Linq;
+using MyLibrary.Models.BusinessLogic.ImportCsv;
 
 namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
 {
     [TestFixture]
     public class MediaItemBuilder_Tests
     {
+        [TestCase(1)]
+        [TestCase("1")]
+        public void WithId_Test_Valid(object value)
+        {
+            MediaItemBuilder builder = new MediaItemBuilder();
+
+            MediaItem result = builder.WithId(value).Build();
+
+            Assert.AreEqual(1, result.Id);
+        }
+
+        [Test]
+        public void WithId_Test_Empty()
+        {
+            MediaItemBuilder builder = new MediaItemBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithId("").Build());
+        }
+
+        [Test]
+        public void WithId_Test_Invalid()
+        {
+            MediaItemBuilder builder = new MediaItemBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithId("bogus id").Build());
+        }
+
         [Test]
         public void WithTitle_Test_Valid()
         {
@@ -48,7 +76,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         {
             MediaItemBuilder builder = new MediaItemBuilder();
 
-            Assert.Throws<InvalidOperationException>(() => builder.WithTitle(title).Build());
+            Assert.Throws<ArgumentException>(() => builder.WithTitle(title).Build());
         }
 
         [TestCase(0123)]
@@ -68,7 +96,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         {
             MediaItemBuilder builder = new MediaItemBuilder();
 
-            Assert.Throws<InvalidOperationException>(() => builder.WithNumber(value));
+            Assert.Throws<ArgumentException>(() => builder.WithNumber(value));
         }
 
         [TestCase(2023)]
@@ -88,7 +116,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         {
             MediaItemBuilder builder = new MediaItemBuilder();
 
-            Assert.Throws<InvalidOperationException>(() => builder.WithYear(value));
+            Assert.Throws<ArgumentException>(() => builder.WithYear(value));
         }
 
         [TestCase(null)]
@@ -118,11 +146,11 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
         {
             MediaItemBuilder builder = new MediaItemBuilder();
 
-            Assert.Throws<InvalidOperationException>(() => builder.WithRunningTime("bogus running time").Build());
+            Assert.Throws<ArgumentException>(() => builder.WithRunningTime("bogus running time").Build());
         }
 
         [Test]
-        public void WithTags_Test()
+        public void WithTags_Test_Valid()
         {
             MediaItemBuilder builder = new MediaItemBuilder();
             List<string> tags = new List<string>
@@ -140,6 +168,18 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
             Assert.IsTrue(item.Tags.Any(t => t.Name == "tag1"));
             Assert.IsTrue(item.Tags.Any(t => t.Name == "tag2"));
             Assert.IsTrue(item.Tags.Any(t => t.Name == "tag3"));
+        }
+
+        [Test]
+        public void WithTags_Test_Invalid()
+        {
+            MediaItemBuilder builder = new MediaItemBuilder();
+            List<string> tags = new List<string>
+            {
+                "tag,"
+            };
+
+            Assert.Throws<ArgumentException>(() => builder.WithTags(tags).Build());
         }
     }
 }

@@ -26,20 +26,18 @@ using System.Linq;
 
 namespace MyLibrary.Models.Entities.Builders
 {
-    public class MediaItemBuilder : IMediaItemBuilder
+    public class MediaItemBuilder : ItemBuilderBase<MediaItem>
     {
-        protected MediaItem _item;
-
         public MediaItemBuilder()
         {
             this._item = new MediaItem();
         }
 
-        public IMediaItemBuilder WithTitle(string title)
+        public MediaItemBuilder WithTitle(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
-                throw new InvalidOperationException("Name cannot be empty.");
+                throw new ArgumentException("Name cannot be empty.");
             }
 
             this._item.Title = title;
@@ -47,41 +45,41 @@ namespace MyLibrary.Models.Entities.Builders
             return this;
         }
 
-        public IMediaItemBuilder WithNumber(object value)
+        public MediaItemBuilder WithNumber(object value)
         {
             if (value is null)
             {
-                throw new InvalidOperationException("Number cannot be null.");
+                throw new ArgumentException("Number cannot be null.");
             }
 
             long number = 0;
             if (!long.TryParse(value.ToString(), out number))
             {
-                throw new InvalidOperationException($"Could not parse number value: {value.ToString()}");
+                throw new ArgumentException($"Could not parse number value: {value.ToString()}");
             }
             this._item.Number = number;
 
             return this;
         }
 
-        public IMediaItemBuilder WithYear(object value)
+        public MediaItemBuilder WithYear(object value)
         {
             if (value is null)
             {
-                throw new InvalidOperationException("Year cannot be null.");
+                throw new ArgumentException("Year cannot be null.");
             }
 
             int year = 0;
             if (!int.TryParse(value.ToString(), out year))
             {
-                throw new InvalidOperationException($"Could not parse year value: {value.ToString()}");
+                throw new ArgumentException($"Could not parse year value: {value.ToString()}");
             }
             this._item.ReleaseYear = year;
 
             return this;
         }
 
-        public IMediaItemBuilder WithRunningTime(object value)
+        public MediaItemBuilder WithRunningTime(object value)
         {
             if (value is null)
             {
@@ -97,33 +95,12 @@ namespace MyLibrary.Models.Entities.Builders
             int runTime = 0;
             if (!int.TryParse(value.ToString(), out runTime))
             {
-                throw new InvalidOperationException($"Could not parse running time value: {value.ToString()}");
+                throw new ArgumentException($"Could not parse running time value: {value.ToString()}");
             }
             this._item.RunningTime = runTime;
 
             return this;
         }
-
-        public IMediaItemBuilder WithTags(IEnumerable<string> tags)
-        {
-            foreach (var tag in tags)
-            {
-                if (!string.IsNullOrWhiteSpace (tag))
-                {
-                    if (!this._item.Tags.Any(t => t.Name == tag))
-                    {
-                        this._item.Tags.Add(new Tag
-                        { 
-                            Name = tag 
-                        });
-                    }
-                }
-            }
-
-            return this;
-        }
-
-        public MediaItem Build() => this._item;
 
         public static implicit operator MediaItem(MediaItemBuilder builder) => builder.Build();
     }//class

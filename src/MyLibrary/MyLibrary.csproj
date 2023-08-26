@@ -252,6 +252,9 @@
     <Compile Include="ExcelImportDialog.Designer.cs">
       <DependentUpon>ExcelImportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Import\BookExcelReader.cs" />
+    <Compile Include="Import\ExcelReaderBase.cs" />
+    <Compile Include="Import\MediaItemExcelReader.cs" />
     <Compile Include="ManageCopiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -294,7 +297,7 @@
     <Compile Include="Models\Entities\Book.cs" />
     <Compile Include="Models\Entities\BookCopy.cs" />
     <Compile Include="Models\Entities\Builders\BookBuilder.cs" />
-    <Compile Include="Models\Entities\Builders\IMediaItemBuilder.cs" />
+    <Compile Include="Models\Entities\Builders\ItemBuilderBase.cs" />
     <Compile Include="Models\Entities\Builders\MediaItemBuilder.cs" />
     <Compile Include="Models\Entities\Copy.cs" />
     <Compile Include="Models\Entities\Entity.cs" />

@@ -142,7 +142,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             var fakeMediaItemFactory = A.Fake<IMediaItemFactory>();
-            A.CallTo(() => fakeMediaItemFactory.Create("", "", "", "", A<List<string>>.That.IsSameSequenceAs(new List<string> { "tag1" }))).Throws(new InvalidOperationException());
+            A.CallTo(() => fakeMediaItemFactory.Create("", "", "", "", A<List<string>>.That.IsSameSequenceAs(new List<string> { "tag1" }))).Throws(new ArgumentException());
             AddMediaItemPresenter presenter = new AddMediaItemPresenter(fakeMediaItemService, fakeTagService, fakeMediaItemFactory, fakeView, fakeImageFileReader, null);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", true);
@@ -211,7 +211,7 @@ namespace MyLibrary_Test.Presenters_Tests
             var fakeTagService = A.Fake<ITagService>();
             var fakeImageFileReader = A.Fake<IImageFileReader>();
             var fakeMediaItemFactory = A.Fake<IMediaItemFactory>();
-            A.CallTo(() => fakeMediaItemFactory.Create("", "", "", "", A<List<string>>.That.IsSameSequenceAs(new List<string> { "tag1" }))).Throws(new InvalidOperationException());
+            A.CallTo(() => fakeMediaItemFactory.Create("", "", "", "", A<List<string>>.That.IsSameSequenceAs(new List<string> { "tag1" }))).Throws(new ArgumentException());
             AddMediaItemPresenter presenter = new AddMediaItemPresenter(fakeMediaItemService, fakeTagService, fakeMediaItemFactory, fakeView, fakeImageFileReader, null);
             Dictionary<string, bool> allTags = new Dictionary<string, bool>();
             allTags.Add("tag1", true);

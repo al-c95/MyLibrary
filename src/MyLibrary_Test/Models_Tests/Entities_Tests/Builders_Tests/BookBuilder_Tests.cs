@@ -33,6 +33,33 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
     [TestFixture]
     public class BookBuilder_Tests
     {
+        [TestCase(1)]
+        [TestCase("1")]
+        public void WithId_Test_Valid(object value)
+        {
+            BookBuilder builder = new BookBuilder();
+
+            Book result = builder.WithId(value).Build();
+
+            Assert.AreEqual(1, result.Id);
+        }
+
+        [Test]
+        public void WithId_Test_Empty()
+        {
+            BookBuilder builder = new BookBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithId("").Build());
+        }
+
+        [Test]
+        public void WithId_Test_Invalid()
+        {
+            BookBuilder builder = new BookBuilder();
+
+            Assert.Throws<ArgumentException>(() => builder.WithId("bogus id").Build());
+        }
+
         [Test]
         public void WithTitles_Test_Valid()
         {
@@ -87,17 +114,20 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
             BookBuilder builder = new BookBuilder();
             string author1 = "Smith, John";
             string author2 = "Doe, Jane";
+            string author3 = "Smith-Jones, John";
             List<string> authors = new List<string>
             { author1,
             author2,
-            author2
+            author2,
+            author3
             };
 
             Book result = builder.WrittenBy(authors).Build();
 
-            Assert.AreEqual(2, result.Authors.Count);
+            Assert.AreEqual(3, result.Authors.Count);
             Assert.IsTrue(result.Authors.Any(a => a.FirstName == "John" && a.LastName == "Smith"));
             Assert.IsTrue(result.Authors.Any(a => a.FirstName == "Jane" && a.LastName == "Doe"));
+            Assert.IsTrue(result.Authors.Any(a => a.FirstName == "John" && a.LastName == "Smith-Jones"));
         }
 
         [Test]
@@ -192,6 +222,39 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
             BookBuilder builder = new BookBuilder();
 
             Assert.Throws<ArgumentException>(() => builder.WithDeweyDecimal("bogus_Dewey_decimal").Build());
+        }
+
+        [Test]
+        public void WithTags_Test_Valid()
+        {
+            BookBuilder builder = new BookBuilder();
+            List<string> tags = new List<string>
+            {
+                "tag1",
+                "tag2",
+                "tag2",
+                "tag3",
+                ""
+            };
+
+            Book item = builder.WithTags(tags).Build();
+
+            Assert.AreEqual(3, item.Tags.Count);
+            Assert.IsTrue(item.Tags.Any(t => t.Name == "tag1"));
+            Assert.IsTrue(item.Tags.Any(t => t.Name == "tag2"));
+            Assert.IsTrue(item.Tags.Any(t => t.Name == "tag3"));
+        }
+
+        [Test]
+        public void WithTags_Test_Invalid()
+        {
+            BookBuilder builder = new BookBuilder();
+            List<string> tags = new List<string>
+            {
+                "tag,"
+            };
+
+            Assert.Throws<ArgumentException>(() => builder.WithTags(tags).Build());
         }
     }//class
 }
