@@ -32,6 +32,7 @@ namespace MyLibrary.Models.BusinessLogic
         Task<bool> AddIfNotExistsAsync(Book book);
         Task<bool> ExistsWithIdAsync(int id);
         Task<bool> ExistsWithIsbnAsync(string isbn);
+        Task<bool> ExistsWithIsbn13Async(string isbn);
         Task<bool> ExistsWithLongTitleAsync(string longTitle);
         Task<bool> ExistsWithTitleAsync(string title);
         Task<IEnumerable<Book>> GetAllAsync();

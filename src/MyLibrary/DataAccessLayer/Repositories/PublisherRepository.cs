@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
 using System.Collections.Generic;
 using MyLibrary.Models.Entities;
 using Dapper;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
@@ -32,42 +34,63 @@ namespace MyLibrary.DataAccessLayer.Repositories
             : base(unitOfWork)
         { }
 
-        public override void Create(Publisher entity)
+        public override async Task CreateAsync(Publisher entity)
         {
-            const string SQL = "INSERT INTO Publishers(name) " +
+            await Task.Run(() =>
+            {
+                const string SQL = "INSERT INTO Publishers(name) " +
                     "VALUES(@name);";
 
-            this._uow.Connection.Execute(SQL, new
-            {
-                name = entity.Name
+                this._uow.Connection.Execute(SQL, new
+                {
+                    name = entity.Name
+                });
             });
         }
 
-        public override IEnumerable<Publisher> ReadAll()
+        public override async Task<IEnumerable<Publisher>> ReadAllAsync()
         {
-            const string SQL = "SELECT * FROM Publishers;";
+            IEnumerable<Publisher> result = new List<Publisher>();
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT * FROM Publishers;";
 
-            return this._uow.Connection.Query<Publisher>(SQL);
+                result = this._uow.Connection.Query<Publisher>(SQL);
+            });
+
+            return result.AsEnumerable();
         }
 
-        public bool ExistsWithName(string name)
+        public async Task<bool> ExistsWithNameAsync(string name)
         {
-            const string SQL = "SELECT COUNT(1) FROM Publishers WHERE name=@name;";
-
-            return this._uow.Connection.ExecuteScalar<bool>(SQL, new
+            bool result = false;
+            await Task.Run(() =>
             {
-                name = name
+                const string SQL = "SELECT COUNT(1) FROM Publishers WHERE name=@name;";
+
+                result = this._uow.Connection.ExecuteScalar<bool>(SQL, new
+                {
+                    name = name
+                });
             });
+            
+            return result;
         }
 
-        public int GetIdByName(string name)
+        public async Task<int> GetIdByNameAsync(string name)
         {
-            const string SQL = "SELECT id FROM Publishers WHERE name=@name;";
-
-            return this._uow.Connection.QuerySingle<int>(SQL, new
+            int? result = null;
+            await Task.Run(() =>
             {
-                name = name
+                const string SQL = "SELECT id FROM Publishers WHERE name=@name;";
+
+                result = this._uow.Connection.QuerySingle<int>(SQL, new
+                {
+                    name = name
+                });
             });
+            
+            return (int)result;
         }
     }//class
 }

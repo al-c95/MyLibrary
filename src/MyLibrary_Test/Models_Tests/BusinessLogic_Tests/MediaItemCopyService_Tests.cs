@@ -35,7 +35,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Create(copy);
 
             // assert
-            A.CallTo(() => fakeRepo.Create(copy)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(copy)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -56,7 +56,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Update(copy);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(copy)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.UpdateAsync(copy)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -76,7 +76,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.DeleteById(1);
 
             // assert
-            A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.DeleteByIdAsync(1)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -109,7 +109,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             {
                 new MediaItemCopy{Id=1}
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(copies);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(copies);
 
             // act
             var result = await service.GetAll();

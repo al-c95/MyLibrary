@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,16 @@
 
 using MyLibrary.Models.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
     public interface IAuthorRepository
     {
-        bool AuthorExists(string firstName, string lastName);
-        void Create(Author entity);
-        int GetIdByName(string firstName, string lastName);
-        void LinkBook(int bookId, int authorId);
-        IEnumerable<Author> ReadAll();
+        Task<bool> AuthorExistsAsync(string firstName, string lastName);
+        Task CreateAsync(Author entity);
+        Task<int> GetIdByNameAsync(string firstName, string lastName);
+        Task LinkBookAsync(int bookId, int authorId);
+        Task<IEnumerable<Author>> ReadAllAsync();
     }
 }

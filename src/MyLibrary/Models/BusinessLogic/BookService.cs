@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -71,16 +71,11 @@ namespace MyLibrary.Models.BusinessLogic
         /// <returns></returns>
         public async virtual Task<IEnumerable<Book>> GetAllAsync()
         {
-            IEnumerable<Book> allBooks = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
-                allBooks = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allBooks;
+                return await repo.ReadAllAsync();
+            }
         }
 
         /// <summary>
@@ -90,30 +85,20 @@ namespace MyLibrary.Models.BusinessLogic
         /// <returns></returns>
         public async Task<Book> GetByIdAsync(int id)
         {
-            Book book = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
-                book = repo.GetById(id);
-                uow.Dispose();
-            });
-
-            return book;
+                return await repo.GetByIdAsync(id);
+            }
         }
 
         public async Task<int> GetIdByTitleAsync(string title)
         {
-            int id = 0;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
-                id = repo.GetIdByTitle(title);
-                uow.Dispose();
-            });
-
-            return id;
+                return await repo.GetIdByTitleAsync(title);
+            }
         }
 
         public async Task<Boolean> ExistsWithIdAsync(int id)
@@ -124,32 +109,20 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<Boolean> ExistsWithTitleAsync(string title)
         {
-            bool exists = false;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
-
-                exists = (repo.GetTitles().Any(t => t.Equals(title)));
-                uow.Dispose();
-            });
-
-            return exists;
+                return await repo.ExistsWithTitleAsync(title);
+            }
         }
 
         public async Task<Boolean> ExistsWithLongTitleAsync(string longTitle)
         {
-            bool exists = false;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
-
-                exists = (repo.GetLongTitles().Any(t => t.Equals(longTitle)));
-                uow.Dispose();
-            });
-
-            return exists;
+                return await repo.ExistsWithLongTitleAsync(longTitle);
+            }
         }
 
         /// <summary>
@@ -159,22 +132,25 @@ namespace MyLibrary.Models.BusinessLogic
         /// <returns></returns>
         public async Task<Boolean> ExistsWithIsbnAsync(string isbn)
         {
-            bool exists = false;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository repo = this._repoProvider.Get(uow);
-                exists = (repo.GetIsbns().Any(i => i.Equals(isbn)) || (repo.GetIsbn13s().Any(i => i.Equals(isbn))));
-                uow.Dispose();
-            });
+                return await repo.ExistsWithIsbnAsync(isbn) || await repo.ExistsWithIsbn13Async(isbn);
+            }
+        }
 
-            return exists;
+        public async Task<bool> ExistsWithIsbn13Async(string isbn)
+        {
+            using (var uow = this._uowProvider.Get())
+            {
+                IBookRepository repo = this._repoProvider.Get(uow);
+                return await repo.ExistsWithIsbn13Async(isbn);
+            }
         }
 
         public async Task AddAsync(Book book)
         {
-            await Task.Run(() =>
-            {
+
                 // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository bookRepo = this._repoProvider.Get(uow);
@@ -185,52 +161,52 @@ namespace MyLibrary.Models.BusinessLogic
 
                 // handle publisher
                 int publisherId = 0;
-                if (publisherRepo.ExistsWithName(book.Publisher.Name))
+                if (await publisherRepo.ExistsWithNameAsync(book.Publisher.Name))
                 {
                     // publisher exists
                     // get the id
-                    publisherId = publisherRepo.GetIdByName(book.Publisher.Name);
+                    publisherId = await publisherRepo.GetIdByNameAsync(book.Publisher.Name);
                 }
                 else
                 {
                     // publisher does not exist
                     // insert publisher
-                    publisherRepo.Create(book.Publisher);
+                    await publisherRepo.CreateAsync(book.Publisher);
                     // get the id
-                    publisherId = publisherRepo.GetIdByName(book.Publisher.Name);
+                    publisherId = await publisherRepo.GetIdByNameAsync(book.Publisher.Name);
                 }
                 book.Publisher.Id = publisherId;
 
                 // insert Books table record
-                bookRepo.Create(book);
+                await bookRepo.CreateAsync(book);
 
                 // handle tags
                 // get all tag Ids
                 List<int> tagIds = new List<int>();
                 foreach (var tag in book.Tags)
                 {
-                    if (tagRepo.ExistsWithName(tag.Name))
+                    if (await tagRepo.ExistsWithNameAsync(tag.Name))
                     {
                         // tag exists
                         // get the id
-                        int tagId = tagRepo.GetIdByName(tag.Name);
+                        int tagId = await tagRepo.GetIdByNameAsync(tag.Name);
                         tagIds.Add(tagId);
                     }
                     else
                     {
                         // tag does not exist
                         // insert tag
-                        tagRepo.Create(tag);
+                        await tagRepo.CreateAsync(tag);
                         // get the id
-                        int tagId = tagRepo.GetIdByName(tag.Name);
+                        int tagId = await tagRepo.GetIdByNameAsync(tag.Name);
                         tagIds.Add(tagId);
                     }
                 }
                 // insert records in Book_Tag link table
-                int bookId = bookRepo.GetIdByTitle(book.Title);
+                int bookId = await bookRepo.GetIdByTitleAsync(book.Title);
                 foreach (int tagId in tagIds)
                 {
-                    tagRepo.LinkBook(bookId, tagId);
+                    await tagRepo.LinkBookAsync(bookId, tagId);
                 }
 
                 // handle authors
@@ -238,32 +214,31 @@ namespace MyLibrary.Models.BusinessLogic
                 List<int> authorIds = new List<int>();
                 foreach (var author in book.Authors)
                 {
-                    if (authorRepo.AuthorExists(author.FirstName, author.LastName))
+                    if (await authorRepo.AuthorExistsAsync(author.FirstName, author.LastName))
                     {
                         // author exists
                         // get the Id
-                        int authorId = authorRepo.GetIdByName(author.FirstName, author.LastName);
+                        int authorId = await authorRepo.GetIdByNameAsync(author.FirstName, author.LastName);
                         authorIds.Add(authorId);
                     }
                     else
                     {
                         // author does not exist
                         // insert author
-                        authorRepo.Create(author);
+                        await authorRepo.CreateAsync(author);
                         // get the Id
-                        int authorId = authorRepo.GetIdByName(author.FirstName, author.LastName);
+                        int authorId = await authorRepo.GetIdByNameAsync(author.FirstName, author.LastName);
                         authorIds.Add(authorId);
                     }
                 }
                 // insert records in Book_Author table
                 foreach (int authorId in authorIds)
                 {
-                    authorRepo.LinkBook(bookId, authorId);
+                    await authorRepo.LinkBookAsync(bookId, authorId);
                 }
                 
                 // commit transaction
                 uow.Commit();
-            });
         }
 
         public async Task<bool> AddIfNotExistsAsync(Book book)
@@ -290,7 +265,7 @@ namespace MyLibrary.Models.BusinessLogic
                 uow.Begin();
 
                 // do the work
-                repo.Update(book, includeImage);
+                repo.UpdateAsync(book, includeImage);
 
                 // commit transaction
                 uow.Commit();
@@ -307,7 +282,7 @@ namespace MyLibrary.Models.BusinessLogic
                 uow.Begin();
 
                 // do the work
-                repo.DeleteById(id);
+                repo.DeleteByIdAsync(id);
 
                 // commit transaction
                 uow.Commit();
@@ -316,8 +291,7 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task UpdateTagsAsync(ItemTagsDto dto)
         {
-            await Task.Run(() =>
-            {
+
                 // begin transaction
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookRepository bookRepo = this._repoProvider.Get(uow);
@@ -327,42 +301,41 @@ namespace MyLibrary.Models.BusinessLogic
                 // add tags
                 foreach (var tag in dto.TagsToAdd)
                 {
-                    if (tagRepo.ExistsWithName(tag))
+                    if (await tagRepo.ExistsWithNameAsync(tag))
                     {
                         // tag exists
                         // get the Id
-                        int tagId = tagRepo.GetIdByName(tag);
+                        int tagId = await tagRepo.GetIdByNameAsync(tag);
                         // insert record into link table
-                        tagRepo.LinkBook(dto.Id, tagId);
+                        await tagRepo.LinkBookAsync(dto.Id, tagId);
                     }
                     else
                     {
                         // tag does not exist
                         // insert it
-                        tagRepo.Create(new Tag { Name = tag });
+                        await tagRepo.CreateAsync(new Tag { Name = tag });
                         // get the id
-                        int tagId = tagRepo.GetIdByName(tag);
+                        int tagId = await tagRepo.GetIdByNameAsync(tag);
                         // insert record into link table
-                        tagRepo.LinkBook(dto.Id, tagId);
+                        await tagRepo.LinkBookAsync(dto.Id, tagId);
                     }
                 }
 
                 // remove tags
                 foreach (var tag in dto.TagsToRemove)
                 {
-                    if (tagRepo.ExistsWithName(tag))
+                    if (await tagRepo.ExistsWithNameAsync(tag))
                     {
                         // tag exists
                         // get the id
-                        int tagId = tagRepo.GetIdByName(tag);
+                        int tagId = await tagRepo.GetIdByNameAsync(tag);
                         // delete record from link table
-                        tagRepo.UnlinkBook(dto.Id, tagId);
+                        await tagRepo.UnlinkBookAsync(dto.Id, tagId);
                     }
                 }
 
                 // commit transaction
                 uow.Commit();
-            });
         }
     }//BookService
 }

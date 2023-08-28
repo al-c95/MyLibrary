@@ -35,7 +35,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Add(publisher);
 
             // assert
-            A.CallTo(() => fakeRepo.Create(publisher)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(publisher)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -69,7 +69,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                 new Publisher("pub1"),
                 new Publisher("pub2")
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(publishers);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(publishers);
 
             // act
             var result = await service.GetAll();

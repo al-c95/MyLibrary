@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,23 @@
 
 using MyLibrary.Models.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
     public interface ITagRepository
     {
-        void Create(Tag entity);
-        void DeleteById(int id);
-        void DeleteByName(string name);
-        bool ExistsWithName(string name);
-        int GetIdByName(string name);
-        void LinkBook(int bookId, int tagId);
-        void LinkMediaItem(int mediaId, int tagId);
-        IEnumerable<Tag> ReadAll();
-        void UnlinkBook(int bookId, int tagId);
-        void UnlinkMediaItem(int mediaId, int tagId);
-        void UnlinkAllTagsForBook(int bookId);
-        void UnlinkAllTagsForMediaItem(int itemId);
+        Task CreateAsync(Tag entity);
+        Task DeleteByIdAsync(int id);
+        Task DeleteByNameAsync(string name);
+        Task<bool> ExistsWithNameAsync(string name);
+        Task<int> GetIdByNameAsync(string name);
+        Task LinkBookAsync(int bookId, int tagId);
+        Task LinkMediaItemAsync(int mediaId, int tagId);
+        Task<IEnumerable<Tag>> ReadAllAsync();
+        Task UnlinkBookAsync(int bookId, int tagId);
+        Task UnlinkMediaItemAsync(int mediaId, int tagId);
+        Task UnlinkAllTagsForBookAsync(int bookId);
+        Task UnlinkAllTagsForMediaItemAsync(int itemId);
     }
 }

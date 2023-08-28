@@ -36,7 +36,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             {
                 new MediaItem{Id=1, Title="item1"}
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(items);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(items);
 
             // act
             var result = await service.GetAllAsync();
@@ -68,7 +68,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             service.Update(item, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(item, updateImage)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.UpdateAsync(item, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -93,7 +93,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.UpdateAsync(item, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(item, updateImage)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.UpdateAsync(item, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -116,7 +116,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.DeleteByIdAsync(1);
 
             // assert
-            A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.DeleteByIdAsync(1)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -134,7 +134,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                 Id = 1,
                 Title = "item"
             };
-            A.CallTo(() => fakeRepo.GetById(1)).Returns(item);
+            A.CallTo(() => fakeRepo.GetByIdAsync(1)).Returns(item);
             var fakeTagRepo = A.Fake<ITagRepository>();
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
@@ -194,35 +194,6 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
 
         [TestCase("item1", true)]
         [TestCase("item3", false)]
-        public void ExistsWithTitle_Test(string title, bool expectedResult)
-        {
-            // arrange
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
-            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            var fakeRepo = A.Fake<IMediaItemRepository>();
-            List<string> titles = new List<string>
-            {
-                "item1",
-                "item2"
-            };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
-            var fakeTagRepo = A.Fake<ITagRepository>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
-            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
-            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
-
-            // arrange
-            var actualResult = service.ExistsWithTitle(title);
-
-            // act
-            Assert.AreEqual(expectedResult, actualResult);
-        }
-
-        [TestCase("item1", true)]
-        [TestCase("item3", false)]
         public async Task ExistsWithTitleAsync_Test(string title, bool expectedResult)
         {
             // arrange
@@ -231,12 +202,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
             var fakeUow = A.Fake<IUnitOfWork>();
             var fakeRepo = A.Fake<IMediaItemRepository>();
-            List<string> titles = new List<string>
-            {
-                "item1",
-                "item2"
-            };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync(title)).Returns(expectedResult);
             var fakeTagRepo = A.Fake<ITagRepository>();
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
@@ -251,7 +217,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
         }
 
         [Test]
-        public void Add_Test()
+        public async Task Add_Test()
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -263,8 +229,8 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("new_tag")).Returns(false);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("existing_tag")).Returns(true);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("new_tag")).Returns(false);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("existing_tag")).Returns(true);
             MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
             Tag newTag = new Tag { Id = 1, Name = "new_tag" };
             Tag existingTag = new Tag { Id = 2, Name = "existing_tag" };
@@ -280,77 +246,15 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             };
 
             // act
-            service.Add(item);
+            await service.Add(item);
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.Create(newTag)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 1));
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 2));
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.CreateAsync(newTag)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 2));
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
-        }
-
-        [Test]
-        public void AddIfNotExists_Test_DoesNotExist()
-        {
-            // arrange
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
-            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            var fakeRepo = A.Fake<IMediaItemRepository>();
-            List<string> titles = new List<string> { "existing_item" };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
-            var fakeTagRepo = A.Fake<ITagRepository>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
-            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
-            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
-            MediaItem item = new MediaItem
-            {
-                Title = "new_item"
-            };
-
-            // act
-            bool result = service.AddIfNotExists(item);
-
-            // assert
-            Assert.IsTrue(result);
-            A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
-        }
-
-        [Test]
-        public void AddIfNotExists_Test_Exists()
-        {
-            // arrange
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeRepoProvider = A.Fake<IMediaItemRepositoryProvider>();
-            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            var fakeRepo = A.Fake<IMediaItemRepository>();
-            List<string> titles = new List<string> { "existing_item" };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
-            var fakeTagRepo = A.Fake<ITagRepository>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
-            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
-            A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
-            MediaItem item = new MediaItem
-            {
-                Title = "existing_item"
-            };
-
-            // act
-            bool result = service.AddIfNotExists(item);
-
-            // assert
-            Assert.IsFalse(result);
-            A.CallTo(() => fakeUow.Begin()).MustNotHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustNotHaveHappened();
-            A.CallTo(() => fakeUow.Commit()).MustNotHaveHappened();
         }
 
         [Test]
@@ -362,8 +266,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
             var fakeUow = A.Fake<IUnitOfWork>();
             var fakeRepo = A.Fake<IMediaItemRepository>();
-            List<string> titles = new List<string> { "existing_item" };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("new_item")).Returns(false);
             var fakeTagRepo = A.Fake<ITagRepository>();
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
@@ -380,7 +283,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             // assert
             Assert.IsTrue(result);
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -393,8 +296,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
             var fakeUow = A.Fake<IUnitOfWork>();
             var fakeRepo = A.Fake<IMediaItemRepository>();
-            List<string> titles = new List<string> { "existing_item" };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("existing_item")).Returns(true);
             var fakeTagRepo = A.Fake<ITagRepository>();
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
@@ -411,7 +313,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             // assert
             Assert.IsFalse(result);
             A.CallTo(() => fakeUow.Begin()).MustNotHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustNotHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustNotHaveHappened();
         }
 
@@ -428,8 +330,8 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("new_tag")).Returns(false);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("existing_tag")).Returns(true);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("new_tag")).Returns(false);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("existing_tag")).Returns(true);
             MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
             Tag newTag = new Tag { Id = 1, Name = "new_tag" };
             Tag existingTag = new Tag { Id = 2, Name = "existing_tag" };
@@ -449,15 +351,15 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.Create(newTag)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 1));
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 2));
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.CreateAsync(newTag)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 2));
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
         [Test]
-        public void UpdateTags_Test()
+        public async Task UpdateTags_Test()
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -469,14 +371,14 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag1")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag1")).Returns(1);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag2")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag2")).Returns(2);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag3")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag3")).Returns(3);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag4")).Returns(false);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag4")).Returns(4);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag1")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag1")).Returns(1);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag2")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag2")).Returns(2);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag3")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag3")).Returns(3);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag4")).Returns(false);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag4")).Returns(4);
             MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
             List<string> originalTags = new List<string> { "tag1", "tag2", "tag3" };
             List<string> selectedTags = new List<string> { "tag2", "tag4" };
@@ -484,12 +386,12 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             Tag newTag = new Tag { Name = "tag4" };
 
             // act
-            service.UpdateTags(itemTags);
+            await service.UpdateTags(itemTags);
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 4));
-            A.CallTo(() => fakeTagRepo.UnlinkMediaItem(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 4));
+            A.CallTo(() => fakeTagRepo.UnlinkMediaItemAsync(1, 1));
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -506,14 +408,14 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag1")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag1")).Returns(1);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag2")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag2")).Returns(2);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag3")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag3")).Returns(3);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag4")).Returns(false);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag4")).Returns(4);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag1")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag1")).Returns(1);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag2")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag2")).Returns(2);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag3")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag3")).Returns(3);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag4")).Returns(false);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag4")).Returns(4);
             MediaItemService service = new MediaItemService(fakeUowProvider, fakeRepoProvider, fakeTagRepoProvider);
             List<string> originalTags = new List<string> { "tag1", "tag2", "tag3" };
             List<string> selectedTags = new List<string> { "tag2", "tag4" };
@@ -525,8 +427,8 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 4));
-            A.CallTo(() => fakeTagRepo.UnlinkMediaItem(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 4));
+            A.CallTo(() => fakeTagRepo.UnlinkMediaItemAsync(1, 1));
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 

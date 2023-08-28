@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -28,21 +28,16 @@ namespace MyLibrary.Models.BusinessLogic
 {
     public interface IMediaItemService
     {
-        void Add(MediaItem item);
-        bool AddIfNotExists(MediaItem item);
         Task<bool> AddIfNotExistsAsync(MediaItem item);
         Task AddAsync(MediaItem item);
         Task DeleteByIdAsync(int id);
         Task<bool> ExistsWithIdAsync(int id);
-        bool ExistsWithTitle(string title);
         Task<bool> ExistsWithTitleAsync(string title);
         Task<IEnumerable<MediaItem>> GetAllAsync();
         Task<MediaItem> GetByIdAsync(int id);
         Task<IEnumerable<MediaItem>> GetByTypeAsync(ItemType type);
         Task<int> GetIdByTitleAsync(string title);
-        void Update(MediaItem item, bool includeImage);
         Task UpdateAsync(MediaItem item, bool includeImage);
-        void UpdateTags(ItemTagsDto dto);
         Task UpdateTagsAsync(ItemTagsDto dto);
     }
 }

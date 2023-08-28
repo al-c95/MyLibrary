@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 using System.Collections.Generic;
 using MyLibrary.Models.Entities;
 using Dapper;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
@@ -31,42 +32,57 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public BookCopyRepository(IUnitOfWork uow)
             : base(uow) { }
 
-        public override void Create(BookCopy entity)
+        public override async Task CreateAsync(BookCopy entity)
         {
-            const string SQL = "INSERT INTO BookCopies(bookId,description,notes) VALUES(@bookId,@description,@notes);";
-
-            this._uow.Connection.Execute(SQL, new
+            await Task.Run(() =>
             {
-                bookId = entity.BookId,
-                description = entity.Description,
-                notes = entity.Notes
+                const string SQL = "INSERT INTO BookCopies(bookId,description,notes) VALUES(@bookId,@description,@notes);";
+
+                this._uow.Connection.Execute(SQL, new
+                {
+                    bookId = entity.BookId,
+                    description = entity.Description,
+                    notes = entity.Notes
+                });
             });
         }
 
-        public void DeleteById(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            const string SQL = "DELETE FROM BookCopies WHERE id = @id;";
-
-            this._uow.Connection.Execute(SQL, new { id = id });
-        }
-
-        public override IEnumerable<BookCopy> ReadAll()
-        {
-            const string SQL = "SELECT * FROM BookCopies;";
-
-            return this._uow.Connection.Query<BookCopy>(SQL);
-        }
-
-        public void Update(BookCopy toUpdate)
-        {
-            const string SQL = "UPDATE BookCopies SET description = @description, notes = @notes WHERE id = @id;";
-
-            this._uow.Connection.Execute(SQL, new
+            await Task.Run(() =>
             {
-                id = toUpdate.Id,
-                description = toUpdate.Description,
-                notes = toUpdate.Notes
+                const string SQL = "DELETE FROM BookCopies WHERE id = @id;";
+
+                this._uow.Connection.Execute(SQL, new { id = id });
             });
         }
+
+        public override async Task<IEnumerable<BookCopy>> ReadAllAsync()
+        {
+            IEnumerable<BookCopy> result = new List<BookCopy>();
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT * FROM BookCopies;";
+
+                result = this._uow.Connection.Query<BookCopy>(SQL);
+            });
+
+            return result;
+        }
+
+        public async Task UpdateAsync(BookCopy toUpdate)
+        {
+            await Task.Run(() =>
+            {
+                const string SQL = "UPDATE BookCopies SET description = @description, notes = @notes WHERE id = @id;";
+
+                this._uow.Connection.Execute(SQL, new
+                {
+                    id = toUpdate.Id,
+                    description = toUpdate.Description,
+                    notes = toUpdate.Notes
+                });
+            });
+        }    
     }//class
 }

@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -60,23 +60,18 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookCopyRepository repo = this._repoProvider.Get(uow);
-                repo.Create(copy);
+                repo.CreateAsync(copy);
                 uow.Dispose();
             });
         }
 
         public async virtual Task<IEnumerable<BookCopy>> GetAll()
         {
-            IEnumerable<BookCopy> allCopies = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IBookCopyRepository repo = this._repoProvider.Get(uow);
-                allCopies = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allCopies;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<IEnumerable<BookCopy>> GetByItemId(int itemId)
@@ -92,7 +87,7 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookCopyRepository repo = this._repoProvider.Get(uow);
-                repo.DeleteById(id);
+                repo.DeleteByIdAsync(id);
                 uow.Dispose();
             });
         }
@@ -103,7 +98,7 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IBookCopyRepository repo = this._repoProvider.Get(uow);
-                repo.Update(copy);
+                repo.UpdateAsync(copy);
                 uow.Dispose();
             });
         }

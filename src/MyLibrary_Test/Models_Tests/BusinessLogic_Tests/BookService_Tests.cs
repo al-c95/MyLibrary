@@ -28,7 +28,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
             Book book = new Book { Id = 1, Title = "test_book" };
-            A.CallTo(() => fakeRepo.GetById(1)).Returns(book);
+            A.CallTo(() => fakeRepo.GetByIdAsync(1)).Returns(book);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
@@ -52,7 +52,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            A.CallTo(() => fakeRepo.GetIdByTitle("test")).Returns(1);
+            A.CallTo(() => fakeRepo.GetIdByTitleAsync("test")).Returns(1);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
@@ -90,12 +90,9 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            List<string> titles = new List<string>
-            {
-                "Test book",
-                "Test book 2"
-            };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("Test book")).Returns(true);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("Test book 2")).Returns(true);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("bogus book")).Returns(false);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
@@ -119,12 +116,8 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            List<string> titles = new List<string>
-            {
-                "Test book: this book is a test",
-                "Test book 2"
-            };
-            A.CallTo(() => fakeRepo.GetLongTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.ExistsWithLongTitleAsync("Test book: this book is a test")).Returns(true);
+            A.CallTo(() => fakeRepo.ExistsWithLongTitleAsync("bogus book")).Returns(false);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
@@ -139,7 +132,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
         }
 
         [Test]
-        public async Task ExistsWithIsbn_Test_Isbn10Exists()
+        public async Task ExistsWithIsbn_Test_IsbnExists()
         {
             // arrange
             var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
@@ -147,11 +140,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            List<string> isbns = new List<string>
-            {
-                "0123456789"
-            };
-            A.CallTo(() => fakeRepo.GetIsbns()).Returns(isbns);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0123456789")).Returns(true);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
@@ -165,35 +154,6 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             Assert.IsTrue(exists);
         }
 
-        [Test]
-        public async Task ExistsWithIsbn_Test_Isbn13Exists()
-        {
-            // arrange
-            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
-            var fakeUow = A.Fake<IUnitOfWork>();
-            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
-            var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
-            var fakeRepo = A.Fake<IBookRepository>();
-            List<string> isbns = new List<string>
-            {
-                "0123456789012"
-            };
-            A.CallTo(() => fakeRepo.GetIsbn13s()).Returns(isbns);
-            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
-            var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
-            var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
-            var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
-            BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
-
-            // act
-            bool exists = await service.ExistsWithIsbnAsync("0123456789012");
-
-            // assert
-            Assert.IsTrue(exists);
-        }
-
-        [TestCase("0000000000")]
-        [TestCase("0000000000000")]
         public async Task ExistsWithIsbn_Test_DoesNotExist(string isbn)
         {
             // arrange
@@ -202,16 +162,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            List<string> isbns = new List<string>
-            {
-                "0123456789"
-            };
-            List<string> isbn13s = new List<string>
-            {
-                "0123456789012"
-            };
-            A.CallTo(() => fakeRepo.GetIsbns()).Returns(isbns);
-            A.CallTo(() => fakeRepo.GetIsbn13s()).Returns(isbn13s);
+            A.CallTo(() => fakeRepo.ExistsWithIsbnAsync("0000000000")).Returns(false);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
@@ -219,7 +170,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
 
             // act
-            bool exists = await service.ExistsWithIsbnAsync("0123456789012");
+            bool exists = await service.ExistsWithIsbnAsync("0000000000");
 
             // assert
             Assert.IsTrue(exists);
@@ -246,7 +197,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             await service.UpdateAsync(book, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(book, updateImage)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.UpdateAsync(book, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -265,14 +216,14 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag1")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag1")).Returns(1);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag2")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag2")).Returns(2);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag3")).Returns(true);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag3")).Returns(3);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("tag4")).Returns(false);
-            A.CallTo(() => fakeTagRepo.GetIdByName("tag4")).Returns(4);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag1")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag1")).Returns(1);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag2")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag2")).Returns(2);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag3")).Returns(true);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag3")).Returns(3);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("tag4")).Returns(false);
+            A.CallTo(() => fakeTagRepo.GetIdByNameAsync("tag4")).Returns(4);
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
             List<string> originalTags = new List<string> { "tag1", "tag2", "tag3" };
             List<string> selectedTags = new List<string> { "tag2", "tag4" };
@@ -284,8 +235,8 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
 
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 4));
-            A.CallTo(() => fakeTagRepo.UnlinkMediaItem(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 4));
+            A.CallTo(() => fakeTagRepo.UnlinkMediaItemAsync(1, 1));
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -298,24 +249,24 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            A.CallTo(() => fakeRepo.GetIdByTitle("new_book")).Returns(1);
+            A.CallTo(() => fakeRepo.GetIdByTitleAsync("new_book")).Returns(1);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
             var fakeTagRepo = A.Fake<ITagRepository>();
-            A.CallTo(() => fakeTagRepo.ExistsWithName("new_tag")).Returns(false);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("existing_tag")).Returns(true);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("new_tag")).Returns(false);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("existing_tag")).Returns(true);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
             var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
             var fakePublisherRepo = A.Fake<IPublisherRepository>();
-            A.CallTo(() => fakePublisherRepo.ExistsWithName("some_publisher")).Returns(true);
-            A.CallTo(() => fakePublisherRepo.GetIdByName("some_publisher")).Returns(1);
+            A.CallTo(() => fakePublisherRepo.ExistsWithNameAsync("some_publisher")).Returns(true);
+            A.CallTo(() => fakePublisherRepo.GetIdByNameAsync("some_publisher")).Returns(1);
             A.CallTo(() => fakePublisherRepoProvider.Get(fakeUow)).Returns(fakePublisherRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeAuthorRepo = A.Fake<IAuthorRepository>();
-            A.CallTo(() => fakeAuthorRepo.AuthorExists("John", "Smith")).Returns(false);
-            A.CallTo(() => fakeAuthorRepo.GetIdByName("John", "Smith")).Returns(2);
-            A.CallTo(() => fakeAuthorRepo.AuthorExists("Jane", "Doe")).Returns(true);
-            A.CallTo(() => fakeAuthorRepo.GetIdByName("Jane", "Doe")).Returns(1);
+            A.CallTo(() => fakeAuthorRepo.AuthorExistsAsync("John", "Smith")).Returns(false);
+            A.CallTo(() => fakeAuthorRepo.GetIdByNameAsync("John", "Smith")).Returns(2);
+            A.CallTo(() => fakeAuthorRepo.AuthorExistsAsync("Jane", "Doe")).Returns(true);
+            A.CallTo(() => fakeAuthorRepo.GetIdByNameAsync("Jane", "Doe")).Returns(1);
             A.CallTo(() => fakeAuthorRepoProvider.Get(fakeUow)).Returns(fakeAuthorRepo);
             Publisher publisher = new Publisher { Name = "some_publisher" };
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
@@ -346,14 +297,14 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
             Assert.AreEqual(1, book.Publisher.Id);
-            A.CallTo(() => fakePublisherRepo.Create(book.Publisher)).MustNotHaveHappened();
-            A.CallTo(() => fakeRepo.Create(book)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.Create(newTag)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 1));
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 2));
-            A.CallTo(() => fakeAuthorRepo.Create(newAuthor)).MustHaveHappened();
-            A.CallTo(() => fakeAuthorRepo.LinkBook(1, 1)).MustHaveHappened();
-            A.CallTo(() => fakeAuthorRepo.LinkBook(1, 2)).MustHaveHappened();
+            A.CallTo(() => fakePublisherRepo.CreateAsync(book.Publisher)).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(book)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.CreateAsync(newTag)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 2));
+            A.CallTo(() => fakeAuthorRepo.CreateAsync(newAuthor)).MustHaveHappened();
+            A.CallTo(() => fakeAuthorRepo.LinkBookAsync(1, 1)).MustHaveHappened();
+            A.CallTo(() => fakeAuthorRepo.LinkBookAsync(1, 2)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -366,24 +317,24 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
             var fakeRepoProvider = A.Fake<IBookRepositoryProvider>();
             var fakeRepo = A.Fake<IBookRepository>();
-            A.CallTo(() => fakeRepo.GetIdByTitle("new_book")).Returns(1);
+            A.CallTo(() => fakeRepo.GetIdByTitleAsync("new_book")).Returns(1);
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             var fakeTagRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
             var fakeTagRepo = A.Fake<ITagRepository>();
-            A.CallTo(() => fakeTagRepo.ExistsWithName("new_tag")).Returns(false);
-            A.CallTo(() => fakeTagRepo.ExistsWithName("existing_tag")).Returns(true);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("new_tag")).Returns(false);
+            A.CallTo(() => fakeTagRepo.ExistsWithNameAsync("existing_tag")).Returns(true);
             A.CallTo(() => fakeTagRepoProvider.Get(fakeUow)).Returns(fakeTagRepo);
             var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
             var fakePublisherRepo = A.Fake<IPublisherRepository>();
-            A.CallTo(() => fakePublisherRepo.ExistsWithName("some_publisher")).Returns(false);
-            A.CallTo(() => fakePublisherRepo.GetIdByName("some_publisher")).Returns(1);
+            A.CallTo(() => fakePublisherRepo.ExistsWithNameAsync("some_publisher")).Returns(false);
+            A.CallTo(() => fakePublisherRepo.GetIdByNameAsync("some_publisher")).Returns(1);
             A.CallTo(() => fakePublisherRepoProvider.Get(fakeUow)).Returns(fakePublisherRepo);
             var fakeAuthorRepoProvider = A.Fake<IAuthorRepositoryProvider>();
             var fakeAuthorRepo = A.Fake<IAuthorRepository>();
-            A.CallTo(() => fakeAuthorRepo.AuthorExists("John", "Smith")).Returns(false);
-            A.CallTo(() => fakeAuthorRepo.GetIdByName("John", "Smith")).Returns(2);
-            A.CallTo(() => fakeAuthorRepo.AuthorExists("Jane", "Doe")).Returns(true);
-            A.CallTo(() => fakeAuthorRepo.GetIdByName("Jane", "Doe")).Returns(1);
+            A.CallTo(() => fakeAuthorRepo.AuthorExistsAsync("John", "Smith")).Returns(false);
+            A.CallTo(() => fakeAuthorRepo.GetIdByNameAsync("John", "Smith")).Returns(2);
+            A.CallTo(() => fakeAuthorRepo.AuthorExistsAsync("Jane", "Doe")).Returns(true);
+            A.CallTo(() => fakeAuthorRepo.GetIdByNameAsync("Jane", "Doe")).Returns(1);
             A.CallTo(() => fakeAuthorRepoProvider.Get(fakeUow)).Returns(fakeAuthorRepo);
             Publisher publisher = new Publisher { Name = "some_publisher" };
             BookService service = new BookService(fakeUowProvider, fakeRepoProvider, fakePublisherRepoProvider, fakeAuthorRepoProvider, fakeTagRepoProvider);
@@ -414,14 +365,14 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             // assert
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
             Assert.AreEqual(1, book.Publisher.Id);
-            A.CallTo(() => fakePublisherRepo.Create(book.Publisher)).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(book)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.Create(newTag)).MustHaveHappened();
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 1));
-            A.CallTo(() => fakeTagRepo.LinkMediaItem(1, 2));
-            A.CallTo(() => fakeAuthorRepo.Create(newAuthor)).MustHaveHappened();
-            A.CallTo(() => fakeAuthorRepo.LinkBook(1, 1)).MustHaveHappened();
-            A.CallTo(() => fakeAuthorRepo.LinkBook(1, 2)).MustHaveHappened();
+            A.CallTo(() => fakePublisherRepo.CreateAsync(book.Publisher)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(book)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.CreateAsync(newTag)).MustHaveHappened();
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 1));
+            A.CallTo(() => fakeTagRepo.LinkMediaItemAsync(1, 2));
+            A.CallTo(() => fakeAuthorRepo.CreateAsync(newAuthor)).MustHaveHappened();
+            A.CallTo(() => fakeAuthorRepo.LinkBookAsync(1, 1)).MustHaveHappened();
+            A.CallTo(() => fakeAuthorRepo.LinkBookAsync(1, 2)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -437,7 +388,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             var fakeUow = A.Fake<IUnitOfWork>();
             var fakeRepo = A.Fake<IBookRepository>();
             List<string> titles = new List<string> { "existing_item" };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.GetTitlesAsync()).Returns(titles);
             var fakeTagRepo = A.Fake<ITagRepository>();
             var fakeAuthorRepo = A.Fake<IAuthorRepository>();
             var fakePublisherRepo = A.Fake<IPublisherRepository>();
@@ -461,7 +412,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             // assert
             Assert.IsTrue(result);
             A.CallTo(() => fakeUow.Begin()).MustHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -476,8 +427,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             var fakePublisherRepoProvider = A.Fake<IPublisherRepositoryProvider>();
             var fakeUow = A.Fake<IUnitOfWork>();
             var fakeRepo = A.Fake<IBookRepository>();
-            List<string> titles = new List<string> { "existing_item" };
-            A.CallTo(() => fakeRepo.GetTitles()).Returns(titles);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("existing_item")).Returns(true);
             var fakeTagRepo = A.Fake<ITagRepository>();
             var fakeAuthorRepo = A.Fake<IAuthorRepository>();
             var fakePublisherRepo = A.Fake<IPublisherRepository>();
@@ -499,7 +449,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             // assert
             Assert.IsFalse(result);
             A.CallTo(() => fakeUow.Begin()).MustNotHaveHappened();
-            A.CallTo(() => fakeRepo.Create(item)).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustNotHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustNotHaveHappened();
         }
 
@@ -522,7 +472,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             await service.DeleteByIdAsync(1);
 
             // assert
-            A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.DeleteByIdAsync(1)).MustHaveHappened();
             A.CallTo(() => fakeUow.Commit()).MustHaveHappened();
         }
 
@@ -544,7 +494,7 @@ namespace MyLibrary_Test.Models_Tests.Entities_Tests.BusinessLogic_Tests
             {
                 new Book{Id=1, Title="test_book"}
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(books);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(books);
 
             // act
             var result = await service.GetAllAsync();

@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 
@@ -34,9 +31,9 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public ItemRepository(IUnitOfWork uow)
             :base(uow) { }
 
-        public abstract void Update(T toUpdate, bool includeImage);
-        public abstract void DeleteById(int id);
-        public abstract T GetById(int id);
-        public abstract IEnumerable<string> GetTitles();
+        public abstract Task UpdateAsync(T toUpdate, bool includeImage);
+        public abstract Task DeleteByIdAsync(int id);
+        public abstract Task<T> GetByIdAsync(int id);
+        public abstract Task<IEnumerable<string>> GetTitlesAsync();
     }//class
 }

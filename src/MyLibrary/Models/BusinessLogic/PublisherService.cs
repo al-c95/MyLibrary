@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -52,16 +52,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async virtual Task<IEnumerable<Publisher>> GetAll()
         {
-            IEnumerable<Publisher> allPublishers = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IPublisherRepository repo = this._repoProvider.Get(uow);
-                allPublishers = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allPublishers;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<Boolean> ExistsWithName(string name)
@@ -72,13 +67,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task Add(Publisher entity)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IPublisherRepository repo = this._repoProvider.Get(uow);
-                repo.Create(entity);
-                uow.Dispose();
-            });
+                await repo.CreateAsync(entity);
+            }
         }
     }//class
 }

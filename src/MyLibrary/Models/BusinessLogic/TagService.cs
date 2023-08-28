@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -56,44 +56,38 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async virtual Task<IEnumerable<Tag>> GetAll()
         {
-            IEnumerable<Tag> allTags = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 ITagRepository repo = this._repoProvider.Get(uow);
-                allTags = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allTags;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<bool> ExistsWithName(string name)
         {
-            var allTags = await GetAll();
-            return allTags.Any(t => t.Name.Equals(name));
+            using (var uow = this._uowProvider.Get())
+            {
+                ITagRepository repo = this._repoProvider.Get(uow);
+                return await repo.ExistsWithNameAsync(name);
+            }
         }
 
         public async Task Add(Tag entity)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 ITagRepository repo = this._repoProvider.Get(uow);
-                repo.Create(entity);
-                uow.Dispose();
-            });
+                await repo.CreateAsync(entity);
+            }
         }
 
         public async Task DeleteByName(string name)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 ITagRepository repo = this._repoProvider.Get(uow);
-                repo.DeleteByName(name);
-                uow.Dispose();
-            });
+                await repo.DeleteByNameAsync(name);
+            }
         }//DeleteByName
     }//class
 }

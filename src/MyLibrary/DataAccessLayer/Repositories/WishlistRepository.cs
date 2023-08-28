@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dapper;
 using MyLibrary.Models.Entities;
 
@@ -34,49 +35,80 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         }
 
-        public override void Create(WishlistItem entity)
+        public override async Task CreateAsync(WishlistItem entity)
         {
-            const string SQL = "INSERT INTO Wishlist (title,type,notes) VALUES(@title,@type,@notes);";
-
-            this._uow.Connection.Execute(SQL, new
+            await Task.Run(() =>
             {
-                title = entity.Title,
-                type = entity.Type,
-                notes = entity.Notes
+                const string SQL = "INSERT INTO Wishlist (title,type,notes) VALUES(@title,@type,@notes);";
+
+                this._uow.Connection.Execute(SQL, new
+                {
+                    title = entity.Title,
+                    type = entity.Type,
+                    notes = entity.Notes
+                });
             });
         }
 
-        public override IEnumerable<WishlistItem> ReadAll()
+        public override async Task<IEnumerable<WishlistItem>> ReadAllAsync()
         {
-            const string SQL = "SELECT * FROM Wishlist;";
+            IEnumerable<WishlistItem> result = new List<WishlistItem>();
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT * FROM Wishlist;";
 
-            return this._uow.Connection.Query<WishlistItem>(SQL);
+                result = this._uow.Connection.Query<WishlistItem>(SQL);
+            });
+
+            return result;
         }
 
-        public override void Update(WishlistItem toUpdate, bool includeImage = false)
+        public override async Task UpdateAsync(WishlistItem toUpdate, bool includeImage = false)
         {
-            const string SQL = "UPDATE Wishlist SET notes = @notes WHERE id = @id;";
-
-            this._uow.Connection.Execute(SQL, new
+            await Task.Run(() =>
             {
-                notes = toUpdate.Notes,
-                id = toUpdate.Id
+                const string SQL = "UPDATE Wishlist SET notes = @notes WHERE id = @id;";
+
+                this._uow.Connection.Execute(SQL, new
+                {
+                    notes = toUpdate.Notes,
+                    id = toUpdate.Id
+                });
             });
         }
 
-        public override void DeleteById(int id)
+        public async Task<bool> ExistsWithTitleAsync(string title)
         {
-            const string SQL = "DELETE FROM Wishlist WHERE id = @id;";
+            const string SQL = "SELECT COUNT(1) FROM Wishlist WHERE title=@title;";
 
-            this._uow.Connection.Execute(SQL, new { id });
+            bool result = false;
+            await Task.Run(() =>
+            {
+                result = this._uow.Connection.ExecuteScalar<bool>(SQL, new
+                {
+                    title = title
+                });
+            });
+
+            return result;
         }
 
-        public override IEnumerable<string> GetTitles()
+        public override async Task DeleteByIdAsync(int id)
+        {
+            await Task.Run(() =>
+            {
+                const string SQL = "DELETE FROM Wishlist WHERE id = @id;";
+
+                this._uow.Connection.Execute(SQL, new { id });
+            });
+        }
+
+        public override async Task<IEnumerable<string>> GetTitlesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public override WishlistItem GetById(int id)
+        public override async Task<WishlistItem> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

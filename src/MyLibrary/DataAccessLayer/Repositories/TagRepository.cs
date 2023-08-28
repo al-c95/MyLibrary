@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@
 //SOFTWARE
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using MyLibrary.Models.Entities;
 
@@ -36,115 +38,160 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// </summary>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public override void Create(Tag entity)
+        public override async Task CreateAsync(Tag entity)
         {
-            const string SQL = "INSERT INTO Tags(name) " +
+            await Task.Run(() =>
+            {
+                const string SQL = "INSERT INTO Tags(name) " +
                 "VALUES (@name);";
 
-            this._uow.Connection.Execute(SQL, new { entity.Name });
+                this._uow.Connection.Execute(SQL, new { entity.Name });
+            });
         }
 
         /// <summary>
         /// Read all tags from the database.
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<Tag> ReadAll()
+        public override async Task<IEnumerable<Tag>> ReadAllAsync()
         {
-            const string SQL = "SELECT * FROM Tags;";
-            return this._uow.Connection.Query<Tag>(SQL);
+            IEnumerable<Tag> result = new List<Tag>();
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT * FROM Tags;";
+                result = this._uow.Connection.Query<Tag>(SQL);
+            });
+
+            return result.AsEnumerable();
         }
 
         /// <summary>
         /// Delete a tag by its id.
         /// </summary>
         /// <param name="id"></param>
-        public void DeleteById(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            const string SQL = "DELETE FROM Tags WHERE id = @id;";
+            await Task.Run(() =>
+            {
+                const string SQL = "DELETE FROM Tags WHERE id = @id;";
 
-            this._uow.Connection.Execute(SQL, new { id });
-        }//DeleteById
+                this._uow.Connection.Execute(SQL, new { id });
+            });
+        }//DeleteByIdAsync
 
         /// <summary>
         /// Delete a tag by its name. Tag names are unique.
         /// </summary>
         /// <param name="name"></param>
-        public void DeleteByName(string name)
+        public async Task DeleteByNameAsync(string name)
         {
-            const string SQL = "DELETE FROM Tags WHERE name = @name;";
-
-            this._uow.Connection.Execute(SQL, new { name });
-        }//DeleteByName
-
-        public bool ExistsWithName(string name)
-        {
-            const string SQL = "SELECT COUNT(1) FROM Tags WHERE name=@name;";
-
-            return this._uow.Connection.ExecuteScalar<bool>(SQL, new
+            await Task.Run(() =>
             {
-                name = name
+                const string SQL = "DELETE FROM Tags WHERE name = @name;";
+
+                this._uow.Connection.Execute(SQL, new { name });
             });
-        }//ExistsWithName
+        }//DeleteByIdAsync
 
-        public int GetIdByName(string name)
+        public async Task<bool> ExistsWithNameAsync(string name)
         {
-            const string SQL = "SELECT id FROM Tags WHERE name=@name;";
-
-            return this._uow.Connection.QuerySingle<int>(SQL, new
+            bool result = false;
+            await Task.Run(() =>
             {
-                name = name
+                const string SQL = "SELECT COUNT(1) FROM Tags WHERE name=@name;";
+
+                result = this._uow.Connection.ExecuteScalar<bool>(SQL, new
+                {
+                    name = name
+                });
             });
-        }//GetIdByName
 
-        public void LinkBook(int bookId, int tagId)
+            return result;
+        }//ExistsWithNameAsync
+
+        public async Task<int> GetIdByNameAsync(string name)
         {
-            this._uow.Connection.Execute("INSERT INTO Book_Tag (bookId,tagId) VALUES(@bookId,@tagId);", new
+            int? result=null;
+            await Task.Run(() =>
             {
-                bookId = bookId,
-                tagId = tagId
+                const string SQL = "SELECT id FROM Tags WHERE name=@name;";
+
+                result = this._uow.Connection.QuerySingle<int>(SQL, new
+                {
+                    name = name
+                });
             });
-        }
 
-        public void LinkMediaItem(int mediaId, int tagId)
-        {
-            this._uow.Connection.Execute("INSERT INTO Media_Tag (mediaId,tagId) VALUES(@mediaId,@tagId);", new
-            {
-                mediaId = mediaId,
-                tagId = tagId
-            });
-        }
+            return (int)result;
+        }//GetIdByNameAsync
 
-        public void UnlinkBook(int bookId, int tagId)
+        public async Task LinkBookAsync(int bookId, int tagId)
         {
-            this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId AND tagId=@tagId;", new
+            await Task.Run(() =>
             {
-                bookId = bookId,
-                tagId = tagId
-            });
-        }
-
-        public void UnlinkMediaItem(int mediaId, int tagId)
-        {
-            this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId AND tagId=@tagId;", new
-            {
-                mediaId = mediaId,
-                tagId = tagId
+                this._uow.Connection.Execute("INSERT INTO Book_Tag (bookId,tagId) VALUES(@bookId,@tagId);", new
+                {
+                    bookId = bookId,
+                    tagId = tagId
+                });
             });
         }
 
-        public void UnlinkAllTagsForBook(int bookId)
+        public async Task LinkMediaItemAsync(int mediaId, int tagId)
         {
-            this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId", new
+            await Task.Run(() =>
             {
-                bookId = bookId
+                this._uow.Connection.Execute("INSERT INTO Media_Tag (mediaId,tagId) VALUES(@mediaId,@tagId);", new
+                {
+                    mediaId = mediaId,
+                    tagId = tagId
+                });
             });
         }
 
-        public void UnlinkAllTagsForMediaItem(int itemId)
+        public async Task UnlinkBookAsync(int bookId, int tagId)
         {
-            this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId", new
+            await Task.Run(() =>
             {
-                mediaId = itemId
+                this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId AND tagId=@tagId;", new
+                {
+                    bookId = bookId,
+                    tagId = tagId
+                });
+            });
+        }
+
+        public async Task UnlinkMediaItemAsync(int mediaId, int tagId)
+        {
+            await Task.Run(() =>
+            {
+                this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId AND tagId=@tagId;", new
+                {
+                    mediaId = mediaId,
+                    tagId = tagId
+                });
+            });
+        }
+
+        public async Task UnlinkAllTagsForBookAsync(int bookId)
+        {
+            await Task.Run(() =>
+            {
+                this._uow.Connection.Execute("DELETE FROM Book_Tag WHERE bookId=@bookId", new
+                {
+                    bookId = bookId
+                });
+            });
+        }
+
+        public async Task UnlinkAllTagsForMediaItemAsync(int itemId)
+        {
+            await Task.Run(() =>
+            {
+                this._uow.Connection.Execute("DELETE FROM Media_Tag WHERE mediaId=@mediaId", new
+                {
+                    mediaId = itemId
+                });
             });
         }
     }//class

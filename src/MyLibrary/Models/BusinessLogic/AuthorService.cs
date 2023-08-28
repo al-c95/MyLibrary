@@ -55,16 +55,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async virtual Task<IEnumerable<Author>> GetAll()
         {
-            IEnumerable<Author> allAuthors = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IAuthorRepository repo = this._repoProvider.Get(uow);
-                allAuthors = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allAuthors;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<bool> ExistsWithName(string name)
@@ -83,16 +78,10 @@ namespace MyLibrary.Models.BusinessLogic
         {
             await Task.Run(() =>
             {
-                /*
-                IUnitOfWork uow = this._uowProvider.Get();
-                IAuthorRepository repo = this._repoProvider.Get(uow);
-                repo.Create(entity);
-                uow.Dispose();
-                */
                 using (IUnitOfWork uow = this._uowProvider.Get())
                 {
                     IAuthorRepository repo = this._repoProvider.Get(uow);
-                    repo.Create(entity);
+                    repo.CreateAsync(entity);
                 }
             });
         }

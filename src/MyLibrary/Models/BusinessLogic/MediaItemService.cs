@@ -1,7 +1,6 @@
-﻿
-//MIT License
+﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -60,16 +59,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async virtual Task<IEnumerable<MediaItem>> GetAllAsync()
         {
-            IEnumerable<MediaItem> allItems = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemRepository repo = this._repoProvider.Get(uow);
-                allItems = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allItems;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<IEnumerable<MediaItem>> GetByTypeAsync(ItemType type)
@@ -84,16 +78,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<MediaItem> GetByIdAsync(int id)
         {
-            MediaItem item = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemRepository repo = this._repoProvider.Get(uow);
-                item = repo.GetById(id);
-                uow.Dispose();
-            });
-
-            return item;
+                return await repo.GetByIdAsync(id);
+            }
         }
 
         public async Task<int> GetIdByTitleAsync(string title)
@@ -108,41 +97,12 @@ namespace MyLibrary.Models.BusinessLogic
             return allItems.Any(i => i.Id == id);
         }
 
-        public bool ExistsWithTitle(string title)
-        {
-            bool exists = false;
-
-            IUnitOfWork uow = this._uowProvider.Get();
-            IMediaItemRepository repo = this._repoProvider.Get(uow);
-
-            exists = repo.GetTitles().Any(t => t.Equals(title));
-            uow.Dispose();
-
-            return exists;
-        }
-
         public async Task<bool> ExistsWithTitleAsync(string title)
         {
-            bool exists = false;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                exists = ExistsWithTitle(title);
-            });
-
-            return exists;
-        }
-
-        public bool AddIfNotExists(MediaItem item)
-        {
-            if (ExistsWithTitle(item.Title))
-            {
-                return false;
-            }
-            else
-            {
-                Add(item);
-
-                return true;
+                IMediaItemRepository repo = this._repoProvider.Get(uow);
+                return await repo.ExistsWithTitleAsync(title);
             }
         }
 
@@ -160,7 +120,7 @@ namespace MyLibrary.Models.BusinessLogic
             }
         }
 
-        public void Add(MediaItem item)
+        public async Task Add(MediaItem item)
         {
             // begin transaction
             IUnitOfWork uow = this._uowProvider.Get();
@@ -169,35 +129,35 @@ namespace MyLibrary.Models.BusinessLogic
             uow.Begin();
 
             // insert Media table record
-            itemRepo.Create(item);
+            await itemRepo.CreateAsync(item);
 
             // handle tags
             // get all tag Ids
             List<int> tagIds = new List<int>();
             foreach (var tag in item.Tags)
             {
-                if (tagRepo.ExistsWithName(tag.Name))
+                if (await tagRepo.ExistsWithNameAsync(tag.Name))
                 {
                     // tag exists
                     // get the Id
-                    int tagId = tagRepo.GetIdByName(tag.Name);
+                    int tagId = await tagRepo.GetIdByNameAsync(tag.Name);
                     tagIds.Add(tagId);
                 }
                 else
                 {
                     // tag does not exist
                     // insert tag
-                    tagRepo.Create(tag);
+                    await tagRepo.CreateAsync(tag);
                     // get the Id
-                    int tagId = tagRepo.GetIdByName(tag.Name);
+                    int tagId = await tagRepo.GetIdByNameAsync(tag.Name);
                     tagIds.Add(tagId);
                 }
             }
             // insert record(s) in Media_Tag link table
-            int itemId = itemRepo.GetIdByTitle(item.Title);
+            int itemId = await itemRepo.GetIdByTitleAsync(item.Title);
             foreach (int tagId in tagIds)
             {
-                tagRepo.LinkMediaItem(itemId, tagId);
+                await tagRepo.LinkMediaItemAsync(itemId, tagId);
             }
 
             // commit transaction
@@ -206,10 +166,7 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task AddAsync(MediaItem item)
         {
-            await Task.Run(() =>
-            {
-                Add(item);
-            });
+            await Add(item);
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -222,7 +179,7 @@ namespace MyLibrary.Models.BusinessLogic
                 uow.Begin();
                 
                 // do the work
-                repo.DeleteById(id);
+                repo.DeleteByIdAsync(id);
 
                 // commit transaction
                 uow.Commit();
@@ -237,7 +194,7 @@ namespace MyLibrary.Models.BusinessLogic
             uow.Begin();
 
             // do the work
-            repo.Update(item, includeImage);
+            repo.UpdateAsync(item, includeImage);
 
             // commit transaction
             uow.Commit();
@@ -251,7 +208,7 @@ namespace MyLibrary.Models.BusinessLogic
             });
         }
 
-        public void UpdateTags(ItemTagsDto dto)
+        public async Task UpdateTags(ItemTagsDto dto)
         {
             // begin transaction
             IUnitOfWork uow = this._uowProvider.Get();
@@ -262,36 +219,36 @@ namespace MyLibrary.Models.BusinessLogic
             // add tags
             foreach (var tag in dto.TagsToAdd)
             {
-                if (tagRepo.ExistsWithName(tag))
+                if (await tagRepo.ExistsWithNameAsync(tag))
                 {
                     // tag exists
                     // get the Id
-                    int tagId = tagRepo.GetIdByName(tag);
+                    int tagId = await tagRepo.GetIdByNameAsync(tag);
                     // insert record into link table
-                    tagRepo.LinkMediaItem(dto.Id, tagId);
+                    await tagRepo.LinkMediaItemAsync(dto.Id, tagId);
                 }
                 else
                 {
                     // tag does not exist
                     // insert it
-                    tagRepo.Create(new Tag { Name = tag });
+                    await tagRepo.CreateAsync(new Tag { Name = tag });
                     // get the id
-                    int tagId = tagRepo.GetIdByName(tag);
+                    int tagId = await tagRepo.GetIdByNameAsync(tag);
                     // insert record into link table
-                    tagRepo.LinkMediaItem(dto.Id, tagId);
+                    await tagRepo.LinkMediaItemAsync(dto.Id, tagId);
                 }
             }
 
             // remove tags
             foreach (var tag in dto.TagsToRemove)
             {
-                if (tagRepo.ExistsWithName(tag))
+                if (await tagRepo.ExistsWithNameAsync(tag))
                 {
                     // tag exists
                     // get the id
-                    int tagId = tagRepo.GetIdByName(tag);
+                    int tagId = await tagRepo.GetIdByNameAsync(tag);
                     // delete record from link table
-                    tagRepo.UnlinkMediaItem(dto.Id, tagId);
+                    await tagRepo.UnlinkMediaItemAsync(dto.Id, tagId);
                 }
             }
 

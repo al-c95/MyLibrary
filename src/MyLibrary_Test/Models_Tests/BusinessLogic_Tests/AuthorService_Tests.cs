@@ -35,7 +35,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Add(author);
 
             // assert
-            A.CallTo(() => fakeRepo.Create(author)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(author)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -54,7 +54,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             {
                 new Author{Id=1, FirstName="John", LastName="Smith" }
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(authors);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(authors);
 
             // act
             var result = await service.GetAll();

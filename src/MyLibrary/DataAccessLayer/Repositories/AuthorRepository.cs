@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 //SOFTWARE
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dapper;
 using MyLibrary.Models.Entities;
 
@@ -34,50 +35,71 @@ namespace MyLibrary.DataAccessLayer.Repositories
 
         }
 
-        public override void Create(Author entity)
+        public override async Task CreateAsync(Author entity)
         {
-            const string SQL = "INSERT INTO Authors(firstName,lastName) " +
+            await Task.Run(() =>
+            {
+                const string SQL = "INSERT INTO Authors(firstName,lastName) " +
                 "VALUES (@firstName,@lastName);";
 
-            this._uow.Connection.Execute(SQL, new
+                this._uow.Connection.Execute(SQL, new
+                {
+                    entity.FirstName,
+                    entity.LastName
+                });
+            }); 
+        }
+
+        public override async Task<IEnumerable<Author>> ReadAllAsync()
+        {
+            return await Task.Run(() =>
             {
-                entity.FirstName,
-                entity.LastName
+                const string SQL = "SELECT * FROM Authors;";
+
+                return this._uow.Connection.Query<Author>(SQL);
             });
         }
 
-        public override IEnumerable<Author> ReadAll()
+        public async Task<bool> AuthorExistsAsync(string firstName, string lastName)
         {
-            const string SQL = "SELECT * FROM Authors;";
-
-            return this._uow.Connection.Query<Author>(SQL);
-        }
-
-        public bool AuthorExists(string firstName, string lastName)
-        {
-            return this._uow.Connection.ExecuteScalar<bool>("SELECT COUNT(1) FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+            bool result = false;
+            await Task.Run(() =>
             {
-                firstName = firstName,
-                lastName = lastName
+                result = this._uow.Connection.ExecuteScalar<bool>("SELECT COUNT(1) FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+                {
+                    firstName = firstName,
+                    lastName = lastName
+                });
             });
-        }//AuthorExists
 
-        public int GetIdByName(string firstName, string lastName)
+            return result;
+        }//AuthorExistsAsync
+
+        public async Task<int> GetIdByNameAsync(string firstName, string lastName)
         {
-            return this._uow.Connection.QuerySingle<int>("SELECT id FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+            int result;
+            return await Task.Run(() =>
             {
-                firstName = firstName,
-                lastName = lastName
+                result = this._uow.Connection.QuerySingle<int>("SELECT id FROM Authors WHERE firstName=@firstName AND lastName=@lastName", new
+                {
+                    firstName = firstName,
+                    lastName = lastName
+                });
+
+                return result;
             });
-        }//GetIdByName
+        }//GetIdByNameAsync
 
-        public void LinkBook(int bookId, int authorId)
+        public async Task LinkBookAsync(int bookId, int authorId)
         {
-            const string INSERT_BOOK_AUTHOR_SQL = "INSERT INTO Book_Author(bookId,authorId) VALUES(@bookId,@authorId)";
-            this._uow.Connection.Execute(INSERT_BOOK_AUTHOR_SQL, new
+            await Task.Run(() =>
             {
-                bookId = bookId,
-                authorId = authorId
+                const string INSERT_BOOK_AUTHOR_SQL = "INSERT INTO Book_Author(bookId,authorId) VALUES(@bookId,@authorId)";
+                this._uow.Connection.Execute(INSERT_BOOK_AUTHOR_SQL, new
+                {
+                    bookId = bookId,
+                    authorId = authorId
+                });
             });
         }//LinkBook
     }//class

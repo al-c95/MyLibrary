@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using MyLibrary.Models.Entities;
 
@@ -32,57 +33,63 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public MediaItemRepository(IUnitOfWork uow)
             : base(uow) { }
 
-        public override void Create(MediaItem entity)
+        public override async Task CreateAsync(MediaItem entity)
         {
-            // insert Media table record
-            const string INSERT_MEDIA_SQL = "INSERT INTO Media (title,type,number,runningTime,releaseYear,notes) " +
-                "VALUES(@title,@type,@number,@runningTime,@releaseYear,@notes);";
-            this._uow.Connection.Execute(INSERT_MEDIA_SQL, new
+            await Task.Run(() =>
             {
-                title = entity.Title,
-                type = entity.Type,
-                number = entity.Number,
-                runningTime = entity.RunningTime,
-                releaseYear = entity.ReleaseYear,
-                notes = entity.Notes
+                // insert Media table record
+                const string INSERT_MEDIA_SQL = "INSERT INTO Media (title,type,number,runningTime,releaseYear,notes) " +
+                    "VALUES(@title,@type,@number,@runningTime,@releaseYear,@notes);";
+                this._uow.Connection.Execute(INSERT_MEDIA_SQL, new
+                {
+                    title = entity.Title,
+                    type = entity.Type,
+                    number = entity.Number,
+                    runningTime = entity.RunningTime,
+                    releaseYear = entity.ReleaseYear,
+                    notes = entity.Notes
+                });
+                int itemId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+
+                // insert Images table record, if any
+                if (entity.Image != null)
+                {
+                    this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new
+                    {
+                        image = entity.Image
+                    });
+
+                    // update foreign key
+                    int imageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
+                    const string SET_IMAGE_ID_SQL = "UPDATE Media SET imageId=@imageId WHERE id=@itemId;";
+                    this._uow.Connection.Execute(SET_IMAGE_ID_SQL, new
+                    {
+                        imageId = imageId,
+                        itemId = itemId
+                    });
+                }
             });
-            int itemId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
-
-            // insert Images table record, if any
-            if (entity.Image != null)
-            {
-                this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new
-                {
-                    image = entity.Image
-                });
-
-                // update foreign key
-                int imageId = this._uow.Connection.QuerySingle<int>("SELECT last_insert_rowid();");
-                const string SET_IMAGE_ID_SQL = "UPDATE Media SET imageId=@imageId WHERE id=@itemId;";
-                this._uow.Connection.Execute(SET_IMAGE_ID_SQL, new
-                {
-                    imageId = imageId,
-                    itemId = itemId
-                });
-            }
         }
 
-        public override void DeleteById(int id)
+        public override async Task DeleteByIdAsync(int id)
         {
-            // delete Images table record, if any
-            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
+            await Task.Run(() =>
             {
-                id = id
-            });
-            if (imageId != null)
-            {
-                const string DELETE_IMAGE_SQL = "DELETE FROM Images WHERE id = @id;";
-                this._uow.Connection.ExecuteAsync(DELETE_IMAGE_SQL, new { id = imageId });
-            }
+                // delete Images table record, if any
+                var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
+                {
+                    id = id
+                });
+                if (imageId != null)
+                {
+                    const string DELETE_IMAGE_SQL = "DELETE FROM Images WHERE id = @id;";
+                    this._uow.Connection.ExecuteAsync(DELETE_IMAGE_SQL, new { id = imageId });
+                }
 
-            // delete Media table record
-            const string DELETE_ITEM_SQL = "DELETE FROM Media WHERE id = @id;";
-            this._uow.Connection.Execute(DELETE_ITEM_SQL, new { id });
+                // delete Media table record
+                const string DELETE_ITEM_SQL = "DELETE FROM Media WHERE id = @id;";
+                this._uow.Connection.Execute(DELETE_ITEM_SQL, new { id });
+            }); 
         }
 
         /// <summary>
@@ -90,41 +97,46 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// Does not include images.
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<MediaItem> ReadAll()
+        public override async Task<IEnumerable<MediaItem>> ReadAllAsync()
         {
-            const string SQL = "SELECT M.id, title, type, number, runningTime, releaseYear, notes, T.id, name " +
+            IEnumerable<MediaItem> result = new List<MediaItem>();
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT M.id, title, type, number, runningTime, releaseYear, notes, T.id, name " +
                 "FROM Media M " +
                 "INNER JOIN Media_Tag MT ON MT.mediaId = M.id " +
                 "INNER JOIN Tags T ON T.id = MT.tagId;";
 
-            // get items with tags
-            var items = this._uow.Connection.Query<MediaItem, Tag, MediaItem>(SQL, (item, tag) =>
-            {
-                item.Tags.Add(tag);
-                return item;
-            }, splitOn: "id");
-            IEnumerable<MediaItem> itemsWithTags = items.GroupBy(i => i.Id).Select(g =>
-            {
-                var groupedItem = g.First();
-                groupedItem.Tags = g.Select(i => i.Tags.First())
-                                            .ToList();
+                // get items with tags
+                var items = this._uow.Connection.Query<MediaItem, Tag, MediaItem>(SQL, (item, tag) =>
+                {
+                    item.Tags.Add(tag);
+                    return item;
+                }, splitOn: "id");
+                IEnumerable<MediaItem> itemsWithTags = items.GroupBy(i => i.Id).Select(g =>
+                {
+                    var groupedItem = g.First();
+                    groupedItem.Tags = g.Select(i => i.Tags.First())
+                                                .ToList();
 
-                return groupedItem;
+                    return groupedItem;
+                });
+
+                // get items with no tags
+                IEnumerable<MediaItem> allItems = this._uow.Connection.Query<MediaItem>("SELECT * FROM Media;");
+                List<MediaItem> itemsNoTags = new List<MediaItem>();
+                foreach (var item in allItems)
+                {
+                    if (!itemsWithTags.Any(i => i.Id == item.Id))
+                    {
+                        itemsNoTags.Add(item);
+                    }
+                }
+
+                // concatenate and return the results
+                result = itemsWithTags.Concat(itemsNoTags);
             });
 
-            // get items with no tags
-            IEnumerable<MediaItem> allItems = this._uow.Connection.Query<MediaItem>("SELECT * FROM Media;");
-            List<MediaItem> itemsNoTags = new List<MediaItem>();
-            foreach (var item in allItems)
-            {
-                if (!itemsWithTags.Any(i => i.Id == item.Id))
-                {
-                    itemsNoTags.Add(item);
-                }
-            }
-
-            // concatenate and return the results
-            IEnumerable<MediaItem> result = itemsWithTags.Concat(itemsNoTags);
             return result;
         }
 
@@ -133,121 +145,158 @@ namespace MyLibrary.DataAccessLayer.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public override MediaItem GetById(int id)
+        public override async Task<MediaItem> GetByIdAsync(int id)
         {
-            // read Media table record
-            var item = this._uow.Connection.QuerySingle<MediaItem>("SELECT * FROM Media WHERE id=@id", new
+            MediaItem result = null;
+            await Task.Run(() =>
             {
-                id = id
-            });
-            if (item is null)
-                return null;
-
-            // read Image table record, if any
-            var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
-            {
-                id = id
-            });
-            if (imageId != null)
-            {
-                var image = this._uow.Connection.QuerySingle<byte[]>("SELECT image FROM Images WHERE id=@id", new
+                // read Media table record
+                var item = this._uow.Connection.QuerySingle<MediaItem>("SELECT * FROM Media WHERE id=@id", new
                 {
-                    id = (int)imageId
+                    id = id
                 });
-                item.Image = image;
-            }
-            else
-            {
-                item.Image = null;
-            }
+                if (item is null)
+                    result = null;
+
+                // read Image table record, if any
+                var imageId = this._uow.Connection.QuerySingle<int?>("SELECT imageId FROM Media WHERE id=@id", new
+                {
+                    id = id
+                });
+                if (imageId != null)
+                {
+                    var image = this._uow.Connection.QuerySingle<byte[]>("SELECT image FROM Images WHERE id=@id", new
+                    {
+                        id = (int)imageId
+                    });
+                    item.Image = image;
+                }
+                else
+                {
+                    item.Image = null;
+                }
+
+                // check for tags
+                IEnumerable<int> tagIds = this._uow.Connection.Query<int>("SELECT tagId FROM Media_Tag WHERE mediaId=@mediaId;", new
+                {
+                    mediaId = id
+                });
+                foreach (var tagId in tagIds)
+                {
+                    var tag = this._uow.Connection.QuerySingle<Tag>("SELECT * FROM Tags WHERE id=@id", new
+                    {
+                        id = tagId
+                    });
+                    item.Tags.Add(tag);
+                }
+
+                result = item;
+            });
             
-            // check for tags
-            IEnumerable<int> tagIds = this._uow.Connection.Query<int>("SELECT tagId FROM Media_Tag WHERE mediaId=@mediaId;", new
-            {
-                mediaId=id
-            });
-            foreach (var tagId in tagIds)
-            {
-                var tag = this._uow.Connection.QuerySingle<Tag>("SELECT * FROM Tags WHERE id=@id", new
-                {
-                    id = tagId
-                });
-                item.Tags.Add(tag);
-            }
-
-            return item;
+            return result;
         }
 
-        public int GetIdByTitle(string title)
+        public async Task<int> GetIdByTitleAsync(string title)
         {
-            const string SQL = "SELECT id FROM Media WHERE title=@title;";
+            int? result = null;
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT id FROM Media WHERE title=@title;";
 
-            return this._uow.Connection.QuerySingle<int>(SQL, new { title = title });
+                result = this._uow.Connection.QuerySingle<int>(SQL, new { title = title });
+            });
+
+            return (int)result;
         }
 
         /// <summary>
         /// Update image and/or notes, number, running time fields of media item record in database.
         /// </summary>
         /// <param name="toUpdate"></param>
-        public override void Update(MediaItem toUpdate, bool includeImage)
+        public override async Task UpdateAsync(MediaItem toUpdate, bool includeImage)
         {
-            if (includeImage)
-            { 
-                // update image
-                // delete old Images table record, if it exists
-                var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Media WHERE id=@id", new
-                {
-                    id = toUpdate.Id
-                });
-                if (imageId != null)
-                {
-                    const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
-                    this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
-                    {
-                        oldImageId = imageId
-                    });
-                }
-            
-                if (toUpdate.Image != null)
-                {
-                    // item has new image
-                    // insert new Images table record
-                    this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
-                    int newImageId = this._uow.Connection.QuerySingleOrDefault<int>("SELECT last_insert_rowid();");
-                    // update foreign key
-                    this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
-                    {
-                        id = toUpdate.Id,
-                        imageId = newImageId
-                    });
-                }
-                else
-                {
-                    // item has removed image
-                    // set the foreign key to null
-                    int? nullInt = null;
-                    this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
-                    {
-                        id = toUpdate.Id,
-                        imageId = nullInt
-                    });
-                }
-            }
-
-            // update notes, running time and number fields in Media table record
-            const string UPDATE_ITEM_SQL = "UPDATE Media SET notes = @notes, runningTime = @runningTime, number = @number WHERE id = @id;";
-            this._uow.Connection.Execute(UPDATE_ITEM_SQL, new
+            await Task.Run(() =>
             {
-                id = toUpdate.Id,
-                notes = toUpdate.Notes,
-                runningTime = toUpdate.RunningTime,
-                number = toUpdate.Number
+                if (includeImage)
+                {
+                    // update image
+                    // delete old Images table record, if it exists
+                    var imageId = this._uow.Connection.QuerySingleOrDefault<int?>("SELECT imageId FROM Media WHERE id=@id", new
+                    {
+                        id = toUpdate.Id
+                    });
+                    if (imageId != null)
+                    {
+                        const string DELETE_OLD_IMAGE_SQL = "DELETE FROM Images WHERE id=@oldImageId;";
+                        this._uow.Connection.Execute(DELETE_OLD_IMAGE_SQL, new
+                        {
+                            oldImageId = imageId
+                        });
+                    }
+
+                    if (toUpdate.Image != null)
+                    {
+                        // item has new image
+                        // insert new Images table record
+                        this._uow.Connection.Execute("INSERT INTO Images(image) VALUES(@image);", new { image = toUpdate.Image });
+                        int newImageId = this._uow.Connection.QuerySingleOrDefault<int>("SELECT last_insert_rowid();");
+                        // update foreign key
+                        this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
+                        {
+                            id = toUpdate.Id,
+                            imageId = newImageId
+                        });
+                    }
+                    else
+                    {
+                        // item has removed image
+                        // set the foreign key to null
+                        int? nullInt = null;
+                        this._uow.Connection.Execute("UPDATE Media SET imageId = @imageId WHERE id = @id;", new
+                        {
+                            id = toUpdate.Id,
+                            imageId = nullInt
+                        });
+                    }
+                }
+
+                // update notes, running time and number fields in Media table record
+                const string UPDATE_ITEM_SQL = "UPDATE Media SET notes = @notes, runningTime = @runningTime, number = @number WHERE id = @id;";
+                this._uow.Connection.Execute(UPDATE_ITEM_SQL, new
+                {
+                    id = toUpdate.Id,
+                    notes = toUpdate.Notes,
+                    runningTime = toUpdate.RunningTime,
+                    number = toUpdate.Number
+                });
             });
         }//Update
 
-        public override IEnumerable<string> GetTitles()
+        public override async Task<IEnumerable<string>> GetTitlesAsync()
         {
-            return this._uow.Connection.Query<string>("SELECT title FROM Media;");
+            IEnumerable<string> titles = null;
+            await Task.Run(() =>
+            {
+                titles = this._uow.Connection.Query<string>("SELECT title FROM Media;");
+            });
+
+            return titles;
+        }
+
+        public async Task<bool> ExistsWithTitleAsync(string title)
+        {
+            const string SQL = "SELECT COUNT(1) FROM Media WHERE title=@title;";
+
+            bool result = false;
+            await Task.Run(() =>
+            {
+                result = this._uow.Connection.ExecuteScalar<bool>(SQL, new
+                {
+                    title = title
+                });
+            });
+
+            return result;
         }
     }//class
 }

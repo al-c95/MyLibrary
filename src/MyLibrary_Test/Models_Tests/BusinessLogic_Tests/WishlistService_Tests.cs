@@ -40,7 +40,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Add(item);
 
             // assert
-            A.CallTo(() => fakeRepo.Create(item)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(item)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -64,7 +64,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                     Type = ItemType.Book
                 }
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(items);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(items);
 
             // act
             var result = await service.GetAll();
@@ -102,7 +102,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                     Type = ItemType.Dvd
                 }
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(items);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(items);
 
             // act
             var result = await service.GetByType(ItemType.Book);
@@ -126,22 +126,8 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             var fakeRepo = A.Fake<IWishlistRepository>();
             A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
             WishlistService service = new WishlistService(fakeUowProvider, fakeRepoProvider);
-            List<WishlistItem> items = new List<WishlistItem>
-            {
-                new WishlistItem
-                {
-                    Id = 1,
-                    Title = "test_item1",
-                    Type = ItemType.Book
-                },
-                new WishlistItem
-                {
-                    Id = 2,
-                    Title = "test_item2",
-                    Type = ItemType.Dvd
-                }
-            };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(items);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("test_item1")).Returns(true);
+            A.CallTo(() => fakeRepo.ExistsWithTitleAsync("bogus")).Returns(false);
 
             // act
             var actualResult = await service.ExistsWithTitle(title);
@@ -177,7 +163,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                     Type = ItemType.Dvd
                 }
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(items);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(items);
 
             // act
             var actualResult = await service.ExistsWithId(id);
@@ -209,7 +195,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Update(item, updateImage);
 
             // assert
-            A.CallTo(() => fakeRepo.Update(item, updateImage)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.UpdateAsync(item, updateImage)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
@@ -229,7 +215,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.DeleteById(1);
 
             // assert
-            A.CallTo(() => fakeRepo.DeleteById(1)).MustHaveHappened();
+            A.CallTo(() => fakeRepo.DeleteByIdAsync(1)).MustHaveHappened();
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
     }//class

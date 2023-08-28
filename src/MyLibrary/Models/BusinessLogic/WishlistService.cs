@@ -56,34 +56,20 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async virtual Task Add(WishlistItem item)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IWishlistRepository repo = this._repoProvider.Get(uow);
-                repo.Create(item);
-                uow.Dispose();
-            });
+                await repo.CreateAsync(item);
+            }
         }
 
         public async virtual Task<IEnumerable<WishlistItem>> GetAll()
         {
-            IEnumerable<WishlistItem> allItems = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                /*
-                IUnitOfWork uow = this._uowProvider.Get();
                 IWishlistRepository repo = this._repoProvider.Get(uow);
-                allItems = repo.ReadAll();
-                uow.Dispose();
-                */
-                using (IUnitOfWork uow = this._uowProvider.Get())
-                {
-                    IWishlistRepository repo = this._repoProvider.Get(uow);
-                    allItems = repo.ReadAll();
-                }
-            });
-
-            return allItems;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<IEnumerable<WishlistItem>> GetByType(ItemType type)
@@ -98,8 +84,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task<bool> ExistsWithTitle(string title)
         {
-            var allItems = await GetAll();
-            return allItems.Any(i => i.Title.Equals(title));
+            using (var uow = this._uowProvider.Get())
+            {
+                IWishlistRepository repo = this._repoProvider.Get(uow);
+                return await repo.ExistsWithTitleAsync(title);
+            }
         }
 
         public async Task<bool> ExistsWithId(int id)
@@ -110,13 +99,11 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task Update(WishlistItem item, bool includeImage)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IWishlistRepository repo = this._repoProvider.Get(uow);
-                repo.Update(item, includeImage);
-                uow.Dispose();
-            });
+                await repo.UpdateAsync(item,includeImage);
+            }
         }
 
         public async Task DeleteById(int id)
@@ -125,7 +112,7 @@ namespace MyLibrary.Models.BusinessLogic
             {
                 IUnitOfWork uow = this._uowProvider.Get();
                 IWishlistRepository repo = this._repoProvider.Get(uow);
-                repo.DeleteById(id);
+                repo.DeleteByIdAsync(id);
                 uow.Dispose();
             });
         }

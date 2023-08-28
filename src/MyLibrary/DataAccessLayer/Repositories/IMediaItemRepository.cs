@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,21 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
     public interface IMediaItemRepository
     {
-        void Create(MediaItem entity);
-        void DeleteById(int id);
-        IEnumerable<MediaItem> ReadAll();
-        MediaItem GetById(int id);
-        IEnumerable<string> GetTitles();
-        int GetIdByTitle(string title);
-        void Update(MediaItem toUpdate, bool includeImage);
+        Task CreateAsync(MediaItem entity);
+        Task DeleteByIdAsync(int id);
+        Task<IEnumerable<MediaItem>> ReadAllAsync();
+        Task<MediaItem> GetByIdAsync(int id);
+        Task <IEnumerable<string>> GetTitlesAsync();
+        Task<bool> ExistsWithTitleAsync(string title);
+        Task<int> GetIdByTitleAsync(string title);
+        Task UpdateAsync(MediaItem toUpdate, bool includeImage);
     }
 }

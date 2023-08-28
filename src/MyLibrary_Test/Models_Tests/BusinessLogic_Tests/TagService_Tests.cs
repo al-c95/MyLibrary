@@ -23,7 +23,15 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
         public async Task ExistsWithName_Test(string name, bool expectedResult)
         {
             // arrange
-            MockTagService service = new MockTagService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("tag1")).Returns(true);
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("bogus")).Returns(false);
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            TagService service = new TagService(fakeUowProvider, fakeRepoProvider);
 
             // act
             bool actualResult = await service.ExistsWithName(name);
@@ -49,8 +57,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.Add(tag);
 
             // assert
-            A.CallTo(() => fakeRepo.Create(tag)).MustHaveHappened();
-            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+            A.CallTo(() => fakeRepo.CreateAsync(tag)).MustHaveHappened();
         }
 
         [Test]
@@ -69,8 +76,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             await service.DeleteByName("tag");
 
             // assert
-            A.CallTo(() => fakeRepo.DeleteByName("tag")).MustHaveHappened();
-            A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
+            A.CallTo(() => fakeRepo.DeleteByNameAsync("tag")).MustHaveHappened();
         }
 
         [Test]
@@ -88,7 +94,7 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
                 new Tag{Id=1, Name="tag1" },
                 new Tag{ Id=2, Name="tag2"}
             };
-            A.CallTo(() => fakeRepo.ReadAll()).Returns(tags);
+            A.CallTo(() => fakeRepo.ReadAllAsync()).Returns(tags);
             TagService service = new TagService(fakeUowProvider, fakeRepoProvider);
 
             // act
@@ -99,27 +105,5 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
             Assert.IsTrue(results.ToList().Any(a => a.Id == 1));
             Assert.IsTrue(results.ToList().Any(a => a.Id == 2));
         }
-
-        class MockTagService : TagService
-        {
-            public override async Task<IEnumerable<Tag>> GetAll()
-            {
-                List<Tag> tags = new List<Tag>();
-                await Task.Run(() =>
-                {
-                    tags.Add(new Tag
-                    {
-                        Name="tag1"
-                    });
-
-                    tags.Add(new Tag 
-                    { 
-                        Name="tag2"
-                    });
-                });
-
-                return tags;
-            }//GetAll
-        }//class
     }//class
 }

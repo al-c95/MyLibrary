@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 using MyLibrary.Models.Entities;
 using System.Collections.Generic;
 using Dapper;
+using System.Threading.Tasks;
 
 namespace MyLibrary.DataAccessLayer.Repositories
 {
@@ -31,41 +32,56 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public MediaItemCopyRepository(IUnitOfWork uow)
             : base(uow) { }
 
-        public override void Create(MediaItemCopy entity)
+        public override async Task CreateAsync(MediaItemCopy entity)
         {
-            const string SQL = "INSERT INTO MediaItemCopies(mediaItemId,description,notes) VALUES(@mediaItemId,@description,@notes);";
-
-            this._uow.Connection.Execute(SQL, new
+            await Task.Run(() =>
             {
-                mediaItemId = entity.MediaItemId,
-                description = entity.Description,
-                notes = entity.Notes
+                const string SQL = "INSERT INTO MediaItemCopies(mediaItemId,description,notes) VALUES(@mediaItemId,@description,@notes);";
+
+                this._uow.Connection.Execute(SQL, new
+                {
+                    mediaItemId = entity.MediaItemId,
+                    description = entity.Description,
+                    notes = entity.Notes
+                });
             });
         }
 
-        public void DeleteById(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            const string SQL = "DELETE FROM MediaItemCopies WHERE id = @id;";
-
-            this._uow.Connection.Execute(SQL, new { id = id });
-        }
-
-        public override IEnumerable<MediaItemCopy> ReadAll()
-        {
-            const string SQL = "SELECT * FROM MediaItemCopies;";
-
-            return this._uow.Connection.Query<MediaItemCopy>(SQL);
-        }
-
-        public void Update(MediaItemCopy toUpdate)
-        {
-            const string SQL = "UPDATE MediaItemCopies SET description = @description, notes = @notes WHERE id = @id;";
-
-            this._uow.Connection.Execute(SQL, new
+            await Task.Run(() => 
             {
-                id = toUpdate.Id,
-                description = toUpdate.Description,
-                notes = toUpdate.Notes
+                const string SQL = "DELETE FROM MediaItemCopies WHERE id = @id;";
+
+                this._uow.Connection.Execute(SQL, new { id = id });
+            });
+        }
+
+        public override async Task<IEnumerable<MediaItemCopy>> ReadAllAsync()
+        {
+            IEnumerable<MediaItemCopy> result = new List<MediaItemCopy>();
+            await Task.Run(() =>
+            {
+                const string SQL = "SELECT * FROM MediaItemCopies;";
+
+                result = this._uow.Connection.Query<MediaItemCopy>(SQL);
+            });
+
+            return result;
+        }
+
+        public async Task UpdateAsync(MediaItemCopy toUpdate)
+        {
+            await Task.Run(() =>
+            {
+                const string SQL = "UPDATE MediaItemCopies SET description = @description, notes = @notes WHERE id = @id;";
+
+                this._uow.Connection.Execute(SQL, new
+                {
+                    id = toUpdate.Id,
+                    description = toUpdate.Description,
+                    notes = toUpdate.Notes
+                });
             });
         }
     }//class

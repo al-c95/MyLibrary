@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 //SOFTWARE
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
 
 namespace MyLibrary.DataAccessLayer.Repositories
@@ -34,7 +35,7 @@ namespace MyLibrary.DataAccessLayer.Repositories
             this._uow = unitOfWork;
         }
 
-        public abstract void Create(T entity);
-        public abstract IEnumerable<T> ReadAll();
+        public abstract Task CreateAsync(T entity);
+        public abstract Task<IEnumerable<T>> ReadAllAsync();
     }//class
 }

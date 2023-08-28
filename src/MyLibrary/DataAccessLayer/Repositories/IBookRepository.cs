@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,26 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
 namespace MyLibrary.DataAccessLayer.Repositories
 {
     public interface IBookRepository
     {
-        void Create(Book entity);
-        void DeleteById(int id);
-        IEnumerable<Book> ReadAll();
-        Book GetById(int id);
-        int GetIdByTitle(string title);
-        IEnumerable<string> GetTitles();
-        IEnumerable<string> GetLongTitles();
-        IEnumerable<string> GetIsbns();
-        IEnumerable<string> GetIsbn13s();
-        void Update(Book toUpdate, bool includeImage);
+        Task CreateAsync(Book entity);
+        Task DeleteByIdAsync(int id);
+        Task<IEnumerable<Book>> ReadAllAsync();
+        Task<Book> GetByIdAsync(int id);
+        Task<int> GetIdByTitleAsync(string title);
+        Task<IEnumerable<string>> GetTitlesAsync();
+        Task<bool> ExistsWithTitleAsync(string title);
+        Task<bool> ExistsWithLongTitleAsync(string title);
+        Task<bool> ExistsWithIsbnAsync(string isbn);
+        Task<bool> ExistsWithIsbn13Async(string isbn);
+        Task<IEnumerable<string>> GetLongTitlesAsync();
+        Task<IEnumerable<string>> GetIsbnsAsync();
+        Task<IEnumerable<string>> GetIsbn13sAsync();
+        Task UpdateAsync(Book toUpdate, bool includeImage);
     }
 }

@@ -1,6 +1,6 @@
 ﻿//MIT License
 
-//Copyright (c) 2021
+//Copyright (c) 2021-2023
 
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
 using MyLibrary.DataAccessLayer.ServiceProviders;
+using OfficeOpenXml.ConditionalFormatting;
 
 namespace MyLibrary.Models.BusinessLogic
 {
@@ -53,27 +54,20 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task Create(MediaItemCopy copy)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
-                repo.Create(copy);
-                uow.Dispose();
-            });
+                await repo.CreateAsync(copy);
+            }
         }
 
         public async virtual Task<IEnumerable<MediaItemCopy>> GetAll()
         {
-            IEnumerable<MediaItemCopy> allCopies = null;
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
-                allCopies = repo.ReadAll();
-                uow.Dispose();
-            });
-
-            return allCopies;
+                return await repo.ReadAllAsync();
+            }
         }
 
         public async Task<IEnumerable<MediaItemCopy>> GetByItemId(int itemId)
@@ -85,24 +79,20 @@ namespace MyLibrary.Models.BusinessLogic
 
         public async Task DeleteById(int id)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
-                repo.DeleteById(id);
-                uow.Dispose();
-            });
+                await repo.DeleteByIdAsync(id);
+            }
         }
 
         public async Task Update(MediaItemCopy copy)
         {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                IUnitOfWork uow = this._uowProvider.Get();
                 IMediaItemCopyRepository repo = this._repoProvider.Get(uow);
-                repo.Update(copy);
-                uow.Dispose();
-            });
+                await repo.UpdateAsync(copy);
+            }
         }
 
         public async Task<bool> ExistsWithDescription(string description)
