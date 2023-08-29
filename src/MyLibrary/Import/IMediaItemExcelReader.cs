@@ -20,31 +20,14 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
+using MyLibrary.Models.Entities;
 using System;
-using System.Threading.Tasks;
-using System.Net.Http;
+using System.Collections.Generic;
 
-namespace MyLibrary.ApiService
+namespace MyLibrary.Import
 {
-    public abstract class ApiClient : IDisposable
+    public interface IMediaItemExcelReader
     {
-        public const string BASE_URL = "https://openlibrary.org";
-
-        protected readonly HttpClient _client;
-
-        public ApiClient()
-        {
-            this._client = new HttpClient();
-        }
-
-        protected async Task<HttpResponseWrapper> GetResponseBase(string url)
-        {
-            return new HttpResponseWrapper(await this._client.GetAsync(url));
-        }
-
-        public void Dispose()
-        {
-            this._client?.Dispose();
-        }
-    }//class
+        IEnumerable<MediaItem> Read(Action<int, int> progressCallback);
+    }
 }

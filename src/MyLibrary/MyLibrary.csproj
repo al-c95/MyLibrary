@@ -254,6 +254,8 @@
     </Compile>
     <Compile Include="Import\BookExcelReader.cs" />
     <Compile Include="Import\ExcelReaderBase.cs" />
+    <Compile Include="Import\IBookExcelReader.cs" />
+    <Compile Include="Import\IMediaItemExcelReader.cs" />
     <Compile Include="Import\MediaItemExcelReader.cs" />
     <Compile Include="ManageCopiesForm.cs">
       <SubType>Form</SubType>
@@ -278,10 +280,6 @@
     <Compile Include="Models\BusinessLogic\ImportCsv\ICsvFile.cs" />
     <Compile Include="Models\BusinessLogic\ImportCsv\PublisherCsvImport.cs" />
     <Compile Include="Models\BusinessLogic\ImportCsv\TagCsvImport.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\BookExcelParser.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\ExcelParserBase.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\MediaItemExcelParser.cs" />
-    <Compile Include="Models\BusinessLogic\ImportExcel\RowResult.cs" />
     <Compile Include="Models\BusinessLogic\IPublisherService.cs" />
     <Compile Include="Models\BusinessLogic\ITagService.cs" />
     <Compile Include="Models\BusinessLogic\IWishlistService.cs" />

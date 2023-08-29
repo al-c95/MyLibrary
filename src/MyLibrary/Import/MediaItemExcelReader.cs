@@ -23,19 +23,17 @@
 using System;
 using System.Collections.Generic;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Factories;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Models.ValueObjects;
 using OfficeOpenXml;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace MyLibrary.Import
 {
-    public class MediaItemExcelReader : ExcelReaderBase<MediaItem>
+    public class MediaItemExcelReader : ExcelReaderBase<MediaItem>, IMediaItemExcelReader
     {
         public MediaItemExcelReader(ExcelPackage excel, string worksheet, AppVersion runningVersion)
-            :base(excel, worksheet, runningVersion)
+            : base(excel, worksheet, runningVersion)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // validate worksheet

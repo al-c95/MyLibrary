@@ -21,21 +21,13 @@
 //SOFTWARE
 
 using MyLibrary.Models.Entities;
+using System;
+using System.Collections.Generic;
 
-namespace MyLibrary.Models.BusinessLogic.ImportExcel
+namespace MyLibrary.Import
 {
-    public class ExcelRowResult
+    public interface IBookExcelReader
     {
-        public int Row { get; set; }
-        public Item Item { get; set; }
-        public ExcelRowResultStatus Status { get; set; }
-        public string Message { get; set; }
-    }
-
-    public enum ExcelRowResultStatus
-    {
-        Success,
-        Warning,
-        Error
+        IEnumerable<Book> Read(Action<int, int> progressCallback);
     }
 }

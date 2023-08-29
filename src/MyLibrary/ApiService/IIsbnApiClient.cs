@@ -22,7 +22,6 @@
 
 using System.Threading.Tasks;
 using System;
-using System.Net.Http;
 
 namespace MyLibrary.ApiService
 {

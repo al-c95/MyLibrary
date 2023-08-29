@@ -28,15 +28,20 @@ using OfficeOpenXml;
 using MyLibrary.Views;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
-using MyLibrary.Models.BusinessLogic.ImportExcel;
 using MyLibrary.Events;
+using MyLibrary.Import;
 
 namespace MyLibrary.Presenters
 {
-    // https://stackoverflow.com/questions/51199319/why-is-iprogresst-reportt-method-blocking-the-ui-thread
     public class ExcelImportPresenter
     {
         private IExcelImportDialog _view;
+        private IBookExcelReader _bookExcelReader;
+        private IMediaItemExcelReader _mediaItemExcelReader;
+
+        public int importedCount;
+        public int skippedCount;
+        public int updatedCount;
 
         public ExcelImportPresenter(IExcelImportDialog view)
         {
@@ -65,6 +70,11 @@ namespace MyLibrary.Presenters
             ValidateFilePath();
         }
 
+        private void ProgressCallback(int imported, int skipped)
+        {
+            skippedCount = skipped;
+        }
+
         public async Task HandleStartButtonClicked(object sender, EventArgs args)
         {
             this._view.BrowseButtonEnabled = false;
@@ -75,32 +85,10 @@ namespace MyLibrary.Presenters
             this._view.Label1Text = "Reading worksheet...";
             this._view.Label2Text = "";
 
-            int importCount = 0;
-            int updateCount = 0;
-            int errorCount = 0;
-            int warningCount = 0;
-
-            Progress<ExcelRowResult> parseProgress = new Progress<ExcelRowResult>(result =>
-            {
-                if (result.Status == ExcelRowResultStatus.Success)
-                {
-                    this._view.AddSuccess(result.Message + " " + result.Item.Title);    
-                }
-                else if (result.Status == ExcelRowResultStatus.Warning)
-                {
-                    this._view.AddWarning(result.Message);
-                    warningCount++;
-                }
-                else if (result.Status == ExcelRowResultStatus.Error)
-                {
-                    this._view.AddError(result.Message);
-                    errorCount++;
-                }
-            });
-
             FileInfo file = new FileInfo(this._view.FileFieldText);
             ExcelPackage excel = new ExcelPackage(file);
-            List<ExcelRowResult> parseResults = new List<ExcelRowResult>();
+            List<Book> parsedBooks = new List<Book>();
+            List<MediaItem> parsedMediaItems = new List<MediaItem>();
 
             if (this._view.BookChecked && !this._view.MediaItemChecked)
             {
@@ -108,18 +96,10 @@ namespace MyLibrary.Presenters
                 {
                     await Task.Run(() =>
                     {
-                        BookExcelParser excelParser = new BookExcelParser(excel, Configuration.APP_VERSION);
-
-                        foreach (var result in excelParser.Run())
+                        this._bookExcelReader = new BookExcelReader(excel, "Book", Configuration.APP_VERSION);
+                        foreach (var book in this._bookExcelReader.Read(ProgressCallback))
                         {
-                            if (result.Status == ExcelRowResultStatus.Success)
-                            {
-                                parseResults.Add(result);
-                            }
-                            else
-                            {
-                                ((IProgress<ExcelRowResult>)parseProgress).Report(result);
-                            }
+                            parsedBooks.Add(book);
                         }
                     });
                 }
@@ -139,12 +119,11 @@ namespace MyLibrary.Presenters
 
                 this._view.Label1Text = "Updating database...";
                 BookService service = new BookService();
-                foreach (var result in parseResults)
+                foreach (var book in parsedBooks)
                 {
-                    Book book = (Book)result.Item;
                     if (await service.AddIfNotExistsAsync(book))
                     {
-                        importCount++;
+                        importedCount++;
                     }
                     else
                     {
@@ -160,14 +139,14 @@ namespace MyLibrary.Presenters
                             currentTagNames.Add(tag.Name);
                         }
                         List<string> updatedTagNames = new List<string>();
-                        foreach (Tag tag in result.Item.Tags)
+                        foreach (Tag tag in book.Tags)
                         {
                             updatedTagNames.Add(tag.Name);
                         }
                         ItemTagsDto updateTags = new ItemTagsDto(id, currentTagNames, updatedTagNames);
                         await service.UpdateTagsAsync(updateTags);
 
-                        updateCount++;
+                        updatedCount++;
                     }
                 }
 
@@ -179,18 +158,10 @@ namespace MyLibrary.Presenters
                 {
                     await Task.Run(() =>
                     {
-                        MediaItemExcelParser excelParser = new MediaItemExcelParser(excel, Configuration.APP_VERSION);
-
-                        foreach (var result in excelParser.Run())
+                        this._mediaItemExcelReader = new MediaItemExcelReader(excel, "Media item", Configuration.APP_VERSION);
+                        foreach (var mediaItem in this._mediaItemExcelReader.Read(ProgressCallback))
                         {
-                            if (result.Status == ExcelRowResultStatus.Success)
-                            {
-                                parseResults.Add(result);
-                            }
-                            else
-                            {
-                                ((IProgress<ExcelRowResult>)parseProgress).Report(result);
-                            }
+                            parsedMediaItems.Add(mediaItem);
                         }
                     });
                 }
@@ -210,12 +181,11 @@ namespace MyLibrary.Presenters
 
                 this._view.Label1Text = "Updating database...";
                 MediaItemService service = new MediaItemService();
-                foreach (var result in parseResults)
+                foreach (var item in parsedMediaItems)
                 {
-                    MediaItem item = (MediaItem)result.Item;
                     if (await service.AddIfNotExistsAsync(item))
                     {
-                        importCount++;
+                        importedCount++;
                     }
                     else
                     {
@@ -231,14 +201,14 @@ namespace MyLibrary.Presenters
                             currentTagNames.Add(tag.Name);
                         }
                         List<string> updatedTagNames = new List<string>();
-                        foreach (Tag tag in result.Item.Tags)
+                        foreach (Tag tag in item.Tags)
                         {
                             updatedTagNames.Add(tag.Name);
                         }
-                        ItemTagsDto updateTags = new ItemTagsDto(id,currentTagNames,updatedTagNames);
+                        ItemTagsDto updateTags = new ItemTagsDto(id, currentTagNames, updatedTagNames);
                         await service.UpdateTagsAsync(updateTags);
 
-                        updateCount++;
+                        updatedCount++;
                     }
                 }
 
@@ -246,7 +216,7 @@ namespace MyLibrary.Presenters
             }//if
 
             this._view.Label1Text = "Task complete.";
-            this._view.Label2Text = errorCount + " errors. " + warningCount + " warnings. " + importCount + " imported, " + updateCount + " updated.";
+            //this._view.Label2Text = errorCount + " errors. " + warningCount + " warnings. " + importCount + " imported, " + updateCount + " updated.";
             this._view.CloseButtonEnabled = true;
         }//HandleStartButtonClicked
 

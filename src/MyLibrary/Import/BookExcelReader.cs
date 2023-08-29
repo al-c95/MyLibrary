@@ -23,21 +23,17 @@
 using System;
 using System.Collections.Generic;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Factories;
 using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Models.ValueObjects;
 using OfficeOpenXml;
 using System.Text.RegularExpressions;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Runtime.Remoting;
 
 namespace MyLibrary.Import
 {
-    public class BookExcelReader : ExcelReaderBase<Book>
+    public class BookExcelReader : ExcelReaderBase<Book>, IBookExcelReader
     {
         public BookExcelReader(ExcelPackage excel, string worksheet, AppVersion runningVersion)
-            :base(excel, worksheet, runningVersion)
+            : base(excel, worksheet, runningVersion)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // validate worksheet
@@ -92,8 +88,8 @@ namespace MyLibrary.Import
                 string formatEnry = this._excel.Workbook.Worksheets["Book"].Cells[index, 12].GetValue<string>();
                 string datePublishedEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 13].GetValue<string>();
                 string placeOfPublicationEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 14].GetValue<string>();
-                string editionEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 15].GetValue <string>();
-                string pagesEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 16].GetValue <string>();
+                string editionEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 15].GetValue<string>();
+                string pagesEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 16].GetValue<string>();
                 string dimensionsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 17].GetValue<string>();
                 string overviewEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 18].GetValue<string>();
                 string excerptEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 19].GetValue<string>();
