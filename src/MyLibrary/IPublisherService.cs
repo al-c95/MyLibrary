@@ -24,15 +24,12 @@ using MyLibrary.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IBookCopyService
+    public interface IPublisherService
     {
-        Task Create(BookCopy copy);
-        Task DeleteById(int id);
-        Task<bool> ExistsWithDescription(string description);
-        Task<IEnumerable<BookCopy>> GetAll();
-        Task<IEnumerable<BookCopy>> GetByItemId(int itemId);
-        Task Update(BookCopy copy);
+        Task Add(Publisher entity);
+        Task<bool> ExistsWithName(string name);
+        Task<IEnumerable<Publisher>> GetAll();
     }
 }

@@ -24,13 +24,13 @@ using MyLibrary.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface ITagService
+    public interface IAuthorService
     {
-        Task Add(Tag tag);
-        Task DeleteByName(string name);
+        Task Add(Author author);
         Task<bool> ExistsWithName(string name);
-        Task<IEnumerable<Tag>> GetAll();
+        Task<bool> ExistsWithName(string firstName, string lastName);
+        Task<IEnumerable<Author>> GetAll();
     }
 }

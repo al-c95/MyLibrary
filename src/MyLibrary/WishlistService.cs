@@ -28,57 +28,82 @@ using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
 using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public class BookCopyService : ServiceBase, IBookCopyService
+    public class WishlistService : IWishlistService
     {
-        protected readonly IBookCopyRepositoryProvider _repoProvider;
+        protected IUnitOfWorkProvider _uowProvider;
+        protected IWishlistRepositoryProvider _repoProvider;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public BookCopyService()
-            : base()
+        public WishlistService()
         {
-            this._repoProvider = new BookCopyRepositoryProvider();
+            this._uowProvider = new UnitOfWorkProvider();
+            this._repoProvider = new WishlistRepositoryProvider();
         }
 
         /// <summary>
         /// Constructor with dependency injection.
         /// </summary>
         /// <param name="uowProvider"></param>
-        /// <param name="repoProvider"></param>
-        public BookCopyService(IUnitOfWorkProvider uowProvider, IBookCopyRepositoryProvider repoProvider)
-            : base(uowProvider)
+        public WishlistService(IUnitOfWorkProvider uowProvider, IWishlistRepositoryProvider repoProvider)
         {
+            this._uowProvider = uowProvider;
             this._repoProvider = repoProvider;
         }
 
-        public async Task Create(BookCopy copy)
-        {
-            await Task.Run(() =>
-            {
-                IUnitOfWork uow = this._uowProvider.Get();
-                IBookCopyRepository repo = this._repoProvider.Get(uow);
-                repo.CreateAsync(copy);
-                uow.Dispose();
-            });
-        }
-
-        public async virtual Task<IEnumerable<BookCopy>> GetAll()
+        public async virtual Task Add(WishlistItem item)
         {
             using (var uow = this._uowProvider.Get())
             {
-                IBookCopyRepository repo = this._repoProvider.Get(uow);
+                IWishlistRepository repo = this._repoProvider.Get(uow);
+                await repo.CreateAsync(item);
+            }
+        }
+
+        public async virtual Task<IEnumerable<WishlistItem>> GetAll()
+        {
+            using (var uow = this._uowProvider.Get())
+            {
+                IWishlistRepository repo = this._repoProvider.Get(uow);
                 return await repo.ReadAllAsync();
             }
         }
 
-        public async Task<IEnumerable<BookCopy>> GetByItemId(int itemId)
+        public async Task<IEnumerable<WishlistItem>> GetByType(ItemType type)
         {
-            var allCopies = await GetAll();
+            var allItems = await GetAll();
 
-            return allCopies.Where(c => c.BookId == itemId);
+            var filteredItems = from i in allItems
+                                where i.Type == type
+                                select i;
+            return filteredItems;
+        }
+
+        public async Task<bool> ExistsWithTitle(string title)
+        {
+            using (var uow = this._uowProvider.Get())
+            {
+                IWishlistRepository repo = this._repoProvider.Get(uow);
+                return await repo.ExistsWithTitleAsync(title);
+            }
+        }
+
+        public async Task<bool> ExistsWithId(int id)
+        {
+            var allItems = await GetAll();
+            return allItems.Any(i => i.Id == id);
+        }
+
+        public async Task Update(WishlistItem item, bool includeImage)
+        {
+            using (var uow = this._uowProvider.Get())
+            {
+                IWishlistRepository repo = this._repoProvider.Get(uow);
+                await repo.UpdateAsync(item,includeImage);
+            }
         }
 
         public async Task DeleteById(int id)
@@ -86,27 +111,10 @@ namespace MyLibrary.Models.BusinessLogic
             await Task.Run(() =>
             {
                 IUnitOfWork uow = this._uowProvider.Get();
-                IBookCopyRepository repo = this._repoProvider.Get(uow);
+                IWishlistRepository repo = this._repoProvider.Get(uow);
                 repo.DeleteByIdAsync(id);
                 uow.Dispose();
             });
-        }
-
-        public async Task Update(BookCopy copy)
-        {
-            await Task.Run(() =>
-            {
-                IUnitOfWork uow = this._uowProvider.Get();
-                IBookCopyRepository repo = this._repoProvider.Get(uow);
-                repo.UpdateAsync(copy);
-                uow.Dispose();
-            });
-        }
-
-        public async Task<bool> ExistsWithDescription(string description)
-        {
-            var allCopies = await GetAll();
-            return allCopies.Any(c => c.Description.Equals(description));
         }
     }//class
 }

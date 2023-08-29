@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Data;
-using NUnit;
-using NUnit.Framework;
-using FakeItEasy;
-using MyLibrary.Views;
-using MyLibrary.Presenters;
-using MyLibrary.ApiService;
-using MyLibrary.Models.Entities;
-using MyLibrary.Models.BusinessLogic;
+﻿using NUnit.Framework;
+using MyLibrary;
 using MyLibrary.Presenters.ServiceProviders;
 
 namespace MyLibrary_Test.Presenters_Tests.ServiceProviders_Tests

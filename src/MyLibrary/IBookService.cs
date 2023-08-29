@@ -20,10 +20,26 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-namespace MyLibrary.Models.BusinessLogic
+using MyLibrary.Models.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MyLibrary
 {
-    public interface IWishlistServiceProvider
+    public interface IBookService
     {
-        IWishlistService Get();
+        Task AddAsync(Book book);
+        Task<bool> AddIfNotExistsAsync(Book book);
+        Task<bool> ExistsWithIdAsync(int id);
+        Task<bool> ExistsWithIsbnAsync(string isbn);
+        Task<bool> ExistsWithIsbn13Async(string isbn);
+        Task<bool> ExistsWithLongTitleAsync(string longTitle);
+        Task<bool> ExistsWithTitleAsync(string title);
+        Task<IEnumerable<Book>> GetAllAsync();
+        Task<Book> GetByIdAsync(int id);
+        Task<int> GetIdByTitleAsync(string title);
+        Task UpdateAsync(Book book, bool includeImage);
+        Task DeleteByIdAsync(int id);
+        Task UpdateTagsAsync(ItemTagsDto dto);
     }
 }

@@ -26,7 +26,7 @@ using MyLibrary.Models.Entities;
 using MyLibrary.DataAccessLayer.Repositories;
 using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
     public class TagService : ServiceBase, ITagService
     {

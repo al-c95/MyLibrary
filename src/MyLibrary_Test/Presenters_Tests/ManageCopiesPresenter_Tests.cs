@@ -27,7 +27,7 @@ using FakeItEasy;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary;
 namespace MyLibrary_Test.Presenters_Tests
 {
     [TestFixture]

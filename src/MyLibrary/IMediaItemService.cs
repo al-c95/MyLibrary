@@ -20,10 +20,24 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-namespace MyLibrary.Models.BusinessLogic
+using MyLibrary.Models.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MyLibrary
 {
-    public class WishlistServiceProvider : IWishlistServiceProvider
+    public interface IMediaItemService
     {
-        public IWishlistService Get() => new WishlistService();
-    }//class
+        Task<bool> AddIfNotExistsAsync(MediaItem item);
+        Task AddAsync(MediaItem item);
+        Task DeleteByIdAsync(int id);
+        Task<bool> ExistsWithIdAsync(int id);
+        Task<bool> ExistsWithTitleAsync(string title);
+        Task<IEnumerable<MediaItem>> GetAllAsync();
+        Task<MediaItem> GetByIdAsync(int id);
+        Task<IEnumerable<MediaItem>> GetByTypeAsync(ItemType type);
+        Task<int> GetIdByTitleAsync(string title);
+        Task UpdateAsync(MediaItem item, bool includeImage);
+        Task UpdateTagsAsync(ItemTagsDto dto);
+    }
 }

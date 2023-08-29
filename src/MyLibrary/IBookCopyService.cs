@@ -20,18 +20,19 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-namespace MyLibrary.Models.BusinessLogic
-{
-    public class CopyServiceFactory : ICopyServiceFactory
-    {
-        public IBookCopyService GetBookCopyService()
-        {
-            return new BookCopyService();
-        }
+using MyLibrary.Models.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-        public IMediaItemCopyService GetMediaItemCopyService()
-        {
-            return new MediaItemCopyService();
-        }
-    }//class
+namespace MyLibrary
+{
+    public interface IBookCopyService
+    {
+        Task Create(BookCopy copy);
+        Task DeleteById(int id);
+        Task<bool> ExistsWithDescription(string description);
+        Task<IEnumerable<BookCopy>> GetAll();
+        Task<IEnumerable<BookCopy>> GetByItemId(int itemId);
+        Task Update(BookCopy copy);
+    }
 }

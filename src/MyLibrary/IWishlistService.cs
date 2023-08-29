@@ -24,20 +24,16 @@ using MyLibrary.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IMediaItemService
+    public interface IWishlistService
     {
-        Task<bool> AddIfNotExistsAsync(MediaItem item);
-        Task AddAsync(MediaItem item);
-        Task DeleteByIdAsync(int id);
-        Task<bool> ExistsWithIdAsync(int id);
-        Task<bool> ExistsWithTitleAsync(string title);
-        Task<IEnumerable<MediaItem>> GetAllAsync();
-        Task<MediaItem> GetByIdAsync(int id);
-        Task<IEnumerable<MediaItem>> GetByTypeAsync(ItemType type);
-        Task<int> GetIdByTitleAsync(string title);
-        Task UpdateAsync(MediaItem item, bool includeImage);
-        Task UpdateTagsAsync(ItemTagsDto dto);
+        Task Add(WishlistItem item);
+        Task DeleteById(int id);
+        Task<bool> ExistsWithId(int id);
+        Task<bool> ExistsWithTitle(string title);
+        Task<IEnumerable<WishlistItem>> GetAll();
+        Task<IEnumerable<WishlistItem>> GetByType(ItemType type);
+        Task Update(WishlistItem item, bool includeImage);
     }
 }

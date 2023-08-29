@@ -24,15 +24,13 @@ using MyLibrary.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IMediaItemCopyService
+    public interface ITagService
     {
-        Task Create(MediaItemCopy copy);
-        Task DeleteById(int id);
-        Task<bool> ExistsWithDescription(string description);
-        Task<IEnumerable<MediaItemCopy>> GetAll();
-        Task<IEnumerable<MediaItemCopy>> GetByItemId(int itemId);
-        Task Update(MediaItemCopy copy);
+        Task Add(Tag tag);
+        Task DeleteByName(string name);
+        Task<bool> ExistsWithName(string name);
+        Task<IEnumerable<Tag>> GetAll();
     }
 }

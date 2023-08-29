@@ -20,17 +20,18 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IAuthorService
+    public class CopyServiceFactory : ICopyServiceFactory
     {
-        Task Add(Author author);
-        Task<bool> ExistsWithName(string name);
-        Task<bool> ExistsWithName(string firstName, string lastName);
-        Task<IEnumerable<Author>> GetAll();
-    }
+        public IBookCopyService GetBookCopyService()
+        {
+            return new BookCopyService();
+        }
+
+        public IMediaItemCopyService GetMediaItemCopyService()
+        {
+            return new MediaItemCopyService();
+        }
+    }//class
 }

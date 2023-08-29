@@ -20,20 +20,33 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IWishlistService
+    /// <summary>
+    /// Base class for implementing services dealing with data-access repositories.
+    /// Managed driver does not support asynchronous operations, so we provide "asynchronous" wrappers.
+    /// </summary>
+    public abstract class ServiceBase
     {
-        Task Add(WishlistItem item);
-        Task DeleteById(int id);
-        Task<bool> ExistsWithId(int id);
-        Task<bool> ExistsWithTitle(string title);
-        Task<IEnumerable<WishlistItem>> GetAll();
-        Task<IEnumerable<WishlistItem>> GetByType(ItemType type);
-        Task Update(WishlistItem item, bool includeImage);
-    }
+        protected readonly IUnitOfWorkProvider _uowProvider;
+
+        /// <summary>
+        /// Default constructor. Instantiates real unit of work.
+        /// </summary>
+        public ServiceBase()
+        {
+            this._uowProvider = new UnitOfWorkProvider();
+        }
+
+        /// <summary>
+        /// Constructor with dependency injection.
+        /// </summary>
+        /// <param name="uowProvider"></param>
+        public ServiceBase(IUnitOfWorkProvider uowProvider)
+        {
+            this._uowProvider = uowProvider;
+        }
+    }//class
 }

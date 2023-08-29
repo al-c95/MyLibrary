@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit;
 using NUnit.Framework;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary;
 
-namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
+namespace MyLibrary_Test
 {
     [TestFixture]
     public class CopyServiceFactory_Tests

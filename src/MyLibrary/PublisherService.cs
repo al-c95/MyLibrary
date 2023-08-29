@@ -20,70 +20,57 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
-using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
 using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public class AuthorService : ServiceBase, IAuthorService
+    public class PublisherService : ServiceBase, IPublisherService
     {
-        protected readonly IAuthorRepositoryProvider _repoProvider;
+        protected readonly IPublisherRepositoryProvider _repoProvider;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public AuthorService()
+        public PublisherService()
             :base()
         {
-            this._repoProvider = new AuthorRepositoryProvider();
+            this._repoProvider = new PublisherRepositoryProvider();
         }
 
-        /// <summary>
-        /// Constructor with service providers dependency injection.
-        /// </summary>
-        /// <param name="uowProvider"></param>
-        public AuthorService(IUnitOfWorkProvider uowProvider, IAuthorRepositoryProvider repoProvider)
+        public PublisherService(IUnitOfWorkProvider uowProvider, IPublisherRepositoryProvider repoProvider)
             :base(uowProvider)
         {
             this._repoProvider = repoProvider;
         }
 
-        public async virtual Task<IEnumerable<Author>> GetAll()
+        public async virtual Task<IEnumerable<Publisher>> GetAll()
         {
             using (var uow = this._uowProvider.Get())
             {
-                IAuthorRepository repo = this._repoProvider.Get(uow);
+                IPublisherRepository repo = this._repoProvider.Get(uow);
                 return await repo.ReadAllAsync();
             }
         }
 
-        public async Task<bool> ExistsWithName(string name)
+        public async Task<Boolean> ExistsWithName(string name)
         {
-            var allAuthors = await GetAll();
-            return allAuthors.Any(a => a.FirstName.Equals(name) || a.LastName.Equals(name));
+            var allPublishers = await GetAll();
+            return allPublishers.Any(p => p.Name.Equals(name));
         }
 
-        public async Task<bool> ExistsWithName(string firstName, string lastName)
+        public async Task Add(Publisher entity)
         {
-            var allAuthors = await GetAll();
-            return allAuthors.Any(a => a.FirstName.Equals(firstName) && a.LastName.Equals(lastName));
-        }
-
-        public async Task Add(Author entity)
-        {
-            await Task.Run(() =>
+            using (var uow = this._uowProvider.Get())
             {
-                using (IUnitOfWork uow = this._uowProvider.Get())
-                {
-                    IAuthorRepository repo = this._repoProvider.Get(uow);
-                    repo.CreateAsync(entity);
-                }
-            });
+                IPublisherRepository repo = this._repoProvider.Get(uow);
+                await repo.CreateAsync(entity);
+            }
         }
     }//class
 }

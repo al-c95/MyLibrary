@@ -13,7 +13,7 @@ using MyLibrary.DataAccessLayer;
 using MyLibrary.DataAccessLayer.Repositories;
 using MyLibrary.DataAccessLayer.ServiceProviders;
 
-namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests
+namespace MyLibrary_Test
 {
     [TestFixture]
     public class MediaItemService_Tests

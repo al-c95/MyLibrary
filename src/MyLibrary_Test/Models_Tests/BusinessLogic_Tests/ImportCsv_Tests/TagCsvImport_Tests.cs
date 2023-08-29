@@ -8,7 +8,7 @@ using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic.ImportCsv;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary;
 
 namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
 {

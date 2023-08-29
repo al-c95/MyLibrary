@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using System.Data;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.Presenters;

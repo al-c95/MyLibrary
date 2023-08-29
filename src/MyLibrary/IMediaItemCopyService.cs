@@ -24,22 +24,15 @@ using MyLibrary.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IBookService
+    public interface IMediaItemCopyService
     {
-        Task AddAsync(Book book);
-        Task<bool> AddIfNotExistsAsync(Book book);
-        Task<bool> ExistsWithIdAsync(int id);
-        Task<bool> ExistsWithIsbnAsync(string isbn);
-        Task<bool> ExistsWithIsbn13Async(string isbn);
-        Task<bool> ExistsWithLongTitleAsync(string longTitle);
-        Task<bool> ExistsWithTitleAsync(string title);
-        Task<IEnumerable<Book>> GetAllAsync();
-        Task<Book> GetByIdAsync(int id);
-        Task<int> GetIdByTitleAsync(string title);
-        Task UpdateAsync(Book book, bool includeImage);
-        Task DeleteByIdAsync(int id);
-        Task UpdateTagsAsync(ItemTagsDto dto);
+        Task Create(MediaItemCopy copy);
+        Task DeleteById(int id);
+        Task<bool> ExistsWithDescription(string description);
+        Task<IEnumerable<MediaItemCopy>> GetAll();
+        Task<IEnumerable<MediaItemCopy>> GetByItemId(int itemId);
+        Task Update(MediaItemCopy copy);
     }
 }

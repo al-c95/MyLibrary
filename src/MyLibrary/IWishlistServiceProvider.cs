@@ -20,16 +20,10 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface IPublisherService
+    public interface IWishlistServiceProvider
     {
-        Task Add(Publisher entity);
-        Task<bool> ExistsWithName(string name);
-        Task<IEnumerable<Publisher>> GetAll();
+        IWishlistService Get();
     }
 }

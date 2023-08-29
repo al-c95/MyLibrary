@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Data;
-using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary;
 using MyLibrary.Models.Entities;
-using MyLibrary.DataAccessLayer;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
 

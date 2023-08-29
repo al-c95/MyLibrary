@@ -20,33 +20,11 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.DataAccessLayer.ServiceProviders;
-
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    /// <summary>
-    /// Base class for implementing services dealing with data-access repositories.
-    /// Managed driver does not support asynchronous operations, so we provide "asynchronous" wrappers.
-    /// </summary>
-    public abstract class ServiceBase
+    public interface ICopyServiceFactory
     {
-        protected readonly IUnitOfWorkProvider _uowProvider;
-
-        /// <summary>
-        /// Default constructor. Instantiates real unit of work.
-        /// </summary>
-        public ServiceBase()
-        {
-            this._uowProvider = new UnitOfWorkProvider();
-        }
-
-        /// <summary>
-        /// Constructor with dependency injection.
-        /// </summary>
-        /// <param name="uowProvider"></param>
-        public ServiceBase(IUnitOfWorkProvider uowProvider)
-        {
-            this._uowProvider = uowProvider;
-        }
-    }//class
+        IBookCopyService GetBookCopyService();
+        IMediaItemCopyService GetMediaItemCopyService();
+    }
 }

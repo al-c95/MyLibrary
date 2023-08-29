@@ -20,11 +20,10 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-namespace MyLibrary.Models.BusinessLogic
+namespace MyLibrary
 {
-    public interface ICopyServiceFactory
+    public class WishlistServiceProvider : IWishlistServiceProvider
     {
-        IBookCopyService GetBookCopyService();
-        IMediaItemCopyService GetMediaItemCopyService();
-    }
+        public IWishlistService Get() => new WishlistService();
+    }//class
 }

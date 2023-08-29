@@ -21,15 +21,13 @@
 //SOFTWARE
 
 using System;
-using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Views;
 using MyLibrary.Presenters;
 using MyLibrary.ApiService;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Factories;
-using MyLibrary.Models.BusinessLogic;
+using MyLibrary;
 using MyLibrary.Presenters.ServiceProviders;
 
 namespace MyLibrary_Test.Presenters_Tests
