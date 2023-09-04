@@ -68,7 +68,7 @@ namespace MyLibrary.Import
 
         public override IEnumerable<Book> Read(Action<int, int> progressCallback)
         {
-            int importedCount = 0;
+            int parsedCount = 0;
             int skippedCount = 0;
 
             ExcelAddressBase usedRange = this._excel.Workbook.Worksheets["Book"].Dimension;
@@ -144,15 +144,15 @@ namespace MyLibrary.Import
                     book.Synopsys = synopsysEntry;
                     book.Notes = notesEntry;
 
-                    importedCount++;
-                    progressCallback?.Invoke(importedCount, skippedCount);
+                    parsedCount++;
+                    progressCallback?.Invoke(parsedCount, skippedCount);
                 }
                 catch (Exception ex)
                 {
                     if (ex is ArgumentException || ex is FormatException)
                     {
                         skippedCount++;
-                        progressCallback?.Invoke(importedCount, skippedCount);
+                        progressCallback?.Invoke(parsedCount, skippedCount);
 
                         continue;
                     }

@@ -70,7 +70,7 @@ namespace MyLibrary.Presenters
             ValidateFilePath();
         }
 
-        private void ProgressCallback(int imported, int skipped)
+        private void ProgressCallback(int parsed, int skipped)
         {
             skippedCount = skipped;
         }
@@ -216,7 +216,7 @@ namespace MyLibrary.Presenters
             }//if
 
             this._view.Label1Text = "Task complete.";
-            //this._view.Label2Text = errorCount + " errors. " + warningCount + " warnings. " + importCount + " imported, " + updateCount + " updated.";
+            this._view.Label2Text = $"{importedCount} imported. {updatedCount} updated. {skippedCount} skipped.";
             this._view.CloseButtonEnabled = true;
         }//HandleStartButtonClicked
 
