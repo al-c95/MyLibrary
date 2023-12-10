@@ -35,18 +35,86 @@ namespace MyLibrary_Test
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
-        [TestCase("some_publisher", true)]
-        [TestCase("bogus", false)]
-        public async Task Exists_Test(string name, bool expectedResult)
+        [Test]
+        public async Task Exists_Test_Exists()
         {
             // arrange
-            MockPublisherService service = new MockPublisherService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            var fakeRepo = A.Fake<IPublisherRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("publisher")).Returns(true);
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            PublisherService service = new PublisherService(fakeUowProvider, fakeRepoProvider);
 
             // act
-            bool actualResult = await service.ExistsWithName(name);
+            bool result = await service.ExistsWithName("publisher");
 
             // assert
-            Assert.AreEqual(expectedResult, actualResult);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public async Task Exists_Test_DoesNotExist()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            var fakeRepo = A.Fake<IPublisherRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("publisher")).Returns(false);
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            PublisherService service = new PublisherService(fakeUowProvider, fakeRepoProvider);
+
+            // act
+            bool result = await service.ExistsWithName("publisher");
+
+            // assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public async Task AddIfNotExists_Test_Exists()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            var fakeRepo = A.Fake<IPublisherRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("publisher")).Returns(true);
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            PublisherService service = new PublisherService(fakeUowProvider, fakeRepoProvider);
+
+            // act
+            bool result = await service.AddIfNotExists(new Publisher { Name = "publisher" });
+
+            // assert
+            Assert.IsFalse(result);
+            A.CallTo(() => fakeRepo.CreateAsync(A<Publisher>.That.Matches(p => p.Name=="publisher"))).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task AddIfNotExists_Test_DoesNotExist()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IPublisherRepositoryProvider>();
+            var fakeRepo = A.Fake<IPublisherRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("publisher")).Returns(false);
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            PublisherService service = new PublisherService(fakeUowProvider, fakeRepoProvider);
+
+            // act
+            bool result = await service.AddIfNotExists(new Publisher { Name = "publisher" });
+
+            // assert
+            Assert.IsTrue(result);
+            A.CallTo(() => fakeRepo.CreateAsync(A<Publisher>.That.Matches(p => p.Name == "publisher"))).MustHaveHappened();
         }
 
         [Test]
@@ -75,27 +143,5 @@ namespace MyLibrary_Test
             Assert.IsTrue(result.ToList()[0].Name.Equals("pub1"));
             Assert.IsTrue(result.ToList()[1].Name.Equals("pub2"));
         }
-
-        class MockPublisherService : PublisherService
-        {
-            public async override Task<IEnumerable<Publisher>> GetAll()
-            {
-                List<Publisher> publishers = new List<Publisher>();
-                await Task.Run(() =>
-                {
-                    publishers.Add(new Publisher
-                    {
-                        Name = "some_publisher"
-                    });
-
-                    publishers.Add(new Publisher
-                    {
-                        Name = "another_publisher"
-                    });
-                });
-
-                return publishers;
-            }
-        }//class
     }//class
 }

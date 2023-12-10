@@ -20,68 +20,36 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
+using MyLibrary.Models.Entities;
+using MyLibrary.Models.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
 
-namespace MyLibrary.Models.BusinessLogic.ImportCsv
+namespace MyLibrary.Import
 {
-    public class AuthorCsvImport : CsvImport
+    public class AuthorCsvReader : CsvReaderBase<Author>
     {
-        private IAuthorService _service;
-
-        public AuthorCsvImport(string[] allLines, IAuthorService service)
+        public AuthorCsvReader(CsvFile csvFile, AppVersion runningVersion) : base(csvFile, runningVersion)
         {
-            // validate headers
-            if (allLines[0].Equals("First Name,Last Name"))
-            {
-                this._lines = allLines;
-            }
-            else
-            {
-                throw new FormatException("Authors CSV file does not have appropriate structure.");
-            }
-
-            this._service = service;
         }
 
-        public override string GetTypeName => "Author";
-
-        async public static Task<AuthorCsvImport> BuildAsync(ICsvFile file)
+        public override IEnumerable<Author> Read(Action<int, int> progressCallback)
         {
-            return new AuthorCsvImport(await file.ReadLinesAsync(), new AuthorService());
-        }
+            int parsedCount = 0;
+            int skippedCount = 0;
 
-        public async override Task<bool> AddIfNotExists(CsvRowResult row)
-        {
-            Author author = row.Entity as Author;
-            if (await this._service.ExistsWithName(author.FirstName, author.LastName))
-            {
-                return false;
-            }
-            else
-            {
-                await this._service.Add(author);
-
-                return true;
-            }
-        }//AddIfNotExists
-
-        public override IEnumerator<CsvRowResult> GetEnumerator()
-        {
+            var allLines = this._csv.ReadLinesSync();
             int index = 0;
-            foreach (var line in this._lines)
+            foreach (var line in allLines)
             {
+                // skip header line
                 if (index == 0)
                 {
-                    // skipping header row
                     index++;
                     continue;
                 }
 
-                // read data row and get result
                 // TODO: refactor validation
                 const string NAME_ENTRY_PATTERN = @"^[a-zA-Z-]+,([a-zA-Z-']+ )*[a-zA-Z-']+$";
                 const string NAME_ENTRY_PATTERN_WITH_MIDDLE_NAME = @"^[a-zA-Z-]+ [a-zA-Z]\.,([a-zA-Z-']+ )*[a-zA-Z-']+$";
@@ -91,15 +59,18 @@ namespace MyLibrary.Models.BusinessLogic.ImportCsv
                     string[] parts = line.Split(',');
                     string processedName = parts[0] + " " + parts[1];
 
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.SUCCESS, new Author { FirstName = parts[0], LastName = parts[1] }, processedName);
+                    parsedCount++;
+                    progressCallback?.Invoke(parsedCount, skippedCount);
+                    yield return new Author { FirstName = parts[0], LastName = parts[1] };
                 }
                 else
                 {
-                    yield return new CsvRowResult(index + 1, CsvRowResult.Status.ERROR, null, null);
+                    skippedCount++;
+                    progressCallback?.Invoke(parsedCount, skippedCount);
                 }
 
                 index++;
             }
-        }//GetEnumerator
-    }
+        }//Read
+    }//class
 }

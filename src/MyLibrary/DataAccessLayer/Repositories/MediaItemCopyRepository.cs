@@ -30,7 +30,9 @@ namespace MyLibrary.DataAccessLayer.Repositories
     public class MediaItemCopyRepository : Repository<MediaItemCopy>, IMediaItemCopyRepository
     {
         public MediaItemCopyRepository(IUnitOfWork uow)
-            : base(uow) { }
+            : base(uow) 
+        { 
+        }
 
         public override async Task CreateAsync(MediaItemCopy entity)
         {

@@ -31,7 +31,9 @@ namespace MyLibrary.DataAccessLayer.Repositories
     public class TagRepository : Repository<Tag>, ITagRepository
     {
         public TagRepository(IUnitOfWork uow)
-            : base(uow) { }
+            : base(uow) 
+        { 
+        }
 
         /// <summary>
         /// Create a new tag.

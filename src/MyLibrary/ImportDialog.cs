@@ -21,10 +21,12 @@
 //SOFTWARE
 
 using System;
-using System.Threading;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyLibrary.Models.BusinessLogic.ImportCsv;
+using MyLibrary;
+using MyLibrary.Import;
+using MyLibrary.Models.Entities;
 
 namespace MyLibrary
 {
@@ -33,8 +35,13 @@ namespace MyLibrary
     {
         private string _type;
 
-        private CancellationTokenSource _cts = null;
-        private bool _isRunning;
+        public int importedCount;
+        public int skippedCount;
+
+        private void ProgressCallback(int parsed, int skipped)
+        {
+            skippedCount = skipped;
+        }
 
         public ImportDialog(string type)
         {
@@ -47,8 +54,6 @@ namespace MyLibrary
 
             this.label1.Text = "";
             this.label2.Text = "";
-
-            this._isRunning = false;
 
             // prepare list column
             ColumnHeader columnHeader1 = new ColumnHeader();
@@ -67,6 +72,8 @@ namespace MyLibrary
                     filePath = dialog.FileName;
 
                     this.startButton.Enabled = false;
+                    this.closeButton.Enabled = false;
+
                     this.listView.Items.Clear();
 
                     dialog.Dispose();
@@ -77,136 +84,111 @@ namespace MyLibrary
                     return;
                 }
 
-                this._cts = new CancellationTokenSource();
-                var token = this._cts.Token;
-
-                this._isRunning = true;
-
                 try
                 {
-                    await Process(filePath, type, token);
+                    CsvFile csv = new CsvFile(filePath);
+                    if (_type == "tag")
+                    {
+                        TagService tagService = new TagService();
+                        TagCsvReader reader = new TagCsvReader(csv, Configuration.APP_VERSION);
+                        List<Tag> parsedTags = new List<Tag>();
+                        await Task.Run(() =>
+                        {
+                            var tags = reader.Read(ProgressCallback);
+                            foreach (var tag in tags)
+                            {
+                               parsedTags.Add(tag);
+                            }
+                        });
+
+                        foreach (var tag in parsedTags)
+                        {
+                            bool added = await tagService.AddIfNotExists(tag);
+                            if (added)
+                            {
+                                importedCount++;
+                            }
+                            else
+                            {
+                                skippedCount++;
+                            }
+                        }
+                    }
+                    else if ( _type == "author")
+                    {
+                        AuthorService authorService = new AuthorService();
+                        AuthorCsvReader reader = new AuthorCsvReader(csv, Configuration.APP_VERSION);
+                        List<Author> parsedAuthors = new List<Author>();
+                        await Task.Run(() =>
+                        {
+                            var authors = reader.Read(ProgressCallback);
+                            foreach (var author in authors)
+                            {
+                                parsedAuthors.Add(author);
+                            }
+                        });
+
+                        foreach (var author in parsedAuthors)
+                        {
+                            bool added = await authorService.ExistsWithName(author.FirstName, author.LastName);
+                            if (added)
+                            {
+                                importedCount++;
+                            }
+                            else
+                            {
+                                skippedCount++;
+                            }
+                        }
+                    }
+                    else if (_type == "publisher")
+                    {
+                        PublisherService publisherService = new PublisherService();
+                        PublisherCsvReader reader = new PublisherCsvReader(csv, Configuration.APP_VERSION);
+                        List<Publisher> parsedPublishers = new List<Publisher>();
+                        await Task.Run(() =>
+                        {
+                            var publishers = reader.Read(ProgressCallback);
+                            foreach (var publisher in publishers)
+                            {
+                                parsedPublishers.Add(publisher);
+                            }
+                        });
+
+                        foreach (var publisher in parsedPublishers)
+                        {
+                            bool added = await publisherService.AddIfNotExists(publisher);
+                            if (added)
+                            {
+                                importedCount++;
+                            }
+                            else
+                            {
+                                skippedCount++;
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
                     this.label1.Text = "Task aborted.";
                     this.label2.Text = "";
 
-                    if (!(ex is OperationCanceledException))
-                    {
-                        // something bad happened
-                        // tell the user
-                        MessageBox.Show(ex.Message, "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    this.closeButton.Enabled = true;
                 }
                 finally
                 {
-                    this._isRunning = false;
-                    this._cts.Dispose();
+                    this.label1.Text = "Task complete.";
+                    this.label2.Text = $"{importedCount} imported. {skippedCount} skipped.";
 
                     this.startButton.Enabled = false;
+                    this.closeButton.Enabled = true;
                 }
             });
-            this.cancelButton.Click += ((sender, args) =>
+            this.closeButton.Click += ((sender, args) =>
             {
-                if (_isRunning)
-                {
-                    this._cts.Cancel();
-                }
-                else
-                {
-                    this.Close();
-                }
+                this.Close();
             });
-        }
-
-        public async Task Process(string filePath, string type, CancellationToken token)
-        {
-            // read file
-            CsvImport import = null;
-            try
-            {
-                import = await CsvImport.ImportFactory(type, filePath);
-
-                // check for cancellation
-                if (token.IsCancellationRequested)
-                {
-                    throw new OperationCanceledException();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error importing file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            this.label1.Text = "Importing...";
-            this.label2.Text = filePath;
-
-            int warnCount = 0;
-            int errorCount = 0;
-            int successCount = 0;
-
-            foreach (var row in import)
-            {
-                // check for cancellation
-                if (token.IsCancellationRequested)
-                {
-                    throw new OperationCanceledException();
-                }
-
-                // process row
-                int currRow = row.Row;
-                if (row.RowStatus == CsvRowResult.Status.SUCCESS)
-                {
-                    try
-                    {
-                        if (await import.AddIfNotExists(row))
-                        {
-                            successCount++;
-                        }
-                        else
-                        {
-                            RegisterWarning(currRow, row.EntityName, import.GetTypeName);
-
-                            warnCount++;
-                        }
-                    }
-                    catch
-                    {
-                        // something bad happened while accessing the database
-                        // register it as an error
-                        // TODO: provide error message?
-                        RegisterError(currRow);
-
-                        errorCount++;
-                    }
-                }
-                else if (row.RowStatus == CsvRowResult.Status.ERROR)
-                {
-                    // failed to parse row as the proper entity
-                    // register it in the list
-                    RegisterError(currRow);
-
-                    errorCount++;
-                }
-            }
-            
-            // finished
-            // display summary
-            this.label1.Text = "Task Complete.";
-            this.label2.Text = errorCount + " errors, " + warnCount + " warnings. " + successCount + " " + type + "s added.";
-        }
-
-        private void RegisterWarning(int row, string name, string type)
-        {
-            string message = "WARNING: " + type + " \"" + name + "\" in row " + row + " already exists.";
-            AddListViewRow(message);
-        }
-
-        private void RegisterError(int row)
-        {
-            string message = "ERROR: Could not import row " + row;
-            AddListViewRow(message);
         }
 
         private void AddListViewRow(string message)

@@ -32,7 +32,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
     {
         public WishlistRepository(IUnitOfWork uow) : base(uow)
         {
-
         }
 
         public override async Task CreateAsync(WishlistItem entity)

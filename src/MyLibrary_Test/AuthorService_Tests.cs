@@ -63,58 +63,44 @@ namespace MyLibrary_Test
             A.CallTo(() => fakeUow.Dispose()).MustHaveHappened();
         }
 
-        [TestCase("John", true)]
-        [TestCase("Doe", true)]
-        [TestCase("bogus", false)]
-        public async Task ExistsWithName_Test(string name, bool expectedResult)
+        [Test]
+        public async Task ExistsWithName_Test_Exists()
         {
             // arrange
-            MockAuthorService service = new MockAuthorService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeRepo = A.Fake<IAuthorRepository>();
+            A.CallTo(() => fakeRepo.AuthorExistsAsync("John", "Smith")).Returns(true);
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            AuthorService service = new AuthorService(fakeUowProvider, fakeRepoProvider);
 
             // act
-            bool actualResult = await service.ExistsWithName(name);
+            bool result = await service.ExistsWithName("John", "Smith");
 
             // assert
-            Assert.AreEqual(expectedResult, actualResult);
+            Assert.IsTrue(result);
         }
 
-        [TestCase("John", "Smith", true)]
-        [TestCase("John", "Doe", false)]
-        [TestCase("Korky", "Buchek", false)]
-        public async Task ExistsWithName_FirstNameLastName_Test(string firstName, string lastName, bool expectedResult)
+        [Test]
+        public async Task ExistsWithName_Test_DoesNotExist()
         {
             // arrange
-            MockAuthorService service = new MockAuthorService();
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<IAuthorRepositoryProvider>();
+            var fakeRepo = A.Fake<IAuthorRepository>();
+            A.CallTo(() => fakeRepo.AuthorExistsAsync("John", "Smith")).Returns(false);
+            var fakeUow = A.Fake<IUnitOfWork>();
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            AuthorService service = new AuthorService(fakeUowProvider, fakeRepoProvider);
 
             // act
-            bool actualResult = await service.ExistsWithName(firstName, lastName);
+            bool result = await service.ExistsWithName("John", "Smith");
 
             // assert
-            Assert.AreEqual(expectedResult, actualResult);
+            Assert.IsFalse(result);
         }
-
-        class MockAuthorService : AuthorService
-        {
-            public async override Task<IEnumerable<Author>> GetAll()
-            {
-                List<Author> authors = new List<Author>();
-                await Task.Run(() =>
-                {
-                    authors.Add(new Author
-                    {
-                        FirstName="John",
-                        LastName="Smith"
-                    });
-
-                    authors.Add(new Author
-                    {
-                        FirstName = "Jane",
-                        LastName = "Doe"
-                    });
-                });
-
-                return authors;
-            }
-        }//class
     }//class
 }

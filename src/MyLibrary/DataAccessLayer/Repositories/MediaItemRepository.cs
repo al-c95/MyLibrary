@@ -31,7 +31,9 @@ namespace MyLibrary.DataAccessLayer.Repositories
     public class MediaItemRepository : ItemRepository<MediaItem>, IMediaItemRepository
     { 
         public MediaItemRepository(IUnitOfWork uow)
-            : base(uow) { }
+            : base(uow) 
+        { 
+        }
 
         public override async Task CreateAsync(MediaItem entity)
         {

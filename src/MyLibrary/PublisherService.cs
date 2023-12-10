@@ -60,8 +60,11 @@ namespace MyLibrary
 
         public async Task<Boolean> ExistsWithName(string name)
         {
-            var allPublishers = await GetAll();
-            return allPublishers.Any(p => p.Name.Equals(name));
+            using (var uow = this._uowProvider.Get())
+            {
+                IPublisherRepository repo = this._repoProvider.Get(uow);
+                return await repo.ExistsWithNameAsync(name);
+            }
         }
 
         public async Task Add(Publisher entity)
@@ -71,6 +74,17 @@ namespace MyLibrary
                 IPublisherRepository repo = this._repoProvider.Get(uow);
                 await repo.CreateAsync(entity);
             }
+        }
+
+        public async Task<bool> AddIfNotExists(Publisher entity)
+        {
+            bool exists = await ExistsWithName(entity.Name);
+            if (!exists)
+            {
+                await Add(entity);
+            }
+
+            return !exists;
         }
     }//class
 }

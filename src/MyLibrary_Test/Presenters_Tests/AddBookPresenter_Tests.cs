@@ -34,7 +34,7 @@ using MyLibrary.Presenters;
 using MyLibrary.Utils;
 using MyLibrary.Models.Entities.Factories;
 using MyLibrary;
-using MyLibrary.Models.BusinessLogic.ImportCsv;
+using MyLibrary.Import;
 
 namespace MyLibrary_Test.Presenters_Tests
 {

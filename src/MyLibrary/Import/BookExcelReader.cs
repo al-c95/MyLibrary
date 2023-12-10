@@ -38,33 +38,43 @@ namespace MyLibrary.Import
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // validate worksheet
             bool sane = true;
-            sane = sane && ReadCellAsString(this._excel, "Book", "B2").Equals("Books");
-            sane = sane && ReadCellAsString(this._excel, "Book", "A6").Equals("Id");
-            sane = sane && ReadCellAsString(this._excel, "Book", "B6").Equals("Title");
-            sane = sane && ReadCellAsString(this._excel, "Book", "C6").Equals("Long Title");
-            sane = sane && ReadCellAsString(this._excel, "Book", "D6").Equals("ISBN");
-            sane = sane && ReadCellAsString(this._excel, "Book", "E6").Equals("ISBN13");
-            sane = sane && ReadCellAsString(this._excel, "Book", "F6").Equals("Authors");
-            sane = sane && ReadCellAsString(this._excel, "Book", "G6").Equals("Language");
-            sane = sane && ReadCellAsString(this._excel, "Book", "H6").Equals("Tags");
-            sane = sane && ReadCellAsString(this._excel, "Book", "I6").Equals("Dewey Decimal");
-            sane = sane && ReadCellAsString(this._excel, "Book", "J6").Equals("MSRP");
-            sane = sane && ReadCellAsString(this._excel, "Book", "K6").Equals("Publisher");
-            sane = sane && ReadCellAsString(this._excel, "Book", "L6").Equals("Format");
-            sane = sane && ReadCellAsString(this._excel, "Book", "M6").Equals("Date Published");
-            sane = sane && ReadCellAsString(this._excel, "Book", "N6").Equals("Place of Publication");
-            sane = sane && ReadCellAsString(this._excel, "Book", "O6").Equals("Edition");
-            sane = sane && ReadCellAsString(this._excel, "Book", "P6").Equals("Pages");
-            sane = sane && ReadCellAsString(this._excel, "Book", "Q6").Equals("Dimensions");
-            sane = sane && ReadCellAsString(this._excel, "Book", "R6").Equals("Overview");
-            sane = sane && ReadCellAsString(this._excel, "Book", "S6").Equals("Excerpt");
-            sane = sane && ReadCellAsString(this._excel, "Book", "T6").Equals("Synopsys");
-            sane = sane && ReadCellAsString(this._excel, "Book", "U6").Equals("Notes");
+            sane = sane && Read("B2").Equals("Books");
+            sane = sane && Read("A6").Equals("Id");
+            sane = sane && Read("B6").Equals("Title");
+            sane = sane && Read("C6").Equals("Long Title");
+            sane = sane && Read("D6").Equals("ISBN");
+            sane = sane && Read("E6").Equals("ISBN13");
+            sane = sane && Read("F6").Equals("Authors");
+            sane = sane && Read("G6").Equals("Language");
+            sane = sane && Read("H6").Equals("Tags");
+            sane = sane && Read("I6").Equals("Dewey Decimal");
+            sane = sane && Read("J6").Equals("MSRP");
+            sane = sane && Read("K6").Equals("Publisher");
+            sane = sane && Read("L6").Equals("Format");
+            sane = sane && Read("M6").Equals("Date Published");
+            sane = sane && Read("N6").Equals("Place of Publication");
+            sane = sane && Read("O6").Equals("Edition");
+            sane = sane && Read("P6").Equals("Pages");
+            sane = sane && Read("Q6").Equals("Dimensions");
+            sane = sane && Read("R6").Equals("Overview");
+            sane = sane && Read("S6").Equals("Excerpt");
+            sane = sane && Read("T6").Equals("Synopsys");
+            sane = sane && Read("U6").Equals("Notes");
             if (!sane)
             {
                 throw new FormatException("Provided Excel is not a valid books export from MyLibrary");
             }
         }//ctor
+
+        private string Read(int row, int column)
+        {
+            return ReadCellAsString(this._excel, "Book", row, column);
+        }
+
+        private string Read(string address)
+        {
+            return ReadCellAsString(this._excel, "Book", address);
+        }
 
         public override IEnumerable<Book> Read(Action<int, int> progressCallback)
         {
@@ -76,25 +86,30 @@ namespace MyLibrary.Import
             {
                 string idEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 1].GetValue<string>();
                 string title = this._excel.Workbook.Worksheets["Book"].Cells[index, 2].GetValue<string>();
-                string longTitle = this._excel.Workbook.Worksheets["Book"].Cells[index, 3].GetValue<string>();
-                string isbnEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 4].GetValue<string>();
-                string isbn13Entry = this._excel.Workbook.Worksheets["Book"].Cells[index, 5].GetValue<string>();
-                string authorsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 6].GetValue<string>();
-                string languageEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 7].GetValue<string>();
-                string tagsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 8].GetValue<string>();
-                string deweyDecimalEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 9].GetValue<string>();
-                string msrpEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 10].GetValue<string>();
-                string publisherEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 11].GetValue<string>();
-                string formatEnry = this._excel.Workbook.Worksheets["Book"].Cells[index, 12].GetValue<string>();
-                string datePublishedEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 13].GetValue<string>();
-                string placeOfPublicationEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 14].GetValue<string>();
-                string editionEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 15].GetValue<string>();
-                string pagesEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 16].GetValue<string>();
-                string dimensionsEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 17].GetValue<string>();
-                string overviewEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 18].GetValue<string>();
-                string excerptEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 19].GetValue<string>();
-                string synopsysEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 20].GetValue<string>();
-                string notesEntry = this._excel.Workbook.Worksheets["Book"].Cells[index, 21].GetValue<string>();
+                if (string.IsNullOrWhiteSpace(title))
+                {
+                    // stop at an empty row
+                    break;
+                }
+                string longTitle = Read(index, 3);
+                string isbnEntry = Read(index, 4);
+                string isbn13Entry = Read(index, 5);
+                string authorsEntry = Read(index, 6);
+                string languageEntry = Read(index, 7);
+                string tagsEntry = Read(index, 8);
+                string deweyDecimalEntry = Read(index, 9);
+                string msrpEntry = Read(index, 10);
+                string publisherEntry = Read(index, 11);
+                string formatEnry = Read(index, 12);
+                string datePublishedEntry = Read(index, 13);
+                string placeOfPublicationEntry = Read(index, 14);
+                string editionEntry = Read(index, 15);
+                string pagesEntry = Read(index, 16);
+                string dimensionsEntry = Read(index, 17);
+                string overviewEntry = Read(index, 18);
+                string excerptEntry = Read(index, 19);
+                string synopsysEntry = Read(index, 20);
+                string notesEntry = Read(index, 21);
 
                 Book book = new Book();
                 BookBuilder builder = new BookBuilder();

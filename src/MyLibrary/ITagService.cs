@@ -29,6 +29,7 @@ namespace MyLibrary
     public interface ITagService
     {
         Task Add(Tag tag);
+        Task<bool> AddIfNotExists(Tag tag);
         Task DeleteByName(string name);
         Task<bool> ExistsWithName(string name);
         Task<IEnumerable<Tag>> GetAll();

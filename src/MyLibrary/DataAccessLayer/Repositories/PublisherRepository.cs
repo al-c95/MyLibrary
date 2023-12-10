@@ -32,7 +32,8 @@ namespace MyLibrary.DataAccessLayer.Repositories
     {
         public PublisherRepository(IUnitOfWork unitOfWork)
             : base(unitOfWork)
-        { }
+        {
+        }
 
         public override async Task CreateAsync(Publisher entity)
         {

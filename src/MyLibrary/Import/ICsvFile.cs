@@ -20,10 +20,14 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-namespace MyLibrary.Utils
+using System.Threading.Tasks;
+
+namespace MyLibrary.Import
 {
-    public interface ICancellationTokenSource
+    public interface ICsvFile
     {
-        void Cancel();
+        string Path { get; }
+        string[] ReadLinesSync();
+        Task<string[]> ReadLinesAsync();
     }
 }

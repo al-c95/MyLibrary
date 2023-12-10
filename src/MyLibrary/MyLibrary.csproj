@@ -252,11 +252,15 @@
     <Compile Include="ExcelImportDialog.Designer.cs">
       <DependentUpon>ExcelImportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Import\AuthorCsvReader.cs" />
     <Compile Include="Import\BookExcelReader.cs" />
+    <Compile Include="Import\CsvReaderBase.cs" />
     <Compile Include="Import\ExcelReaderBase.cs" />
     <Compile Include="Import\IBookExcelReader.cs" />
     <Compile Include="Import\IMediaItemExcelReader.cs" />
     <Compile Include="Import\MediaItemExcelReader.cs" />
+    <Compile Include="Import\PublisherCsvReader.cs" />
+    <Compile Include="Import\TagCsvReader.cs" />
     <Compile Include="ManageCopiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,13 +277,10 @@
     <Compile Include="ICopyServiceFactory.cs" />
     <Compile Include="IMediaItemCopyService.cs" />
     <Compile Include="IMediaItemService.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\AuthorCsvImport.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\CsvFile.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\CsvImport.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\CsvRowResult.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\ICsvFile.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\PublisherCsvImport.cs" />
-    <Compile Include="Models\BusinessLogic\ImportCsv\TagCsvImport.cs" />
+    <Compile Include="Import\AuthorCsvImport.cs" />
+    <Compile Include="Import\CsvFile.cs" />
+    <Compile Include="Import\CsvImport.cs" />
+    <Compile Include="Import\ICsvFile.cs" />
     <Compile Include="IPublisherService.cs" />
     <Compile Include="ITagService.cs" />
     <Compile Include="IWishlistService.cs" />
@@ -381,9 +382,7 @@
     <Compile Include="TipOfTheDayDialog.Designer.cs">
       <DependentUpon>TipOfTheDayDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\CancellationTokenSourceWrapper.cs" />
     <Compile Include="Utils\Extensions.cs" />
-    <Compile Include="Utils\ICancellationTokenSource.cs" />
     <Compile Include="Utils\IImageFileReader.cs" />
     <Compile Include="Utils\ImageFileReader.cs" />
     <Compile Include="Views\Excel\Excel.cs" />

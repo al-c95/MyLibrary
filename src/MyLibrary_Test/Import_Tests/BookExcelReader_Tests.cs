@@ -21,114 +21,95 @@
 //SOFTWARE
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using NUnit;
 using NUnit.Framework;
 using OfficeOpenXml;
-using FakeItEasy;
-using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Import;
-using System.Security.Cryptography;
 
 namespace MyLibrary_Test.Import_Tests
 {
     [TestFixture]
     public class BookExcelReader_Tests
     {
-        int importedCount = 0;
+        int parsedCount = 0;
         int skippedCount = 0;
 
-        private void ProgressCallback(int imported, int skipped)
+        private void ProgressCallback(int parsed, int skipped)
         {
-            importedCount = imported;
+            parsedCount = parsed;
             skippedCount = skipped;
+        }
+
+        private void AddCell(ExcelPackage pck, string address, string value)
+        {
+            pck.Workbook.Worksheets["Book"].Cells[address].Value = value;
+        }
+
+        private void AddValidHeadersAndMetadata(ExcelPackage pck)
+        {
+            // metadata
+            AddCell(pck, "A1", "MyLibrary");
+            AddCell(pck, "A2", "Type");
+            AddCell(pck, "A3", "App Version:");
+            AddCell(pck, "B3", "1.5.0");
+            AddCell(pck, "B2", "Books");
+            AddCell(pck, "A4", "Extracted At:");
+            // headers
+            AddCell(pck, "A6", "Id");
+            AddCell(pck, "B6", "Title");
+            AddCell(pck, "C6", "Long Title");
+            AddCell(pck, "D6", "ISBN");
+            AddCell(pck, "E6", "ISBN13");
+            AddCell(pck, "F6", "Authors");
+            AddCell(pck, "G6", "Language");
+            AddCell(pck, "H6", "Tags");
+            AddCell(pck, "I6", "Dewey Decimal");
+            AddCell(pck, "J6", "MSRP");
+            AddCell(pck, "K6", "Publisher");
+            AddCell(pck, "L6", "Format");
+            AddCell(pck, "M6", "Date Published");
+            AddCell(pck, "N6", "Place of Publication");
+            AddCell(pck, "O6", "Edition");
+            AddCell(pck, "P6", "Pages");
+            AddCell(pck, "Q6", "Dimensions");
+            AddCell(pck, "R6", "Overview");
+            AddCell(pck, "S6", "Excerpt");
+            AddCell(pck, "T6", "Synopsys");
+            AddCell(pck, "U6", "Notes");
         }
 
         [Test]
         public void Read_Test_Validated()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Book");
-            // metadata
-            pck.Workbook.Worksheets["Book"].Cells["A1"].Value = "MyLibrary";
-            pck.Workbook.Worksheets["Book"].Cells["A2"].Value = "Type";
-            pck.Workbook.Worksheets["Book"].Cells["A3"].Value = "App Version:";
-            pck.Workbook.Worksheets["Book"].Cells["B3"].Value = "1.5.0";
-            pck.Workbook.Worksheets["Book"].Cells["B2"].Value = "Books";
-            pck.Workbook.Worksheets["Book"].Cells["A4"].Value = "Extracted At:";
-            // headers
-            pck.Workbook.Worksheets["Book"].Cells["A6"].Value = "Id";
-            pck.Workbook.Worksheets["Book"].Cells["B6"].Value = "Title";
-            pck.Workbook.Worksheets["Book"].Cells["C6"].Value = "Long Title";
-            pck.Workbook.Worksheets["Book"].Cells["D6"].Value = "ISBN";
-            pck.Workbook.Worksheets["Book"].Cells["E6"].Value = "ISBN13";
-            pck.Workbook.Worksheets["Book"].Cells["F6"].Value = "Authors";
-            pck.Workbook.Worksheets["Book"].Cells["G6"].Value = "Language";
-            pck.Workbook.Worksheets["Book"].Cells["H6"].Value = "Tags";
-            pck.Workbook.Worksheets["Book"].Cells["I6"].Value = "Dewey Decimal";
-            pck.Workbook.Worksheets["Book"].Cells["J6"].Value = "MSRP";
-            pck.Workbook.Worksheets["Book"].Cells["K6"].Value = "Publisher";
-            pck.Workbook.Worksheets["Book"].Cells["L6"].Value = "Format";
-            pck.Workbook.Worksheets["Book"].Cells["M6"].Value = "Date Published";
-            pck.Workbook.Worksheets["Book"].Cells["N6"].Value = "Place of Publication";
-            pck.Workbook.Worksheets["Book"].Cells["O6"].Value = "Edition";
-            pck.Workbook.Worksheets["Book"].Cells["P6"].Value = "Pages";
-            pck.Workbook.Worksheets["Book"].Cells["Q6"].Value = "Dimensions";
-            pck.Workbook.Worksheets["Book"].Cells["R6"].Value = "Overview";
-            pck.Workbook.Worksheets["Book"].Cells["S6"].Value = "Excerpt";
-            pck.Workbook.Worksheets["Book"].Cells["T6"].Value = "Synopsys";
-            pck.Workbook.Worksheets["Book"].Cells["U6"].Value = "Notes";
+            // metadata and headers
+            AddValidHeadersAndMetadata(pck);
             // item records
             // item 1
-            pck.Workbook.Worksheets["Book"].Cells["A7"].Value = "1";
-            pck.Workbook.Worksheets["Book"].Cells["B7"].Value = "Pythonic awesomeness";
-            pck.Workbook.Worksheets["Book"].Cells["C7"].Value = "Pythonic awesomeness: coding in Python";
-            pck.Workbook.Worksheets["Book"].Cells["D7"].Value = "0123456789";
-            pck.Workbook.Worksheets["Book"].Cells["E7"].Value = "012345678901X";
-            pck.Workbook.Worksheets["Book"].Cells["F7"].Value = "John Smith-Jones; Jane C. Doe";
-            pck.Workbook.Worksheets["Book"].Cells["G7"].Value = "English";
-            pck.Workbook.Worksheets["Book"].Cells["H7"].Value = "programming, software development";
-            pck.Workbook.Worksheets["Book"].Cells["H8"].Value = "200.5";
-            pck.Workbook.Worksheets["Book"].Cells["I8"].Value = "20";
-            pck.Workbook.Worksheets["Book"].Cells["J8"].Value = "publisher";
-            pck.Workbook.Worksheets["Book"].Cells["K8"].Value = "imaginary";
-            pck.Workbook.Worksheets["Book"].Cells["L8"].Value = "2018";
-            pck.Workbook.Worksheets["Book"].Cells["M8"].Value = "Australia";
-            pck.Workbook.Worksheets["Book"].Cells["N8"].Value = "1st";
-            pck.Workbook.Worksheets["Book"].Cells["O8"].Value = "100";
-            pck.Workbook.Worksheets["Book"].Cells["P8"].Value = "dimensions";
-            pck.Workbook.Worksheets["Book"].Cells["Q8"].Value = "overview";
-            pck.Workbook.Worksheets["Book"].Cells["R8"].Value = "excerpt";
-            pck.Workbook.Worksheets["Book"].Cells["S8"].Value = "synopsys";
-            pck.Workbook.Worksheets["Book"].Cells["T8"].Value = "notes";
-            // item 2
-            /*
-            pck.Workbook.Worksheets["Book"].Cells["A7"].Value = "1f";
-            pck.Workbook.Worksheets["Book"].Cells["B7"].Value = "";
-            pck.Workbook.Worksheets["Book"].Cells["C7"].Value = "";
-            pck.Workbook.Worksheets["Book"].Cells["D7"].Value = "bogus isbn";
-            pck.Workbook.Worksheets["Book"].Cells["E7"].Value = "bogus isbn13";
-            pck.Workbook.Worksheets["Book"].Cells["F7"].Value = "John Smith-Jones; Jane C. Doe";
-            pck.Workbook.Worksheets["Book"].Cells["G7"].Value = "";
-            pck.Workbook.Worksheets["Book"].Cells["H7"].Value = "programming, software development";
-            pck.Workbook.Worksheets["Book"].Cells["H8"].Value = "bogus Dewey decimal";
-            pck.Workbook.Worksheets["Book"].Cells["I8"].Value = "";
-            pck.Workbook.Worksheets["Book"].Cells["J8"].Value = "publisher";
-            pck.Workbook.Worksheets["Book"].Cells["K8"].Value = "imaginary";
-            pck.Workbook.Worksheets["Book"].Cells["L8"].Value = "2018";
-            pck.Workbook.Worksheets["Book"].Cells["M8"].Value = "Australia";
-            pck.Workbook.Worksheets["Book"].Cells["N8"].Value = "1st";
-            pck.Workbook.Worksheets["Book"].Cells["O8"].Value = "";
-            pck.Workbook.Worksheets["Book"].Cells["P8"].Value = "dimensions";
-            pck.Workbook.Worksheets["Book"].Cells["Q8"].Value = "overview";
-            pck.Workbook.Worksheets["Book"].Cells["R8"].Value = "excerpt";
-            pck.Workbook.Worksheets["Book"].Cells["S8"].Value = "synopsys";
-            pck.Workbook.Worksheets["Book"].Cells["T8"].Value = "notes";
-            */
+            AddCell(pck, "A7", "1");
+            AddCell(pck, "B7", "Pythonic awesomeness");
+            AddCell(pck, "C7", "Pythonic awesomeness: coding in Python");
+            AddCell(pck, "D7", "0123456789");
+            AddCell(pck, "E7", "012345678901X");
+            AddCell(pck, "F7", "John Smith-Jones; Jane C. Doe");
+            AddCell(pck, "G7", "English");
+            AddCell(pck, "H7", "programming, software development");
+            AddCell(pck, "I7", "200.5");
+            AddCell(pck, "J7", "20");
+            AddCell(pck, "K7", "publisher");
+            AddCell(pck, "L7", "imaginary");
+            AddCell(pck, "M7", "2018");
+            AddCell(pck, "N7", "Australia");
+            AddCell(pck, "O7", "1st");
+            AddCell(pck, "P7", "100");
+            AddCell(pck, "Q7", "dimensions");
+            AddCell(pck, "R7", "overview");
+            AddCell(pck, "S7", "excerpt");
+            AddCell(pck, "T7", "synopsys");
+            AddCell(pck, "U7", "notes");
             // reader
             BookExcelReader excelReader = new BookExcelReader(pck, "Book", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0));
 
@@ -145,7 +126,7 @@ namespace MyLibrary_Test.Import_Tests
             Assert.AreEqual("012345678901X", results.ToList()[0].Isbn13);
             Assert.AreEqual("English", results.ToList()[0].Language);
             Assert.AreEqual(200.5, results.ToList()[0].DeweyDecimal);
-            Assert.AreEqual(20, results.ToList()[0].Pages);
+            Assert.AreEqual("20", results.ToList()[0].Msrp);
             Assert.AreEqual("publisher", results.ToList()[0].Publisher.Name);
             Assert.AreEqual("imaginary", results.ToList()[0].Format);
             Assert.AreEqual("2018", results.ToList()[0].DatePublished);
@@ -157,22 +138,16 @@ namespace MyLibrary_Test.Import_Tests
             Assert.AreEqual("excerpt", results.ToList()[0].Excerpt);
             Assert.AreEqual("synopsys", results.ToList()[0].Synopsys);
             Assert.AreEqual("notes", results.ToList()[0].Notes);
-            Assert.AreEqual(2, results.ToList()[0].Tags.Count);
-            Assert.IsTrue(results.ToList()[0].Tags.Any(t => t.Name == "programming"));
-            Assert.IsTrue(results.ToList()[0].Tags.Any(t => t.Name == "software development"));
-            Assert.AreEqual(2, results.ToList()[0].Authors.Count);
-            Assert.IsTrue(results.ToList()[0].Authors.Any(a => a.FirstName == "John" && a.LastName == "Smith-Jones"));
-            Assert.IsTrue(results.ToList()[0].Authors.Any(a => a.FirstName == "Jane" && a.LastName == "C. Doe"));
             // progress callback values
-            Assert.AreEqual(1, importedCount);
-            Assert.AreEqual(1, skippedCount);
+            Assert.AreEqual(1, parsedCount);
+            Assert.AreEqual(0, skippedCount);
         }
 
         [Test]
         public void Constructor_Test_ExpectedWorksheetNotFound()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("worksheet");
 
@@ -184,38 +159,38 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_InvalidMetadata()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Book");
             // metadata
-            pck.Workbook.Worksheets["Book"].Cells["A1"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["A2"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["A3"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["B3"].Value = "1.5.0";
-            pck.Workbook.Worksheets["Book"].Cells["B2"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["A4"].Value = "bogus entry";
+            AddCell(pck, "A1", "bogus entry");
+            AddCell(pck, "A2", "bogus entry");
+            AddCell(pck, "A3", "bogus entry");
+            AddCell(pck, "B3", "1.5.0");
+            AddCell(pck, "B2", "bogus entry");
+            AddCell(pck, "A4", "bogus entry");
             // headers
-            pck.Workbook.Worksheets["Book"].Cells["A6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["B6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["C6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["D6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["E6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["F6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["G6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["H6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["I6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["J6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["K6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["L6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["M6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["N6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["O6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["P6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["Q6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["R6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["S6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["T6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["U6"].Value = "bogus entry";
+            AddCell(pck, "A6", "bogus entry");
+            AddCell(pck, "B6", "bogus entry");
+            AddCell(pck, "C6", "bogus entry");
+            AddCell(pck, "D6", "bogus entry");
+            AddCell(pck, "E6", "bogus entry");
+            AddCell(pck, "F6", "bogus entry");
+            AddCell(pck, "G6", "bogus entry");
+            AddCell(pck, "H6", "bogus entry");
+            AddCell(pck, "I6", "bogus entry");
+            AddCell(pck, "J6", "bogus entry");
+            AddCell(pck, "K6", "bogus entry");
+            AddCell(pck, "L6", "bogus entry");
+            AddCell(pck, "M6", "bogus entry");
+            AddCell(pck, "N6", "bogus entry");
+            AddCell(pck, "O6", "bogus entry");
+            AddCell(pck, "P6", "bogus entry");
+            AddCell(pck, "Q6", "bogus entry");
+            AddCell(pck, "R6", "bogus entry");
+            AddCell(pck, "S6", "bogus entry");
+            AddCell(pck, "T6", "bogus entry");
+            AddCell(pck, "U6", "bogus entry");
 
             // act/assert
             Assert.Throws<FormatException>(() => new BookExcelReader(pck, "Book", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0)));
@@ -225,38 +200,38 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_InvalidHeaders()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Book");
             // metadata
-            pck.Workbook.Worksheets["Book"].Cells["A1"].Value = "MyLibrary";
-            pck.Workbook.Worksheets["Book"].Cells["A2"].Value = "Type";
-            pck.Workbook.Worksheets["Book"].Cells["A3"].Value = "App Version:";
-            pck.Workbook.Worksheets["Book"].Cells["B3"].Value = "1.5.0";
-            pck.Workbook.Worksheets["Book"].Cells["B2"].Value = "Books";
-            pck.Workbook.Worksheets["Book"].Cells["A4"].Value = "Extracted At:";
+            AddCell(pck, "A1", "MyLibrary");
+            AddCell(pck, "A2", "Type");
+            AddCell(pck, "A3", "App Version:");
+            AddCell(pck, "B3", "1.5.0");
+            AddCell(pck, "B2", "Books");
+            AddCell(pck, "A4", "Extracted At:");
             // headers
-            pck.Workbook.Worksheets["Book"].Cells["A6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["B6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["C6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["D6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["E6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["F6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["G6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["H6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["I6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["J6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["K6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["L6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["M6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["N6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["O6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["P6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["Q6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["R6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["S6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["T6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Book"].Cells["U6"].Value = "bogus entry";
+            AddCell(pck, "A6", "bogus entry");
+            AddCell(pck, "B6", "bogus entry");
+            AddCell(pck, "C6", "bogus entry");
+            AddCell(pck, "D6", "bogus entry");
+            AddCell(pck, "E6", "bogus entry");
+            AddCell(pck, "F6", "bogus entry");
+            AddCell(pck, "G6", "bogus entry");
+            AddCell(pck, "H6", "bogus entry");
+            AddCell(pck, "I6", "bogus entry");
+            AddCell(pck, "J6", "bogus entry");
+            AddCell(pck, "K6", "bogus entry");
+            AddCell(pck, "L6", "bogus entry");
+            AddCell(pck, "M6", "bogus entry");
+            AddCell(pck, "N6", "bogus entry");
+            AddCell(pck, "O6", "bogus entry");
+            AddCell(pck, "P6", "bogus entry");
+            AddCell(pck, "Q6", "bogus entry");
+            AddCell(pck, "R6", "bogus entry");
+            AddCell(pck, "S6", "bogus entry");
+            AddCell(pck, "T6", "bogus entry");
+            AddCell(pck, "U6", "bogus entry");
 
             // act/assert
             Assert.Throws<FormatException>(() => new BookExcelReader(pck, "Book", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0)));
@@ -267,38 +242,38 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_VersionMismatch(int major, int minor, int revision)
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Book");
             // metadata
-            pck.Workbook.Worksheets["Book"].Cells["A1"].Value = "MyLibrary";
-            pck.Workbook.Worksheets["Book"].Cells["A2"].Value = "Type";
-            pck.Workbook.Worksheets["Book"].Cells["A3"].Value = "App Version:";
-            pck.Workbook.Worksheets["Book"].Cells["B3"].Value = major + "." + minor + "." + revision;
-            pck.Workbook.Worksheets["Book"].Cells["B2"].Value = "Books";
-            pck.Workbook.Worksheets["Book"].Cells["A4"].Value = "Extracted At:";
+            AddCell(pck, "A1", "MyLibrary");
+            AddCell(pck, "A2", "Type");
+            AddCell(pck, "A3", "App Version:");
+            AddCell(pck, "B3", major + "." + minor + "." + revision);
+            AddCell(pck, "B2", "Books");
+            AddCell(pck, "A4", "Extracted At:");
             // headers
-            pck.Workbook.Worksheets["Book"].Cells["A6"].Value = "Id";
-            pck.Workbook.Worksheets["Book"].Cells["B6"].Value = "Title";
-            pck.Workbook.Worksheets["Book"].Cells["C6"].Value = "Long Title";
-            pck.Workbook.Worksheets["Book"].Cells["D6"].Value = "ISBN";
-            pck.Workbook.Worksheets["Book"].Cells["E6"].Value = "ISBN13";
-            pck.Workbook.Worksheets["Book"].Cells["F6"].Value = "Authors";
-            pck.Workbook.Worksheets["Book"].Cells["G6"].Value = "Language";
-            pck.Workbook.Worksheets["Book"].Cells["H6"].Value = "Tags";
-            pck.Workbook.Worksheets["Book"].Cells["I6"].Value = "Dewey Decimal";
-            pck.Workbook.Worksheets["Book"].Cells["J6"].Value = "MSRP";
-            pck.Workbook.Worksheets["Book"].Cells["K6"].Value = "Publisher";
-            pck.Workbook.Worksheets["Book"].Cells["L6"].Value = "Format";
-            pck.Workbook.Worksheets["Book"].Cells["M6"].Value = "Date Published";
-            pck.Workbook.Worksheets["Book"].Cells["N6"].Value = "Place of Publication";
-            pck.Workbook.Worksheets["Book"].Cells["O6"].Value = "Edition";
-            pck.Workbook.Worksheets["Book"].Cells["P6"].Value = "Pages";
-            pck.Workbook.Worksheets["Book"].Cells["Q6"].Value = "Dimensions";
-            pck.Workbook.Worksheets["Book"].Cells["R6"].Value = "Overview";
-            pck.Workbook.Worksheets["Book"].Cells["S6"].Value = "Excerpt";
-            pck.Workbook.Worksheets["Book"].Cells["T6"].Value = "Synopsys";
-            pck.Workbook.Worksheets["Book"].Cells["U6"].Value = "Notes";
+            AddCell(pck, "A6", "Id");
+            AddCell(pck, "B6", "Title");
+            AddCell(pck, "C6", "Long Title");
+            AddCell(pck, "D6", "ISBN");
+            AddCell(pck, "E6", "ISBN13");
+            AddCell(pck, "F6", "Authors");
+            AddCell(pck, "G6", "Language");
+            AddCell(pck, "H6", "Tags");
+            AddCell(pck, "I6", "Dewey Decimal");
+            AddCell(pck, "J6", "MSRP");
+            AddCell(pck, "K6", "Publisher");
+            AddCell(pck, "L6", "Format");
+            AddCell(pck, "M6", "Date Published");
+            AddCell(pck, "N6", "Place of Publication");
+            AddCell(pck, "O6", "Edition");
+            AddCell(pck, "P6", "Pages");
+            AddCell(pck, "Q6", "Dimensions");
+            AddCell(pck, "R6", "Overview");
+            AddCell(pck, "S6", "Excerpt");
+            AddCell(pck, "T6", "Synopsys");
+            AddCell(pck, "U6", "Notes");
 
             // act/assert
             Assert.Throws<FormatException>(() => new BookExcelReader(pck, "Book", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0)));

@@ -57,6 +57,48 @@ namespace MyLibrary_Test
         }
 
         [Test]
+        public async Task AddIfNotExists_Test_Exists()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("tag")).Returns(true);
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            TagService service = new TagService(fakeUowProvider, fakeRepoProvider);
+
+            // act
+            bool result = await service.AddIfNotExists(new Tag { Name = "tag" });
+
+            // assert
+            Assert.IsFalse(result);
+            A.CallTo(() => fakeRepo.CreateAsync(A<Tag>.That.Matches(t => t.Name=="tag"))).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task AddIfNotExists_Test_DoesNotExist()
+        {
+            // arrange
+            var fakeUowProvider = A.Fake<IUnitOfWorkProvider>();
+            var fakeRepoProvider = A.Fake<ITagRepositoryServiceProvider>();
+            var fakeUow = A.Fake<IUnitOfWork>();
+            var fakeRepo = A.Fake<ITagRepository>();
+            A.CallTo(() => fakeRepo.ExistsWithNameAsync("tag")).Returns(false);
+            A.CallTo(() => fakeUowProvider.Get()).Returns(fakeUow);
+            A.CallTo(() => fakeRepoProvider.Get(fakeUow)).Returns(fakeRepo);
+            TagService service = new TagService(fakeUowProvider, fakeRepoProvider);
+
+            // act
+            bool result = await service.AddIfNotExists(new Tag { Name = "tag" });
+
+            // assert
+            Assert.IsTrue(result);
+            A.CallTo(() => fakeRepo.CreateAsync(A<Tag>.That.Matches(t => t.Name == "tag"))).MustHaveHappened();
+        }
+
+        [Test]
         public async Task DeleteByName()
         {
             // arrange

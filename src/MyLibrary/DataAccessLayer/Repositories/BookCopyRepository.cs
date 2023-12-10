@@ -30,7 +30,9 @@ namespace MyLibrary.DataAccessLayer.Repositories
     public class BookCopyRepository : Repository<BookCopy>, IBookCopyRepository
     {
         public BookCopyRepository(IUnitOfWork uow)
-            : base(uow) { }
+            : base(uow)
+        { 
+        }
 
         public override async Task CreateAsync(BookCopy entity)
         {

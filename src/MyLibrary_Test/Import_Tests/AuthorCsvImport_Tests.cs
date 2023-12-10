@@ -7,11 +7,12 @@ using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.BusinessLogic.ImportCsv;
+using MyLibrary.Import;
 using MyLibrary;
 
 namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
 {
+    /*
     [TestFixture]
     class AuthorCsvImport_Tests
     {
@@ -121,4 +122,5 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
             Assert.IsTrue(results.Any(r => r.Row == 4 && r.RowStatus == CsvRowResult.Status.ERROR));
         }
     }//class
+    */
 }

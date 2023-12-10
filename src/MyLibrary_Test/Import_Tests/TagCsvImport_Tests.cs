@@ -7,11 +7,12 @@ using NUnit;
 using NUnit.Framework;
 using FakeItEasy;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.BusinessLogic.ImportCsv;
+using MyLibrary.Import;
 using MyLibrary;
 
 namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
 {
+    /*
     [TestFixture]
     class TagCsvImport_Tests
     {
@@ -123,4 +124,5 @@ namespace MyLibrary_Test.Models_Tests.BusinessLogic_Tests.ImportCsv_Tests
             A.CallTo(() => fakeService.Add(tag)).MustHaveHappened();
         }
     }//class
+    */
 }

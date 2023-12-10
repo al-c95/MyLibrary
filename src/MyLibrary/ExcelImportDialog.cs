@@ -158,7 +158,7 @@ namespace MyLibrary
 
         public void ShowErrorDialog(Exception exception)
         {
-            System.Windows.Forms.MessageBox.Show(exception.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         #region UI event handlers

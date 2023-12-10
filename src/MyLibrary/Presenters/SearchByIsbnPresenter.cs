@@ -23,7 +23,6 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Net.Http;
-using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Models.Entities;
 using MyLibrary.Views;
 using MyLibrary.ApiService;

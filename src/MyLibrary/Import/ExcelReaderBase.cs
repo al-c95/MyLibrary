@@ -70,5 +70,15 @@ namespace MyLibrary.Import
 
             return pck.Workbook.Worksheets[worksheet].Cells[address].GetValue<string>();
         }
+
+        protected string ReadCellAsString(ExcelPackage pck, string worksheet, int row, int col)
+        {
+            if (!pck.Workbook.Worksheets.Any(ws => ws.Name.Equals(worksheet)))
+            {
+                throw new FormatException("Expected worksheet not found: " + worksheet);
+            }
+
+            return pck.Workbook.Worksheets[worksheet].Cells[row, col].GetValue<string>();
+        }
     }//class
 }

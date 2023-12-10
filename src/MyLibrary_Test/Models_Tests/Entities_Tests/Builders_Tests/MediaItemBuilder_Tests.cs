@@ -26,7 +26,7 @@ using NUnit.Framework;
 using MyLibrary.Models.Entities;
 using MyLibrary.Models.Entities.Builders;
 using System.Linq;
-using MyLibrary.Models.BusinessLogic.ImportCsv;
+using MyLibrary.Import;
 
 namespace MyLibrary_Test.Models_Tests.Entities_Tests.Builders_Tests
 {

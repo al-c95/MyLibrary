@@ -29,6 +29,7 @@ namespace MyLibrary
     public interface IPublisherService
     {
         Task Add(Publisher entity);
+        Task<bool> AddIfNotExists(Publisher entity);
         Task<bool> ExistsWithName(string name);
         Task<IEnumerable<Publisher>> GetAll();
     }

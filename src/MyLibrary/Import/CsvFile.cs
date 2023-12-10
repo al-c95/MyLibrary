@@ -20,34 +20,40 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
+using System;
+using System.Threading.Tasks;
+using System.IO;
 
-namespace MyLibrary.Models.BusinessLogic.ImportCsv
+namespace MyLibrary.Import
 {
-    public class CsvRowResult
+    public class CsvFile : ICsvFile
     {
-        public int Row { get; private set; }
-        public Entity Entity { get; private set; }
-        public string EntityName { get; private set; }
-        public Status RowStatus { get; private set; }
+        public string Path { get; private set; }
 
-        public CsvRowResult(int row, Status status, Entity entity, string entityName)
+        public CsvFile(string path)
         {
-            this.Row = row;
-            this.Entity = entity;
-            this.EntityName = entityName;
-            this.RowStatus = status;
-            if (this.RowStatus == Status.ERROR)
+            if (System.IO.Path.GetExtension(path).Equals(".csv"))
+                this.Path = path;
+            else
+                throw new Exception("Import must be a CSV file");
+        }
+
+        public string[] ReadLinesSync()
+        {
+            using (var reader = File.OpenText(this.Path))
             {
-                this.Entity = null;
-                this.EntityName = null;
+                var text = reader.ReadToEnd();
+                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             }
         }
 
-        public enum Status
+        public async Task<string[]> ReadLinesAsync()
         {
-            SUCCESS,
-            ERROR
+            using (var reader = File.OpenText(this.Path))
+            {
+                var text = await reader.ReadToEndAsync();
+                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            }
         }
     }
 }

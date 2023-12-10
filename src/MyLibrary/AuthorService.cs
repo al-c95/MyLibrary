@@ -62,28 +62,22 @@ namespace MyLibrary
             }
         }
 
-        public async Task<bool> ExistsWithName(string name)
-        {
-            var allAuthors = await GetAll();
-            return allAuthors.Any(a => a.FirstName.Equals(name) || a.LastName.Equals(name));
-        }
-
         public async Task<bool> ExistsWithName(string firstName, string lastName)
         {
-            var allAuthors = await GetAll();
-            return allAuthors.Any(a => a.FirstName.Equals(firstName) && a.LastName.Equals(lastName));
+            using (var uow = this._uowProvider.Get())
+            {
+                IAuthorRepository repo = this._repoProvider.Get(uow);
+                return await repo.AuthorExistsAsync(firstName, lastName);
+            }
         }
 
         public async Task Add(Author entity)
         {
-            await Task.Run(() =>
+            using (IUnitOfWork uow = this._uowProvider.Get())
             {
-                using (IUnitOfWork uow = this._uowProvider.Get())
-                {
-                    IAuthorRepository repo = this._repoProvider.Get(uow);
-                    repo.CreateAsync(entity);
-                }
-            });
+                IAuthorRepository repo = this._repoProvider.Get(uow);
+                await repo.CreateAsync(entity);
+            }
         }
     }//class
 }

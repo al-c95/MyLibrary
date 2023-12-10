@@ -79,6 +79,17 @@ namespace MyLibrary
             }
         }
 
+        public async Task<bool> AddIfNotExists(Tag entity)
+        {
+            bool exists = await ExistsWithName(entity.Name);
+            if (!exists)
+            {
+                await Add(entity);
+            }
+
+            return !exists;
+        }
+
         public async Task DeleteByName(string name)
         {
             using (var uow = this._uowProvider.Get())

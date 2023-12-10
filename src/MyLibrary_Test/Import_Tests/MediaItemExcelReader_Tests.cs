@@ -21,14 +21,10 @@
 //SOFTWARE
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using NUnit;
 using NUnit.Framework;
 using OfficeOpenXml;
-using FakeItEasy;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.Entities.Builders;
 using MyLibrary.Import;
 
 namespace MyLibrary_Test.Import_Tests
@@ -36,66 +32,71 @@ namespace MyLibrary_Test.Import_Tests
     [TestFixture]
     public class MediaItemExcelReader_Tests
     {
-        int importedCount = 0;
+        int parsedCount = 0;
         int skippedCount = 0;
 
-        private void ProgressCallback(int imported, int skipped)
+        private void ProgressCallback(int parsed, int skipped)
         {
-            importedCount = imported;
+            parsedCount = parsed;
             skippedCount = skipped;
+        }
+
+        private void AddCell(ExcelPackage pck, string address, string value)
+        {
+            pck.Workbook.Worksheets["Media item"].Cells[address].Value = value;
         }
 
         [Test]
         public void Read_Test_Validated()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();         
             pck.Workbook.Worksheets.Add("Media item");
             // metadata
-            pck.Workbook.Worksheets["Media item"].Cells["A1"].Value = "MyLibrary";
-            pck.Workbook.Worksheets["Media item"].Cells["A2"].Value = "Type";
-            pck.Workbook.Worksheets["Media item"].Cells["A3"].Value = "App Version:";
-            pck.Workbook.Worksheets["Media item"].Cells["B3"].Value = "1.5.0";
-            pck.Workbook.Worksheets["Media item"].Cells["B2"].Value = "Media items";
-            pck.Workbook.Worksheets["Media item"].Cells["A4"].Value = "Extracted At:";
+            AddCell(pck, "A1", "MyLibrary");
+            AddCell(pck, "A2", "Type");
+            AddCell(pck, "A3", "App Version:");
+            AddCell(pck, "B3", "1.5.0");
+            AddCell(pck, "B2", "Media items");
+            AddCell(pck, "A4", "Extracted At:");
             // headers
-            pck.Workbook.Worksheets["Media item"].Cells["A6"].Value = "Id";
-            pck.Workbook.Worksheets["Media item"].Cells["B6"].Value = "Title";
-            pck.Workbook.Worksheets["Media item"].Cells["C6"].Value = "Type";
-            pck.Workbook.Worksheets["Media item"].Cells["D6"].Value = "Number";
-            pck.Workbook.Worksheets["Media item"].Cells["E6"].Value = "Running Time";
-            pck.Workbook.Worksheets["Media item"].Cells["F6"].Value = "Release Year";
-            pck.Workbook.Worksheets["Media item"].Cells["G6"].Value = "Tags";
-            pck.Workbook.Worksheets["Media item"].Cells["H6"].Value = "Notes";
+            AddCell(pck, "A6", "Id");
+            AddCell(pck, "B6", "Title");
+            AddCell(pck, "C6", "Type");
+            AddCell(pck, "D6", "Number");
+            AddCell(pck, "E6", "Running Time");
+            AddCell(pck, "F6", "Release Year");
+            AddCell(pck, "G6", "Tags");
+            AddCell(pck, "H6", "Notes");
             // item records
             // item 1
-            pck.Workbook.Worksheets["Media item"].Cells["A7"].Value = "1";
-            pck.Workbook.Worksheets["Media item"].Cells["B7"].Value = "Funny movie";
-            pck.Workbook.Worksheets["Media item"].Cells["C7"].Value = "Dvd";
-            pck.Workbook.Worksheets["Media item"].Cells["D7"].Value = "234108974";
-            pck.Workbook.Worksheets["Media item"].Cells["E7"].Value = "125";
-            pck.Workbook.Worksheets["Media item"].Cells["F7"].Value = "2022";
-            pck.Workbook.Worksheets["Media item"].Cells["G7"].Value = "comedy, drama";
-            pck.Workbook.Worksheets["Media item"].Cells["H7"].Value = "this is a test.";
+            AddCell(pck, "A7", "1");
+            AddCell(pck, "B7", "Funny movie");
+            AddCell(pck, "C7", "Dvd");
+            AddCell(pck, "D7", "234108974");
+            AddCell(pck, "E7", "125");
+            AddCell(pck, "F7", "2022");
+            AddCell(pck, "G7", "comedy, drama");
+            AddCell(pck, "H7", "this is a test.");
             // item 2
-            pck.Workbook.Worksheets["Media item"].Cells["A8"].Value = "2";
-            pck.Workbook.Worksheets["Media item"].Cells["B8"].Value = "Funny movie 2";
-            pck.Workbook.Worksheets["Media item"].Cells["C8"].Value = "bogus type";
-            pck.Workbook.Worksheets["Media item"].Cells["D8"].Value = "234547890";
-            pck.Workbook.Worksheets["Media item"].Cells["E8"].Value = "125";
-            pck.Workbook.Worksheets["Media item"].Cells["F8"].Value = "2023";
-            pck.Workbook.Worksheets["Media item"].Cells["G8"].Value = "comedy, drama";
-            pck.Workbook.Worksheets["Media item"].Cells["H8"].Value = "this is a test.";
+            AddCell(pck, "A8", "2");
+            AddCell(pck, "B8", "Funny movie 2");
+            AddCell(pck, "C8", "bogus type");
+            AddCell(pck, "D8", "234547890");
+            AddCell(pck, "E8", "125");
+            AddCell(pck, "F8", "2023");
+            AddCell(pck, "G8", "comedy, drama");
+            AddCell(pck, "H8", "this is a test");
             // item 3
-            pck.Workbook.Worksheets["Media item"].Cells["A9"].Value = "bogus id";
-            pck.Workbook.Worksheets["Media item"].Cells["B9"].Value = "Funny movie 3";
-            pck.Workbook.Worksheets["Media item"].Cells["C9"].Value = "BluRay";
-            pck.Workbook.Worksheets["Media item"].Cells["D9"].Value = "2342347907890";
-            pck.Workbook.Worksheets["Media item"].Cells["E9"].Value = "125";
-            pck.Workbook.Worksheets["Media item"].Cells["F9"].Value = "2023";
-            pck.Workbook.Worksheets["Media item"].Cells["G9"].Value = "comedy, drama";
-            pck.Workbook.Worksheets["Media item"].Cells["H9"].Value = "this is a test.";
+            AddCell(pck, "A9", "bogus id");
+            AddCell(pck, "B9", "Funny movie 3");
+            AddCell(pck, "C9", "BluRay");
+            AddCell(pck, "D9", "2342347907890");
+            AddCell(pck, "E9", "125");
+            AddCell(pck, "F9", "2023");
+            AddCell(pck, "G9", "comedy, drama");
+            AddCell(pck, "H9", "this is a test.");
             // reader
             MediaItemExcelReader excelReader = new MediaItemExcelReader(pck, "Media item", new MyLibrary.Models.ValueObjects.AppVersion(1,5,0));
 
@@ -116,7 +117,7 @@ namespace MyLibrary_Test.Import_Tests
             Assert.IsTrue(results.ToList()[0].Tags.Any(t => t.Name == "comedy"));
             Assert.IsTrue(results.ToList()[0].Tags.Any(t => t.Name == "drama"));
             // progress callback values
-            Assert.AreEqual(1, importedCount);
+            Assert.AreEqual(1, parsedCount);
             Assert.AreEqual(2, skippedCount);
         }
 
@@ -124,7 +125,7 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_ExpectedWorksheetNotFound()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("worksheet");
 
@@ -136,25 +137,25 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_InvalidMetadata()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Media item");
             // metadata
-            pck.Workbook.Worksheets["Media item"].Cells["A1"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["A2"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["A3"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["B3"].Value = "1.5.0";
-            pck.Workbook.Worksheets["Media item"].Cells["B2"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["A4"].Value = "bogus entry";
+            AddCell(pck, "A1", "bogus entry");
+            AddCell(pck, "A2", "bogus entry");
+            AddCell(pck, "A3", "bogus entry");
+            AddCell(pck, "B3", "1.5.0");
+            AddCell(pck, "B2", "bogus entry");
+            AddCell(pck, "A4", "bogus entry");
             // headers
-            pck.Workbook.Worksheets["Media item"].Cells["A6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["B6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["C6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["D6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["E6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["F6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["G6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["H6"].Value = "bogus entry";
+            AddCell(pck, "A6", "bogus entry");
+            AddCell(pck, "B6", "bogus entry");
+            AddCell(pck, "C6", "bogus entry");
+            AddCell(pck, "D6", "bogus entry");
+            AddCell(pck, "E6", "bogus entry");
+            AddCell(pck, "F6", "bogus entry");
+            AddCell(pck, "G6", "bogus entry");
+            AddCell(pck, "H6", "bogus entry");
 
             // act/assert
             Assert.Throws<FormatException>(() => new MediaItemExcelReader(pck, "Media item", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0)));
@@ -164,25 +165,25 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_InvalidHeaders()
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Media item");
             // metadata
-            pck.Workbook.Worksheets["Media item"].Cells["A1"].Value = "MyLibrary";
-            pck.Workbook.Worksheets["Media item"].Cells["A2"].Value = "Type";
-            pck.Workbook.Worksheets["Media item"].Cells["A3"].Value = "App Version:";
-            pck.Workbook.Worksheets["Media item"].Cells["B3"].Value = "1.5.0";
-            pck.Workbook.Worksheets["Media item"].Cells["B2"].Value = "Media items";
-            pck.Workbook.Worksheets["Media item"].Cells["A4"].Value = "Extracted At:";
+            AddCell(pck, "A1", "MyLibrary");
+            AddCell(pck, "A2", "Type");
+            AddCell(pck, "A3", "App Version:");
+            AddCell(pck, "B3", "1.5.0");
+            AddCell(pck, "B2", "Media items");
+            AddCell(pck, "A4", "Extracted At:");
             // headers
-            pck.Workbook.Worksheets["Media item"].Cells["A6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["B6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["C6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["D6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["E6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["F6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["G6"].Value = "bogus entry";
-            pck.Workbook.Worksheets["Media item"].Cells["H6"].Value = "bogus entry";
+            AddCell(pck, "A6", "bogus entry");
+            AddCell(pck, "B6", "bogus entry");
+            AddCell(pck, "C6", "bogus entry");
+            AddCell(pck, "D6", "bogus entry");
+            AddCell(pck, "E6", "bogus entry");
+            AddCell(pck, "F6", "bogus entry");
+            AddCell(pck, "G6", "bogus entry");
+            AddCell(pck, "H6", "bogus entry");
 
             // act/assert
             Assert.Throws<FormatException>(() => new MediaItemExcelReader(pck, "Media item", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0)));
@@ -193,25 +194,25 @@ namespace MyLibrary_Test.Import_Tests
         public void Constructor_Test_VersionMismatch(int major, int minor, int revision)
         {
             // arrange
-            OfficeOpenXml.ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage pck = new ExcelPackage();
             pck.Workbook.Worksheets.Add("Media item");
             // metadata
-            pck.Workbook.Worksheets["Media item"].Cells["A1"].Value = "MyLibrary";
-            pck.Workbook.Worksheets["Media item"].Cells["A2"].Value = "Type";
-            pck.Workbook.Worksheets["Media item"].Cells["A3"].Value = "App Version:";
-            pck.Workbook.Worksheets["Media item"].Cells["B3"].Value = major + "." + minor + "." + revision;
-            pck.Workbook.Worksheets["Media item"].Cells["B2"].Value = "Media items";
-            pck.Workbook.Worksheets["Media item"].Cells["A4"].Value = "Extracted At:";
+            AddCell(pck, "A1", "MyLibrary");
+            AddCell(pck, "A2", "Type");
+            AddCell(pck, "A3", "App Version:");
+            AddCell(pck, "B3", major + "." + minor + "." + revision);
+            AddCell(pck, "B2", "Media items");
+            AddCell(pck, "A4", "Extracted At:");
             // headers
-            pck.Workbook.Worksheets["Media item"].Cells["A6"].Value = "Id";
-            pck.Workbook.Worksheets["Media item"].Cells["B6"].Value = "Title";
-            pck.Workbook.Worksheets["Media item"].Cells["C6"].Value = "Type";
-            pck.Workbook.Worksheets["Media item"].Cells["D6"].Value = "Number";
-            pck.Workbook.Worksheets["Media item"].Cells["E6"].Value = "Running Time";
-            pck.Workbook.Worksheets["Media item"].Cells["F6"].Value = "Release Year";
-            pck.Workbook.Worksheets["Media item"].Cells["G6"].Value = "Tags";
-            pck.Workbook.Worksheets["Media item"].Cells["H6"].Value = "Notes";
+            AddCell(pck, "A6", "Id");
+            AddCell(pck, "B6", "Title");
+            AddCell(pck, "C6", "Type");
+            AddCell(pck, "D6", "Number");
+            AddCell(pck, "E6", "Running Time");
+            AddCell(pck, "F6", "Release Year");
+            AddCell(pck, "G6", "Tags");
+            AddCell(pck, "H6", "Notes");
 
             // act/assert
             Assert.Throws<FormatException>(() => new MediaItemExcelReader(pck, "Media item", new MyLibrary.Models.ValueObjects.AppVersion(1, 5, 0)));

@@ -38,37 +38,47 @@ namespace MyLibrary.Import
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             // validate worksheet
             bool sane = true;
-            sane = sane && ReadCellAsString(this._excel, "Media item", "B2").Equals("Media items");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "A6").Equals("Id");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "B6").Equals("Title");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "C6").Equals("Type");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "D6").Equals("Number");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "E6").Equals("Running Time");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "F6").Equals("Release Year");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "G6").Equals("Tags");
-            sane = sane && ReadCellAsString(this._excel, "Media item", "H6").Equals("Notes");
+            sane = sane && Read("B2").Equals("Media items");
+            sane = sane && Read("A6").Equals("Id");
+            sane = sane && Read("B6").Equals("Title");
+            sane = sane && Read("C6").Equals("Type");
+            sane = sane && Read("D6").Equals("Number");
+            sane = sane && Read("E6").Equals("Running Time");
+            sane = sane && Read("F6").Equals("Release Year");
+            sane = sane && Read("G6").Equals("Tags");
+            sane = sane && Read("H6").Equals("Notes");
             if (!sane)
             {
                 throw new FormatException("Provided Excel is not a valid media items export from MyLibrary");
             }
         }
 
+        private string Read(int row, int column)
+        {
+            return ReadCellAsString(this._excel, "Media item", row, column);
+        }
+
+        private string Read(string address)
+        {
+            return ReadCellAsString(this._excel, "Media item", address);
+        }
+
         public override IEnumerable<MediaItem> Read(Action<int, int> progressCallback)
         {
-            int importedCount = 0;
+            int parsedCount = 0;
             int skippedCount = 0;
 
             ExcelAddressBase usedRange = this._excel.Workbook.Worksheets["Media item"].Dimension;
             for (int index = HEADER_ROW + 1; index <= usedRange.End.Row; index++)
             {
-                string idEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 1].GetValue<string>();
-                string title = this._excel.Workbook.Worksheets["Media item"].Cells[index, 2].GetValue<string>();
-                string typeEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 3].GetValue<string>();
-                string numberEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 4].GetValue<string>();
-                string runningTimeEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 5].GetValue<string>();
-                string releaseYearEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 6].GetValue<string>();
-                string tagsEntry = this._excel.Workbook.Worksheets["Media item"].Cells[index, 7].GetValue<string>();
-                string notes = this._excel.Workbook.Worksheets["Media item"].Cells[index, 8].GetValue<string>();
+                string idEntry = Read(index, 1);
+                string title = Read(index, 2);
+                string typeEntry = Read(index, 3);
+                string numberEntry = Read(index, 4);
+                string runningTimeEntry = Read(index, 5);
+                string releaseYearEntry = Read(index, 6);
+                string tagsEntry = Read(index, 7);
+                string notes = Read(index, 8);
 
                 MediaItem item = new MediaItem();
                 MediaItemBuilder builder = new MediaItemBuilder();
@@ -96,15 +106,15 @@ namespace MyLibrary.Import
                     item.Notes = notes;
                     item.Type = Item.ParseType(typeEntry);
 
-                    importedCount++;
-                    progressCallback?.Invoke(importedCount, skippedCount);
+                    parsedCount++;
+                    progressCallback?.Invoke(parsedCount, skippedCount);
                 }
                 catch (Exception ex)
                 {
                     if (ex is ArgumentException || ex is FormatException)
                     {
                         skippedCount++;
-                        progressCallback?.Invoke(importedCount, skippedCount);
+                        progressCallback?.Invoke(parsedCount, skippedCount);
 
                         continue;
                     }

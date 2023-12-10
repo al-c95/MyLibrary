@@ -32,7 +32,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public AuthorRepository(IUnitOfWork uow)
             : base(uow)
         {
-
         }
 
         public override async Task CreateAsync(Author entity)

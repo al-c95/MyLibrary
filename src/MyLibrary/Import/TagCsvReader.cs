@@ -20,22 +20,51 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using MyLibrary.Models.Entities;
+using MyLibrary.Models.ValueObjects;
 
-namespace MyLibrary.DataAccessLayer.Repositories
+namespace MyLibrary.Import
 {
-    public abstract class ItemRepository<T> : Repository<T> where T : ItemBase
+    public class TagCsvReader : CsvReaderBase<Tag>
     {
-        public ItemRepository(IUnitOfWork uow)
-            :base(uow) 
-        { 
+        public TagCsvReader(CsvFile csvFile, AppVersion runningVersion)
+            :base(csvFile, runningVersion)
+        {
+            
         }
 
-        public abstract Task UpdateAsync(T toUpdate, bool includeImage);
-        public abstract Task DeleteByIdAsync(int id);
-        public abstract Task<T> GetByIdAsync(int id);
-        public abstract Task<IEnumerable<string>> GetTitlesAsync();
+        public override IEnumerable<Tag> Read(Action<int, int> progressCallback)
+        {
+            int parsedCount = 0;
+            int skippedCount = 0;
+
+            var allLines = this._csv.ReadLinesSync();
+            int index = 0;
+            foreach (var line in allLines)
+            {
+                // skip header line
+                if (index == 0)
+                {
+                    index++;
+                    continue;
+                }
+
+                if (Tag.Validate(line))
+                {
+                    parsedCount++;
+                    progressCallback?.Invoke(parsedCount, skippedCount);
+                    yield return new Tag { Name= line };
+                }
+                else
+                {
+                    skippedCount++;
+                    progressCallback?.Invoke(parsedCount, skippedCount);
+                }
+
+                index++;
+            }
+        }//Read
     }//class
 }

@@ -21,29 +21,25 @@
 //SOFTWARE
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using MyLibrary.Models.Entities;
+using MyLibrary.Models.ValueObjects;
 
-namespace MyLibrary.Models.BusinessLogic.ImportCsv
+namespace MyLibrary.Import
 {
-    public class CsvFile : ICsvFile
+    public abstract class CsvReaderBase<T> where T : Entity
     {
-        public string Path { get; private set; }
+        protected CsvFile _csv;
 
-        public CsvFile(string path)
+        protected readonly AppVersion VERSION_LIMIT = new AppVersion(2, 0, 0);
+
+        public CsvReaderBase(CsvFile csvFile, AppVersion runningVersion)
         {
-            if (System.IO.Path.GetExtension(path).Equals(".csv"))
-                this.Path = path;
-            else
-                throw new Exception("Import must be a CSV file");
+            throw new NotImplementedException();
         }
 
-        public async Task<string[]> ReadLinesAsync()
-        {
-            using (var reader = System.IO.File.OpenText(this.Path))
-            {
-                var text = await reader.ReadToEndAsync();
-                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            }
-        }
+        public abstract IEnumerable<T> Read(Action<int, int> progressCallback);
     }
 }

@@ -33,7 +33,6 @@ namespace MyLibrary.DataAccessLayer.Repositories
         public BookRepository(IUnitOfWork uow)
             : base(uow)
         {
-
         }
 
         public override async Task CreateAsync(Book entity)

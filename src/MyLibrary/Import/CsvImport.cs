@@ -26,8 +26,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyLibrary.Models.BusinessLogic.ImportCsv
+namespace MyLibrary.Import
 {
+    /*
     public abstract class CsvImport : IEnumerable<CsvRowResult>
     {
         protected string[] _lines;
@@ -66,4 +67,5 @@ namespace MyLibrary.Models.BusinessLogic.ImportCsv
             }
         }
     }//class
+    */
 }
