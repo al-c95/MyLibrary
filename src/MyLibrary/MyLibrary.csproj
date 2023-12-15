@@ -85,6 +85,7 @@
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -252,15 +253,19 @@
     <Compile Include="ExcelImportDialog.Designer.cs">
       <DependentUpon>ExcelImportDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Import\AuthorCsvReader.cs" />
+    <Compile Include="Import\AuthorCsvImportCollection.cs" />
     <Compile Include="Import\BookExcelReader.cs" />
-    <Compile Include="Import\CsvReaderBase.cs" />
+    <Compile Include="Import\CsvImportCollection.cs" />
+    <Compile Include="Import\CsvParser.cs" />
+    <Compile Include="Import\CsvParserService.cs" />
     <Compile Include="Import\ExcelReaderBase.cs" />
     <Compile Include="Import\IBookExcelReader.cs" />
+    <Compile Include="Import\ICsvParser.cs" />
+    <Compile Include="Import\ICsvParserService.cs" />
     <Compile Include="Import\IMediaItemExcelReader.cs" />
     <Compile Include="Import\MediaItemExcelReader.cs" />
-    <Compile Include="Import\PublisherCsvReader.cs" />
-    <Compile Include="Import\TagCsvReader.cs" />
+    <Compile Include="Import\PublisherCsvImportCollection.cs" />
+    <Compile Include="Import\TagCsvImportCollection.cs" />
     <Compile Include="ManageCopiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,9 +282,6 @@
     <Compile Include="ICopyServiceFactory.cs" />
     <Compile Include="IMediaItemCopyService.cs" />
     <Compile Include="IMediaItemService.cs" />
-    <Compile Include="Import\AuthorCsvImport.cs" />
-    <Compile Include="Import\CsvFile.cs" />
-    <Compile Include="Import\CsvImport.cs" />
     <Compile Include="Import\ICsvFile.cs" />
     <Compile Include="IPublisherService.cs" />
     <Compile Include="ITagService.cs" />

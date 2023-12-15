@@ -23,48 +23,24 @@
 using System;
 using System.Collections.Generic;
 using MyLibrary.Models.Entities;
-using MyLibrary.Models.ValueObjects;
 
 namespace MyLibrary.Import
 {
-    public class TagCsvReader : CsvReaderBase<Tag>
+    public abstract class CsvImportCollection<T> where T : Entity
     {
-        public TagCsvReader(CsvFile csvFile, AppVersion runningVersion)
-            :base(csvFile, runningVersion)
+        protected ICsvParserService _csvParserService;
+        protected List<T> _entities;
+
+        public int ParsedCount { get; protected set; }
+        public int SkippedCount { get; protected set; }
+
+        public CsvImportCollection(ICsvParserService parserService)
         {
-            
+            this._entities = new List<T>();
+            this._csvParserService = parserService;
         }
 
-        public override IEnumerable<Tag> Read(Action<int, int> progressCallback)
-        {
-            int parsedCount = 0;
-            int skippedCount = 0;
-
-            var allLines = this._csv.ReadLinesSync();
-            int index = 0;
-            foreach (var line in allLines)
-            {
-                // skip header line
-                if (index == 0)
-                {
-                    index++;
-                    continue;
-                }
-
-                if (Tag.Validate(line))
-                {
-                    parsedCount++;
-                    progressCallback?.Invoke(parsedCount, skippedCount);
-                    yield return new Tag { Name= line };
-                }
-                else
-                {
-                    skippedCount++;
-                    progressCallback?.Invoke(parsedCount, skippedCount);
-                }
-
-                index++;
-            }
-        }//Read
-    }//class
+        public abstract void LoadFromFile(string fileName, Action<int, int> progressCallback);
+        public IEnumerable<T> GetAll() => this._entities;
+    }
 }

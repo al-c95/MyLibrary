@@ -32,7 +32,6 @@ namespace MyLibrary
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listView = new System.Windows.Forms.ListView();
             this.closeButton = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -55,21 +54,11 @@ namespace MyLibrary
             this.label2.TabIndex = 1;
             this.label2.Text = "label2";
             // 
-            // listView
-            // 
-            this.listView.HideSelection = false;
-            this.listView.Location = new System.Drawing.Point(15, 63);
-            this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(435, 154);
-            this.listView.TabIndex = 2;
-            this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.View = System.Windows.Forms.View.Details;
-            // 
             // closeButton
             // 
             this.closeButton.Image = ((System.Drawing.Image)(resources.GetObject("closeButton.Image")));
             this.closeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.closeButton.Location = new System.Drawing.Point(311, 223);
+            this.closeButton.Location = new System.Drawing.Point(314, 55);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(139, 29);
             this.closeButton.TabIndex = 3;
@@ -80,7 +69,7 @@ namespace MyLibrary
             // 
             this.startButton.Image = ((System.Drawing.Image)(resources.GetObject("startButton.Image")));
             this.startButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.startButton.Location = new System.Drawing.Point(15, 223);
+            this.startButton.Location = new System.Drawing.Point(12, 55);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(139, 29);
             this.startButton.TabIndex = 4;
@@ -91,10 +80,9 @@ namespace MyLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(465, 264);
+            this.ClientSize = new System.Drawing.Size(465, 94);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.closeButton);
-            this.Controls.Add(this.listView);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -112,7 +100,6 @@ namespace MyLibrary
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Button startButton;
     }

@@ -20,13 +20,10 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
+using MyLibrary.Import;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyLibrary;
-using MyLibrary.Import;
-using MyLibrary.Models.Entities;
 
 namespace MyLibrary
 {
@@ -55,11 +52,8 @@ namespace MyLibrary
             this.label1.Text = "";
             this.label2.Text = "";
 
-            // prepare list column
-            ColumnHeader columnHeader1 = new ColumnHeader();
-            columnHeader1.Text = "Item";
-            columnHeader1.Width = 435;
-            this.listView.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            importedCount = 0;
+            skippedCount = 0;
 
             // register event handlers
             this.startButton.Click += (async (sender, args) =>
@@ -74,8 +68,6 @@ namespace MyLibrary
                     this.startButton.Enabled = false;
                     this.closeButton.Enabled = false;
 
-                    this.listView.Items.Clear();
-
                     dialog.Dispose();
                 }
                 else
@@ -86,25 +78,17 @@ namespace MyLibrary
 
                 try
                 {
-                    CsvFile csv = new CsvFile(filePath);
-                    if (_type == "tag")
+                    if (this._type == "tag")
                     {
+                        // parse CSV file
+                        TagCsvImportCollection tags = new TagCsvImportCollection(new CsvParserService());
+                        await Task.Run(() => { tags.LoadFromFile(filePath, ProgressCallback); });
+
+                        // import data
                         TagService tagService = new TagService();
-                        TagCsvReader reader = new TagCsvReader(csv, Configuration.APP_VERSION);
-                        List<Tag> parsedTags = new List<Tag>();
-                        await Task.Run(() =>
+                        foreach (var tag in tags.GetAll())
                         {
-                            var tags = reader.Read(ProgressCallback);
-                            foreach (var tag in tags)
-                            {
-                               parsedTags.Add(tag);
-                            }
-                        });
-
-                        foreach (var tag in parsedTags)
-                        {
-                            bool added = await tagService.AddIfNotExists(tag);
-                            if (added)
+                            if (await tagService.AddIfNotExists(tag))
                             {
                                 importedCount++;
                             }
@@ -114,57 +98,45 @@ namespace MyLibrary
                             }
                         }
                     }
-                    else if ( _type == "author")
+                    else if (this._type == "publisher")
                     {
-                        AuthorService authorService = new AuthorService();
-                        AuthorCsvReader reader = new AuthorCsvReader(csv, Configuration.APP_VERSION);
-                        List<Author> parsedAuthors = new List<Author>();
-                        await Task.Run(() =>
-                        {
-                            var authors = reader.Read(ProgressCallback);
-                            foreach (var author in authors)
-                            {
-                                parsedAuthors.Add(author);
-                            }
-                        });
+                        // parse CSV file
+                        PublisherCsvImportCollection publishers = new PublisherCsvImportCollection(new CsvParserService());
+                        await Task.Run(() => { publishers.LoadFromFile(filePath, ProgressCallback); });
 
-                        foreach (var author in parsedAuthors)
-                        {
-                            bool added = await authorService.ExistsWithName(author.FirstName, author.LastName);
-                            if (added)
-                            {
-                                importedCount++;
-                            }
-                            else
-                            {
-                                skippedCount++;
-                            }
-                        }
-                    }
-                    else if (_type == "publisher")
-                    {
+                        // import data
                         PublisherService publisherService = new PublisherService();
-                        PublisherCsvReader reader = new PublisherCsvReader(csv, Configuration.APP_VERSION);
-                        List<Publisher> parsedPublishers = new List<Publisher>();
-                        await Task.Run(() =>
+                        foreach (var publisher in publishers.GetAll())
                         {
-                            var publishers = reader.Read(ProgressCallback);
-                            foreach (var publisher in publishers)
-                            {
-                                parsedPublishers.Add(publisher);
-                            }
-                        });
-
-                        foreach (var publisher in parsedPublishers)
-                        {
-                            bool added = await publisherService.AddIfNotExists(publisher);
-                            if (added)
+                            if (await publisherService.AddIfNotExists(publisher))
                             {
                                 importedCount++;
                             }
                             else
                             {
                                 skippedCount++;
+                            }
+                        }
+                    }
+                    else //if (this._type == "author")
+                    {
+                        // parse CSV file
+                        AuthorCsvImportCollection authors = new AuthorCsvImportCollection(new CsvParserService());
+                        await Task.Run(() => { authors.LoadFromFile(filePath, ProgressCallback); });
+
+                        // import data
+                        AuthorService authorService = new AuthorService();
+                        foreach (var author in authors.GetAll())
+                        {
+                            if (await authorService.ExistsWithName(author.FirstName, author.LastName))
+                            {
+                                skippedCount++;
+                            }
+                            else
+                            {
+                                await authorService.Add(author);
+
+                                importedCount++;
                             }
                         }
                     }
@@ -173,6 +145,8 @@ namespace MyLibrary
                 {
                     this.label1.Text = "Task aborted.";
                     this.label2.Text = "";
+
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     this.closeButton.Enabled = true;
                 }
@@ -189,13 +163,6 @@ namespace MyLibrary
             {
                 this.Close();
             });
-        }
-
-        private void AddListViewRow(string message)
-        {
-            string[] row = { message };
-            ListViewItem listItem = new ListViewItem(row);
-            this.listView.Items.Add(listItem);
         }
     }//class
 }

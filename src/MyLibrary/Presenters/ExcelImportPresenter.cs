@@ -30,7 +30,6 @@ using MyLibrary.Models.Entities;
 using MyLibrary.Models.BusinessLogic;
 using MyLibrary.Events;
 using MyLibrary.Import;
-using System.Windows.Forms;
 
 namespace MyLibrary.Presenters
 {
@@ -95,15 +94,14 @@ namespace MyLibrary.Presenters
             {
                 try
                 {
-                    //await Task.Run(() =>
-                    //{
+                    await Task.Run(() =>
+                    {
                         this._bookExcelReader = new BookExcelReader(excel, "Book", Configuration.APP_VERSION);
                         foreach (var book in this._bookExcelReader.Read(ProgressCallback))
                         {
                             parsedBooks.Add(book);
-                            MessageBox.Show("parsed book");
                         }
-                    //});
+                    });
                 }
                 catch (FormatException e)
                 {

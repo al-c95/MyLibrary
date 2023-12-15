@@ -20,26 +20,13 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyLibrary.Models.Entities;
-using MyLibrary.Models.ValueObjects;
-
 namespace MyLibrary.Import
 {
-    public abstract class CsvReaderBase<T> where T : Entity
+    public class CsvParserService : ICsvParserService
     {
-        protected CsvFile _csv;
-
-        protected readonly AppVersion VERSION_LIMIT = new AppVersion(2, 0, 0);
-
-        public CsvReaderBase(CsvFile csvFile, AppVersion runningVersion)
+        public ICsvParser Get(string filePath)
         {
-            throw new NotImplementedException();
+            return new CsvParser(filePath);
         }
-
-        public abstract IEnumerable<T> Read(Action<int, int> progressCallback);
-    }
+    }//class
 }

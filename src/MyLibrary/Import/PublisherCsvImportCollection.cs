@@ -20,51 +20,58 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using MyLibrary.Models.Entities;
-using MyLibrary.Models.ValueObjects;
 using System;
-using System.Collections.Generic;
+using MyLibrary.Models.Entities;
 
 namespace MyLibrary.Import
 {
-    public class PublisherCsvReader : CsvReaderBase<Publisher>
+    public class PublisherCsvImportCollection : CsvImportCollection<Publisher>
     {
-        public PublisherCsvReader(CsvFile csvFile, AppVersion runningVersion)
-            : base(csvFile, runningVersion)
+        public PublisherCsvImportCollection(ICsvParserService parserService)
+            : base(parserService)
         {
-
         }
 
-        public override IEnumerable<Publisher> Read(Action<int, int> progressCallback)
+        public override void LoadFromFile(string fileName, Action<int, int> progressCallback)
         {
-            int parsedCount = 0;
-            int skippedCount = 0;
+            ParsedCount = 0;
+            SkippedCount = 0;
 
-            var allLines = this._csv.ReadLinesSync();
+            var csvParser = this._csvParserService.Get(fileName);
             int index = 0;
-            foreach (var line in allLines)
+            foreach (var row in csvParser)
             {
-                // skip header line
+                // deal with header
                 if (index == 0)
                 {
-                    index++;
-                    continue;
-                }
-
-                if (Publisher.ValidateName(line))
-                {
-                    parsedCount++;
-                    progressCallback?.Invoke(parsedCount, skippedCount);
-                    yield return new Publisher(line);
+                    if (row[0] != "Publisher")
+                    {
+                        throw new FormatException("CSV file has incorrect format.");
+                    }
                 }
                 else
                 {
-                    skippedCount++;
-                    progressCallback?.Invoke(parsedCount, skippedCount);
+                    // read data
+                    if (row.Length != 1)
+                    {
+                        throw new FormatException("CSV file has incorrect format.");
+                    }
+                    if (Publisher.ValidateName(row[0]))
+                    {
+                        this._entities.Add(new Publisher(row[0]));
+
+                        ParsedCount++;
+                        progressCallback?.Invoke(ParsedCount, SkippedCount);
+                    }
+                    else
+                    {
+                        SkippedCount++;
+                        progressCallback?.Invoke(ParsedCount, SkippedCount);
+                    }
                 }
 
                 index++;
             }
-        }//Read
+        }//LoadFromFile
     }//class
 }

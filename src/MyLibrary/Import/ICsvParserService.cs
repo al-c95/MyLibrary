@@ -20,40 +20,10 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE
 
-using System;
-using System.Threading.Tasks;
-using System.IO;
-
 namespace MyLibrary.Import
 {
-    public class CsvFile : ICsvFile
+    public interface ICsvParserService
     {
-        public string Path { get; private set; }
-
-        public CsvFile(string path)
-        {
-            if (System.IO.Path.GetExtension(path).Equals(".csv"))
-                this.Path = path;
-            else
-                throw new Exception("Import must be a CSV file");
-        }
-
-        public string[] ReadLinesSync()
-        {
-            using (var reader = File.OpenText(this.Path))
-            {
-                var text = reader.ReadToEnd();
-                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            }
-        }
-
-        public async Task<string[]> ReadLinesAsync()
-        {
-            using (var reader = File.OpenText(this.Path))
-            {
-                var text = await reader.ReadToEndAsync();
-                return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            }
-        }
+        ICsvParser Get(string filePath);
     }
 }
